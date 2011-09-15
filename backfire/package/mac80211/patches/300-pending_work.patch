@@ -1,0 +1,357 @@
+--- a/net/mac80211/agg-rx.c
++++ b/net/mac80211/agg-rx.c
+@@ -184,6 +184,8 @@ static void ieee80211_send_addba_resp(st
+ 		memcpy(mgmt->bssid, sdata->vif.addr, ETH_ALEN);
+ 	else if (sdata->vif.type == NL80211_IFTYPE_STATION)
+ 		memcpy(mgmt->bssid, sdata->u.mgd.bssid, ETH_ALEN);
++	else if (sdata->vif.type == NL80211_IFTYPE_WDS)
++		memcpy(mgmt->bssid, da, ETH_ALEN);
+ 
+ 	mgmt->frame_control = cpu_to_le16(IEEE80211_FTYPE_MGMT |
+ 					  IEEE80211_STYPE_ACTION);
+--- a/net/mac80211/agg-tx.c
++++ b/net/mac80211/agg-tx.c
+@@ -79,7 +79,8 @@ static void ieee80211_send_addba_request
+ 	memcpy(mgmt->da, da, ETH_ALEN);
+ 	memcpy(mgmt->sa, sdata->vif.addr, ETH_ALEN);
+ 	if (sdata->vif.type == NL80211_IFTYPE_AP ||
+-	    sdata->vif.type == NL80211_IFTYPE_AP_VLAN)
++	    sdata->vif.type == NL80211_IFTYPE_AP_VLAN ||
++	    sdata->vif.type == NL80211_IFTYPE_WDS)
+ 		memcpy(mgmt->bssid, sdata->vif.addr, ETH_ALEN);
+ 	else if (sdata->vif.type == NL80211_IFTYPE_STATION)
+ 		memcpy(mgmt->bssid, sdata->u.mgd.bssid, ETH_ALEN);
+@@ -398,7 +399,8 @@ int ieee80211_start_tx_ba_session(struct
+ 	 */
+ 	if (sdata->vif.type != NL80211_IFTYPE_STATION &&
+ 	    sdata->vif.type != NL80211_IFTYPE_AP_VLAN &&
+-	    sdata->vif.type != NL80211_IFTYPE_AP)
++	    sdata->vif.type != NL80211_IFTYPE_AP &&
++	    sdata->vif.type != NL80211_IFTYPE_WDS)
+ 		return -EINVAL;
+ 
+ 	if (test_sta_flags(sta, WLAN_STA_BLOCK_BA)) {
+--- a/net/mac80211/debugfs_sta.c
++++ b/net/mac80211/debugfs_sta.c
+@@ -59,7 +59,7 @@ static ssize_t sta_flags_read(struct fil
+ 	char buf[100];
+ 	struct sta_info *sta = file->private_data;
+ 	u32 staflags = get_sta_flags(sta);
+-	int res = scnprintf(buf, sizeof(buf), "%s%s%s%s%s%s%s%s%s",
++	int res = scnprintf(buf, sizeof(buf), "%s%s%s%s%s%s%s%s",
+ 		staflags & WLAN_STA_AUTH ? "AUTH\n" : "",
+ 		staflags & WLAN_STA_ASSOC ? "ASSOC\n" : "",
+ 		staflags & WLAN_STA_PS_STA ? "PS (sta)\n" : "",
+@@ -67,7 +67,6 @@ static ssize_t sta_flags_read(struct fil
+ 		staflags & WLAN_STA_AUTHORIZED ? "AUTHORIZED\n" : "",
+ 		staflags & WLAN_STA_SHORT_PREAMBLE ? "SHORT PREAMBLE\n" : "",
+ 		staflags & WLAN_STA_WME ? "WME\n" : "",
+-		staflags & WLAN_STA_WDS ? "WDS\n" : "",
+ 		staflags & WLAN_STA_MFP ? "MFP\n" : "");
+ 	return simple_read_from_buffer(userbuf, count, ppos, buf, res);
+ }
+--- a/net/mac80211/iface.c
++++ b/net/mac80211/iface.c
+@@ -178,7 +178,6 @@ static int ieee80211_do_open(struct net_
+ {
+ 	struct ieee80211_sub_if_data *sdata = IEEE80211_DEV_TO_SUB_IF(dev);
+ 	struct ieee80211_local *local = sdata->local;
+-	struct sta_info *sta;
+ 	u32 changed = 0;
+ 	int res;
+ 	u32 hw_reconf_flags = 0;
+@@ -290,27 +289,6 @@ static int ieee80211_do_open(struct net_
+ 
+ 	set_bit(SDATA_STATE_RUNNING, &sdata->state);
+ 
+-	if (sdata->vif.type == NL80211_IFTYPE_WDS) {
+-		/* Create STA entry for the WDS peer */
+-		sta = sta_info_alloc(sdata, sdata->u.wds.remote_addr,
+-				     GFP_KERNEL);
+-		if (!sta) {
+-			res = -ENOMEM;
+-			goto err_del_interface;
+-		}
+-
+-		/* no locking required since STA is not live yet */
+-		sta->flags |= WLAN_STA_AUTHORIZED;
+-
+-		res = sta_info_insert(sta);
+-		if (res) {
+-			/* STA has been freed */
+-			goto err_del_interface;
+-		}
+-
+-		rate_control_rate_init(sta);
+-	}
+-
+ 	/*
+ 	 * set_multicast_list will be invoked by the networking core
+ 	 * which will check whether any increments here were done in
+@@ -344,8 +322,7 @@ static int ieee80211_do_open(struct net_
+ 	netif_tx_start_all_queues(dev);
+ 
+ 	return 0;
+- err_del_interface:
+-	drv_remove_interface(local, &sdata->vif);
++
+  err_stop:
+ 	if (!local->open_count)
+ 		drv_stop(local);
+@@ -718,6 +695,70 @@ static void ieee80211_if_setup(struct ne
+ 	dev->destructor = free_netdev;
+ }
+ 
++static void ieee80211_wds_rx_queued_mgmt(struct ieee80211_sub_if_data *sdata,
++					 struct sk_buff *skb)
++{
++	struct ieee80211_local *local = sdata->local;
++	struct ieee80211_rx_status *rx_status;
++	struct ieee802_11_elems elems;
++	struct ieee80211_mgmt *mgmt;
++	struct sta_info *sta;
++	size_t baselen;
++	u32 rates = 0;
++	u16 stype;
++	bool new = false;
++	enum ieee80211_band band = local->hw.conf.channel->band;
++	struct ieee80211_supported_band *sband = local->hw.wiphy->bands[band];
++
++	rx_status = IEEE80211_SKB_RXCB(skb);
++	mgmt = (struct ieee80211_mgmt *) skb->data;
++	stype = le16_to_cpu(mgmt->frame_control) & IEEE80211_FCTL_STYPE;
++
++	if (stype != IEEE80211_STYPE_BEACON)
++		return;
++
++	baselen = (u8 *) mgmt->u.probe_resp.variable - (u8 *) mgmt;
++	if (baselen > skb->len)
++		return;
++
++	ieee802_11_parse_elems(mgmt->u.probe_resp.variable,
++			       skb->len - baselen, &elems);
++
++	rates = ieee80211_sta_get_rates(local, &elems, band);
++
++	rcu_read_lock();
++
++	sta = sta_info_get(sdata, sdata->u.wds.remote_addr);
++
++	if (!sta) {
++		rcu_read_unlock();
++		sta = sta_info_alloc(sdata, sdata->u.wds.remote_addr,
++				     GFP_KERNEL);
++		if (!sta)
++			return;
++
++		new = true;
++	}
++
++	sta->last_rx = jiffies;
++	sta->sta.supp_rates[local->hw.conf.channel->band] = rates;
++
++	if (elems.ht_cap_elem)
++		ieee80211_ht_cap_ie_to_sta_ht_cap(sband,
++				elems.ht_cap_elem, &sta->sta.ht_cap);
++
++	if (elems.wmm_param)
++		set_sta_flags(sta, WLAN_STA_WME);
++
++	if (new) {
++		sta->flags = WLAN_STA_AUTHORIZED;
++		rate_control_rate_init(sta);
++		sta_info_insert_rcu(sta);
++	}
++
++	rcu_read_unlock();
++}
++
+ static void ieee80211_iface_work(struct work_struct *work)
+ {
+ 	struct ieee80211_sub_if_data *sdata =
+@@ -822,6 +863,9 @@ static void ieee80211_iface_work(struct 
+ 				break;
+ 			ieee80211_mesh_rx_queued_mgmt(sdata, skb);
+ 			break;
++		case NL80211_IFTYPE_WDS:
++			ieee80211_wds_rx_queued_mgmt(sdata, skb);
++			break;
+ 		default:
+ 			WARN(1, "frame for unexpected interface type");
+ 			break;
+--- a/net/mac80211/rx.c
++++ b/net/mac80211/rx.c
+@@ -2160,7 +2160,8 @@ ieee80211_rx_h_action(struct ieee80211_r
+ 		 */
+ 		if (sdata->vif.type != NL80211_IFTYPE_STATION &&
+ 		    sdata->vif.type != NL80211_IFTYPE_AP_VLAN &&
+-		    sdata->vif.type != NL80211_IFTYPE_AP)
++		    sdata->vif.type != NL80211_IFTYPE_AP &&
++		    sdata->vif.type != NL80211_IFTYPE_WDS)
+ 			break;
+ 
+ 		/* verify action_code is present */
+@@ -2375,13 +2376,14 @@ ieee80211_rx_h_mgmt(struct ieee80211_rx_
+ 
+ 	if (!ieee80211_vif_is_mesh(&sdata->vif) &&
+ 	    sdata->vif.type != NL80211_IFTYPE_ADHOC &&
+-	    sdata->vif.type != NL80211_IFTYPE_STATION)
++	    sdata->vif.type != NL80211_IFTYPE_STATION &&
++	    sdata->vif.type != NL80211_IFTYPE_WDS)
+ 		return RX_DROP_MONITOR;
+ 
+ 	switch (stype) {
+ 	case cpu_to_le16(IEEE80211_STYPE_BEACON):
+ 	case cpu_to_le16(IEEE80211_STYPE_PROBE_RESP):
+-		/* process for all: mesh, mlme, ibss */
++		/* process for all: mesh, mlme, ibss, wds */
+ 		break;
+ 	case cpu_to_le16(IEEE80211_STYPE_DEAUTH):
+ 	case cpu_to_le16(IEEE80211_STYPE_DISASSOC):
+@@ -2724,10 +2726,16 @@ static int prepare_for_handlers(struct i
+ 		}
+ 		break;
+ 	case NL80211_IFTYPE_WDS:
+-		if (bssid || !ieee80211_is_data(hdr->frame_control))
+-			return 0;
+ 		if (compare_ether_addr(sdata->u.wds.remote_addr, hdr->addr2))
+ 			return 0;
++
++		if (ieee80211_is_data(hdr->frame_control) ||
++		    ieee80211_is_action(hdr->frame_control)) {
++			if (compare_ether_addr(sdata->vif.addr, hdr->addr1))
++				return 0;
++		} else if (!ieee80211_is_beacon(hdr->frame_control))
++			return 0;
++
+ 		break;
+ 	default:
+ 		/* should never get here */
+--- a/net/mac80211/sta_info.h
++++ b/net/mac80211/sta_info.h
+@@ -31,7 +31,6 @@
+  *	frames.
+  * @WLAN_STA_ASSOC_AP: We're associated to that station, it is an AP.
+  * @WLAN_STA_WME: Station is a QoS-STA.
+- * @WLAN_STA_WDS: Station is one of our WDS peers.
+  * @WLAN_STA_CLEAR_PS_FILT: Clear PS filter in hardware (using the
+  *	IEEE80211_TX_CTL_CLEAR_PS_FILT control flag) when the next
+  *	frame to this station is transmitted.
+@@ -54,7 +53,6 @@ enum ieee80211_sta_info_flags {
+ 	WLAN_STA_SHORT_PREAMBLE	= 1<<4,
+ 	WLAN_STA_ASSOC_AP	= 1<<5,
+ 	WLAN_STA_WME		= 1<<6,
+-	WLAN_STA_WDS		= 1<<7,
+ 	WLAN_STA_CLEAR_PS_FILT	= 1<<9,
+ 	WLAN_STA_MFP		= 1<<10,
+ 	WLAN_STA_BLOCK_BA	= 1<<11,
+--- a/drivers/net/wireless/ath/ath9k/ar9003_phy.c
++++ b/drivers/net/wireless/ath/ath9k/ar9003_phy.c
+@@ -671,7 +671,7 @@ static int ar9003_hw_process_ini(struct 
+ 		REG_WRITE_ARRAY(&ah->iniModesAdditional,
+ 				modesIndex, regWrites);
+ 
+-	if (AR_SREV_9300(ah))
++	if (AR_SREV_9330(ah))
+ 		REG_WRITE_ARRAY(&ah->iniModesAdditional, 1, regWrites);
+ 
+ 	if (AR_SREV_9340(ah) && !ah->is_clk_25mhz)
+--- a/drivers/net/wireless/ath/ath9k/hw.c
++++ b/drivers/net/wireless/ath/ath9k/hw.c
+@@ -975,7 +975,10 @@ void ath9k_hw_init_global_settings(struc
+ 	if (ah->misc_mode != 0)
+ 		REG_SET_BIT(ah, AR_PCU_MISC, ah->misc_mode);
+ 
+-	rx_lat = 37;
++	if (IS_CHAN_A_FAST_CLOCK(ah, chan))
++		rx_lat = 41;
++	else
++		rx_lat = 37;
+ 	tx_lat = 54;
+ 
+ 	if (IS_CHAN_HALF_RATE(chan)) {
+@@ -989,7 +992,7 @@ void ath9k_hw_init_global_settings(struc
+ 		sifstime = 32;
+ 	} else if (IS_CHAN_QUARTER_RATE(chan)) {
+ 		eifs = 340;
+-		rx_lat *= 4;
++		rx_lat = (rx_lat * 4) - 1;
+ 		tx_lat *= 4;
+ 		if (IS_CHAN_A_FAST_CLOCK(ah, chan))
+ 		    tx_lat += 22;
+@@ -997,8 +1000,14 @@ void ath9k_hw_init_global_settings(struc
+ 		slottime = 21;
+ 		sifstime = 64;
+ 	} else {
+-		eifs = REG_READ(ah, AR_D_GBL_IFS_EIFS)/common->clockrate;
+-		reg = REG_READ(ah, AR_USEC);
++		if (AR_SREV_9287(ah) && AR_SREV_9287_13_OR_LATER(ah)) {
++			eifs = AR_D_GBL_IFS_EIFS_ASYNC_FIFO;
++			reg = AR_USEC_ASYNC_FIFO;
++		} else {
++			eifs = REG_READ(ah, AR_D_GBL_IFS_EIFS)/
++				common->clockrate;
++			reg = REG_READ(ah, AR_USEC);
++		}
+ 		rx_lat = MS(reg, AR_USEC_RX_LAT);
+ 		tx_lat = MS(reg, AR_USEC_TX_LAT);
+ 
+@@ -2441,13 +2450,13 @@ void ath9k_hw_set_txpowerlimit(struct at
+ 	struct ath_regulatory *regulatory = ath9k_hw_regulatory(ah);
+ 	struct ath9k_channel *chan = ah->curchan;
+ 	struct ieee80211_channel *channel = chan->chan;
+-	int reg_pwr = min_t(int, MAX_RATE_POWER, regulatory->power_limit);
++	int reg_pwr = min_t(int, MAX_RATE_POWER, limit);
+ 	int chan_pwr = channel->max_power * 2;
+ 
+ 	if (test)
+ 		reg_pwr = chan_pwr = MAX_RATE_POWER;
+ 
+-	regulatory->power_limit = min(limit, (u32) MAX_RATE_POWER);
++	regulatory->power_limit = reg_pwr;
+ 
+ 	ah->eep_ops->set_txpower(ah, chan,
+ 				 ath9k_regd_get_ctl(regulatory, chan),
+--- a/drivers/net/wireless/ath/ath9k/reg.h
++++ b/drivers/net/wireless/ath/ath9k/reg.h
+@@ -619,6 +619,7 @@
+ #define AR_D_GBL_IFS_EIFS         0x10b0
+ #define AR_D_GBL_IFS_EIFS_M       0x0000FFFF
+ #define AR_D_GBL_IFS_EIFS_RESV0   0xFFFF0000
++#define AR_D_GBL_IFS_EIFS_ASYNC_FIFO 363
+ 
+ #define AR_D_GBL_IFS_MISC        0x10f0
+ #define AR_D_GBL_IFS_MISC_LFSR_SLICE_SEL        0x00000007
+@@ -1503,6 +1504,7 @@ enum {
+ #define AR_USEC_TX_LAT_S     14
+ #define AR_USEC_RX_LAT       0x1F800000
+ #define AR_USEC_RX_LAT_S     23
++#define AR_USEC_ASYNC_FIFO   0x12E00074
+ 
+ #define AR_RESET_TSF        0x8020
+ #define AR_RESET_TSF_ONCE   0x01000000
+--- a/drivers/net/wireless/ath/ath9k/xmit.c
++++ b/drivers/net/wireless/ath/ath9k/xmit.c
+@@ -582,7 +582,10 @@ static bool ath_lookup_legacy(struct ath
+ 	tx_info = IEEE80211_SKB_CB(skb);
+ 	rates = tx_info->control.rates;
+ 
+-	for (i = 3; i >= 0; i--) {
++	for (i = 0; i < 4; i++) {
++		if (!rates[i].count || rates[i].idx < 0)
++			break;
++
+ 		if (!(rates[i].flags & IEEE80211_TX_RC_MCS))
+ 			return true;
+ 	}
+--- a/net/mac80211/sta_info.c
++++ b/net/mac80211/sta_info.c
+@@ -796,7 +796,7 @@ static int __must_check __sta_info_destr
+ 		BUG_ON(!sdata->bss);
+ 
+ 		atomic_dec(&sdata->bss->num_sta_ps);
+-		__sta_info_clear_tim_bit(sdata->bss, sta);
++		sta_info_clear_tim_bit(sta);
+ 	}
+ 
+ 	local->num_sta--;
