@@ -11,6 +11,7 @@ BOARD:=brcm63xx
 BOARDNAME:=Broadcom BCM63xx
 FEATURES:=squashfs jffs2 usb atm pci pcmcia
 LINUX_VERSION:=2.6.32.27
+#SUBTARGETS=rg100a db120
 
 include $(INCLUDE_DIR)/target.mk
 
