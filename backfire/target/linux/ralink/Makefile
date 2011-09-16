@@ -7,7 +7,7 @@
 include $(TOPDIR)/rules.mk
 
 ARCH:=mipsel
-BOARD:=ramips
+BOARD:=ralink
 BOARDNAME:=Ralink RT288x/RT305x
 SUBTARGETS:=rt288x rt305x
 CFLAGS:=-Os -pipe -mips32r2 -mtune=mips32r2 -funit-at-a-time
