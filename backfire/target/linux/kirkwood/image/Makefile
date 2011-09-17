@@ -24,7 +24,7 @@ endef
 
 define Image/Build/jffs2-128k
 	( \
-		dd if=$(KDIR)/uImage bs=4096k conv=sync; \
+		dd if=$(KDIR)/uImage bs=2048k conv=sync; \
 		dd if=$(KDIR)/root.$(1) bs=128k conv=sync; \
 	) > $(BIN_DIR)/$(IMG_PREFIX)-$(1).img
 endef
@@ -32,7 +32,7 @@ endef
 define Image/Build/squashfs
 	$(call prepare_generic_squashfs,$(KDIR)/root.squashfs)
 	( \
-		dd if=$(KDIR)/uImage bs=4096k conv=sync; \
+		dd if=$(KDIR)/uImage bs=2048k conv=sync; \
 		dd if=$(KDIR)/root.$(1) bs=128k conv=sync; \
 	) > $(BIN_DIR)/$(IMG_PREFIX)-$(1).img
 endef
