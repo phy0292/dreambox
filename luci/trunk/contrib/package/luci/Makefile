@@ -475,6 +475,10 @@ $(eval $(call theme,freifunk-hannover,Freifunk Hannover Theme,\
 $(eval $(call theme,freifunk-generic,Freifunk Generic Theme,\
         Manuel Munz <freifunk-at-somakoma-dot-de>))
 
+$(eval $(call theme,oxygen,oxygen Theme,\
+       oxygen ))
+
+
 ### Translations ###
 define translation
   define Package/luci-i18n-$(1)

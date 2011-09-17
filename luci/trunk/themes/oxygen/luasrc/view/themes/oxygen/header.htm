@@ -1,4 +1,4 @@
-a<%#
+<%#
 LuCI - Lua Configuration Interface
 Copyright 2008 Steven Barth <steven@midlink.org>
 Copyright 2008 Jo-Philipp Wich <xm@leipzig.freifunk.net>
@@ -13,6 +13,9 @@ $Id$
 
 -%>
 <%
+require("luci.sys")
+local load1, load5, load15 = luci.sys.loadavg()
+
 local hostname = require("luci.sys").hostname()
 local crequest = luci.dispatcher.context.request
 local request  = require("luci.dispatcher").context.path
@@ -42,8 +45,12 @@ require("luci.http").prepare_content("application/xhtml+xml")
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <link rel="stylesheet" type="text/css" media="screen" href="<%=media%>/cascade.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="<%=media%>/dashboard.css" />
+<!--[if IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<%=media%>/ie6.css" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="<%=media%>/ie7.css" /><![endif]-->
+<!--[if IE 8]><link rel="stylesheet" type="text/css" media="screen" href="<%=media%>/ie8.css" /><![endif]-->
 <% if node and node.css then %><link rel="stylesheet" type="text/css" media="screen" href="<%=resource%>/<%=node.css%>" />
 <% end -%>
+<script type="text/javascript" src="<%=resource%>/xhr.js"></script>
 <title><%=striptags( hostname .. ( (node and node.title) and ' - ' .. translate(node.title) or '')) %> - LuCI</title>
 </head>
 <body class="lang_<%=luci.i18n.context.lang%>">
@@ -77,7 +84,7 @@ local function ucimenu(prefix, node)
 				local href = controller .. prefix .. v.name .. "/"
 				href = (nnode.query) and href .. luci.http.build_querystring(nnode.query) or href
 %>
-<span><a class="menulink<% if nnode._menu_selected then %> active<%end%>" href="<%=pcdata(href)%>"> &gt; <%=pcdata(striptags(translate(nnode.title)))%></a></span>
+<span><a class="menulink<% if nnode._menu_selected then %> active<%end%>" href="<%=pcdata(href)%>"> &gt; <%=pcdata(striptags(nnode.title))%></a></span>
 <%-
 			end
 		end
@@ -108,10 +115,15 @@ ucimenu("/" .. category .. "/uci/", tree.nodes[category].nodes["uci"], "changes"
 <% end %>
 <% end %>
 
+<div class="hostinfo">
+		<%=hostname%> | <%=luci.version.distversion%> |
+	<%:Load%>: <%="%.2f" % load1%> <%="%.2f" % load5%> <%="%.2f" % load15%>
+</div>
+
+
 <div class="menubar">
 <h2 class="navigation"><a id="navigation" name="navigation"><%:Navigation%></a></h2>
-<strong><%:Path%>:</strong>
-<a href="<%=controller%>"><%= luci.__appname__ %></a>
+<strong><a href="<%=controller%>"> <%:Menu%></a>:</strong>
 
 <%
 	local pointer = tree
@@ -119,7 +131,7 @@ ucimenu("/" .. category .. "/uci/", tree.nodes[category].nodes["uci"], "changes"
 		if pointer.nodes and pointer.nodes[v] then
 			pointer = pointer.nodes[v]
 			%>
-			&#187; <a href="<%=luci.dispatcher.build_url(unpack(crequest, 1, k))%>"><%=pcdata(striptags(translate(pointer.title) or v))%></a>
+			&#187;<a href="<%=luci.dispatcher.build_url(unpack(crequest, 1, k))%>"><%=pcdata(striptags(pointer.title) or v )%></a>
 			<%
 		end
 	end
@@ -127,4 +139,6 @@ ucimenu("/" .. category .. "/uci/", tree.nodes[category].nodes["uci"], "changes"
 </div>
 
 <div id="maincontent">
-<% if node.subindex then %><%+themes/oxygen/dashboard%><% end %>
+
+
+
