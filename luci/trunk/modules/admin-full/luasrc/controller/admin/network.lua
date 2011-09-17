@@ -210,6 +210,20 @@ function iface_status()
 		if net then
 			local info
 			local dev  = net:ifname()
+			local ix = net:device()
+			local iface_mac = nixio.fs.readfile("/sys/class/net/" .. dev .. "/address 2>/dev/null")
+		if not iface_mac then
+			iface_mac = luci.util.exec("ifconfig " .. ix .." 2>/dev/null")
+			iface_mac = iface_mac and iface_mac:match(" ([A-F0-9:]+)%s*\n")
+		end
+			local data = {
+				id       = iface,
+				proto    = net:proto(),
+				uptime   = net:uptime(),
+				gwaddr   = net:gwaddr(),
+				dnsaddrs = net:dnsaddrs()
+			}
+		data.macaddr = iface_mac
 			local data = {
 				id       = iface,
 				proto    = net:proto(),
@@ -223,7 +237,7 @@ function iface_status()
 					if info.family == "packet" then
 						data.flags   = info.flags
 						data.stats   = info.data
-						data.macaddr = info.addr
+						--data.macaddr = info.addr
 						data.ifname  = name
 					elseif info.family == "inet" then
 						data.ipaddrs = data.ipaddrs or { }
