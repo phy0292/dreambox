@@ -119,6 +119,8 @@ sub cleanup
 
 @mirrors = localmirrors();
 
+push @mirrors, 'http://openwrt.8800.org:82/sources';
+
 foreach my $mirror (@ARGV) {
 	if ($mirror =~ /^\@SF\/(.+)$/) {
 		# give sourceforge a few more tries, because it redirects to different mirrors
