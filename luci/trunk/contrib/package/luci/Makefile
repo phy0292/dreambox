@@ -406,6 +406,28 @@ $(eval $(call application,ahcp,LuCI Support for AHCPd,\
 
 $(eval $(call application,lqtapifoss,Lantiq voip))
 
+$(eval $(call application,mentohust,mentohust configuration module,\
+	 +PACKAGE_luci-app-mentohust:mentohust))
+
+$(eval $(call application,vsftpd,vsftpd configuration module,\
+	 +PACKAGE_luci-app-vsftpd:vsftpd))
+
+$(eval $(call application,n2n,n2n configuration module,\
+	 +PACKAGE_luci-app-n2n:n2n))
+
+$(eval $(call application,pptpd,pptpd configuration module,\
+	 +PACKAGE_luci-app-pptpd:pptpd +kmod-mppe))
+
+$(eval $(call application,transmission,transmission configuration module,\
+	+PACKAGE_luci-app-transmission:transmission-daemon +transmission-remote +transmission-web))
+
+$(eval $(call application,nwan,nwan configuration module,\
+	 +PACKAGE_luci-app-nwan:ip +kmod-macvlan +iptables +iptables-utils +iptables-mod-conntrack +iptables-mod-conntrack-extra +iptables-mod-ipopt ))
+
+$(eval $(call application,qosv4,qosv4 configuration module,\
+	 +PACKAGE_luci-app-qosv4:tc +kmod-sched +iptables +iptables-mod-filter +iptables-mod-ipopt +iptables-mod-conntrack-extra +iptables-mod-imq +iptables-mod-hashlimit +iptables-mod-connlimit ))
+
+
 ### Server Gateway Interfaces ###
 define sgi
   define Package/luci-sgi-$(1)
