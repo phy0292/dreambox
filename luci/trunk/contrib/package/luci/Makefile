@@ -14,7 +14,7 @@ PKG_BUILD_PARALLEL:=0
 ifeq ($(USELOCAL),1)
   PKG_VERSION:=trunk+svn
 else
-  PKG_SOURCE_URL:=http://svn.luci.subsignal.org/luci/$(PKG_BRANCH)
+  PKG_SOURCE_URL:=http://openwrt-dreambox.googlecode.com/svn/luci/$(PKG_BRANCH)
   ifeq ($(DUMP),)
     PKG_REV:=$(shell LC_ALL=C svn info $(CURDIR) | sed -ne's/^Revision: //p')
     PKG_VERSION:=trunk+svn$(PKG_REV)
