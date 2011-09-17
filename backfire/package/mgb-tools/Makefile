@@ -20,6 +20,7 @@ define Package/mgb-tools
   SECTION:=utils
   CATEGORY:=Base system
   TITLE:=Utility for change MGB100 settings
+  DEPENDS:=@TARGET_rdc
 endef
 
 define Package/mgb-tools/description
