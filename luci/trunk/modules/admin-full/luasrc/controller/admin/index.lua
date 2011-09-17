@@ -20,7 +20,7 @@ function index()
 		root.target = alias("admin")
 		root.index = true
 	end
-
+	entry({"about"}, template("about"))
 	local page   = node("admin")
 	page.target  = alias("admin", "status")
 	page.title   = _("Administration")
@@ -30,7 +30,8 @@ function index()
 	page.ucidata = true
 	page.index = true
 
-	entry({"admin", "logout"}, call("action_logout"), _("Logout"), 90)
+	entry({"admin", "Free_Memory"}, call("Free_Memory"), _("Free Memory"), 98)
+	entry({"admin", "logout"}, call("action_logout"), _("Logout"), 99)
 end
 
 function action_logout()
@@ -43,4 +44,10 @@ function action_logout()
 
 	luci.http.header("Set-Cookie", "sysauth=; path=" .. dsp.build_url())
 	luci.http.redirect(luci.dispatcher.build_url())
+end
+
+function Free_Memory()
+
+ luci.util.exec("echo 3 > /proc/sys/vm/drop_caches")
+	luci.http.redirect(luci.dispatcher.build_url("admin", "status", "overview"))
 end
