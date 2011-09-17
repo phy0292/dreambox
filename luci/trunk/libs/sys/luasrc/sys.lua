@@ -176,20 +176,23 @@ function sysinfo()
 	local memfree = tonumber(meminfo:match("MemFree:%s*(%d+)"))
 	local membuffers = tonumber(meminfo:match("Buffers:%s*(%d+)"))
 	local bogomips = tonumber(cpuinfo:match("[Bb]ogo[Mm][Ii][Pp][Ss].-: ([^\n]+)")) or 0
+	local cpuclock = tonumber(cpuinfo:match("[Cc][Pp][Uu][Cc]lock.-: ([^\n]+)")) or 0
+	local flashsize = tonumber(cpuinfo:match("[Ff][Ll][Aa][Ss][Hh][Ss]ize.-: ([^\n]+)")) or 0
+	local model =
 
-	local system =
-		cpuinfo:match("system type\t+: ([^\n]+)") or
 		cpuinfo:match("Processor\t+: ([^\n]+)") or
+		cpuinfo:match("cpu model\t+: ([^\n]+)") or
 		cpuinfo:match("model name\t+: ([^\n]+)")
 
-	local model =
+	local system =
 		cpuinfo:match("machine\t+: ([^\n]+)") or
 		cpuinfo:match("Hardware\t+: ([^\n]+)") or
+		cpuinfo:match("system type\t+: ([^\n]+)") or
 		luci.util.pcdata(fs.readfile("/proc/diag/model")) or
 		nixio.uname().machine or
 		system
 
-	return system, model, memtotal, memcached, membuffers, memfree, bogomips
+	return system, model, memtotal, memcached, membuffers, memfree, bogomips, cpuclock, flashsize
 end
 
 --- Retrieves the output of the "logread" command.
@@ -879,4 +882,109 @@ function _parse_mixed_record(cnt, delimiter)
 	end
 
 	return data, flags
+end
+
+function swapfree()
+	local data = {}
+	local k = {"fs","total", "used", "free", "shard", "buffers"}
+	local ps = luci.util.execi("free")
+
+	if not ps then
+		return
+	else
+		ps()
+	end
+
+	for line in ps do
+		local row = {}
+
+		local j = 1
+		for value in line:gmatch("[^%s]+") do
+			row[k[j]] = value
+			j = j + 1
+		end
+
+		if row[k[1]] then
+
+			-- this is a rather ugly workaround to cope with wrapped lines in
+			-- the df output:
+			--
+			--	/dev/scsi/host0/bus0/target0/lun0/part3
+
+			--                   114382024  93566472  15005244  86% /mnt/usb
+			--
+
+			if not row[k[2]] then
+				j = 2
+				line = ps()
+				for value in line:gmatch("[^%s]+") do
+					row[k[j]] = value
+					j = j + 1
+				end
+			end
+
+			table.insert(data, row)
+		end
+	end
+
+	return data
+end
+
+
+function iproute()
+	local data = {}
+	local k = {"ipmas","dev1", "dev2", "proto", "kernel", "scope", "link", "src", "ipadd"}
+	local ps = luci.util.execi("ip route")
+
+	if not ps then
+		return
+	else
+		ps()
+	end
+
+	for line in ps do
+		local row = {}
+
+		local j = 1
+		for value in line:gmatch("[^%s]+") do
+			row[k[j]] = value
+			j = j + 1
+		end
+
+		if row[k[1]] then
+
+			-- this is a rather ugly workaround to cope with wrapped lines in
+			-- the df output:
+			--
+			--	/dev/scsi/host0/bus0/target0/lun0/part3
+			--                   114382024  93566472  15005244  86% /mnt/usb
+			--
+
+			if not row[k[1]] then
+				j = 1
+				line = ps()
+				for value in line:gmatch("[^%s]+") do
+					row[k[j]] = value
+					j = j + 1
+				end
+			end
+
+			table.insert(data, row)
+		end
+	end
+
+	return data
+end
+
+function lucierror()
+local n = nil
+local lucit = luci.util.exec("cat /proc/cpuinfo|grep -c CPUClock")
+n = tonumber(lucit)
+
+if n == 0 then
+   -- error(line .. " is not a valid number")
+   print(4 and 5) 
+		else
+		local lucitl = 	22
+	end
 end
