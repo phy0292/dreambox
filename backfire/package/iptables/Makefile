@@ -259,12 +259,12 @@ iptables extensions for hashlimit matching
 
 endef
 
-define Package/iptables-mod- connlimit
+define Package/iptables-mod-connlimit
 $(call Package/iptables/Module, +kmod-ipt- connlimit)
   TITLE:= connlimit matching
 endef
 
-define Package/iptables-mod- connlimit/description
+define Package/iptables-mod-connlimit/description
 iptables extensions for  connlimit matching
 
  Matches:
