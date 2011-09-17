@@ -507,3 +507,18 @@ define KernelPackage/ipt-hashlimit/description
 endef
 
 $(eval $(call KernelPackage,ipt-hashlimit))
+
+define KernelPackage/ipt-connlimit
+$(call KernelPackage/ipt/Depends,) 
+  TITLE:=Connection tracking connlimit
+  DEPENDS:= kmod-ipt-core +kmod-ipt-conntrack
+  FILES:=$(LINUX_DIR)/net/netfilter/xt_connlimit.$(LINUX_KMOD_SUFFIX)
+  KCONFIG:=$(KCONFIG_IPT_CONNLIMIT) 
+  AUTOLOAD:=$(call AutoLoad,49,ipt_connlimit)
+endef
+
+define KernelPackage/ipt-connlimit/description
+ Kernel modules support for a connlimit connection tracking 
+endef
+
+$(eval $(call KernelPackage,ipt-connlimit))

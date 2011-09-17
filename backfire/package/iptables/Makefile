@@ -150,6 +150,7 @@ iptables extensions for matching/changing IP packet options.
  Matches:
   - dscp
   - hashlimit
+  - connlimit
   - ecn
   - length
   - mark
@@ -255,6 +256,19 @@ iptables extensions for hashlimit matching
 
  Matches:
   - hashlimit
+
+endef
+
+define Package/iptables-mod- connlimit
+$(call Package/iptables/Module, +kmod-ipt- connlimit)
+  TITLE:= connlimit matching
+endef
+
+define Package/iptables-mod- connlimit/description
+iptables extensions for  connlimit matching
+
+ Matches:
+  -  connlimit
 
 endef
 
@@ -482,6 +496,7 @@ $(eval $(call BuildPlugin,iptables-mod-conntrack-extra,$(IPT_CONNTRACK_EXTRA-m))
 $(eval $(call BuildPlugin,iptables-mod-extra,$(IPT_EXTRA-m)))
 $(eval $(call BuildPlugin,iptables-mod-filter,$(IPT_FILTER-m),$(L7_INSTALL)))
 $(eval $(call BuildPlugin,iptables-mod-hashlimit,$(IPT_HASHLIMIT-m)))
+$(eval $(call BuildPlugin,iptables-mod-connlimit,$(IPT_CONNLIMIT-m)))
 $(eval $(call BuildPlugin,iptables-mod-imq,$(IPT_IMQ-m)))
 $(eval $(call BuildPlugin,iptables-mod-ipopt,$(IPT_IPOPT-m)))
 $(eval $(call BuildPlugin,iptables-mod-ipsec,$(IPT_IPSEC-m)))
