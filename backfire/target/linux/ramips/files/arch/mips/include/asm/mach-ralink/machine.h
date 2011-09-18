@@ -24,4 +24,6 @@ enum ramips_mach_type {
 	RAMIPS_MACH_V22RW_2X2,		/* Ralink AP-RT3052-V22RW-2X2 */
 	RAMIPS_MACH_WHR_G300N,		/* Buffalo WHR-G300N */
 	RAMIPS_MACH_FONERA20N,		/* La Fonera 2.0N */
+	RAMIPS_MACH_HG255D,		/* HuaWei HG255D */
+	RAMIPS_MACH_RT_N13U,		/* ASUS RT-N13U */
 };
