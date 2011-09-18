@@ -422,10 +422,10 @@ $(eval $(call application,transmission,transmission configuration module,\
 	+PACKAGE_luci-app-transmission:transmission-daemon +transmission-remote +transmission-web))
 
 $(eval $(call application,nwan,nwan configuration module,\
-	 +PACKAGE_luci-app-nwan:ip +kmod-macvlan +iptables +iptables-utils +iptables-mod-conntrack +iptables-mod-conntrack-extra +iptables-mod-ipopt ))
+	 +PACKAGE_luci-app-nwan:ip +kmod-macvlan +iptables +iptables-utils +iptables-mod-conntrack +iptables-mod-conntrack-extra +iptables-mod-ipopt))
 
 $(eval $(call application,qosv4,qosv4 configuration module,\
-	 +PACKAGE_luci-app-qosv4:tc +kmod-sched +iptables +iptables-mod-filter +iptables-mod-ipopt +iptables-mod-conntrack-extra +iptables-mod-imq +iptables-mod-hashlimit +iptables-mod-connlimit ))
+	 +PACKAGE_luci-app-qosv4:tc +kmod-sched +iptables +iptables-mod-filter +iptables-mod-ipopt +iptables-mod-conntrack-extra +iptables-mod-imq +iptables-mod-hashlimit +iptables-mod-connlimit))
 
 
 ### Server Gateway Interfaces ###
