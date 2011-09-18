@@ -80,12 +80,25 @@ define Image/Build/Template/GENERIC_8M
 	$(call BuildFirmware/Generic,$(1),$(2),board=$(3),mtdlayout_8M,851968,7208960)
 endef
 
+mtdlayout_16M=mtdparts=physmap-flash.0:192k(u-boot)ro,64k(u-boot-env)ro,64k(factory)ro,832k(kernel),7040k(rootfs),16064k@0x50000(firmware)
+define Image/Build/Template/GENERIC_16M
+	$(call BuildFirmware/Generic,$(1),$(2),board=$(3),mtdlayout_16M,851968,15597568)
+endef
+
 define Image/Build/Profile/DIR300B1
 	$(call Image/Build/Template/GENERIC_4M,$(1),dir-300-b1,DIR-300-revB)
 endef
 
 define Image/Build/Profile/FONERA20N
 	$(call Image/Build/Template/GENERIC_8M,$(1),fonera20n,FONERA20N)
+endef
+
+define Image/Build/Profile/HG255D
+	$(call Image/Build/Template/GENERIC_16M,$(1),hg255d,HG255D)
+endef
+
+define Image/Build/Profile/RT-N13
+	$(call Image/Build/Template/GENERIC_8M,$(1),rt-n13,RT-N13)
 endef
 
 define Image/Build/Profile/V22RW2X2
@@ -102,6 +115,8 @@ define Image/Build/Profile/Default
 	$(call Image/Build/Profile/FONERA20N,$(1))
 	$(call Image/Build/Profile/V22RW2X2,$(1))
 	$(call Image/Build/Profile/WHRG300N,$(1))
+	$(call Image/Build/Profile/HD255D,$(1))
+	$(call Image/Build/Profile/RT-N13,$(1))
 endef
 endif
 
