@@ -55,11 +55,11 @@ static struct mtd_partition hg255d_partitions[] = {
 	}, {
 		.name	= "rootfs",
 		.offset	= 0x150000,
-		.size	= 0x6b0000,
+		.size	= 0xEE0000,
 	}, {
 		.name	= "openwrt",
 		.offset	= 0x050000,
-		.size	= 0x7b0000,
+		.size	= 0xFB0000,
 	}
 };
 #endif /* CONFIG_MTD_PARTITIONS */

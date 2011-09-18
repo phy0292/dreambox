@@ -80,7 +80,7 @@ define Image/Build/Template/GENERIC_8M
 	$(call BuildFirmware/Generic,$(1),$(2),board=$(3),mtdlayout_8M,851968,7208960)
 endef
 
-mtdlayout_16M=mtdparts=physmap-flash.0:192k(u-boot)ro,64k(u-boot-env)ro,64k(factory)ro,832k(kernel),7040k(rootfs),16064k@0x50000(firmware)
+mtdlayout_16M=mtdparts=physmap-flash.0:192k(u-boot)ro,64k(u-boot-env)ro,64k(factory)ro,832k(kernel),15232k(rootfs),16064k@0x50000(firmware)
 define Image/Build/Template/GENERIC_16M
 	$(call BuildFirmware/Generic,$(1),$(2),board=$(3),mtdlayout_16M,851968,15597568)
 endef
