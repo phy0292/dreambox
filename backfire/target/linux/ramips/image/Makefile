@@ -115,7 +115,7 @@ define Image/Build/Profile/Default
 	$(call Image/Build/Profile/FONERA20N,$(1))
 	$(call Image/Build/Profile/V22RW2X2,$(1))
 	$(call Image/Build/Profile/WHRG300N,$(1))
-	$(call Image/Build/Profile/HD255D,$(1))
+	$(call Image/Build/Profile/HG255D,$(1))
 	$(call Image/Build/Profile/RT-N13,$(1))
 endef
 endif
