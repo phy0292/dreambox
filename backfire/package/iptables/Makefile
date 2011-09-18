@@ -260,7 +260,7 @@ iptables extensions for hashlimit matching
 endef
 
 define Package/iptables-mod-connlimit
-$(call Package/iptables/Module, +kmod-ipt- connlimit)
+$(call Package/iptables/Module, +kmod-ipt-connlimit)
   TITLE:= connlimit matching
 endef
 
