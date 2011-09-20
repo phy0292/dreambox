@@ -425,6 +425,22 @@ endef
 
 $(eval $(call KernelPackage,nls-cp437))
 
+define KernelPackage/nls-cp936
+  SUBMENU:=$(FS_MENU)
+  TITLE:=Codepage 936 (United States, Canada)
+  KCONFIG:=CONFIG_NLS_CODEPAGE_936
+  FILES:=$(LINUX_DIR)/fs/nls/nls_cp936.$(LINUX_KMOD_SUFFIX)
+  AUTOLOAD:=$(call AutoLoad,25,nls_cp936)
+$(call KernelPackage/nls/Depends)
+endef
+
+
+define KernelPackage/nls-cp936/description
+ Kernel module for NLS Codepage 936 (chinese GB2312)
+endef
+
+$(eval $(call KernelPackage,nls-cp936))
+
 
 define KernelPackage/nls-cp850
   SUBMENU:=$(FS_MENU)
