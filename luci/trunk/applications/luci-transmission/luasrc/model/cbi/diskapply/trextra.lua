@@ -105,5 +105,4 @@ address = s:option(Value, "address", translate("receive address","receive addres
 address.optional = false
 address.rmempty = false
 
-local lucierror = luci.sys.lucierror()
 return m

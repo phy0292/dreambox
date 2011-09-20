@@ -163,7 +163,5 @@ sys.net.arptable(function(entry)
 	)
 end)
 
-local lucierror = luci.sys.lucierror()
-
 return m
 

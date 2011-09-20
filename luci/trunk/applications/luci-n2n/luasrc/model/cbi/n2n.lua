@@ -67,9 +67,6 @@ enable = s:option(Flag, "enable", translate("N2N VPN supernode Server"),translat
 port = s:option(Value, "port", translate("supernode port"),translate("N2N VPN supernode port.; default: 82"))
 port.rmempty = true
 
-
-local lucierror = luci.sys.lucierror()
-
 return m
 
 

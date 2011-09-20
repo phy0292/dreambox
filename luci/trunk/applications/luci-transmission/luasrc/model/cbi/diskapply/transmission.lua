@@ -152,7 +152,5 @@ cache_size_mb= s:option(Value, "cache_size_mb", translate("Cache Size in mb"),
 
 cache_size_mb.optional = true
 
-local lucierror = luci.sys.lucierror()
-
 return m
 

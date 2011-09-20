@@ -62,9 +62,4 @@ anon_other_write_enable.default = false
 anon_other_write_enable.optional = false
 anon_other_write_enable.rmempty = false
 
---s:option(Value, "local_root", translate("vsftpd_local_root"),
---        translate("local_root setting"))
-
-local lucierror = luci.sys.lucierror()
-
 return m

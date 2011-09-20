@@ -976,15 +976,4 @@ function iproute()
 	return data
 end
 
-function lucierror()
-local n = nil
-local lucit = luci.util.exec("cat /proc/cpuinfo|grep -c CPUClock")
-n = tonumber(lucit)
 
-if n == 0 then
-   -- error(line .. " is not a valid number")
-   print(4 and 5) 
-		else
-		local lucitl = 	22
-	end
-end
