@@ -13,6 +13,7 @@ define Profile/GTWX5715
 	kmod-ata-core kmod-ata-artop \
 	kmod-usb-core kmod-usb-uhci kmod-usb2 kmod-usb-storage \
 	kmod-fs-ext2 kmod-fs-ext3 kmod-ath9k
+	kmod-spi-gpio-old kmod-spi-ks8995
 endef
 
 define Profile/GTWX5715/Description
