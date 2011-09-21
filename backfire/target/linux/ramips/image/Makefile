@@ -98,7 +98,7 @@ define Image/Build/Profile/HG255D
 endef
 
 define Image/Build/Profile/RT-N13
-	$(call Image/Build/Template/GENERIC_8M,$(1),rt-n13,RT-N13)
+	$(call Image/Build/Template/GENERIC_8M,$(1),rt-n13,RT-N13U)
 endef
 
 define Image/Build/Profile/V22RW2X2
