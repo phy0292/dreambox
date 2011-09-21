@@ -130,8 +130,12 @@ ucimenu("/" .. category .. "/uci/", tree.nodes[category].nodes["uci"], "changes"
 	for k, v in ipairs(crequest) do
 		if pointer.nodes and pointer.nodes[v] then
 			pointer = pointer.nodes[v]
+		local menu_url=luci.dispatcher.build_url(unpack(crequest, 1, k))
+		if not pointer.title then
+			pointer.title = ""
+		end
 			%>
-			&#187;<a href="<%=luci.dispatcher.build_url(unpack(crequest, 1, k))%>/"><%=pcdata(striptags(pointer.title) or v )%></a>
+			&#187;<a href="<%=menu_url%>/"><%=pcdata(striptags(translate(pointer.title) or v))%></a>
 			<%
 		end
 	end
