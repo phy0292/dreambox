@@ -131,7 +131,7 @@ ucimenu("/" .. category .. "/uci/", tree.nodes[category].nodes["uci"], "changes"
 		if pointer.nodes and pointer.nodes[v] then
 			pointer = pointer.nodes[v]
 			%>
-			&#187;<a href="<%=luci.dispatcher.build_url(unpack(crequest, 1, k))%>"><%=pcdata(striptags(pointer.title) or v )%></a>
+			&#187;<a href="<%=luci.dispatcher.build_url(unpack(crequest, 1, k))%>/"><%=pcdata(striptags(pointer.title) or v )%></a>
 			<%
 		end
 	end
