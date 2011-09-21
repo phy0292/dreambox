@@ -108,11 +108,15 @@ if tree.nodes[category] and tree.nodes[category].ucidata then
 		end
 	end
 -%>
-<% if ucic > 0 then %><div class="menubar"><div><a class="warning" href="<%=controller%>/<%=category%>/uci/changes/"><%:Unsaved Changes%>: <%=ucic%></a><%
-ucimenu("/" .. category .. "/uci/", tree.nodes[category].nodes["uci"], "changes")-%>
-<div class="clear"></div>
-</div></div>
-<% end %>
+
+<div class="savemenu">
+	<% if ucic > 0 then %>
+		<a class="warning" href="<%=controller%>/<%=category%>/uci/changes/?redir=<%=luci.http.urlencode(luci.http.formvalue("redir") or REQUEST_URI)%>"><%:Unsaved Changes%>: <%=ucic%></a>
+	<%- else -%>
+		<a href="#"><%:Changes%>: 0</a>
+	<% end -%>
+</div>
+
 <% end %>
 
 <div class="hostinfo">
@@ -130,7 +134,7 @@ ucimenu("/" .. category .. "/uci/", tree.nodes[category].nodes["uci"], "changes"
 	for k, v in ipairs(crequest) do
 		if pointer.nodes and pointer.nodes[v] then
 			pointer = pointer.nodes[v]
-		local menu_url=luci.dispatcher.build_url(unpack(crequest, 1, k))
+			local menu_url=luci.dispatcher.build_url(unpack(crequest, 1, k))
 		if not pointer.title then
 			pointer.title = ""
 		end
@@ -140,7 +144,9 @@ ucimenu("/" .. category .. "/uci/", tree.nodes[category].nodes["uci"], "changes"
 		end
 	end
 %>
+
 </div>
+
 
 <div id="maincontent">
 

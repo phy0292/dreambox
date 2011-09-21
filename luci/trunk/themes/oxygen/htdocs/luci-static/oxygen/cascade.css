@@ -123,6 +123,32 @@ div.hostinfo {
 }
 
 
+.savemenu {
+	position: absolute;
+	right: 6%;
+	top: 3px;
+	width: auto;
+	height: 0px;
+	background: #000000;
+	background: rgba(0, 0, 0, 0.8);
+	color: #ffffff;
+	float: right;
+	padding: 0;
+	font-size: 80%;
+  display:block;
+}
+
+.savemenu .warning {
+	color: red;
+	background-color: #000000;
+}
+
+html .savemenu a:link,
+html .savemenu a:visited {
+	text-decoration: none;
+	font-weight: bold;
+}
+
 
 
 .menubar {
@@ -148,6 +174,7 @@ div.hostinfo {
 	color: red;
 	background-color: #557788;
 }
+
 
 html .menubar a:link,
 html .menubar a:visited {
@@ -186,6 +213,8 @@ html .menubar a:visited.warning {
 	color: red;
 	font-weight: bold;
 }
+
+
 
 .lang_de #submenu_admin_uci {
 	width: 12em;
@@ -771,5 +800,6 @@ div.cbi-tab-descr {
 }
 
 }
+
 
 
