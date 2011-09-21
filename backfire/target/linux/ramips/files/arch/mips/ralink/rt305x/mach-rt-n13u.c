@@ -122,5 +122,5 @@ static void __init rt_n13u_init(void)
 	rt305x_register_wifi();
 }
 
-MIPS_MACHINE(RAMIPS_MACH_RT_N13U, "RT_N13U", "ASUS RT-N13",
+MIPS_MACHINE(RAMIPS_MACH_RT_N13U, "RT-N13U", "ASUS RT-N13",
 	     rt_n13u_init);
