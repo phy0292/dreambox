@@ -1,0 +1,8 @@
+
+config 'nfsd'
+	option 'enable' '0'
+
+config 'nfsshare'
+	option 'enable' '1'
+	option 'patch' '/mnt/sda1'
+
