@@ -112,8 +112,6 @@ if tree.nodes[category] and tree.nodes[category].ucidata then
 <div class="savemenu">
 	<% if ucic > 0 then %>
 		<a class="warning" href="<%=controller%>/<%=category%>/uci/changes/?redir=<%=luci.http.urlencode(luci.http.formvalue("redir") or REQUEST_URI)%>"><%:Unsaved Changes%>: <%=ucic%></a>
-	<%- else -%>
-		<a href="#"><%:Changes%>: 0</a>
 	<% end -%>
 </div>
 
