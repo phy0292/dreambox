@@ -415,8 +415,8 @@ $(eval $(call application,vsftpd,vsftpd configuration module,\
 $(eval $(call application,n2n,n2n configuration module,\
 	 +luci-app-n2n:n2n))
 
-$(eval $(call application,NFS,Network Shares - NFS SERVERS module,\
-	+luci-mod-admin-full +luci-app-nfs:nfs-server +kmod-fs-nfs +kmod-fs-nfs-common))
+$(eval $(call application,nfsd,Network Shares - NFS SERVERS module,\
+	+luci-mod-admin-full +luci-app-nfsd:nfs-server +kmod-fs-nfs +kmod-fs-nfs-common))
 
 $(eval $(call application,pptpd,pptpd configuration module,\
 	 +luci-app-pptpd:pptpd +kmod-mppe))
