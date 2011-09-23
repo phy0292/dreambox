@@ -381,6 +381,8 @@ mac = s:taboption("physical", Value, "macaddr", translate("<abbr title=\"Media A
 mac:depends("proto", "none")
 mac:depends("proto", "static")
 mac:depends("proto", "dhcp")
+mac:depends("proto", "pppoe")
+mac:depends("proto", "ppp")
 mac.placeholder = ifc and ifc:mac():upper()
 
 if has_3g then
@@ -389,6 +391,7 @@ if has_3g then
 	service:value("umts", "UMTS/GPRS")
 	service:value("cdma", "CDMA")
 	service:value("evdo", "EV-DO")
+	service:value("tdscdma", "TD-SCDMA")
 	service:depends("proto", "3g")
 	service.rmempty = true
 
