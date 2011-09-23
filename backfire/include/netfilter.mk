@@ -41,7 +41,7 @@ $(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_MULTIPORT, $(P_XT)xt_mul
 $(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_WEBURL, $(P_XT)xt_weburl))
 $(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_WEBMON, $(P_XT)xt_webmon))
 $(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_BANDWIDTH, $(P_XT)xt_bandwidth))
-$(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_TIMERANGE, $(P_XT)xt_timerange)
+$(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_TIMERANGE, $(P_XT)xt_timerange))
 $(eval $(call nf_add,IPT_CORE,CONFIG_IP_NF_MATCH_COMMENT, $(P_V4)ipt_comment))
 $(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_COMMENT, $(P_XT)xt_comment))
 
