@@ -41,6 +41,7 @@
 #define HWID_TL_WR941ND_V2	0x09410002
 #define HWID_TL_WR941ND_V4	0x09410004
 #define HWID_TL_WR1043ND_V1	0x10430001
+#define HWID_TL_MR3420_V1       0x34200001 
 
 #define MD5SUM_LEN	16
 
@@ -110,6 +111,14 @@ char md5salt_boot[MD5SUM_LEN] = {
 
 static struct board_info boards[] = {
 	{
+		.id		= "TL-MR3420v1", 
+		.hw_id          = HWID_TL_MR3420_V1, 
+		.hw_rev         = 1, 
+		.fw_max_len     = 0x3c0000, 
+		.kernel_la      = 0x80060000, 
+		.kernel_ep      = 0x80060000, 
+		.rootfs_ofs     = 0x140000, 
+	}, {
 		.id		= "TL-WR741NDv1",
 		.hw_id		= HWID_TL_WR741ND_V1,
 		.hw_rev		= 1,
