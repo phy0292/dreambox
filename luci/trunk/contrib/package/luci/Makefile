@@ -249,7 +249,7 @@ define Package/luci-mod-freifunk/conffiles
 /etc/config/freifunk
 endef
 
-$(eval $(call module,admin-core,Web UI Core module,+luci-lib-web +luci-i18n-english))
+$(eval $(call module,admin-core,Web UI Core module,+luci-lib-web +luci-i18n-english +luci-i18n-chinese))
 $(eval $(call module,admin-mini,LuCI Essentials - stripped down and user-friendly,+luci-mod-admin-core @BROKEN))
 $(eval $(call module,admin-full,LuCI Administration - full-featured for full control,+luci-mod-admin-core +luci-lib-ipkg))
 $(eval $(call module,rpc,LuCI RPC - JSON-RPC API,+luci-lib-json))
