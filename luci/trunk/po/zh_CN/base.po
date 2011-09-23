@@ -273,10 +273,10 @@ msgid "Applying changes"
 msgstr "应用更改"
 
 msgid "Associated Stations"
-msgstr "Associated Stations"
+msgstr "已连接户端"
 
 msgid "Authentication"
-msgstr "Authentication"
+msgstr "认证"
 
 msgid "Authentication Realm"
 msgstr "Authentication Realm"
@@ -1566,6 +1566,9 @@ msgstr "实时负载"
 
 msgid "Realtime Traffic"
 msgstr "实时流量"
+
+msgid "Realtime Wireless"
+msgstr "实时无线状态"
 
 msgid "Rebind protection"
 msgstr "域名解析过滤"
