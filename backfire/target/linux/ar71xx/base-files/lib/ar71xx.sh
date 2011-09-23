@@ -22,6 +22,9 @@ ar71xx_board_name() {
 	*"DIR-600 rev. A1")
 		name="dir-600-a1"
 		;;
+        *TL-MR3420) 
+		name="tl-mr3420" 
+		;; 
 	*"DIR-825 rev. B1")
 		name="dir-825-b1"
 		;;
