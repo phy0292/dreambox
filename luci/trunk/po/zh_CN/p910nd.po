@@ -16,6 +16,9 @@ msgstr ""
 msgid "p910nd - Printer server"
 msgstr "打印服务器"
 
+msgid "enable"
+msgstr "启用"
+
 #. First you have to install the packages to get support for USB (kmod-usb-printer) or parallel port (kmod-lp).
 #: applications/luci-p910nd/luasrc/i18n/p910nd.en.lua:2
 msgid "First you have to install the packages to get support for USB (kmod-usb-printer) or parallel port (kmod-lp)."
