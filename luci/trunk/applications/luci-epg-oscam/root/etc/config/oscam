@@ -1,0 +1,38 @@
+
+config 'setting'
+	option 'interval' '0'
+	option 'enable' '0'
+
+config 'conf'
+	option 'global_logfile' '/var/oscam/oscam.log'
+	option 'webif_httpuser' 'oscam'
+	option 'webif_httppwd' 'oscam'
+	option 'webif_httpallowed' '192.168.1.1-192.168.1.254'
+	option 'cccam_port' '7788'
+	option 'cccam_version' '2.1.4'
+	option 'cccam_ignorereshare' '1'
+	option 'logenable' '0'
+	option 'global_maxlogsize' '10'
+	option 'webif_httpport' '8899'
+	option 'webifenable' '1'
+
+config 'server'
+	option 'cenable' '1'
+	option 	cccam_label gx01
+	option 'cccam_account' 'c: dm500.org.com 2277 aaaa bbbb'
+
+config 'user'
+	option 'user' '001'
+	option 'pwd' '001'
+	option 'uenable' '1'
+
+config 'user'
+	option 'user' '002'
+	option 'pwd' '002'
+	option 'uenable' '1'
+
+config 'user'
+	option 'user' '003'
+	option 'pwd' '003'
+	option 'uenable' '0'
+
