@@ -26,6 +26,10 @@ define KernelPackage/ipt-core/description
  - LOG
  - mac
  - multiport
+ - webmon
+ - weburl
+ - bandwidth
+ - timerange
  - REJECT
  - TCPMSS
 endef
@@ -121,6 +125,7 @@ define KernelPackage/ipt-ipopt/description
  - time
  - tos/TOS (prior to 2.6.25)
  - ttl/TTL (prior to 2.6.30)
+ - IPID
  - unclean
 endef
 

@@ -56,6 +56,10 @@ IPv4 firewall administration tool.
   - udp
   - comment
   - limit
+  - webmon
+  - weburl
+  - bandwidth
+  - timerange
   - mac
   - multiport
 
@@ -159,6 +163,7 @@ iptables extensions for matching/changing IP packet options.
   - time
   - unclean
   - hl
+  - ttl
 
  Targets:
   - DSCP
@@ -166,6 +171,8 @@ iptables extensions for matching/changing IP packet options.
   - ECN
   - MARK
   - HL
+  - TTL
+  - IPID
 
 endef
 

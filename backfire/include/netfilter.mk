@@ -38,6 +38,10 @@ $(eval $(call nf_add,IPT_CORE,CONFIG_IP_NF_MATCH_MAC, $(P_V4)ipt_mac))
 $(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_MAC, $(P_XT)xt_mac))
 $(eval $(call nf_add,IPT_CORE,CONFIG_IP_NF_MATCH_MULTIPORT, $(P_V4)ipt_multiport))
 $(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_MULTIPORT, $(P_XT)xt_multiport))
+$(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_WEBURL, $(P_XT)xt_weburl))
+$(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_WEBMON, $(P_XT)xt_webmon))
+$(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_BANDWIDTH, $(P_XT)xt_bandwidth))
+$(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_TIMERANGE, $(P_XT)xt_timerange)
 $(eval $(call nf_add,IPT_CORE,CONFIG_IP_NF_MATCH_COMMENT, $(P_V4)ipt_comment))
 $(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_COMMENT, $(P_XT)xt_comment))
 
@@ -145,12 +149,17 @@ else
   $(eval $(call nf_add,IPT_IPOPT,CONFIG_IP_NF_TARGET_TOS, $(P_V4)ipt_TOS))
 endif
 
+# XXX: ttl/TTL extensions have been merged in ttl/TTL in linux 2.6.30, but not yet in iptables
 ifeq ($(strip $(call CompareKernelPatchVer,$(KERNEL_PATCHVER),ge,2.6.30)),1)
-  $(eval $(call nf_add,IPT_IPOPT,CONFIG_NETFILTER_XT_MATCH_HL, $(P_XT)xt_hl))
-  $(eval $(call nf_add,IPT_IPOPT,CONFIG_NETFILTER_XT_TARGET_HL, $(P_XT)xt_HL))
+#  $(eval $(call nf_add,IPT_IPOPT,CONFIG_NETFILTER_XT_MATCH_HL, $(P_XT)xt_hl))
+#  $(eval $(call nf_add,IPT_IPOPT,CONFIG_NETFILTER_XT_TARGET_HL, $(P_XT)xt_HL))
+  $(eval $(if $(NF_KMOD),,$(call nf_add,IPT_IPOPT,CONFIG_IP_NF_MATCH_TTL, $(P_V4)ipt_ttl)))  
+  $(eval $(if $(NF_KMOD),,$(call nf_add,IPT_IPOPT,CONFIG_IP_NF_TARGET_TTL, $(P_V4)ipt_TTL)))  
+  $(eval $(if $(NF_KMOD),,$(call nf_add,IPT_IPOPT,CONFIG_IP_NF_TARGET_IPID, $(P_V4)ipt_IPID)))  
 else
   $(eval $(call nf_add,IPT_IPOPT,CONFIG_IP_NF_MATCH_TTL, $(P_V4)ipt_ttl))
   $(eval $(call nf_add,IPT_IPOPT,CONFIG_IP_NF_TARGET_TTL, $(P_V4)ipt_TTL))
+  $(eval $(call nf_add,IPT_IPOPT,CONFIG_IP_NF_TARGET_IPID, $(P_V4)ipt_IPID))
 endif
 
 
