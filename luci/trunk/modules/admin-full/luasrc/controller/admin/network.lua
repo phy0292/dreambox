@@ -10,7 +10,7 @@ You may obtain a copy of the License at
 
 	http://www.apache.org/licenses/LICENSE-2.0
 
-$Id: network.lua 7362 2011-08-12 13:16:27Z jow $
+$Id: network.lua 7506 2011-09-22 02:49:03Z jow $
 ]]--
 
 module("luci.controller.admin.network", package.seeall)
@@ -209,6 +209,7 @@ function iface_status()
 		local net = netm:get_network(iface)
 		if net then
 			local info
+
 			local dev  = net:ifname()
 			local ix = net:device()
 			local iface_mac = nixio.fs.readfile("/sys/class/net/" .. dev .. "/address 2>/dev/null")
@@ -223,14 +224,7 @@ function iface_status()
 				gwaddr   = net:gwaddr(),
 				dnsaddrs = net:dnsaddrs()
 			}
-		data.macaddr = iface_mac
-			local data = {
-				id       = iface,
-				proto    = net:proto(),
-				uptime   = net:uptime(),
-				gwaddr   = net:gwaddr(),
-				dnsaddrs = net:dnsaddrs()
-			}
+data.macaddr = iface_mac
 			for _, info in ipairs(nixio.getifaddrs()) do
 				local name = info.name:match("[^:]+")
 				if name == dev then
@@ -355,6 +349,28 @@ function wifi_status()
 	end
 
 	luci.http.status(404, "No such device")
+end
+
+function wifi_reconnect()
+	local path  = luci.dispatcher.context.requestpath
+	local mode  = path[#path-1]
+	local wnet  = path[#path]
+	local netmd = require "luci.model.network".init()
+
+	local net = netmd:get_wifinet(wnet)
+	local dev = net:get_device()
+	if dev and net then
+		dev:set("disabled", nil)
+		net:set("disabled", (mode == "wireless_shutdown") and 1 or nil)
+		netmd:commit("wireless")
+
+		luci.sys.call("(env -i /sbin/wifi down; env -i /sbin/wifi up) >/dev/null 2>/dev/null")
+		luci.http.status(200, (mode == "wireless_shutdown") and "Shutdown" or "Reconnected")
+
+		return
+	end
+
+	luci.http.status(404, "No such radio")
 end
 
 function lease_status()
