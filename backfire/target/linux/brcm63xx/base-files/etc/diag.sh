@@ -26,13 +26,24 @@ status_led_off() {
 set_state() {
 	case "$1" in
 		preinit)
-		status_led_set_timer 200 200
+		status_led_set_timer 10 10
 		;;
-	failsafe)
+		failsafe)
 		status_led_set_timer 50 50
+		;;
+		network)
+		led_set_attr dsl "brightness" 255		
+		;;		
+		wireless)
+		led_set_attr wps "brightness" 255		
+		;;
+		firewall)
+		led_set_attr usb "brightness" 255		
 		;;
 		done)
 		status_led_on
+		led_set_attr wps "brightness" 0
+		led_set_attr usb "brightness" 0
 		;;
 	esac
 }
