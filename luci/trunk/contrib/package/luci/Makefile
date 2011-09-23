@@ -409,6 +409,18 @@ $(eval $(call application,lqtapifoss,Lantiq voip))
 $(eval $(call application,mentohust,mentohust configuration module,\
 	 +luci-app-mentohust:mentohust))
 
+$(eval $(call application,guide,guide configuration module,\
+	+PACKAGE_luci-app-guide))
+
+$(eval $(call application,epg-oscam,epg-oscam configuration module,\
+	+PACKAGE_luci-app-epg-oscam +oscam +libpthread))
+
+$(eval $(call application,mldonkey,mldonkey configuration module,\
+	+PACKAGE_luci-app-mldonkey +libopenssl +libpthread))
+
+$(eval $(call application,webcam,webcam configuration module,\
+	 +PACKAGE_luci-app-webcam:mjpg-streamer))
+
 $(eval $(call application,vsftpd,vsftpd configuration module,\
 	 +luci-app-vsftpd:vsftpd))
 
@@ -421,6 +433,9 @@ $(eval $(call application,nfsd,Network Shares - NFS SERVERS module,\
 $(eval $(call application,pptpd,pptpd configuration module,\
 	 +luci-app-pptpd:pptpd +kmod-mppe))
 
+$(eval $(call application,pppoeserver,pppoeserver configuration module,\
+	 +luci-app-pppoeserver:rp-pppoe-server +kmod-mppe))
+
 $(eval $(call application,transmission,transmission configuration module,\
 	+luci-app-transmission:transmission-daemon +transmission-remote +transmission-web))
 
@@ -429,6 +444,9 @@ $(eval $(call application,nwan,nwan configuration module,\
 
 $(eval $(call application,qosv4,qosv4 configuration module,\
 	 +luci-app-qosv4:tc +kmod-sched +iptables +iptables-mod-filter +iptables-mod-ipopt +iptables-mod-conntrack-extra +iptables-mod-imq +iptables-mod-hashlimit +iptables-mod-connlimit))
+
+$(eval $(call application,ipid,ipid configuration module,\
+	 +PACKAGE_luci-app-ipid:iptables +iptables-mod-filter +iptables-mod-ipopt))
 
 
 ### Server Gateway Interfaces ###
@@ -502,7 +520,8 @@ $(eval $(call theme,freifunk-generic,Freifunk Generic Theme,\
 
 $(eval $(call theme,oxygen,oxygen Theme,\
        oxygen ))
-
+$(eval $(call theme,openwrtcn,openwrtcn Theme,\
+       openwrtcn ))
 
 ### Translations ###
 define translation
