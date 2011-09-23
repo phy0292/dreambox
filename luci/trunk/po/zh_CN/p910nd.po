@@ -16,6 +16,9 @@ msgstr ""
 msgid "p910nd - Printer server"
 msgstr "打印服务器"
 
+msgid "Printer server"
+msgstr "打印服务器"
+
 msgid "enable"
 msgstr "启用"
 

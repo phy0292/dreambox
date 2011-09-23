@@ -93,59 +93,5 @@ wan_start_idx.default = 1
 wan_start_idx.optional = false
 wan_start_idx.rmempty = false
 
-if isddnas < 1 then 
-
-s = m:section(TypedSection, "wireless_numset", translate("wireless_sat","wireless_sat setting"),
-                              translate("wireless_sat_desc","wireless sat easy setting"))
-s.anonymous = true
-s.addremove = false
-
-enable = s:option(Flag, "enable", translate("wireles_enable", "enable wireles sat mode settings"))
-enable.default = false
-enable.optional = false
-enable.rmempty = false
-
-mode = s:option(ListValue, "mode", translate("mode","Mode"),
-translate("mode_desc","ap & client"))
-mode:value("ap", translate("Access Point","Access Point"))
-mode:value("sta", translate("Client","Client"))
-mode.default = sta
-mode.optional = false
-mode.rmempty = false
-
-ssid = s:option(Value, "ssid", translate("essid","Essid"))
-ssid .default = OPENWRT
-ssid .optional = false
-ssid .rmempty = false
-
-
-device = s:option(ListValue, "device", translate("device","device"))
-device :value("radio0", "radio0")
-device :value("radio1", "radio1")
-device :value("radio2", "radio2")
-device :value("radio3", "radio3")
-device.default = radio0
-device.optional = false
-device.rmempty = false
-
-
-encr = s:option(ListValue, "encryption", translate("encryption","Encryption"))
-encr:value("none", "none")
-encr:value("wep", "wep")
-encr:value("psk", "WPA-PSK")
-encr:value("psk2", "WPA2-PSK")
-encr:value("psk-mixed", "WPA-PSK/WPA2-PSK Mixed Mode")
-encr:value("wpa", "WPA-EAP")
-encr:value("wpa2", "WPA2-EAP")
-
-
-key = s:option(Value, "key", translate("key","Key"))
-key.rmempty = true
-key.password = true
-
-end
-
-local lucierror = luci.sys.lucierror()
-
 return m
 

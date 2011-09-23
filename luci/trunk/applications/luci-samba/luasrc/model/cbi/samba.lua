@@ -20,13 +20,15 @@ s.anonymous = true
 
 s:tab("general",  translate("General Settings"))
 s:tab("template", translate("Edit Template"))
-
+s:taboption("general",Flag, "enable", translate("Enable", "Enable Samba"))
 s:taboption("general", Value, "name", translate("Hostname"))
 s:taboption("general", Value, "description", translate("Description"))
 s:taboption("general", Value, "workgroup", translate("Workgroup"))
 s:taboption("general", Value, "homes", translate("Share home-directories"),
         translate("Allow system users to reach their home directories via " ..
                 "network shares"))
+s:taboption("general",Flag, "optimization", translate("Optimization settings"),
+        translate("Samba Optimization and Speed Tuning"))
 
 tmpl = s:taboption("template", Value, "_tmpl",
 	translate("Edit the template that is used for generating the samba configuration."), 

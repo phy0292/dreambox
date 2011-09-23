@@ -198,5 +198,5 @@ dev2.cfgvalue = function(self, section)
 	v = Value.cfgvalue(self, section) or "?"
 	return size[v] and "%s (%s MB)" % {v, size[v]} or v
 end
-local lucierror = luci.sys.lucierror()
+
 return m
