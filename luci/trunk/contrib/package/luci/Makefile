@@ -181,7 +181,7 @@ $(eval $(call library,lmo,LuCI LMO I18N library))
 $(eval $(call library,lucid,LuCId Full-Stack Webserver,+luci-lib-nixio +luci-lib-web +luci-lib-px5g))
 $(eval $(call library,lucid-http,LuCId HTTP Backend,+luci-lib-lucid))
 $(eval $(call library,lucid-rpc,LuCId RPC Backend,+luci-lib-lucid))
-$(eval $(call library,nixio,NIXIO POSIX library,+luci-lib-nixio_openssl:libopenssl +luci-lib-nixio_cyassl:libcyassl))
+$(eval $(call library,nixio,NIXIO POSIX library,+PACKAGE_luci-lib-nixio_openssl:libopenssl +PACKAGE_luci-lib-nixio_cyassl:libcyassl))
 $(eval $(call library,px5g,RSA/X.509 Key Generator (required for LuCId SSL support),+luci-lib-nixio))
 $(eval $(call library,sys,LuCI Linux/POSIX system library))
 $(eval $(call library,web,MVC Webframework,+luci-lib-sys +luci-lib-nixio +luci-lib-core +luci-sgi-cgi +luci-lib-lmo))
@@ -198,10 +198,10 @@ define Package/luci-mod-freifunk-community
   TITLE:=Freifunk Community Meta-Package
   DEPENDS+= \
    +luci-lib-web +luci-app-splash +luci-i18n-german \
-   +luci-mod-freifunk-community:olsrd +luci-mod-freifunk-community:olsrd-mod-dyn-gw-plain \
-   +luci-mod-freifunk-community:olsrd-mod-txtinfo +luci-mod-freifunk-community:olsrd-mod-nameservice \
-   +luci-mod-freifunk-community:olsrd-mod-watchdog +luci-mod-freifunk-community:kmod-tun \
-   +luci-mod-freifunk-community:ip +luci-mod-freifunk-community:freifunk-watchdog +luci-app-olsr +luci-app-olsr-services
+   +PACKAGE_luci-mod-freifunk-community:olsrd +PACKAGE_luci-mod-freifunk-community:olsrd-mod-dyn-gw-plain \
+   +PACKAGE_luci-mod-freifunk-community:olsrd-mod-txtinfo +PACKAGE_luci-mod-freifunk-community:olsrd-mod-nameservice \
+   +PACKAGE_luci-mod-freifunk-community:olsrd-mod-watchdog +PACKAGE_luci-mod-freifunk-community:kmod-tun \
+   +PACKAGE_luci-mod-freifunk-community:ip +PACKAGE_luci-mod-freifunk-community:freifunk-watchdog +luci-app-olsr +luci-app-olsr-services
 endef
 
 define Package/luci-mod-freifunk-community/install
@@ -249,11 +249,11 @@ define Package/luci-mod-freifunk/conffiles
 /etc/config/freifunk
 endef
 
-$(eval $(call module,admin-core,Web UI Core module,+luci-lib-web +luci-i18n-english +luci-i18n-chinese))
+$(eval $(call module,admin-core,Web UI Core module,+luci-lib-web +luci-i18n-english))
 $(eval $(call module,admin-mini,LuCI Essentials - stripped down and user-friendly,+luci-mod-admin-core @BROKEN))
 $(eval $(call module,admin-full,LuCI Administration - full-featured for full control,+luci-mod-admin-core +luci-lib-ipkg))
 $(eval $(call module,rpc,LuCI RPC - JSON-RPC API,+luci-lib-json))
-$(eval $(call module,freifunk,LuCI Freifunk module,+luci-mod-admin-full +luci-lib-json +luci-mod-freifunk:freifunk-firewall))
+$(eval $(call module,freifunk,LuCI Freifunk module,+luci-mod-admin-full +luci-lib-json +PACKAGE_luci-mod-freifunk:freifunk-firewall))
 $(eval $(call module,niu,NIU - Next Generation Interface,+luci-mod-admin-core @BROKEN))
 
 
@@ -299,53 +299,53 @@ $(eval $(call application,ffwizard,Freifunk configuration wizard,\
 	+luci-mod-freifunk))
 
 $(eval $(call application,siitwizard,SIIT IPv4-over-IPv6 configuration wizard,\
-	+luci-app-siitwizard:kmod-siit))
+	+PACKAGE_luci-app-siitwizard:kmod-siit))
 
 $(eval $(call application,firewall,Firmware and Portforwarding application,\
-	+luci-app-firewall:firewall))
+	+PACKAGE_luci-app-firewall:firewall))
 
 $(eval $(call application,freifunk-policyrouting,Policy routing for mesh traffic,\
-        +luci-app-freifunk-policyrouting:freifunk-policyrouting +luci-mod-freifunk))
+        +PACKAGE_luci-app-freifunk-policyrouting:freifunk-policyrouting +luci-mod-freifunk))
 
 $(eval $(call application,meshwizard, Shellscript based wizard to setup mesh networks,\
         +meshwizard +luci-mod-freifunk))
 
 $(eval $(call application,olsr,OLSR configuration and status module,\
-	+luci-mod-admin-full +luci-app-olsr:olsrd +luci-app-olsr:olsrd-mod-txtinfo))
+	+luci-mod-admin-full +PACKAGE_luci-app-olsr:olsrd +PACKAGE_luci-app-olsr:olsrd-mod-txtinfo))
 
 $(eval $(call application,olsr-viz,OLSR Visualisation,\
-	+luci-app-olsr-viz:luci-app-olsr +luci-app-olsr-viz:olsrd-mod-txtinfo))
+	+PACKAGE_luci-app-olsr-viz:luci-app-olsr +PACKAGE_luci-app-olsr-viz:olsrd-mod-txtinfo))
 
 $(eval $(call application,olsr-services,Show services announced with the nameservice plugin,\
-	+luci-app-olsr-services:olsrd-mod-nameservice +luci-mod-freifunk +luci-app-olsr-services:luci-app-olsr))
+	+PACKAGE_luci-app-olsr-services:olsrd-mod-nameservice +luci-mod-freifunk +PACKAGE_luci-app-olsr-services:luci-app-olsr))
 
 $(eval $(call application,qos,Quality of Service configuration module,\
-	+luci-app-qos:qos-scripts))
+	+PACKAGE_luci-app-qos:qos-scripts))
 
 $(eval $(call application,splash,Freifunk DHCP-Splash application,\
-	+luci-lib-nixio +luci-app-splash:tc \
-	+luci-app-splash:kmod-sched +luci-app-splash:iptables-mod-nat-extra \
-	+luci-app-splash:iptables-mod-ipopt))
+	+luci-lib-nixio +PACKAGE_luci-app-splash:tc \
+	+PACKAGE_luci-app-splash:kmod-sched +PACKAGE_luci-app-splash:iptables-mod-nat-extra \
+	+PACKAGE_luci-app-splash:iptables-mod-ipopt))
 
 $(eval $(call application,statistics,LuCI Statistics Application,\
-	+luci-mod-admin-full +luci-app-statistics:collectd \
-	+luci-app-statistics:rrdtool1 \
-	+luci-app-statistics:collectd-mod-rrdtool \
-	+luci-app-statistics:collectd-mod-wireless \
-	+luci-app-statistics:collectd-mod-interface \
-	+luci-app-statistics:collectd-mod-load))
+	+luci-mod-admin-full +PACKAGE_luci-app-statistics:collectd \
+	+PACKAGE_luci-app-statistics:rrdtool1 \
+	+PACKAGE_luci-app-statistics:collectd-mod-rrdtool \
+	+PACKAGE_luci-app-statistics:collectd-mod-wireless \
+	+PACKAGE_luci-app-statistics:collectd-mod-interface \
+	+PACKAGE_luci-app-statistics:collectd-mod-load))
 
 
 $(eval $(call application,diag-core,LuCI Diagnostics Tools (Core)))
 
 $(eval $(call application,diag-devinfo,LuCI Diagnostics Tools (Device Info),\
 	+luci-app-diag-core \
-	+luci-app-diag-devinfo:smap \
-	+luci-app-diag-devinfo:netdiscover \
-	+luci-app-diag-devinfo:mac-to-devinfo \
-	+luci-app-diag-devinfo:httping \
-	+luci-app-diag-devinfo:smap-to-devinfo \
-	+luci-app-diag-devinfo:netdiscover-to-devinfo))
+	+PACKAGE_luci-app-diag-devinfo:smap \
+	+PACKAGE_luci-app-diag-devinfo:netdiscover \
+	+PACKAGE_luci-app-diag-devinfo:mac-to-devinfo \
+	+PACKAGE_luci-app-diag-devinfo:httping \
+	+PACKAGE_luci-app-diag-devinfo:smap-to-devinfo \
+	+PACKAGE_luci-app-diag-devinfo:netdiscover-to-devinfo))
 
 $(eval $(call application,voice-core,LuCI Voice Software (Core)))
 
@@ -353,100 +353,79 @@ $(eval $(call application,voice-diag,LuCI Voice Software (Diagnostics),\
 	+luci-app-voice-core +luci-app-diag-devinfo))
 
 $(eval $(call application,upnp,Universal Plug & Play configuration module,\
-	+luci-app-upnp:miniupnpd))
+	+PACKAGE_luci-app-upnp:miniupnpd))
 
 $(eval $(call application,ntpc,NTP time synchronisation configuration module,\
-	+luci-app-ntpc:ntpclient))
+	+PACKAGE_luci-app-ntpc:ntpclient))
 
 $(eval $(call application,ddns,Dynamic DNS configuration module,\
-	+luci-app-ddns:ddns-scripts))
+	+PACKAGE_luci-app-ddns:ddns-scripts))
 
 $(eval $(call application,samba,Network Shares - Samba SMB/CIFS module,\
-	+luci-mod-admin-full +luci-app-samba:samba3))
+	+luci-mod-admin-full +PACKAGE_luci-app-samba:samba3))
 
 $(eval $(call application,mmc-over-gpio,MMC-over-GPIO configuration module,\
-	+luci-mod-admin-full +luci-app-mmc-over-gpio:kmod-mmc-over-gpio))
+	+luci-mod-admin-full +PACKAGE_luci-app-mmc-over-gpio:kmod-mmc-over-gpio))
 
 $(eval $(call application,p910nd,p910nd - Printer server module,\
-	+luci-mod-admin-full +luci-app-p910nd:p910nd))
+	+luci-mod-admin-full +PACKAGE_luci-app-p910nd:p910nd))
 
 $(eval $(call application,ushare,uShare - UPnP A/V & DLNA Media Server,\
-	+luci-mod-admin-full +luci-app-ushare:ushare))
+	+luci-mod-admin-full +PACKAGE_luci-app-ushare:ushare))
 
 $(eval $(call application,hd-idle,Hard Disk Idle Spin-Down module,\
-	+luci-mod-admin-full +luci-app-hd-idle:hd-idle))
+	+luci-mod-admin-full +PACKAGE_luci-app-hd-idle:hd-idle))
 
 $(eval $(call application,tinyproxy,Tinyproxy - HTTP(S)-Proxy configuration,\
-	+luci-mod-admin-full +luci-app-tinyproxy:tinyproxy))
+	+luci-mod-admin-full +PACKAGE_luci-app-tinyproxy:tinyproxy))
 
 $(eval $(call application,polipo,LuCI Support for the Polipo Proxy,\
-	+luci-app-polipo:polipo))
+	+PACKAGE_luci-app-polipo:polipo))
 
 $(eval $(call application,openvpn,LuCI Support for OpenVPN,\
-	+luci-app-openvpn:openvpn))
+	+PACKAGE_luci-app-openvpn:openvpn))
 
 $(eval $(call application,p2pblock,LuCI Support for the Freifunk P2P-Block addon,\
-	+luci-app-firewall +luci-app-p2pblock:freifunk-p2pblock))
+	+luci-app-firewall +PACKAGE_luci-app-p2pblock:freifunk-p2pblock))
 
 $(eval $(call application,multiwan,LuCI Support for the OpenWrt MultiWAN agent,\
-	+luci-app-firewall +luci-app-multiwan:multiwan))
+	+luci-app-firewall +PACKAGE_luci-app-multiwan:multiwan))
 
 $(eval $(call application,wol,LuCI Support for Wake-on-LAN,\
-	+luci-app-wol:etherwake))
+	+PACKAGE_luci-app-wol:etherwake))
 
 $(eval $(call application,vnstat,LuCI Support for VnStat,\
-	+luci-app-vnstat:vnstat \
-    +luci-app-vnstat:vnstati))
+	+PACKAGE_luci-app-vnstat:vnstat \
+    +PACKAGE_luci-app-vnstat:vnstati))
 
 $(eval $(call application,radvd,LuCI Support for Radvd,\
-	+luci-mod-admin-full +luci-app-radvd:radvd))
+	+luci-mod-admin-full +PACKAGE_luci-app-radvd:radvd))
 
 $(eval $(call application,ahcp,LuCI Support for AHCPd,\
-	+luci-mod-admin-full +luci-app-ahcp:ahcpd))
+	+luci-mod-admin-full +PACKAGE_luci-app-ahcp:ahcpd))
 
 $(eval $(call application,lqtapifoss,Lantiq voip))
 
 $(eval $(call application,mentohust,mentohust configuration module,\
-	 +luci-app-mentohust:mentohust))
-
-$(eval $(call application,guide,guide configuration module,\
-	+PACKAGE_luci-app-guide))
-
-$(eval $(call application,epg-oscam,epg-oscam configuration module,\
-	+PACKAGE_luci-app-epg-oscam +oscam +libpthread))
-
-$(eval $(call application,mldonkey,mldonkey configuration module,\
-	+PACKAGE_luci-app-mldonkey +libopenssl +libpthread))
-
-$(eval $(call application,webcam,webcam configuration module,\
-	 +PACKAGE_luci-app-webcam:mjpg-streamer))
+	 +PACKAGE_luci-app-mentohust:mentohust))
 
 $(eval $(call application,vsftpd,vsftpd configuration module,\
-	 +luci-app-vsftpd:vsftpd))
+	 +PACKAGE_luci-app-vsftpd:vsftpd))
 
 $(eval $(call application,n2n,n2n configuration module,\
-	 +luci-app-n2n:n2n))
-
-$(eval $(call application,nfsd,Network Shares - NFS SERVERS module,\
-	+luci-mod-admin-full +luci-app-nfsd:nfs-server +kmod-fs-nfs +kmod-fs-nfs-common))
+	 +PACKAGE_luci-app-n2n:n2n))
 
 $(eval $(call application,pptpd,pptpd configuration module,\
-	 +luci-app-pptpd:pptpd +kmod-mppe))
-
-$(eval $(call application,pppoeserver,pppoeserver configuration module,\
-	 +luci-app-pppoeserver:rp-pppoe-server +kmod-mppe))
+	 +PACKAGE_luci-app-pptpd:pptpd +kmod-mppe))
 
 $(eval $(call application,transmission,transmission configuration module,\
-	+luci-app-transmission:transmission-daemon +transmission-remote +transmission-web))
+	+PACKAGE_luci-app-transmission:transmission-daemon +transmission-remote +transmission-web))
 
 $(eval $(call application,nwan,nwan configuration module,\
-	 +luci-app-nwan:ip +kmod-macvlan +iptables +iptables-utils +iptables-mod-conntrack +iptables-mod-conntrack-extra +iptables-mod-ipopt))
+	 +PACKAGE_luci-app-nwan:ip +kmod-macvlan +iptables +iptables-utils +iptables-mod-conntrack +iptables-mod-conntrack-extra +iptables-mod-ipopt))
 
 $(eval $(call application,qosv4,qosv4 configuration module,\
-	 +luci-app-qosv4:tc +kmod-sched +iptables +iptables-mod-filter +iptables-mod-ipopt +iptables-mod-conntrack-extra +iptables-mod-imq +iptables-mod-hashlimit +iptables-mod-connlimit))
-
-$(eval $(call application,ipid,ipid configuration module,\
-	 +PACKAGE_luci-app-ipid:iptables +iptables-mod-filter +iptables-mod-ipopt))
+	 +PACKAGE_luci-app-qosv4:tc +kmod-sched +iptables +iptables-mod-filter +iptables-mod-ipopt +iptables-mod-conntrack-extra +iptables-mod-imq +iptables-mod-hashlimit +iptables-mod-connlimit))
 
 
 ### Server Gateway Interfaces ###
@@ -520,8 +499,7 @@ $(eval $(call theme,freifunk-generic,Freifunk Generic Theme,\
 
 $(eval $(call theme,oxygen,oxygen Theme,\
        oxygen ))
-$(eval $(call theme,openwrtcn,openwrtcn Theme,\
-       openwrtcn ))
+
 
 ### Translations ###
 define translation
