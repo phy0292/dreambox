@@ -12,7 +12,7 @@
 +		},
 +		{
 +			.name		= "db120:power",
-+			.gpio		= 4,
++			.gpio		= 5,
 +//			.active_low	= 1,
 +			.default_trigger = "default-on",
 +		},
