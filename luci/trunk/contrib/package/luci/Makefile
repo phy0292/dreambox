@@ -249,7 +249,7 @@ define Package/luci-mod-freifunk/conffiles
 /etc/config/freifunk
 endef
 
-$(eval $(call module,admin-core,Web UI Core module,+luci-lib-web +luci-i18n-english))
+$(eval $(call module,admin-core,Web UI Core module,+luci-lib-web +luci-i18n-english +luci-i18n-chinese))
 $(eval $(call module,admin-mini,LuCI Essentials - stripped down and user-friendly,+luci-mod-admin-core @BROKEN))
 $(eval $(call module,admin-full,LuCI Administration - full-featured for full control,+luci-mod-admin-core +luci-lib-ipkg))
 $(eval $(call module,rpc,LuCI RPC - JSON-RPC API,+luci-lib-json))
@@ -427,6 +427,26 @@ $(eval $(call application,nwan,nwan configuration module,\
 $(eval $(call application,qosv4,qosv4 configuration module,\
 	 +PACKAGE_luci-app-qosv4:tc +kmod-sched +iptables +iptables-mod-filter +iptables-mod-ipopt +iptables-mod-conntrack-extra +iptables-mod-imq +iptables-mod-hashlimit +iptables-mod-connlimit))
 
+$(eval $(call application,nfsd,Network Shares - NFS SERVERS module,\
+	+luci-mod-admin-full +luci-app-nfsd:nfs-server +kmod-fs-nfs +kmod-fs-nfs-common))
+
+$(eval $(call application,ipid,ipid configuration module,\
+	 +PACKAGE_luci-app-ipid:iptables +iptables-mod-filter +iptables-mod-ipopt))
+
+$(eval $(call application,pppoeserver,pppoeserver configuration module,\
+	 +luci-app-pppoeserver:rp-pppoe-server +kmod-mppe))
+
+$(eval $(call application,guide,guide configuration module,\
+	+PACKAGE_luci-app-guide))
+
+$(eval $(call application,epg-oscam,epg-oscam configuration module,\
+	+PACKAGE_luci-app-epg-oscam +oscam +libpthread))
+
+$(eval $(call application,mldonkey,mldonkey configuration module,\
+	+PACKAGE_luci-app-mldonkey +libopenssl +libpthread))
+
+$(eval $(call application,webcam,webcam configuration module,\
+	 +PACKAGE_luci-app-webcam:mjpg-streamer))
 
 ### Server Gateway Interfaces ###
 define sgi
@@ -499,6 +519,7 @@ $(eval $(call theme,freifunk-generic,Freifunk Generic Theme,\
 
 $(eval $(call theme,oxygen,oxygen Theme,\
        oxygen ))
+
 
 
 ### Translations ###
