@@ -22,7 +22,7 @@ function index()
 
 	local page
 
-	page = entry({"admin", "services", "ushare"}, cbi("ushare"), _("uShare"), 60)
+	page = entry({"admin", "diskapply", "ushare"}, cbi("ushare"), _("uShare"), 60)
 	page.i18n = "ushare"
 	page.dependent = true
 end
