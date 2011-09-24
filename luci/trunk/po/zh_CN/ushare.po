@@ -12,6 +12,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.1.1\n"
 
+msgid "ushare"
+msgstr "UPnP/AV媒体"
+
 #. Content directories
 #: applications/luci-ushare/luasrc/i18n/ushare.en.lua:1
 msgid "Content directories"

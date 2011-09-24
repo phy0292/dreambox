@@ -11,6 +11,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 1.1.0\n"
 
+msgid "hd-idle"
+msgstr "磁盘休眠"
+
 msgid "hd-idle is a utility program for spinning-down external disks after a period of idle time."
 msgstr "使外置硬盘在设定的空闲时间(idle-time)到达后降速(spin down)，从而起到一定的保护和省电作用。"
 
@@ -38,7 +41,7 @@ msgid "h"
 msgstr "小时"
 
 msgid "Enable debug"
-msgstr "启用debug"
+msgstr "启用调试模式"
 
 #~ msgid "hd-idle"
 #~ msgstr "hd-idle"

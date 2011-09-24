@@ -24,7 +24,7 @@ msgid "(empty)"
 msgstr "(空)"
 
 msgid "(no interfaces attached)"
-msgstr "(no interfaces attached)"
+msgstr "(没有已连接的接口)"
 
 msgid "-- Additional Field --"
 msgstr "-- 更多选项 --"
@@ -237,7 +237,7 @@ msgid "Advertised network ID"
 msgstr ""
 
 msgid "Alert"
-msgstr ""
+msgstr "警报"
 
 msgid "Allow <abbr title=\"Secure Shell\">SSH</abbr> password authentication"
 msgstr "允许<abbr title=\"Secure Shell\">SSH</abbr>密码验证"
@@ -261,10 +261,10 @@ msgid "An additional network will be created if you leave this unchecked."
 msgstr "如果你不选则此项则会创建一个新的网络。"
 
 msgid "Antenna 1"
-msgstr "Antenna 1"
+msgstr "天线 1"
 
 msgid "Antenna 2"
-msgstr "Antenna 2"
+msgstr "天线 2"
 
 msgid "Apply"
 msgstr "应用"
@@ -279,7 +279,7 @@ msgid "Authentication"
 msgstr "认证"
 
 msgid "Authentication Realm"
-msgstr "Authentication Realm"
+msgstr "认证区域"
 
 msgid "Authoritative"
 msgstr "全局"
@@ -519,7 +519,7 @@ msgid "DNS forwardings"
 msgstr "DNS转发"
 
 msgid "Debug"
-msgstr "Debug"
+msgstr "调试"
 
 msgid "Default"
 msgstr "默认"
@@ -615,7 +615,7 @@ msgid "Do not send probe responses"
 msgstr "不回应网络扫描"
 
 msgid "Document root"
-msgstr "Document root"
+msgstr "文档根目录"
 
 msgid "Domain required"
 msgstr "域名解析请求"
@@ -732,7 +732,7 @@ msgid "Fast Frames"
 msgstr "Fast Frames"
 
 msgid "File"
-msgstr ""
+msgstr "文件"
 
 msgid "Filename of the boot image advertised to clients"
 msgstr "向客户端广播的启动镜像文件"
@@ -750,7 +750,7 @@ msgid "Filter private"
 msgstr "Filter private"
 
 msgid "Filter useless"
-msgstr "Filter useless"
+msgstr "过滤掉无用的"
 
 msgid "Find and join network"
 msgstr "查找和加入网络"
@@ -777,7 +777,7 @@ msgid "Firmware image"
 msgstr "固件文件"
 
 msgid "Fixed source port for outbound DNS queries"
-msgstr ""
+msgstr "固定DNS查询端口"
 
 msgid "Flags"
 msgstr "标志"
@@ -840,7 +840,7 @@ msgid "HT mode"
 msgstr "HT模式"
 
 msgid "Handler"
-msgstr "Handler"
+msgstr "处理程序"
 
 msgid "Hang Up"
 msgstr "挂起"
@@ -910,7 +910,7 @@ msgid "IPv6 only"
 msgstr "仅IPv6"
 
 msgid "Identity"
-msgstr "Identity"
+msgstr "身份"
 
 msgid "If specified, mount the device by its UUID instead of a fixed device node"
 msgstr "如填写，挂载的时候，使用分区UUID，代替设备节点"
@@ -931,7 +931,7 @@ msgid "Ignore resolve file"
 msgstr "忽略resolve文件"
 
 msgid "In"
-msgstr "In"
+msgstr "入"
 
 msgid "Inbound:"
 msgstr "流入:"
@@ -1024,10 +1024,10 @@ msgid "Kernel Version"
 msgstr "核心版本"
 
 msgid "Key"
-msgstr "Key"
+msgstr "密钥"
 
 msgid "Key #%d"
-msgstr ""
+msgstr "密钥 #%d"
 
 msgid "Kill"
 msgstr "终止"
@@ -1036,7 +1036,7 @@ msgid "LLC"
 msgstr ""
 
 msgid "Label"
-msgstr ""
+msgstr "标签"
 
 msgid "Language"
 msgstr "语言"
@@ -1045,7 +1045,7 @@ msgid "Language and Style"
 msgstr "语言和主题"
 
 msgid "Lead Development"
-msgstr "Lead Development"
+msgstr "项目领导者"
 
 msgid "Lease validity time"
 msgstr "租用有效时间"
@@ -1171,7 +1171,7 @@ msgid "Make sure that you provide the correct pin code here or you might lock yo
 msgstr "如果提供的PIN码错误,你的SIM将可能被锁定"
 
 msgid "Maximum Rate"
-msgstr "Maximum Rate"
+msgstr "最大速度"
 
 msgid "Maximum allowed number of active DHCP leases"
 msgstr "允许同时活跃的最大DHCP租约数"
@@ -1273,7 +1273,7 @@ msgid "Name of the new network"
 msgstr "新网络的名称"
 
 msgid "Navigation"
-msgstr "Navigation"
+msgstr "导航"
 
 msgid "Netmask"
 msgstr "子网掩码"
@@ -1346,7 +1346,7 @@ msgid "Number of failed connection tests to initiate automatic reconnect"
 msgstr "启动自动重连的失败连接次数"
 
 msgid "OK"
-msgstr "OK"
+msgstr "确认"
 
 msgid "OPKG-Configuration"
 msgstr "OPKG-设置"
@@ -1368,7 +1368,7 @@ msgid "One or more required fields have no value!"
 msgstr ""
 
 msgid "Open"
-msgstr ""
+msgstr "打开"
 
 msgid "Option changed"
 msgstr "修改的选项"
@@ -1655,13 +1655,13 @@ msgid "Root"
 msgstr "Root"
 
 msgid "Root directory for files served via TFTP"
-msgstr ""
+msgstr "提供TFTP服务的根目录"
 
 msgid "Router Model"
-msgstr "路由型号"
+msgstr "路由器型号"
 
 msgid "Router Name"
-msgstr "路由名称"
+msgstr "路由器名称"
 
 msgid "Routes"
 msgstr "路由表"
@@ -1856,7 +1856,7 @@ msgid "TFTP Settings"
 msgstr "TFTP设置"
 
 msgid "TFTP server root"
-msgstr ""
+msgstr "TFTP服务根目录"
 
 msgid "TTL"
 msgstr "TTL"
@@ -2045,7 +2045,7 @@ msgid "Use ISO/IEC 3166 alpha2 country codes."
 msgstr "使用ISO/IEC 3166 alpha2国家代码。"
 
 msgid "Use as root filesystem"
-msgstr ""
+msgstr "作为根文件系统使用"
 
 msgid "Use peer DNS"
 msgstr "使用 peer DNS"
@@ -2078,16 +2078,16 @@ msgid "WDS"
 msgstr "WDS"
 
 msgid "WEP Open System"
-msgstr "WEP Open System"
+msgstr "WEP开放系统"
 
 msgid "WEP Shared Key"
-msgstr "WEP Shared Key"
+msgstr "WEP共享密钥"
 
 msgid "WEP passphrase"
 msgstr "WEP 密码"
 
 msgid "WMM Mode"
-msgstr "WMM Mode"
+msgstr "WMM多媒体模式"
 
 msgid "WPA passphrase"
 msgstr "WPA 密码"
@@ -2117,10 +2117,10 @@ msgid "Wireless Adapter"
 msgstr "无线适配器"
 
 msgid "Wireless Network"
-msgstr "Wireless Network"
+msgstr "无线网络"
 
 msgid "Wireless Overview"
-msgstr "Wireless Overview"
+msgstr "无线网络总览"
 
 msgid "Wireless Security"
 msgstr "无线安全"
@@ -2192,7 +2192,7 @@ msgid "no"
 msgstr "否"
 
 msgid "none"
-msgstr "none"
+msgstr "无"
 
 msgid "off"
 msgstr "关闭"
