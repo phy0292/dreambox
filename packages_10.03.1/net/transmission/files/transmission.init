@@ -49,6 +49,12 @@ start_service() {
 	[ "$enabled" == 0 -a "$enable" == 0 ] && return 0
 	config_get config_dir "$s" config_dir '/tmp/transmission'
 	mkdir -p "$config_dir"
+	config_get download_dir "$s" download_dir 
+	[ -n $download_dir ]&&[ -d $download_dir ]|| mkdir -p $download_dir&&chmod 755 $download_dir
+	config_get incomplete_dir "$s" incomplete_dir 
+	[ -n $incomplete_dir ]&&[ -d $incomplete_dir ]|| mkdir -p $incomplete_dir&&chmod 755 $incomplete_dir
+	config_get watch_dir "$s" watch_dir 
+	[ -n $watch_dir ]&&[ -d $watch_dir ]|| mkdir -p $watch_dir&&chmod 755 $watch_dir
 	config_get run_as_usr "$s" run_daemon_as_user 'root'
 
 	echo "{" > $config_dir/settings.json

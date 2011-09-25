@@ -110,7 +110,7 @@ define Package/rp-pppoe-server/install
 	$(INSTALL_DIR) $(1)/etc/default
 	$(INSTALL_BIN) ./files/pppoe-server.default $(1)/etc/default/pppoe-server
 	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) ./files/pppoe-server.init $(1)/etc/init.d/pppoe-server
+	$(INSTALL_BIN) ./files/pppoe-server.init $(1)/etc/init.d/pppoeserver
 	$(INSTALL_DIR) $(1)/etc/ppp
 	$(INSTALL_DIR) $(1)/etc/ppp/plugins
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/ppp/pppoe-server-options $(1)/etc/ppp/

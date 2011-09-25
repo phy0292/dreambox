@@ -12,9 +12,11 @@ nfs_add_share() {
 	config_get name $1 name
 	config_get path $1 path
 	config_get enable $1 enable
-[ -z "$name" -o -z "$path" ] && return
+[ $enable == 1 ]&&{
+[ -z "$path" ] && return
 
 echo -e "\n$path (ro,all_squash,insecure)" >> /etc/exports
+}
 }
 
 start() {
@@ -23,7 +25,7 @@ nfsenable=$(uci get nfsd.@nfsd[0].enable)
 [ $nfsenable = 1 ]&&{ 
   echo "" > /etc/exports
 	config_load nfsd
-	config_foreach nfsd_add_share nfsshare
+	config_foreach nfs_add_share nfsshare
 
   /etc/init.d/portmap restart
 	/usr/sbin/rpc.mountd -r
