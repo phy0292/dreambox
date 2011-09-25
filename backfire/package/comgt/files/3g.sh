@@ -73,6 +73,37 @@ setup_interface_3g() {
 	# figure out hardware specific commands for the card
 	case "$service" in
 		cdma|evdo) chat="/etc/chatscripts/evdo.chat";;
+		tdscdma)
+ 		chat="/etc/chatscripts/tdscdma.chat"
+		cardinfo=$(gcom -d "$device" -s /etc/gcom/getcardinfo.gcom)
+		if echo "$cardinfo" | grep Novatel; then
+			case "$service" in
+				umts_only) CODE=2;;
+				gprs_only) CODE=1;;
+				*) CODE=0;;
+			esac
+			mode="AT\$NWRAT=${CODE},2"
+		elif echo "$cardinfo" | grep Option; then
+			case "$service" in
+				umts_only) CODE=1;;
+				gprs_only) CODE=0;;
+				*) CODE=3;;
+			esac
+			mode="AT_OPSYS=${CODE}"
+		fi
+		# Don't assume Option to be default as it breaks with Huawei Cards/Sticks
+
+		test -z "$pincode" || {
+			PINCODE="$pincode" gcom -d "$device" -s /etc/gcom/setpin.gcom || {
+				echo "$config(3g): Failed to set the PIN code."
+				set_3g_led 0 0 0
+				return 1
+			}
+		}
+		test -z "$mode" || {
+			MODE="$mode" gcom -d "$device" -s /etc/gcom/setmode.gcom
+		}
+		;;
 	*)
 		cardinfo=$(gcom -d "$device" -s /etc/gcom/getcardinfo.gcom)
 		if echo "$cardinfo" | grep Novatel; then

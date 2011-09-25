@@ -48,6 +48,7 @@ define Package/comgt/install
 	$(INSTALL_DIR) $(1)/etc/chatscripts
 	$(INSTALL_DATA) ./files/3g.chat $(1)/etc/chatscripts/3g.chat
 	$(INSTALL_DATA) ./files/evdo.chat $(1)/etc/chatscripts/evdo.chat
+	$(INSTALL_DATA) ./files/tdscdma.chat $(1)/etc/chatscripts/tdscdma.chat
 	$(INSTALL_DIR) $(1)/lib/network
 	$(INSTALL_BIN) ./files/3g.sh $(1)/lib/network/3g.sh
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/button
