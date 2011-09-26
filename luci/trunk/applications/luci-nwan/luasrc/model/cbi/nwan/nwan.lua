@@ -166,6 +166,7 @@ wanrule:value("wan", translate("wan"))
 wanrule.optional = false
 wanrule.rmempty = true
 wanrule.default = "wan"
-local lucierror = luci.sys.lucierror()
+
+
 return m
 

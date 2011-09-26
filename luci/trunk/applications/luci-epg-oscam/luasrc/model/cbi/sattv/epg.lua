@@ -46,8 +46,5 @@ url.optional = false
 url.rmempty = false
 
 
-
-local lucierror = luci.sys.lucierror()
-
 return m
 

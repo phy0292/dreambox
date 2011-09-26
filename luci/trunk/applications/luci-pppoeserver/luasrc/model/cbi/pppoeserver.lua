@@ -72,6 +72,5 @@ IPADDRESS = s:option(Value, "IPADDRESS", translate("IPADDRESS"),translate("IPADD
 IPADDRESS.default = "*"
 IPADDRESS.rmempty = true
 
-local lucierror = luci.sys.lucierror()
 
 return m

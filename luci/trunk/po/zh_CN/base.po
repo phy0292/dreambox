@@ -2927,5 +2927,11 @@ msgstr "EPG电子节目表"
 msgid "sattv"
 msgstr "卫星电视"
 
+msgid "hd-idle"  
+msgstr "磁盘休眠" 
+
+msgid "ushare"
+msgstr "UPnP/AV媒体" 
+
 
 #title 

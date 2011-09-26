@@ -70,7 +70,6 @@ ttl_inc:value (2, 2)
 ttl_inc:value (3, 3)
 ttl_inc:depends("ttl_enable", "1")
 
-local lucierror = luci.sys.lucierror()
 
 return m
 

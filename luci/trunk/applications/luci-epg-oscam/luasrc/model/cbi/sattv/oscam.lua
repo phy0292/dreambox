@@ -183,7 +183,6 @@ translate("pwd_desc","pwd_desc"))
 pwd.optional = false
 pwd.rmempty = false
 
-local lucierror = luci.sys.lucierror()
 
 return m
 
