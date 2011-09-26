@@ -105,7 +105,5 @@ max_opened_connections_2 = s:option(Value, "max_opened_connections_2", translate
 max_opened_connections_2.optional = false
 max_opened_connections_2.rmempty = false
 
-local lucierror = luci.sys.lucierror()
-
 return m
 
