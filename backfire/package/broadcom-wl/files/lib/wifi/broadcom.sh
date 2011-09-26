@@ -373,15 +373,15 @@ detect_broadcom() {
 config wifi-device  wl${i}
 	option type     broadcom
 	option channel  11
-
+  	
 	# REMOVE THIS LINE TO ENABLE WIFI:
-	option disabled 1
+	option disabled 0
 
 config wifi-iface
 	option device   wl${i}
 	option network	lan
 	option mode     ap
-	option ssid     OpenWrt${i#0}
+	option ssid     DreamBox${i#0}_$(cat /sys/class/net/wl${i}/address|awk -F ":" '{print $4""$5""$6 }'| tr a-z A-Z)
 	option encryption none
 
 EOF
