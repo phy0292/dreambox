@@ -375,7 +375,7 @@ config wifi-device  wl${i}
 	option channel  11
   	
 	# REMOVE THIS LINE TO ENABLE WIFI:
-	option disabled 0
+	# option disabled 0
 
 config wifi-iface
 	option device   wl${i}
