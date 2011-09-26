@@ -171,7 +171,7 @@ function ifname_single.write(self, s, val)
 		local new_ifs = { }
 		local old_ifs = { }
 
-		for _, i in ipairs(n:get_interfaces()) do
+		for _, i in ipairs(n:get_interfaces() or { n:get_interface() }) do
 			old_ifs[#old_ifs+1] = i:name()
 		end
 

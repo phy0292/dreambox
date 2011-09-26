@@ -10,7 +10,7 @@ You may obtain a copy of the License at
 
 	http://www.apache.org/licenses/LICENSE-2.0
 
-$Id: network.lua 7506 2011-09-22 02:49:03Z jow $
+$Id$
 ]]--
 
 module("luci.controller.admin.network", package.seeall)
@@ -48,16 +48,22 @@ function index()
 		page.leaf = true
 		page.subindex = true
 
-		page = entry({"admin", "network", "wireless_join"}, call("wifi_join"), nil, 16)
+		page = entry({"admin", "network", "wireless_join"}, call("wifi_join"), nil)
 		page.leaf = true
 
-		page = entry({"admin", "network", "wireless_add"}, call("wifi_add"), nil, 16)
+		page = entry({"admin", "network", "wireless_add"}, call("wifi_add"), nil)
 		page.leaf = true
 
-		page = entry({"admin", "network", "wireless_delete"}, call("wifi_delete"), nil, 16)
+		page = entry({"admin", "network", "wireless_delete"}, call("wifi_delete"), nil)
 		page.leaf = true
 
-		page = entry({"admin", "network", "wireless_status"}, call("wifi_status"), nil, 16)
+		page = entry({"admin", "network", "wireless_status"}, call("wifi_status"), nil)
+		page.leaf = true
+
+		page = entry({"admin", "network", "wireless_reconnect"}, call("wifi_reconnect"), nil)
+		page.leaf = true
+
+		page = entry({"admin", "network", "wireless_shutdown"}, call("wifi_reconnect"), nil)
 		page.leaf = true
 
 		local wdev
@@ -207,55 +213,62 @@ function iface_status()
 	local iface
 	for iface in path[#path]:gmatch("[%w%.%-_]+") do
 		local net = netm:get_network(iface)
-		if net then
-			local info
+		local device = net and net:get_interface()
+		if device then
+			local device = net:get_interface()
+			local data   = {
+				id         = iface,
+				proto      = net:proto(),
+				uptime     = net:uptime(),
+				gwaddr     = net:gwaddr(),
+				dnsaddrs   = net:dnsaddrs(),
+				name       = device:shortname(),
+				type       = device:type(),
+				ifname     = device:name(),
+				macaddr    = device:mac(),
+				is_up      = device:is_up(),
+				rx_bytes   = device:rx_bytes(),
+				tx_bytes   = device:tx_bytes(),
+				rx_packets = device:rx_packets(),
+				tx_packets = device:tx_packets(),
 
-			local dev  = net:ifname()
-			local ix = net:device()
-			local iface_mac = nixio.fs.readfile("/sys/class/net/" .. dev .. "/address 2>/dev/null")
-		if not iface_mac then
-			iface_mac = luci.util.exec("ifconfig " .. ix .." 2>/dev/null")
-			iface_mac = iface_mac and iface_mac:match(" ([A-F0-9:]+)%s*\n")
-		end
-			local data = {
-				id       = iface,
-				proto    = net:proto(),
-				uptime   = net:uptime(),
-				gwaddr   = net:gwaddr(),
-				dnsaddrs = net:dnsaddrs()
+				ipaddrs    = { },
+				ip6addrs   = { },
+				subdevices = { }
 			}
-data.macaddr = iface_mac
-			for _, info in ipairs(nixio.getifaddrs()) do
-				local name = info.name:match("[^:]+")
-				if name == dev then
-					if info.family == "packet" then
-						data.flags   = info.flags
-						data.stats   = info.data
-						--data.macaddr = info.addr
-						data.ifname  = name
-					elseif info.family == "inet" then
-						data.ipaddrs = data.ipaddrs or { }
-						data.ipaddrs[#data.ipaddrs+1] = {
-							addr      = info.addr,
-							broadaddr = info.broadaddr,
-							dstaddr   = info.dstaddr,
-							netmask   = info.netmask,
-							prefix    = info.prefix
-						}
-					elseif info.family == "inet6" then
-						data.ip6addrs = data.ip6addrs or { }
-						data.ip6addrs[#data.ip6addrs+1] = {
-							addr    = info.addr,
-							netmask = info.netmask,
-							prefix  = info.prefix
-						}
-					end
-				end
+
+			local _, a
+			for _, a in ipairs(device:ipaddrs()) do
+				data.ipaddrs[#data.ipaddrs+1] = {
+					addr      = a:host():string(),
+					netmask   = a:mask():string(),
+					prefix    = a:prefix()
+				}
+			end
+			for _, a in ipairs(device:ip6addrs()) do
+				data.ip6addrs[#data.ip6addrs+1] = {
+					addr      = a:host():string(),
+					netmask   = a:mask():string(),
+					prefix    = a:prefix()
+				}
 			end
 
-			if next(data) then
-				rv[#rv+1] = data
+			for _, device in ipairs(net:get_interfaces() or {}) do
+				data.subdevices[#data.subdevices+1] = {
+					name       = device:shortname(),
+					type       = device:type(),
+					ifname     = device:name(),
+					macaddr    = device:mac(),
+					macaddr    = device:mac(),
+					is_up      = device:is_up(),
+					rx_bytes   = device:rx_bytes(),
+					tx_bytes   = device:tx_bytes(),
+					rx_packets = device:rx_packets(),
+					tx_packets = device:tx_packets(),
+				}
 			end
+
+			rv[#rv+1] = data
 		end
 	end
 
@@ -275,23 +288,6 @@ function iface_reconnect()
 
 	local net = netmd:get_network(iface)
 	if net then
-		local ifn
-		for _, ifn in ipairs(net:get_interfaces()) do
-			local wnet = ifn:get_wifinet()
-			if wnet then
-				local wdev = wnet:get_device()
-				if wdev then
-					luci.sys.call(
-						"env -i /sbin/wifi up %q >/dev/null 2>/dev/null"
-							% wdev:name()
-					)
-
-					luci.http.status(200, "Reconnected")
-					return
-				end
-			end
-		end
-
 		luci.sys.call("env -i /sbin/ifup %q >/dev/null 2>/dev/null" % iface)
 		luci.http.status(200, "Reconnected")
 		return
