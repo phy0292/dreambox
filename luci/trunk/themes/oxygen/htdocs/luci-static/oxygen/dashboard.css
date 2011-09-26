@@ -25,6 +25,14 @@ div.di_wireless a {
 	background-image: url(icons/wireless.png);
 }
 
+div.di_vlan a {
+	background-image: url(icons/vlan.png);
+}
+
+div.di_guide a {
+	background-image: url(icons/guide.png);
+}
+
 div.di_luci a {
 	background-image: url(icons/desktop.png);
 }
