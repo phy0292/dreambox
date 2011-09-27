@@ -236,12 +236,12 @@ static struct platform_device wzrhpg300nh_rtl8366rb_device = {
 static void __init wzrhpg300nh_setup(void)
 {
 	u8 *eeprom = (u8 *) KSEG1ADDR(0x1fff1000);
-	bool hasrtl8366rb = false;
+	bool hasrtl8366rb = true;
 
 	ar71xx_set_mac_base(eeprom + WZRHPG300NH_MAC_OFFSET);
 
-	if (rtl8366_smi_detect(&wzrhpg300nh_rtl8366_data) == RTL8366_TYPE_RB)
-		hasrtl8366rb = true;
+	if (rtl8366_smi_detect(&wzrhpg300nh_rtl8366_data) != RTL8366_TYPE_RB)
+		hasrtl8366rb = false;
 
 	if (hasrtl8366rb) {
 		ar71xx_eth0_pll_data.pll_1000 = 0x1f000000;
@@ -270,8 +270,12 @@ static void __init wzrhpg300nh_setup(void)
 
 	platform_device_register(&wzrhpg300nh_74hc153_device);
 	platform_device_register(&wzrhpg300nh_flash_device);
-	platform_device_register(&wzrhpg300nh_rtl8366s_device);
 
+	if (hasrtl8366rb) 
+	platform_device_register(&wzrhpg300nh_rtl8366rb_device);
+	else
+	platform_device_register(&wzrhpg300nh_rtl8366s_device);
+	
 	ar71xx_add_device_leds_gpio(-1, ARRAY_SIZE(wzrhpg300nh_leds_gpio),
 				    wzrhpg300nh_leds_gpio);
 
