@@ -21,6 +21,7 @@ endef
 define Package/block-mount
   $(call Package/block-mount/Default)
   TITLE:=Block device mounting and checking
+  DEPENDS:= +blkid +swap-utils +libext2fs +e2fsprogs +ntfs-3g +fdisk +uuidgen +tune2fs +smartmontools
 endef
 
 define Package/block-mount/description

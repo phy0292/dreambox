@@ -43,7 +43,18 @@ config_mount_by_section() {
 				}
 				config_create_mount_fstab_entry "$found_device" "$target" "$fstype" "$options" "$enabled" 
 				grep -q "$found_device" /proc/swaps || grep -q "$found_device" /proc/mounts || {
-					[ "$enabled" -eq 1 ] && mkdir -p "$target" && mount "$target" 2>&1 | tee /proc/self/fd/2 | logger -t 'fstab'
+
+					[ "$enabled" -eq 1 ] && mkdir -p "$target" && {
+				if [ $fstype = ntfs ];then
+				   ntfs-3g -o nls=utf8 $found_device $target 2>&1 | tee /proc/self/fd/2 | logger -t 'fstab'
+				  elif [ $fstype = vfat ];then
+				     mount -t vfat -o codepage=936,iocharset=cp936 $found_device $target 2>&1 | tee /proc/self/fd/2 | logger -t 'fstab'
+					else
+					 mount $found_device $target 2>&1 | tee /proc/self/fd/2 | logger -t 'fstab'
+					fi
+				}
+			
+ 		# [ "$enabled" -eq 1 ] && mkdir -p "$target" && mount "$target" 2>&1 | tee /proc/self/fd/2 | logger -t 'fstab'
 				}
 				
 			fi
