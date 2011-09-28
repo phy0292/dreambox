@@ -117,9 +117,16 @@ msgstr "起始ip地址"
 msgid "limitp_ipe"
 msgstr "结束ip地址"
 
+# ipid
+
+msgid "ipid title desc"
+msgstr "IPID伪装和TTL修改，据说能有效对付，网络煎饼，具体效果，是各地情况而定"
+
+msgid "ipid title"
+msgstr "IPID"
 
 msgid "IPID TTL set desc"
-msgstr "IPID伪装和TTL修改，据说能有效对付，网络煎饼，具体效果，是各地情况而定"
+msgstr "IPID和TTL修改"
 
 msgid "IPID enable"
 msgstr "开启IPID伪装"

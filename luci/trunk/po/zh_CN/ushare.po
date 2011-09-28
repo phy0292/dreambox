@@ -4,16 +4,11 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-19 19:36+0200\n"
 "PO-Revision-Date: 2011-04-15 02:37-0800\n"
-"Last-Translator: gzanan <axishero@foxmail.com>\n"
-"Language-Team: QQ Group 75543259\n"
 "Language: Zh-cn \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.1.1\n"
-
-msgid "ushare"
-msgstr "UPnP/AV媒体"
 
 #. Content directories
 #: applications/luci-ushare/luasrc/i18n/ushare.en.lua:1
@@ -44,3 +39,6 @@ msgstr "服务器名"
 #: applications/luci-ushare/luasrc/i18n/ushare.en.lua:6
 msgid "Settings"
 msgstr "设置"
+
+msgid "ushare_desc"
+msgstr "uShare是一个基于 UPnP\(TM\)A\/V 和 DLNA协议能提供图片、音乐、视频分享的流媒体服务器，支持格式全面并且免费，访问设备可以是PC、网络电视、高清播放器\(支持upnp\)，PC客户端播放软件建议使用 Geexbox 或 XBMC媒体中心"
