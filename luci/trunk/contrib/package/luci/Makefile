@@ -2,6 +2,8 @@ include $(TOPDIR)/rules.mk
 
 PKG_BRANCH:=trunk
 
+IMAGE_TEST_VERSION:=$(shell date +%m%d)
+
 ifeq ($(DUMP),)
   USELOCAL:=$(shell grep luci ../../../.project 2>/dev/null >/dev/null && echo 1)
 endif
@@ -604,16 +606,22 @@ PKG_CONFIG_DEPENDS=$(patsubst %,CONFIG_PACKAGE_%,$(LUCI_BUILD_PACKAGES))
 
 include $(INCLUDE_DIR)/package.mk
 
-ifeq ($(USELOCAL),1)
-  define Build/Prepare
-	mkdir -p $(PKG_BUILD_DIR)
-	$(TAR) c -C ../../../ . \
-		--exclude=.pc --exclude=.svn --exclude=.git \
-		--exclude='boa-0*' --exclude='*.o' --exclude='*.so' \
-		--exclude=dist | \
-			tar x -C $(PKG_BUILD_DIR)/
-  endef
-endif
+#ifeq ($(USELOCAL),1)
+#  define Build/Prepare
+#	mkdir -p $(PKG_BUILD_DIR)
+#	$(TAR) c -C ../../../ . \
+#		--exclude=.pc --exclude=.svn --exclude=.git \
+#		--exclude='boa-0*' --exclude='*.o' --exclude='*.so' \
+#		--exclude=dist | \
+#			tar x -C $(PKG_BUILD_DIR)/
+#  endef
+#endif
+
+define Build/Prepare
+	$(call Build/Prepare/Default)
+	$(SED) 's/distversion)%>/distversion)%>${IMAGE_TEST_VERSION}/g' $(PKG_BUILD_DIR)/modules/admin-full/luasrc/view/admin_status/index.htm
+	$(SED) 's/distversion%>/distversion%>${IMAGE_TEST_VERSION}/g' $(PKG_BUILD_DIR)/themes/oxygen/luasrc/view/themes/oxygen/header.htm
+endef
 
 define Build/Configure
 endef
