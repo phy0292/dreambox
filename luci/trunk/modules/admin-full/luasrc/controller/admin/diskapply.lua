@@ -40,6 +40,10 @@ function index()
 		entry({"admin", "diskapply", "vsftpd"}, cbi("diskapply/vsftpd"), _("vsftpd"), 30).i18n = "diskapply"
 	end
 
+	if nixio.fs.access("/etc/config/nfsd") then
+		entry({"admin", "diskapply", "nfsd"}, cbi("diskapply/nfsd"), _("nfsd"), 40).i18n = "diskapply"
+	end
+
 end
 
 function action_diskinfo()

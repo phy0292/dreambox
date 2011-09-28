@@ -4,5 +4,6 @@ config 'nfsd'
 
 config 'nfsshare'
 	option 'enable' '1'
-	option 'patch' '/mnt/sda1'
+	option 'path' '/mnt/sda1'
+	option 'name' 'sda1'
 

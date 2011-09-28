@@ -44,12 +44,13 @@ s:tab("language", translate("Language and Style"))
 -- System Properties
 --
 
-local system, model, memtotal, memcached, membuffers, memfree = luci.sys.sysinfo()
+local system, model, memtotal, memcached, membuffers, memfree, bogomips, cpuclock, flashsize  = luci.sys.sysinfo()
 local uptime = luci.sys.uptime()
 
 s:taboption("general", DummyValue, "_system", translate("System")).value = system
 s:taboption("general", DummyValue, "_cpu", translate("Processor")).value = model
-
+s:taboption("general", DummyValue, "_cpuclock", translate("CPU Clock")).value = string.format("%.f MHZ",(tonumber(cpuclock)))
+s:taboption("general", DummyValue, "_flashsize", translate("Flash Size")).value = string.format("%.f MB",(tonumber(flashsize)/1024))
 s:taboption("general", DummyValue, "_kernel", translate("Kernel")).value =
  luci.util.exec("uname -r") or "?"
 

@@ -33,6 +33,10 @@ div.di_guide a {
 	background-image: url(icons/guide.png);
 }
 
+div.di_nfsd a {
+	background-image: url(icons/nfsd.png);
+}
+
 div.di_luci a {
 	background-image: url(icons/desktop.png);
 }
