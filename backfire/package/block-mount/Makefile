@@ -54,11 +54,13 @@ define Package/block-mount/install
 	$(INSTALL_DATA) ./files/mount.sh $(1)/lib/functions/
 	$(INSTALL_DATA) ./files/fsck.sh $(1)/lib/functions/
 	$(INSTALL_DATA) ./files/block.sh $(1)/lib/functions/
+	$(INSTALL_DIR) 	$(1)/usr/bin
+	$(INSTALL_BIN) ./files/disk_info $(1)/usr/bin/disk_info
 endef
 
 define Package/block-hotplug/install
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/block
-	$(INSTALL_DATA) ./files/10-swap $(1)/etc/hotplug.d/block/
+	#$(INSTALL_DATA) ./files/10-swap $(1)/etc/hotplug.d/block/
 	$(INSTALL_DATA) ./files/20-fsck $(1)/etc/hotplug.d/block/
 	$(INSTALL_DATA) ./files/40-mount $(1)/etc/hotplug.d/block/
 endef
