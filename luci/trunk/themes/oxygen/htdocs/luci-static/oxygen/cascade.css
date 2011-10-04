@@ -150,6 +150,19 @@ html .savemenu a:visited {
 }
 
 
+#xhr_poll_status {  
+    cursor: pointer;  
+ }  
+
+#xhr_poll_status #xhr_poll_status_off {  
+  font-weight: bold;  
+   color: #FF0000;  
+ }  
+  
+#xhr_poll_status #xhr_poll_status_on {  
+    font-weight: bold;  
+    color: #00FF00;  
+ }  
 
 .menubar {
 	background: #000000;
@@ -800,6 +813,4 @@ div.cbi-tab-descr {
 }
 
 }
-
-
 

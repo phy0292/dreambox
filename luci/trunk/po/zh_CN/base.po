@@ -287,6 +287,9 @@ msgstr "需要认证"
 msgid "Automatic Disconnect"
 msgstr "自动断开"
 
+msgid "Auto Refresh"
+msgstr "自动刷新"
+
 msgid "Available"
 msgstr "可用"
 
@@ -569,6 +572,9 @@ msgstr "网络诊断"
 msgid "Directory"
 msgstr "目录"
 
+msgid "Disable"
+msgstr "禁用"
+
 msgid "Disable <abbr title=\"Dynamic Host Configuration Protocol\">DHCP</abbr> for this interface."
 msgstr "在本接口上禁用DHCP"
 
@@ -651,7 +657,10 @@ msgid "Edit this network"
 msgstr "修改这个网络"
 
 msgid "Emergency"
-msgstr ""
+msgstr "紧急"
+
+msgid "Enable"
+msgstr "开启"
 
 msgid "Enable 4K VLANs"
 msgstr "允许 4K VLANs"
@@ -1550,10 +1559,15 @@ msgstr "真的要删除这个网络？如果你使用此网络管理路由，你
 
 msgid ""
 "Really shutdown interface \"%s\" ?\n"
-"You might loose access to this router if you are connected via this interface."
+"You might lose access to this router if you are connected via this interface."
+msgstr "真的要关闭此接口？如果正由此接口管理路由，可能导致无法再管理路由器！"
+
+msgid ""
+"Really shutdown network ?\n"
+"You might lose access to this router if you are connected via this interface."
 msgstr ""
-"确定关闭此接口 \"%s\" ?\n"
-"如果你现在是通过此接口访问,关闭此接口将可能让你无法再访问此路由!"
+ "真的要关闭此接口？"
+ "如果正由此接口管理路由，可能导致无法再管理路由器！"
 
 msgid "Realtime Connections"
 msgstr "实时连接"
@@ -1741,6 +1755,9 @@ msgstr "设置等待时间"
 msgid "Shutdown this interface"
 msgstr "关闭这个接口"
 
+msgid "Shutdown this network"
+msgstr "关闭这个网络"
+
 msgid "Signal"
 msgstr "信号"
 
@@ -1909,8 +1926,18 @@ msgstr "下面是系统中活跃的规则。"
 msgid "The hardware is not multi-SSID capable and existing configuration will be replaced if you proceed."
 msgstr "硬件不支持多SSID,如果继续,现有的配置文件将被修改"
 
-msgid "The network ports on your router can be combined to several <abbr title=\"Virtual Local Area Network\">VLAN</abbr>s in which computers can communicate directly with each other. <abbr title=\"Virtual Local Area Network\">VLAN</abbr>s are often used to separate different network segments. Often there is by default one Uplink port for a connection to the next greater network like the internet and other ports for a local network."
-msgstr "The network ports on your router can be combined to several <abbr title=\"Virtual Local Area Network\">VLAN</abbr>s in which computers can communicate directly with each other. <abbr title=\"Virtual Local Area Network\">VLAN</abbr>s are often used to separate different network segments. Often there is by default one Uplink port for a connection to the next greater network like the internet and other ports for a local network."
+msgid ""
+"The network ports on your router can be combined to several <abbr title="
+"\"Virtual Local Area Network\">VLAN</abbr>s in which computers can "
+"communicate directly with each other. <abbr title=\"Virtual Local Area "
+"Network\">VLAN</abbr>s are often used to separate different network "
+"segments. Often there is by default one Uplink port for a connection to the "
+"next greater network like the internet and other ports for a local network."
+msgstr ""
+"本设备可以划分为多个<abbr title=\"Virtual Local Area Network\">VLAN</abbr>，"
+"并支持电脑间的直接通讯；<abbr title=\"Virtual Local Area Network\">VLAN</"
+"abbr>也常用于分割不同网段；默认通常是一条上传端口连接ISP，其余端口为本地子"
+"网。"
 
 msgid "The realm which will be displayed at the authentication prompt for protected pages."
 msgstr "The realm which will be displayed at the authentication prompt for protected pages."
@@ -2122,6 +2149,21 @@ msgstr "无线网络总览"
 msgid "Wireless Security"
 msgstr "无线安全"
 
+msgid "Wireless is restarting..."
+msgstr "无线重启中..."
+
+msgid "Wireless network is disabled"
+msgstr "无线网络是关闭的"
+
+msgid "Wireless network is enabled"
+msgstr "无线网络是开启的"
+
+msgid "Wireless restarted"
+msgstr "重启无线"
+
+msgid "Wireless shut down"
+msgstr "关闭无线"
+
 msgid "Wireless is disabled or not associated"
 msgstr "未开启无线或未安装无线"
 
@@ -2129,7 +2171,7 @@ msgid "Write received DNS requests to syslog"
 msgstr "将DNS请求写入系统日志"
 
 msgid "XR Support"
-msgstr "XR Support"
+msgstr "XR 支持"
 
 msgid "You can specify multiple DNS servers here, press enter to add a new entry. Servers entered here will override automatically assigned ones."
 msgstr "你可以指定多个DNS 服务器,按回车来增加新DNS服务器,增加的DNS服务器会自动覆盖之前的DNS服务器"
@@ -2193,6 +2235,9 @@ msgstr "无"
 
 msgid "off"
 msgstr "关闭"
+
+msgid "on"
+msgstr "打开"
 
 msgid "routed"
 msgstr "已路由"
