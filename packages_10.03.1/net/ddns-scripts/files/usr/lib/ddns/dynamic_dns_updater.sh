@@ -1,323 +1,142 @@
 #!/bin/sh
 # /usr/lib/dynamic_dns/dynamic_dns_updater.sh
 #
-# Written by Eric Paul Bishop, Janary 2008
-# Distributed under the terms of the GNU General Public License (GPL) version 2.0
+# Written by zjhzzyf, 20110303
 #
-# This script is (loosely) based on the one posted by exobyte in the forums here:
-# http://forum.openwrt.org/viewtopic.php?id=14040
+# http://www.openwrt.org.cn/
 #
 
-. /usr/lib/ddns/dynamic_dns_functions.sh
+
+. /etc/functions.sh
 
 
-service_id=$1
-if [ -z "$service_id" ]
-then
-	echo "ERRROR: You must specify a service id (the section name in the /etc/config/ddns file) to initialize dynamic DNS."
-	return 1
-fi
+INTERFACE=${INTERFACE}
 
-#default mode is verbose_mode, but easily turned off with second parameter
-verbose_mode="1"
-if [ -n "$2" ]
-then
-	verbose_mode="$2"
-fi
+update_ipaddress(){
 
-###############################################################
-# Leave this comment here, to clearly document variable names
-# that are expected/possible
-#
-# Now use load_all_config_options to load config
-# options, which is a much more flexible solution.
-#
-#
-#config_load "ddns"
-#
-#config_get enabled $service_id enabled
-#config_get service_name $service_id service_name
-#config_get update_url $service_id update_url
-#
-#
-#config_get username $service_id username
-#config_get password $service_id password
-#config_get domain $service_id domain
-#
-#
-#config_get use_https $service_id use_https
-#config_get cacert $service_id cacert
-#
-#config_get ip_source $service_id ip_source
-#config_get ip_interface $service_id ip_interface
-#config_get ip_network $service_id ip_network
-#config_get ip_url $service_id ip_url
-#
-#config_get force_interval $service_id force_interval
-#config_get force_unit $service_id force_unit
-#
-#config_get check_interval $service_id check_interval
-#config_get check_unit $service_id check_unit
-#########################################################
-load_all_config_options "ddns" "$service_id"
+  [ -n "$service_name" ]&&update_url=$(cat /usr/lib/ddns/services |grep $service_name|awk -F " " '{print $2}')
+# neiwang
+    [ "$neiwang" == "1" ]&& {
+        if [ -n "$ip_network" ]; then
+        num=`echo $ip_network | tr -d "wan"`
+        if [ -z $num ] ; then num=0; fi  
+        wanrule=$((($num+1)*10)) 
+        fi
+   local ddnsipd=$(cat /tmp/ddnsipd)
+   [ -n "$ddnsipd" ]&& eval $ddnsipd
+        iptables -t mangle -A ASSIGNOUT -d www.3322.org -j MARK --set-mark $wanrule
+        iptables -t mangle -A ASSIGNOUT -d  checkip.dyndns.org -j MARK --set-mark $wanrule
+#http://www.3322.org/dyndns/getip
+   echo  "iptables -t mangle -D ASSIGNOUT -d www.3322.org -j MARK --set-mark $wanrule" >/tmp/ddnsipd
+  echo  "iptables -t mangle -D ASSIGNOUT -d checkip.dyndns.org -j MARK --set-mark $wanrule" >/tmp/ddnsipd
+ 
+[ $(echo $service_name |grep -v 3322 ) ]||ipaddr=$( echo `wget -q -O- http://www.3322.org/dyndns/getip`|grep -o "$ip_regex")
+[ $(echo $service_name |grep -v dyndns ) ]|| ipaddr=$(echo `wget -q -O- http://checkip.dyndns.org/`|grep -o "$ip_regex")
+  }
 
 
-#some defaults
-if [ -z "$check_interval" ]
-then
-	check_interval=600
-fi
+ #change username
+ 
+ update_url=$(echo $update_url | sed s/"\[USERNAME\]"/"$username"/g)
+  #change password
+ update_url=$(echo $update_url | sed s/"\[PASSWORD\]"/"$password"/g)
+  #change domain
+ update_url=$(echo $update_url | sed s/"\[DOMAIN\]"/"$domain"/g)
+  #change ipaddr
+  update_url=$(echo $update_url | sed s/"\[IP\]"/"$ipaddr"/g)  
+  #delete ""
+  update_url=$(echo $update_url | sed s/"\""/""/g)  
+  #update  ipaddr 
+  echo "wget -q -O- $update_url" 
+    
+  wget -t 2 -T 10 -q -O- $update_url 
+  nowtime=`date +%c`
+#echo `wget -q -O- http://checkip.dyndns.org/`|grep -o "$ip_regex"
 
-if [ -z "$check_unit" ]
-then
-	check_unit="seconds"
-fi
-
-
-if [ -z "$force_interval" ]
-then
-	force_interval=72
-fi
-
-if [ -z "$force_unit" ]
-then
-	force_unit="hours"
-fi
-
-if [ -z "$use_https" ]
-then
-	use_https=0
-fi
+ uci set ddns.$section.uptime="$nowtime"
+ uci set ddns.$section.ipaddr="$ipaddr"
+ uci commit ddns
+  
+	}
 
 
-
-#some constants
-
-if [ "x$use_https" = "x1" ]
-then
-	retrieve_prog="/usr/bin/curl "
-	if [ -f "$cacert" ]
-	then
-		retrieve_prog="${retrieve_prog}--cacert $cacert "
-	elif [ -d "$cacert" ]
-	then
-		retrieve_prog="${retrieve_prog}--capath $cacert "
-	fi
-else
-	retrieve_prog="/usr/bin/wget -O - ";
-fi
-
-service_file="/usr/lib/ddns/services"
-
-ip_regex="[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}"
-
-NEWLINE_IFS='
-'
-
-
-#determine what update url we're using if the service_name is supplied
-if [ -n "$service_name" ]
-then
-	#remove any lines not containing data, and then make sure fields are enclosed in double quotes
-	quoted_services=$(cat $service_file |  grep "^[\t ]*[^#]" |  awk ' gsub("\x27", "\"") { if ($1~/^[^\"]*$/) $1="\""$1"\"" }; { if ( $NF~/^[^\"]*$/) $NF="\""$NF"\""  }; { print $0 }' )
-
-
-	#echo "quoted_services = $quoted_services"
-	OLD_IFS=$IFS
-	IFS=$NEWLINE_IFS
-	for service_line in $quoted_services
-	do
-		#grep out proper parts of data and use echo to remove quotes
-		next_name=$(echo $service_line | grep -o "^[\t ]*\"[^\"]*\"" | xargs -r -n1 echo)
-		next_url=$(echo $service_line | grep -o "\"[^\"]*\"[\t ]*$" | xargs -r -n1 echo)
-
-		if [ "$next_name" = "$service_name" ]
-		then
-			update_url=$next_url
+ddns_goble_get(){
+	 config_get enabled $1 enabled
+	 config_get check_interval $1 check_interval
+	# echo "1=$enabled 2=$check_interval" 
+ [ -f /etc/crontabs/root ]|| touch /etc/crontabs/root 
+ [ -f /tmp/tmp_crontab ]|| touch /tmp/tmp_crontab	 
+if  [ "$enabled" == "1" -a "$check_interval" != "0" ]; then 
+ [ -z "$(cat /etc/crontabs/root| grep ddns_scheduler)" ]&&echo "*/${check_interval} * * * * /usr/lib/ddns/dynamic_dns_updater.sh scheduler  #ddns_scheduler#" >> /etc/crontabs/root
+ [ -z "$(cat /tmp/tmp_crontab  | grep ddns_scheduler)" ]&&echo "*/${check_interval} * * * * /usr/lib/ddns/dynamic_dns_updater.sh scheduler  #ddns_scheduler#" >> /tmp/tmp_crontab
+			[ $(ps | grep crond | grep -v grep | wc -l ) == 0 ] && /etc/init.d/cron restart
+		else 
+		[ -n "$(cat /tmp/tmp_crontab| grep  ddns_scheduler)" ]&& sed -i -e '/ddns_scheduler/d' /tmp/tmp_crontab
+    [ -n "$(cat /etc/crontabs/root| grep  ddns_scheduler)" ]&& sed -i -e '/ddns_scheduler/d' /etc/crontabs/root
 		fi
-	done
-	IFS=$OLD_IFS
-fi
 
-if [ "x$use_https" = x1 ]
-then
-	update_url=$(echo $update_url | sed -e 's/^http:/https:/')
-fi
+}
+	 
 
+ddns_service_get(){
+	
+ unset ipaddr	 
+ unset update_url
+ config_get enabled $1 enabled
+ config_get neiwang $1 neiwang
+ config_get service_name $1 service_name
+ config_get domain $1 domain
+ config_get username $1 username
+ config_get password $1 password
+ config_get ip_network $1 ip_network
+ config_get update_url $1 update_url
+ config_get uptime $1 uptime
+ section=$1
+	ip_regex="[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}" 
+echo line 97
+ [ "$enabled" == "1" ]&&{
+	ipaddr=$(uci -P /var/state get network.${ip_network}.ipaddr)
+	old_ipaddr=$(ping -c 1 $domain|head -1 | grep -o "$ip_regex")
 
-verbose_echo "update_url=$update_url"
+ [ -z "$ipaddr" ]&&exit 0
+#  echo "enabled=$enabled old_ipaddr=$old_ipaddr ipaddr=$ipaddr"
 
+ #ifup update ip
+if [ "$isifup" == "1" -a "$ip_network" = "$INTERFACE" ];then
+ update_ipaddress
+fi 
 
+ # scheduler update ip
+ if [ "$ipaddr" != "$old_ipaddr" ];then
+update_ipaddress
+ fi
+ }
+ 
+}
 
-#if this service isn't enabled then quit
-if [ "$enabled" != "1" ] 
-then
-	return 0
-fi
+ config_load ddns
+ config_foreach oscam_conf conf
 
-
-
-
-
-#compute update interval in seconds
-case "$force_unit" in
-	"days" )
-		force_interval_seconds=$(($force_interval*60*60*24))
+case "$1" in
+	start )
+		 config_foreach ddns_goble_get goble
+		 config_foreach ddns_service_get service
 		;;
-	"hours" )
-		force_interval_seconds=$(($force_interval*60*60))
+	stop )
+		echo "stop"
 		;;
-	"minutes" )
-		force_interval_seconds=$(($force_interval*60))
+	scheduler )
+		config_foreach ddns_service_get service
 		;;
-	"seconds" )
-		force_interval_seconds=$force_interval
+	ifup )
+	 local isifup
+	 isifup=1
+	 config_foreach ddns_service_get service
 		;;
-	* )
-		#default is hours
-		force_interval_seconds=$(($force_interval*60*60))
-		;;
+
 esac
 
 
-
-#compute check interval in seconds
-case "$check_unit" in
-	"days" )
-		check_interval_seconds=$(($check_interval*60*60*24))
-		;;
-	"hours" )
-		check_interval_seconds=$(($check_interval*60*60))
-		;;
-	"minutes" )
-		check_interval_seconds=$(($check_interval*60))
-		;;
-	"seconds" )
-		check_interval_seconds=$check_interval
-		;;
-	* )
-		#default is seconds
-		check_interval_seconds=$check_interval
-		;;
-esac
-
-
-
-verbose_echo "force seconds = $force_interval_seconds"
-verbose_echo "check seconds = $check_interval_seconds"
-
-#kill old process if it exists & set new pid file
-if [ -d /var/run/dynamic_dns ]
-then
-	#if process is already running, stop it
-	if [ -e "/var/run/dynamic_dns/$service_id.pid" ]
-	then
-		old_pid=$(cat /var/run/dynamic_dns/$service_id.pid)
-		test_match=$(ps | grep "^[\t ]*$old_pid")
-		verbose_echo "old process id (if it exists) = \"$test_match\""
-		if [ -n  "$test_match" ]
-		then
-			kill $old_pid
-		fi
-	fi
-
-else
-	#make dir since it doesn't exist
-	mkdir /var/run/dynamic_dns
-fi
-echo $$ > /var/run/dynamic_dns/$service_id.pid
-
-
-
-
-#determine when the last update was
-current_time=$(monotonic_time)
-last_update=$(( $current_time - (2*$force_interval_seconds) ))
-if [ -e "/var/run/dynamic_dns/$service_id.update" ]
-then
-	last_update=$(cat /var/run/dynamic_dns/$service_id.update)
-fi
-time_since_update=$(($current_time - $last_update))
-
-
-human_time_since_update=$(( $time_since_update / ( 60 * 60 ) ))
-verbose_echo "time_since_update = $human_time_since_update hours"
-
-
-
-
-registered_ip=$(echo $(nslookup "$domain" 2>/dev/null) |  grep -o "Name:.*" | grep -o "$ip_regex")
-
-
-#do update and then loop endlessly, checking ip every check_interval and forcing an updating once every force_interval
-
-while [ true ]
-do
-	current_ip=$(get_current_ip)
-
-
-	current_time=$(monotonic_time)
-	time_since_update=$(($current_time - $last_update))
-
-
-	verbose_echo "Running IP check..."
-	verbose_echo "current system ip = $current_ip"
-	verbose_echo "registered domain ip = $registered_ip"
-
-
-	if [ "$current_ip" != "$registered_ip" ]  || [ $force_interval_seconds -lt $time_since_update ]
-	then
-		verbose_echo "update necessary, performing update ..."
-
-		#do replacement
-		final_url=$update_url
-		for option_var in $ALL_OPTION_VARIABLES
-		do
-			if [ "$option_var" != "update_url" ]
-			then
-				replace_name=$(echo "\[$option_var\]" | tr 'a-z' 'A-Z')
-				replace_value=$(eval echo "\$$option_var")
-				replace_value=$(echo $replace_value | sed -f /usr/lib/ddns/url_escape.sed)
-				final_url=$(echo $final_url | sed s^"$replace_name"^"$replace_value"^g )
-			fi
-		done
-		final_url=$(echo $final_url | sed s/"\[HTTPAUTH\]"/"$username${password:+:$password}"/g )
-		final_url=$(echo $final_url | sed s/"\[IP\]"/"$current_ip"/g )
-
-
-		verbose_echo "updating with url=\"$final_url\""
-
-		#here we actually connect, and perform the update
-		update_output=$( $retrieve_prog "$final_url" )
-
-		verbose_echo "Update Output:"
-		verbose_echo "$update_output"
-		verbose_echo ""
-
-		#save the time of the update
-		current_time=$(monotonic_time)
-		last_update=$current_time
-		time_since_update='0'
-		registered_ip=$current_ip
-
-		human_time=$(date)
-		verbose_echo "update complete, time is: $human_time"
-
-		echo "$last_update" > "/var/run/dynamic_dns/$service_id.update"
-	else
-		human_time=$(date)
-		human_time_since_update=$(( $time_since_update / ( 60 * 60 ) ))
-		verbose_echo "update unnecessary"
-		verbose_echo "time since last update = $human_time_since_update hours"
-		verbose_echo "the time is now $human_time"
-	fi
-
-	#sleep for 10 minutes, then re-check ip && time since last update
-	sleep $check_interval_seconds
-done
-
-#should never get here since we're a daemon, but I'll throw it in anyway
-return 0
 
 
 
