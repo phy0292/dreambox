@@ -368,7 +368,7 @@ if has_6to4 then
 end
 
 if has_relay then
-	rnet = s:taboption("general", Value, "network", translate("Relay between networks"))
+	rnet = s:taboption("general", DynamicList, "network", translate("Relay between networks"))
 	rnet.widget = "checkbox"
 	rnet.exclude = arg[1]
 	rnet.template = "cbi/network_netlist"
@@ -383,7 +383,7 @@ mac:depends("proto", "static")
 mac:depends("proto", "dhcp")
 mac:depends("proto", "pppoe")
 mac:depends("proto", "ppp")
-mac.placeholder = ifc and ifc:mac():upper()
+mac.placeholder = ifc and ifc:mac()
 
 if has_3g then
 	service = s:taboption("general", ListValue, "service", translate("Service type"))
@@ -594,11 +594,11 @@ if has_relay then
 	retry.datatype     = "uinteger"
 	retry:depends("proto", "relay")
 
-	table = s:taboption("relay", Value, "table", translate("Routing table ID"))
-	table.optional     = true
-	table.placeholder  = 16800
-	table.datatype     = "uinteger"
-	table:depends("proto", "relay")
+	tableid = s:taboption("relay", Value, "table", translate("Routing table ID"))
+	tableid.optional     = true
+	tableid.placeholder  = 16800
+	tableid.datatype     = "uinteger"
+	tableid:depends("proto", "relay")
 end
 
 if has_ahcp then

@@ -166,6 +166,20 @@ div.hostinfo {
 	padding: 0.5em;
 }
 
+#xhr_poll_status {
+	cursor: pointer;
+}
+
+#xhr_poll_status #xhr_poll_status_off {
+	font-weight: bold;
+	color: #FF0000;
+}
+
+#xhr_poll_status #xhr_poll_status_on {
+	font-weight: bold;
+	color: #00FF00;
+}
+
 #menubar {
 	position: relative;
 	width: 100%;
@@ -224,6 +238,8 @@ html #menubar a:visited.warning {
 	color: #ffffff;
 	list-style: none;
 	margin-right: 1px;
+	margin-left: 2em;
+	float: right;
 }
 
 #modemenu li {
@@ -233,7 +249,6 @@ html #menubar a:visited.warning {
 
 #savemenu {
 	float: right;
-	margin-right: 2em;
 }
 
 .lang_de #submenu_admin_uci {
@@ -629,6 +644,10 @@ div.cbi-section-remove {
 	border-radius: 3px;
 	padding-bottom: 0;
 	position: relative;
+}
+
+.cbi-section-node-tabbed {
+	border-top-left-radius: 0;
 }
 
 .cbi-section-node .cbi-value-last {

@@ -48,19 +48,22 @@ if not wnet or not wdev then
 end
 
 -- wireless toggle was requested, commit and reload page
-if m:formvalue("cbid.wireless.%s.__toggle" % wdev:name()) then
-	if wdev:get("disabled") == "1" or wnet:get("disabled") == "1" then
-		wnet:set("disabled", nil)
-	else
-		wnet:set("disabled", "1")
+function m.parse(map)
+	if m:formvalue("cbid.wireless.%s.__toggle" % wdev:name()) then
+		if wdev:get("disabled") == "1" or wnet:get("disabled") == "1" then
+			wnet:set("disabled", nil)
+		else
+			wnet:set("disabled", "1")
+		end
+		wdev:set("disabled", nil)
+
+		nw:commit("wireless")
+		luci.sys.call("(env -i /sbin/wifi down; env -i /sbin/wifi up) >/dev/null 2>/dev/null")
+
+		luci.http.redirect(luci.dispatcher.build_url("admin/network/wireless", arg[1]))
+		return
 	end
-	wdev:set("disabled", nil)
-
-	nw:commit("wireless")
-	luci.sys.call("(env -i /sbin/wifi down; env -i /sbin/wifi up) >/dev/null 2>/dev/null")
-
-	luci.http.redirect(luci.dispatcher.build_url("admin/network/wireless", arg[1]))
-	return
+	Map.parse(map)
 end
 
 m.title = luci.util.pcdata(wnet:get_i18n())
@@ -353,7 +356,7 @@ if hwtype == "mac80211" then
 
 	s:taboption("advanced", Value, "frag", translate("Fragmentation Threshold"))
 	s:taboption("advanced", Value, "rts", translate("RTS/CTS Threshold"))
-	
+
 	mp = s:taboption("macfilter", ListValue, "macfilter", translate("MAC-Address Filter"))
 	mp:value("", translate("disable"))
 	mp:value("allow", translate("Allow listed only"))
@@ -555,6 +558,14 @@ encr:depends({mode="ap-wds"})
 encr:depends({mode="sta-wds"})
 encr:depends({mode="mesh"})
 
+function encr.write(self, section, value)
+	if value == "wpa" or value == "wpa2"  then
+		self.map.uci:delete("wireless", section, "key")
+	end
+	self.map.uci:set("wireless", section, "encryption", value)
+end
+
+
 encr:value("none", "No Encryption")
 encr:value("wep-open",   translate("WEP Open System"), {mode="ap"}, {mode="sta"}, {mode="ap-wds"}, {mode="sta-wds"})
 encr:value("wep-shared", translate("WEP Shared Key"),  {mode="ap"}, {mode="sta"}, {mode="ap-wds"}, {mode="sta-wds"})
@@ -601,35 +612,59 @@ elseif hwtype == "broadcom" then
 	encr:value("psk+psk2", "WPA-PSK/WPA2-PSK Mixed Mode")
 end
 
-encr:depends("mode", "ap")
-encr:depends("mode", "sta")
-encr:depends("mode", "ap-wds")
-encr:depends("mode", "sta-wds")
-encr:depends("mode", "wds")
+auth_server = s:taboption("encryption", Value, "auth_server", translate("Radius-Authentication-Server"))
+auth_server:depends({mode="ap", encryption="wpa"})
+auth_server:depends({mode="ap", encryption="wpa2"})
+auth_server:depends({mode="ap-wds", encryption="wpa"})
+auth_server:depends({mode="ap-wds", encryption="wpa2"})
+auth_server.rmempty = true
+auth_server.datatype = "host"
 
-server = s:taboption("encryption", Value, "server", translate("Radius-Server"))
-server:depends({mode="ap", encryption="wpa"})
-server:depends({mode="ap", encryption="wpa2"})
-server:depends({mode="ap-wds", encryption="wpa"})
-server:depends({mode="ap-wds", encryption="wpa2"})
-server.rmempty = true
+auth_port = s:taboption("encryption", Value, "auth_port", translate("Radius-Authentication-Port"), translatef("Default %d", 1812))
+auth_port:depends({mode="ap", encryption="wpa"})
+auth_port:depends({mode="ap", encryption="wpa2"})
+auth_port:depends({mode="ap-wds", encryption="wpa"})
+auth_port:depends({mode="ap-wds", encryption="wpa2"})
+auth_port.rmempty = true
+auth_port.datatype = "port"
 
-port = s:taboption("encryption", Value, "port", translate("Radius-Port"))
-port:depends({mode="ap", encryption="wpa"})
-port:depends({mode="ap", encryption="wpa2"})
-port:depends({mode="ap-wds", encryption="wpa"})
-port:depends({mode="ap-wds", encryption="wpa2"})
-port.rmempty = true
+auth_secret = s:taboption("encryption", Value, "auth_secret", translate("Radius-Authentication-Secret"))
+auth_secret:depends({mode="ap", encryption="wpa"})
+auth_secret:depends({mode="ap", encryption="wpa2"})
+auth_secret:depends({mode="ap-wds", encryption="wpa"})
+auth_secret:depends({mode="ap-wds", encryption="wpa2"})
+auth_secret.rmempty = true
+auth_secret.password = true
+
+acct_server = s:taboption("encryption", Value, "acct_server", translate("Radius-Accounting-Server"))
+acct_server:depends({mode="ap", encryption="wpa"})
+acct_server:depends({mode="ap", encryption="wpa2"})
+acct_server:depends({mode="ap-wds", encryption="wpa"})
+acct_server:depends({mode="ap-wds", encryption="wpa2"})
+acct_server.rmempty = true
+acct_server.datatype = "host"
+
+acct_port = s:taboption("encryption", Value, "acct_port", translate("Radius-Accounting-Port"), translatef("Default %d", 1813))
+acct_port:depends({mode="ap", encryption="wpa"})
+acct_port:depends({mode="ap", encryption="wpa2"})
+acct_port:depends({mode="ap-wds", encryption="wpa"})
+acct_port:depends({mode="ap-wds", encryption="wpa2"})
+acct_port.rmempty = true
+acct_port.datatype = "port"
+
+acct_secret = s:taboption("encryption", Value, "acct_secret", translate("Radius-Accounting-Secret"))
+acct_secret:depends({mode="ap", encryption="wpa"})
+acct_secret:depends({mode="ap", encryption="wpa2"})
+acct_secret:depends({mode="ap-wds", encryption="wpa"})
+acct_secret:depends({mode="ap-wds", encryption="wpa2"})
+acct_secret.rmempty = true
+acct_secret.password = true
 
 wpakey = s:taboption("encryption", Value, "_wpa_key", translate("Key"))
 wpakey:depends("encryption", "psk")
 wpakey:depends("encryption", "psk2")
 wpakey:depends("encryption", "psk+psk2")
 wpakey:depends("encryption", "psk-mixed")
-wpakey:depends({mode="ap", encryption="wpa"})
-wpakey:depends({mode="ap", encryption="wpa2"})
-wpakey:depends({mode="ap-wds", encryption="wpa"})
-wpakey:depends({mode="ap-wds", encryption="wpa2"})
 wpakey.datatype = "wpakey"
 wpakey.rmempty = true
 wpakey.password = true
