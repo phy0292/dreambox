@@ -1,8 +1,7 @@
 /*
- *  La Fonera20N board support
+ *  HuaWei HG255D board support by lintel
  *
- *  Copyright (C) 2009 John Crispin <blogic@openwrt.org>
- *  Copyright (C) 2010 Gabor Juhos <juhosg@openwrt.org>
+ *  Copyright (C) 2011 lintel<lintel.huang@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify it
  *  under the terms of the GNU General Public License version 2 as published
@@ -24,42 +23,39 @@
 #include "devices.h"
 
 #define HG255D_GPIO_BUTTON_RESET	12
-#define HG255D_GPIO_SWITCH		13
-#define HG255D_GPIO_LED_WIFI		7
-#define HG255D_GPIO_LED_POWER	9
+#define HG255D_GPIO_BUTTON_WPS		13
+
+#define HG255D_GPIO_LED_POWER		9
+#define HG255D_GPIO_LED_INTERNET	6
+#define HG255D_GPIO_LED_WLAN		7
+#define HG255D_GPIO_LED_WPS		15
+#define HG255D_GPIO_LED_VOICE		17
 #define HG255D_GPIO_LED_USB		14
 
 #define HG255D_BUTTONS_POLL_INTERVAL	20
+
+#define BLOCK_SZ_128K	0x00020000
+
 
 #ifdef CONFIG_MTD_PARTITIONS
 static struct mtd_partition hg255d_partitions[] = {
 	{
 		.name	= "u-boot",
 		.offset	= 0,
-		.size	= 0x030000,
-		.mask_flags = MTD_WRITEABLE,
-	}, {
-		.name	= "u-boot-env",
-		.offset	= 0x030000,
-		.size	= 0x010000,
-		.mask_flags = MTD_WRITEABLE,
-	}, {
-		.name	= "factory",
-		.offset	= 0x040000,
-		.size	= 0x010000,
+		.size	= BLOCK_SZ_128K,
 		.mask_flags = MTD_WRITEABLE,
 	}, {
 		.name	= "kernel",
-		.offset	= 0x050000,
-		.size	= 0x0a0000,
+		.offset	= MTDPART_OFS_APPEND,
+		.size	= BLOCK_SZ_128K * 7,
 	}, {
 		.name	= "rootfs",
-		.offset	= 0x150000,
-		.size	= 0xEE0000,
+		.offset	= MTDPART_OFS_APPEND,
+		.size	= MTDPART_SIZ_FULL - BLOCK_SZ_128K,
 	}, {
 		.name	= "openwrt",
-		.offset	= 0x050000,
-		.size	= 0xFB0000,
+		.offset	= BLOCK_SZ_128K,
+		.size	= MTDPART_SIZ_FULL - BLOCK_SZ_128K,
 	}
 };
 #endif /* CONFIG_MTD_PARTITIONS */
@@ -72,16 +68,28 @@ static struct physmap_flash_data hg255d_flash_data = {
 };
 
 static struct gpio_led hg255d_leds_gpio[] __initdata = {
-	{
-		.name		= "hg255d:orange:wifi",
-		.gpio		= HG255D_GPIO_LED_WIFI,
-		.active_low	= 1,
-	}, {
-		.name		= "hg255d:green:power",
+   	{
+		.name		= "hg255d:power",
 		.gpio		= HG255D_GPIO_LED_POWER,
 		.active_low	= 1,
 	}, {
-		.name		= "hg255d:orange:usb",
+		.name		= "hg255d:internet",
+		.gpio		= HG255D_GPIO_LED_INTERNET,
+		.active_low	= 1,
+	}, {
+		.name		= "hg255d:wlan",
+		.gpio		= HG255D_GPIO_LED_WLAN,
+		.active_low	= 1,
+	}, {
+		.name		= "hg255d:wps",
+		.gpio		= HG255D_GPIO_LED_WPS,
+		.active_low	= 1,
+	}, {
+		.name		= "hg255d:voice",
+		.gpio		= HG255D_GPIO_LED_VOICE,
+		.active_low	= 1,
+	}, {
+		.name		= "hg255d:usb",
 		.gpio		= HG255D_GPIO_LED_USB,
 		.active_low	= 1,
 	}
@@ -96,11 +104,11 @@ static struct gpio_button hg255d_gpio_buttons[] __initdata = {
 		.gpio		= HG255D_GPIO_BUTTON_RESET,
 		.active_low	= 1,
 	}, {
-		.desc		= "switch",
+		.desc		= "wps",
 		.type		= EV_KEY,
 		.code		= BTN_1,
 		.threshold	= 3,
-		.gpio		= HG255D_GPIO_SWITCH,
+		.gpio		= HG255D_GPIO_BUTTON_WPS,
 		.active_low	= 1,
 	}
 };
