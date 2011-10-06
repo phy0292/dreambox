@@ -107,6 +107,4 @@ ipaddr = s:option(DummyValue, "ipaddr", translate("ip address","ip address"))
 ipaddr.optional = false
 ipaddr.rmempty = true
 
-local lucierror = luci.sys.lucierror()
-
 return m
