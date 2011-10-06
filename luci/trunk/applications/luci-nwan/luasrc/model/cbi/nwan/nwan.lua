@@ -1,3 +1,16 @@
+--[[
+LuCI - Lua Configuration Interface
+
+Copyright 2011 flyzjhz <flyzjhz@gmail.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+]]--
+
 require("luci.tools.webadmin")
 local sys = require "luci.sys"
 
@@ -111,6 +124,7 @@ s = m:section(TypedSection, "mwanfw", translate("nwan_mwanfw","N-WAN ASSIGN OUT 
 s.template = "cbi/tblsection"
 s.anonymous = true
 s.addremove = true
+s.sortable  = true
 
 enable = s:option(Flag, "enable", translate("enable", "enable"))
 enable.default = false
@@ -169,4 +183,5 @@ wanrule.default = "wan"
 
 
 return m
+
 
