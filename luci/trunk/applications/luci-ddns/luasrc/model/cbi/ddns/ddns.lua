@@ -3,6 +3,7 @@ LuCI - Lua Configuration Interface
 
 Copyright 2008 Steven Barth <steven@midlink.org>
 Copyright 2008 Jo-Philipp Wich <xm@leipzig.freifunk.net>
+Copyright 2011 flyzjhz <flyzjhz@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,6 +15,9 @@ $Id: ddns.lua 6588 2010-11-29 15:14:50Z jow $
 ]]--
 
 require("luci.tools.webadmin")
+
+local fs   = require "nixio.fs"
+local util = require "nixio.util"
 
 m = Map("ddns", translate("Dynamic DNS"),
 	translate("Dynamic DNS allows that your router can be reached with a fixed hostname while having a dynamically changing IP address."))
@@ -29,82 +33,48 @@ s:option(Value, "check_interval",	translate("Check for changed IP every"),transl
 
 
 
-s = m:section(TypedSection, "service", "")
-s.addremove = true
-s.anonymous = false
+service = m:section(TypedSection, "service", "")
+service.anonymous = true
+service.addremove = true
+service.template = "cbi/tblsection"
+service.extedit  = luci.dispatcher.build_url("admin/services/ddns/ddnsleaf/%s")
 
-s:option(Flag, "enabled", translate("Enable"))
-
-svc = s:option(ListValue, "service_name", translate("Service"))
-svc.rmempty = false
-
-local services = { }
-local fd = io.open("/usr/lib/ddns/services", "r")
-if fd then
-	local ln
-	repeat
-		ln = fd:read("*l")
-		local s = ln and ln:match('^%s*"([^"]+)"')
-		if s then services[#services+1] = s end
-	until not ln
-	fd:close()
-end
-
-local v
-for _, v in luci.util.vspairs(services) do
-	svc:value(v)
-end
-
-function svc.cfgvalue(...)
-	local v = Value.cfgvalue(...)
-	if not v or #v == 0 then
-		return "-"
-	else
-		return v
+service.create = function(...)
+	local sid = TypedSection.create(...)
+	if sid then
+		luci.http.redirect(service.extedit % sid)
+		return
 	end
 end
 
-function svc.write(self, section, value)
-	if value == "-" then
-		m.uci:delete("ddns", section, self.option)
-	else
-		Value.write(self, section, value)
-	end
+
+service:option(Flag, "enabled", translate("Enable"))
+
+service_name=service:option(DummyValue, "service_name", translate("Service"))
+
+function service_name.cfgvalue(self, s)
+	return self.map:get(s, "service_name") or "3322.org"
 end
 
-svc:value("-", "-- "..translate("custom").." --")
+domain = service:option(DummyValue, "domain", translate("Hostname"))
+function domain.cfgvalue(self, s)
+	return self.map:get(s, "domain") or "abcd.3322.org"
+end
 
-
-url = s:option(Value, "update_url", translate("Custom update-URL"))
-url:depends("service_name", "-")
-url.rmempty = true
-
-neiwang = s:option(Flag, "neiwang", translate("Intranet"),translate("Secondary route setting"))
-neiwang:depends("service_name", "3322.org")
-neiwang:depends("service_name", "dyndns.org")
-
-neiwang.disabled = 0
-
-
-
-s:option(Value, "domain", translate("Hostname")).rmempty = true
-
-s:option(Value, "username", translate("Username")).rmempty = true
-
-pw = s:option(Value, "password", translate("Password"))
-pw.rmempty = true
-pw.password = true
-	
-iface = s:option(ListValue, "ip_network", translate("Network"))
-iface.rmempty = true
-luci.tools.webadmin.cbi_add_networks(iface)
-
-uptime = s:option(DummyValue, "uptime", translate("ddns update time","ddns update time"))
+uptime = service:option(DummyValue, "uptime", translate("ddns update time","ddns update time"))
 uptime.optional = false
-uptime.rmempty = true
+uptime.rmempty = false
+function uptime.cfgvalue(self, s)
+	return self.map:get(s, "uptime") or "0"
+end
 
-ipaddr = s:option(DummyValue, "ipaddr", translate("ip address","ip address"))
+
+ipaddr = service:option(DummyValue, "ipaddr", translate("ip address","ip address"))
 ipaddr.optional = false
-ipaddr.rmempty = true
+ipaddr.rmempty = false
+function ipaddr.cfgvalue(self, s)
+	return self.map:get(s, "ipaddr") or "*.*.*.*"
+end
 
 return m
+

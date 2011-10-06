@@ -26,7 +26,7 @@ function index()
 	page.i18n = "ddns"
 	page.dependent = true
 
-	page = entry({"mini", "network", "ddns"}, cbi("ddns/ddns", {autoapply=true}), _("Dynamic DNS"), 60)
-	page.i18n = "ddns"
-	page.dependent = true
+	entry({"admin", "services", "ddns", "ddnsleaf"}, cbi("ddns/ddnsleaf"), nil).leaf = true
+
 end
+
