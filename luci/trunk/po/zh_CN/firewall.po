@@ -157,6 +157,9 @@ msgstr "概览"
 msgid "Port forwarding"
 msgstr "端口转发"
 
+msgid "portmap"
+msgstr "端口映射"
+
 msgid "Port forwarding allows to provide network services in the internal network to an external network."
 msgstr "端口转发-允许外部网络访问内部网络"
 
@@ -247,8 +250,15 @@ msgstr "本节定义 %q 的通用属性， <em>input</em> 和 <em>output</em>规
 msgid "Traffic Redirection"
 msgstr "流量重定向"
 
+msgid "Traffic portmap"
+msgstr "端口映射"
+
 msgid "Traffic redirection allows you to change the destination address of forwarded packets."
 msgstr "流量重定向允许你修改数据包转发地址"
+
+msgid "portmap allows to provide network services in the internal network to an external network."
+msgstr "端口映射-允许外部网络访问内部网络，是流量重定向的简化版本。"
+
 
 msgid "Via"
 msgstr "通过"
