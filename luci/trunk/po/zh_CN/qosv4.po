@@ -154,3 +154,22 @@ msgstr "TTL 设定"
 
 msgid "ttl set desc"
 msgstr "设定TTL值，默认128"
+
+msgid "qosv4 ip limit desc"
+msgstr "ip限速设定，支持不同的ip段限速，支持各类vpn和pppoe拨号后的限速"
+
+msgid "tcplimit"
+msgstr "TCP连接数"
+
+msgid "udplimit"
+msgstr "UDP连接数"
+
+msgid "speed desc"
+msgstr "单位(KB/S)"
+
+msgid "tcplimit desc"
+msgstr "TCP连接数，默认0，表示不限制"
+
+msgid "udplimit desc"
+msgstr "UDP连接数，默认0，表示不限制"
+
