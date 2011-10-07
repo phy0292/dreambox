@@ -6,7 +6,8 @@
 . /etc/functions.sh
 devup="imq1"
 devdown="imq0"
-
+qosv4_tmp_pach="/tmp/qosv4"
+ [ -d $qosv4_tmp_pach ]|| mkdir -p ${qosv4_tmp_pach}
 load_modules(){
 
         insmod imq numdevs=2 
@@ -16,14 +17,15 @@ load_modules(){
         insmod sch_red 
         insmod sch_htb 
         insmod sch_prio 
-        insmod ipt_multiport 
-        insmod ipt_CONNMARK
-        insmod ipt_length 
+        insmod xt_multiport 
+        insmod xt_CONNMARK
+        insmod xt_length 
   
-        insmod ipt_hashlimit
+        insmod xt_hashlimit
         insmod cls_u32
 	insmod xt_connlimit
 	insmod xt_connbytes
+	echo "" > ${qosv4_tmp_pach}/insmod
 }
 
 lan_net(){
@@ -117,11 +119,11 @@ iptables -t mangle -A QOSDOWN -p tcp -m multiport --sports 80,443,25,110 -m conn
 $IPM -A QOSDOWN -j MARK --set-mark 0
 $IPM -A QOSUP -j MARK --set-mark 0
 
-if [ $(cat /tmp/qos_state) -eq 1 ]
+if [ $(cat ${qosv4_tmp_pach}/qos_state) -eq 1 ]
 then
 exit
 else
-echo 1 >/tmp/qos_state
+echo 1 >${qosv4_tmp_pach}/qos_state
 fi
 
 tc qdisc del dev imq0 root;tc qdisc del dev imq1 root
@@ -148,6 +150,10 @@ tc filter add dev imq1 parent 1:0 protocol ip prio 10 handle 254 fw flowid 1:a25
 #所有普通IP单独限速
 qos_ip_limit()
 {
+[-f $qosv4_tmp_pach/connlimit ] && {
+	sh $qosv4_tmp_pach/connlimit
+	echo "" > $qosv4_tmp_pach/connlimit
+	}
 n=$(echo $1|cut -d '-' -f1|cut -d '.' -f4)
 m=$(echo $1|cut -d '-' -f2|cut -d '.' -f4)
 NET=$(echo $1|cut -d '.' -f1-3)
@@ -161,10 +167,20 @@ tc fi ad dev imq0 parent 1: protocol ip prio 200 u32 match ip dst $NET.$n flowid
 tc cl ad dev imq1 parent 1:1 classid 1:$MM$NN htb rate $4kbps ceil $5kbps quantum 1500 prio $6
 tc qd ad dev imq1 parent 1:$MM$NN handle $MM$NN sfq limit 64 perturb 12
 tc fi ad dev imq1 parent 1: protocol ip prio 200 u32 match ip src $NET.$n flowid 1:$MM$NN
+[ "$7" != "0" ]&& {
+	echo "iptables -t mangle -D FORWARD -p tcp -d $NET.$n -m connlimit --connlimit-above $7 -j DROP" >> $qosv4_tmp_pach/connlimit
+	       iptables -t mangle -A FORWARD -p tcp -d $NET.$n -m connlimit --connlimit-above $7 -j DROP
+	}
+[ "$8" != "0" ]&& {
+echo "iptables -t mangle -D FORWARD -p udp -d $NET.$n -m connlimit --connlimit-above $8 -j DROP" >> $qosv4_tmp_pach/connlimit
+iptables -t mangle -A FORWARD -p udp -d $NET.$n -m connlimit --connlimit-above $8 -j DROP
+}
+
 n=$((n+1))
 done
 MM=$((MM+1))
 }
+
 
 qos_ip_limit_2(){
 tc class add dev $devup parent 1:1 classid 1:999 htb rate 1kbps ceil $((UP/5))kbps quantum 1500 prio 7
@@ -212,19 +228,20 @@ qos_scheduler(){
  wait_time="5"
  [ -f /etc/crontabs/root ]|| touch /etc/crontabs/root 
  [ -f /tmp/tmp_crontab ]|| touch /tmp/tmp_crontab
-	[ -z "$(cat /etc/crontabs/root| grep qos_scheduler)" ]&&echo -e "*/${wait_time} * * * *  sh /tmp/qos_scheduler #qos_scheduler#" >> /etc/crontabs/root
-	[ -z "$(cat /tmp/tmp_crontab  | grep qos_scheduler)" ]&&echo -e "*/${wait_time} * * * *  sh /tmp/qos_scheduler #qos_scheduler#" >> /tmp/tmp_crontab
+	[ -z "$(cat /etc/crontabs/root| grep qos_scheduler)" ]&&echo -e "*/${wait_time} * * * *  sh ${qosv4_tmp_pach}/qos_scheduler #qos_scheduler#" >> /etc/crontabs/root
+	[ -z "$(cat /tmp/tmp_crontab  | grep qos_scheduler)" ]&&echo -e "*/${wait_time} * * * *  sh ${qosv4_tmp_pach}/qos_scheduler #qos_scheduler#" >> /tmp/tmp_crontab
   [ $(ps | grep crond | grep -v grep | wc -l ) == 0 ] && /etc/init.d/cron restart
-cat >/tmp/qos_scheduler <<"EOF"
+cat >${qosv4_tmp_pach}/qos_scheduler <<"EOF"
 
 devup="imq1"
 devdown="imq0"
+qosv4_tmp_pach="/tmp/qosv4"
 
 UIP=$(uci get network.lan.ipaddr|awk -F "." '{print $1"."$2"."$3 }')
-[ -e /tmp/qosv4_nolimit_mac ]&&mac_list=$(cat /tmp/qosv4_nolimit_mac)
+[ -e ${qosv4_tmp_pach}/qosv4_nolimit_mac ]&&mac_list=$(cat ${qosv4_tmp_pach}/qosv4_nolimit_mac)
 local RUN="ip neigh| grep : ${mac_list} |grep -c $UIP"
 ip_num=`eval $RUN`
-old_ip_num=$(cat /tmp/qosv4_old_ip_num)
+old_ip_num=$(cat ${qosv4_tmp_pach}/qosv4_old_ip_num)
 echo "new_ip_num=$ip_num"
 echo "old_ip_num=$old_ip_num"
 #如果在线ip和上次相同 退出
@@ -261,7 +278,7 @@ ifconfig $devup down
  		fi
  fi
 ip neigh flush dev br-lan
-echo "$ip_num" >/tmp/qosv4_old_ip_num
+echo "$ip_num" >${qosv4_tmp_pach}/qosv4_old_ip_num
 exit
 fi
 
@@ -277,7 +294,7 @@ ifconfig $devup down
  		transmission-remote --no-uplimit
  		fi
 ip neigh flush dev br-lan
-echo "$ip_num" >/tmp/qosv4_old_ip_num
+echo "$ip_num" >${qosv4_tmp_pach}/qosv4_old_ip_num
 exit 
 fi
 #如果在线ip 大于1 开启内网QOS限速 开启transmission限速
@@ -304,7 +321,7 @@ fi
  
 ip neigh flush dev br-lan
 
-echo "$ip_num" >/tmp/qosv4_old_ip_num
+echo "$ip_num" >${qosv4_tmp_pach}/qosv4_old_ip_num
 EOF
 
 }
@@ -356,10 +373,13 @@ qos_limit_ip_get(){
  config_get UPLOADC $1 UPLOADC
  config_get DOWNLOADC $1 DOWNLOADC
  config_get UPLOADR $1 UPLOADR
- config_get DOWNLOADR $1 DOWNLOADR 
+ config_get DOWNLOADR $1 DOWNLOADR
+ config_get tcplimit $1 tcplimit
+ config_get udplimit $1 udplimit
+
  limit_ip=$limit_ips-$limit_ipe
 # echo "line 353 enable=$enable limit_ips=$limit_ips  limit_ipe=$limit_ipe ip_prio=$ip_prio UPLOADC=$UPLOADC DOWNLOADC=$DOWNLOADC"
- [ "$qos_limit_enable" == "1" ]&&qos_ip_limit $limit_ip $DOWNLOADR $DOWNLOADC $UPLOADR $UPLOADC $ip_prio
+ [ "$qos_limit_enable" == "1" ]&&qos_ip_limit $limit_ip $DOWNLOADR $DOWNLOADC $UPLOADR $UPLOADC $ip_prio $tcplimit $udplimit
 
 }
 
@@ -367,7 +387,7 @@ qos_nolimit_ip_get(){
  config_get enable $1 enable
  config_get nolimit_ip $1 nolimit_ip
  config_get nolimit_mac $1 nolimit_mac
-  [ "$enable" == "1" ]&&printf "|grep -v  $nolimit_mac " >>/tmp/qosv4_nolimit_mac
+  [ "$enable" == "1" ]&&printf "|grep -v  $nolimit_mac " >>${qosv4_tmp_pach}/qosv4_nolimit_mac
 }
 
 
@@ -381,11 +401,11 @@ case $1 in
 	echo "start qos v4........"
 
         
-	 rm -rf /tmp/qosv4_nolimit_mac
+	 rm -rf ${qosv4_tmp_pach}/qosv4_nolimit_mac
 	config_foreach qos_config_get qos_settings
 		echo "qosv4 enable=$qosv4_enable " 
 	if [ "$qosv4_enable" == "1" ];then
-	  load_modules >/dev/null 2>&1
+	  [ -f ${qosv4_tmp_pach}/insmod ] || load_modules >/dev/null 2>&1
 	  qos_start
 	  config_foreach qos_limit_ip_get qos_ip
 	  qos_ip_limit_2
@@ -401,11 +421,10 @@ case $1 in
 	echo "qos_scheduler start....."	
 	qos_scheduler
 	else
-	[ -n "$(cat /etc/crontabs/root| grep qos_scheduler)" ]&& sed -i -e '/qos_scheduler/d' /etc/crontabs/root
-	[ -n "$(cat /tmp/tmp_crontab  | grep qos_scheduler)" ]&& sed -i -e '/qos_scheduler/d' /tmp/tmp_crontab
+	[ -n "$(cat /etc/crontabs/root| grep qos_scheduler)" ] && sed -i -e '/qos_scheduler/d' /etc/crontabs/root
+	[ -n "$(cat /tmp/tmp_crontab  | grep qos_scheduler)" ] && sed -i -e '/qos_scheduler/d' /tmp/tmp_crontab
 	fi
-#下面这句不要删掉哦
-echo 0 >/tmp/qos_state
+echo 0 >${qosv4_tmp_pach}/qos_state
 
 
        
