@@ -150,10 +150,6 @@ tc filter add dev imq1 parent 1:0 protocol ip prio 10 handle 254 fw flowid 1:a25
 #所有普通IP单独限速
 qos_ip_limit()
 {
-[-f $qosv4_tmp_pach/connlimit ] && {
-	sh $qosv4_tmp_pach/connlimit
-	echo "" > $qosv4_tmp_pach/connlimit
-	}
 n=$(echo $1|cut -d '-' -f1|cut -d '.' -f4)
 m=$(echo $1|cut -d '-' -f2|cut -d '.' -f4)
 NET=$(echo $1|cut -d '.' -f1-3)
@@ -349,6 +345,11 @@ iptables -X UDPLMT
 iptables -t mangle -X PUNISH0
 iptables -t mangle -X NEWCONN
 iptables -t mangle -X BCOUNT
+
+[ -f ${qosv4_tmp_pach}/connlimit ] && {
+	sh ${qosv4_tmp_pach}/connlimit
+	echo "" > ${qosv4_tmp_pach}/connlimit
+	}
 
 
 
