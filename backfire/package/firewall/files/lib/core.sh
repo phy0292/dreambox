@@ -30,6 +30,9 @@ fw_start() {
 	echo "Loading forwardings"
 	config_foreach fw_load_forwarding forwarding
 
+	echo "Loading portmap"
+	config_foreach fw_load_redirect portmap
+
 	echo "Loading redirects"
 	config_foreach fw_load_redirect redirect
 
