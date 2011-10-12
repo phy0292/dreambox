@@ -63,6 +63,7 @@ case "$FIRMWARE" in
 		;;
 
 	*)
+		cp /lib/firmware/RT305X.eeprom.default /lib/firmware/RT305X.eeprom
 		rt2x00_eeprom_die "board $board is not supported yet"
 		;;
 	esac
