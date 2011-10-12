@@ -7,7 +7,7 @@
 
 define Profile/RT-N13U
 	NAME:=RT-N13U Profile
-	PACKAGES:=kmod-leds-gpio kmod-rt2880-pci wpad-mini
+	PACKAGES:=kmod-leds-gpio kmod-rt2880-pci wpad-mini kmod-usb-rt305x-dwc_otg
 endef
 
 define Profile/RT-N13U/Description

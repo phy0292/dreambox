@@ -7,7 +7,7 @@
 
 define Profile/HG255D
 	NAME:=HG255D Profile
-	PACKAGES:=kmod-leds-gpio kmod-rt2880-pci wpad-mini
+	PACKAGES:=kmod-leds-gpio kmod-rt2880-pci wpad-mini kmod-usb-rt305x-dwc_otg
 endef
 
 define Profile/HG255D/Description
