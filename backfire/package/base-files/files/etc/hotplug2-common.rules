@@ -51,7 +51,7 @@ ACTION == remove, DEVPATH is set, MAJOR is set, MINOR is set {
 }
 
 FIRMWARE is set, ACTION == add {
-	nothrottle
+	exec /sbin/hotplug-call firmware
 	load-firmware /lib/firmware
 	next
 }
