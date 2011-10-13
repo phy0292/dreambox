@@ -22,11 +22,14 @@
 
 #include "devices.h"
 
-#define RT_N13U_GPIO_BUTTON_RESET	1
+#define RT_N13U_GPIO_BUTTON_RESET	10
 #define RT_N13U_GPIO_BUTTON_WPS		0
 #define RT_N13U_GPIO_LED_POWER		7
 #define RT_N13U_GPIO_LED_WIFI		8
-#define RT_N13U_GPIO_LED_INTERNET	9
+
+#define RT_N13U_GPIO_SW1               9
+#define RT_N13U_GPIO_SW2               13
+#define RT_N13U_GPIO_SW3               11
 
 #define RT_N13U_BUTTONS_POLL_INTERVAL	20
 
@@ -79,10 +82,6 @@ static struct gpio_led rt_n13u_leds_gpio[] __initdata = {
 		.name		= "rt-n13:wifi",
 		.gpio		= RT_N13U_GPIO_LED_WIFI,
 		.active_low	= 1,
-	}, {
-		.name		= "rt-n13:internet",
-		.gpio		= RT_N13U_GPIO_LED_INTERNET,
-		.active_low	= 1,
 	}
 };
 
@@ -97,7 +96,28 @@ static struct gpio_button rt_n13u_gpio_buttons[] __initdata = {
 	}, {
 		.desc		= "wps",
 		.type		= EV_KEY,
+		.code		= BTN_0,
+		.threshold	= 3,
+		.gpio		= RT_N13U_GPIO_BUTTON_WPS,
+		.active_low	= 1,
+	}, {
+		.desc		= "sw1",
+		.type		= EV_KEY,
 		.code		= BTN_1,
+		.threshold	= 3,
+		.gpio		= RT_N13U_GPIO_BUTTON_WPS,
+		.active_low	= 1,
+	}, {
+		.desc		= "sw2",
+		.type		= EV_KEY,
+		.code		= BTN_2,
+		.threshold	= 3,
+		.gpio		= RT_N13U_GPIO_BUTTON_WPS,
+		.active_low	= 1,
+	}, {
+		.desc		= "sw3",
+		.type		= EV_KEY,
+		.code		= BTN_3,
 		.threshold	= 3,
 		.gpio		= RT_N13U_GPIO_BUTTON_WPS,
 		.active_low	= 1,
