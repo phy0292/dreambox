@@ -40,7 +40,7 @@
 #define RT2880_PIO_SIZE		0x100
 #define RT2880_UART1_SIZE	0x100
 #define RT2880_FLASH1_SIZE	(16 * 1024 * 1024)
-#define RT2880_FLASH0_SIZE	(4 * 1024 * 1024)
+#define RT2880_FLASH0_SIZE	(16 * 1024 * 1024)
 
 /* SYSC registers */
 #define SYSC_REG_CHIP_NAME0	0x000	/* Chip Name 0 */
