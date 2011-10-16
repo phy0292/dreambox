@@ -1,6 +1,9 @@
 #  openvpn.pot
 #  generated from ./applications/luci-openvpn/luasrc/i18n/openvpn.en.lua
 msgid ""
+msgid "%s"
+msgstr ""
+
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
 #. OpenVPN
@@ -116,6 +119,9 @@ msgstr ""
 #. Connection retry interval
 #: applications/luci-openvpn/luasrc/i18n/openvpn.en.lua:29
 msgid "Connection retry interval"
+msgstr ""
+
+msgid "Cryptography"
 msgstr ""
 
 #. Connection timeout
@@ -283,6 +289,9 @@ msgstr ""
 msgid "Don't pull options from server"
 msgstr ""
 
+msgid "Networking"
+msgstr ""
+
 #. Automatically redirect default route
 #: applications/luci-openvpn/luasrc/i18n/openvpn.en.lua:63
 msgid "Automatically redirect default route"
@@ -409,6 +418,9 @@ msgid "Set the TCP/UDP send buffer size"
 msgstr ""
 
 #. Set the TCP/UDP receive buffer size
+msgid "Service"
+msgstr ""
+
 #: applications/luci-openvpn/luasrc/i18n/openvpn.en.lua:88
 msgid "Set the TCP/UDP receive buffer size"
 msgstr ""
@@ -526,6 +538,9 @@ msgstr ""
 #. Write status to file every n seconds
 #: applications/luci-openvpn/luasrc/i18n/openvpn.en.lua:111
 msgid "Write status to file every n seconds"
+msgid "VPN"
+msgstr ""
+
 msgstr ""
 
 #. Status file format version

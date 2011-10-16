@@ -9,7 +9,7 @@ You may obtain a copy of the License at
 
 	http://www.apache.org/licenses/LICENSE-2.0
 
-$Id: wifi.lua 7234 2011-06-25 22:34:46Z jow $
+$Id: wifi.lua 7715 2011-10-13 12:48:55Z jow $
 ]]--
 
 local wa = require "luci.tools.webadmin"
@@ -170,6 +170,9 @@ if hwtype == "mac80211" then
 
 	s:taboption("advanced", Value, "distance", translate("Distance Optimization"),
 		translate("Distance to farthest network member in meters."))
+
+	s:taboption("advanced", Value, "frag", translate("Fragmentation Threshold"))
+	s:taboption("advanced", Value, "rts", translate("RTS/CTS Threshold"))
 end
 
 
@@ -354,10 +357,9 @@ if hwtype == "mac80211" then
 	mode:value("monitor", translate("Monitor"))
 	bssid:depends({mode="adhoc"})
 
-	s:taboption("advanced", Value, "frag", translate("Fragmentation Threshold"))
-	s:taboption("advanced", Value, "rts", translate("RTS/CTS Threshold"))
-
 	mp = s:taboption("macfilter", ListValue, "macfilter", translate("MAC-Address Filter"))
+	mp:depends({mode="ap"})
+	mp:depends({mode="ap-wds"})
 	mp:value("", translate("disable"))
 	mp:value("allow", translate("Allow listed only"))
 	mp:value("deny", translate("Allow all except listed"))

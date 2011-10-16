@@ -19,8 +19,12 @@ function index()
 	entry({"admin", "system"}, alias("admin", "system", "system"), _("System"), 30).index = true
 	entry({"admin", "system", "system"}, cbi("admin_system/system"), _("System"), 1)
 	entry({"admin", "system", "passkey"}, cbi("admin_system/admin"), _("Passkey"), 2)
-	entry({"admin", "system", "packages"}, call("action_packages"), _("Software"), 10)
-	entry({"admin", "system", "packages", "ipkg"}, form("admin_system/ipkg"))
+
+	if nixio.fs.access("/bin/opkg") then
+		entry({"admin", "system", "packages"}, call("action_packages"), _("Software"), 10)
+		entry({"admin", "system", "packages", "ipkg"}, form("admin_system/ipkg"))
+	end
+
 	entry({"admin", "system", "startup"}, form("admin_system/startup"), _("Startup"), 45)
 
 	--if nixio.fs.access("/etc/config/fstab") then
@@ -48,6 +52,13 @@ function action_packages()
 	local stderr  = { "" }
 	local out, err
 
+	-- Display
+	local display = luci.http.formvalue("display") or "installed"
+
+	-- Letter
+	local letter = string.byte(luci.http.formvalue("letter") or "A", 1)
+	letter = (letter == 35 or (letter >= 65 and letter <= 90)) and letter or 65
+
 	-- Search query
 	local query = luci.http.formvalue("query")
 	query = (query ~= '') and query or nil
@@ -72,10 +83,13 @@ function action_packages()
 	end
 
 	if uinst then
-		install[uinst], out, err = ipkg.install(uinst)
-		stdout[#stdout+1] = out
-		stderr[#stderr+1] = err
-		changes = true
+		local pkg
+		for pkg in luci.util.imatch(uinst) do
+			install[uinst], out, err = ipkg.install(pkg)
+			stdout[#stdout+1] = out
+			stderr[#stderr+1] = err
+			changes = true
+		end
 	end
 
 	-- Remove packets
@@ -107,6 +121,8 @@ function action_packages()
 
 
 	luci.template.render("admin_system/packages", {
+		display = display,
+		letter  = letter,
 		query   = query,
 		install = install,
 		remove  = remove,
