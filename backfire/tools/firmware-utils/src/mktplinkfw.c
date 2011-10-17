@@ -257,7 +257,7 @@ static struct board_info boards[] = {
 		.rootfs_ofs	= 0x100000,
 	}, {
 		.id		= "TL-WR841Nv8",
-		.hw_id		= HWID_TL_WR841N_V8,
+		.hw_id		= HWID_TL_WR841ND_V8,
 		.hw_rev		= 1,
 		.fw_max_len	= 0x3a0000,
 		.kernel_la	= 0x80060000,
