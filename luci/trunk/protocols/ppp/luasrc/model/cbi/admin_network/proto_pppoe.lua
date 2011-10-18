@@ -14,7 +14,7 @@ local map, section, net = ...
 
 local username, password, ac, service
 local ipv6, defaultroute, metric, peerdns, dns,
-      keepalive_failure, keepalive_interval, demand
+      keepalive_failure, keepalive_interval, demand, ghcat
 
 
 username = section:taboption("general", Value, "username", translate("PAP/CHAP username"))
@@ -54,6 +54,11 @@ defaultroute = section:taboption("advanced", Flag, "defaultroute",
 
 defaultroute.default = defaultroute.enabled
 
+ghcat = section:taboption("advanced", Flag, "ghcat",
+	translate("GHCA Dialer"),
+	translate("If checked,Dial with GHCA auto."))
+
+ghcat.default = ghcat.disabled
 
 metric = section:taboption("advanced", Value, "metric",
 	translate("Use gateway metric"))
