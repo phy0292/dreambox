@@ -12,7 +12,7 @@ msgstr "N-WAN"
 #: /tmp/i18n/luasrc/i18n/nwan.en.lua:2
 #. N-WAN allows for the use of multiple uplinks for load balancing and failover.
 msgid "nwan_desc"
-msgstr "N-WAN设置可使多条外线进行叠加和负载平衡，附带指定出口功能。本功能主要由飞翔的天空开发。Openwrt中文论坛admin翻译、修改和集成。"
+msgstr "N-WAN设置可使多条外线进行叠加和负载平衡，附带指定出口功能."
 
 #: /tmp/i18n/luasrc/i18n/nwan.en.lua:3
 #. nwan_route_desc

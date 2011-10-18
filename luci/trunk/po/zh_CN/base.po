@@ -2978,7 +2978,10 @@ msgstr "UPnP\/AV媒体"
 msgid "Connect"
 msgstr "连接" 
 
-msgid "mentohust"
+msgid "MentoHUST"
 msgstr "校园网认证"
+
+msgid "portmap"
+msgstr "端口映射"
 
 #title 
