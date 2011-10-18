@@ -413,6 +413,22 @@ endef
 
 $(eval $(call KernelPackage,dummy))
 
+define KernelPackage/bgmac
+  TITLE:=Broadcom GMAC driver
+  FILES:=$(LINUX_DIR)/drivers/net/bgmac.ko
+  KCONFIG:=CONFIG_BGMAC
+  DEPENDS:=@TARGET_brcm4716 +kmod-switch
+  SUBMENU:=$(NETWORK_DEVICES_MENU)
+  AUTOLOAD:=$(call AutoLoad,19,bgmac)
+endef
+
+define KernelPackage/bgmac/description
+ Kernel modules for Broadcom GMAC Gigabit Ethernet mac.
+endef
+
+$(eval $(call KernelPackage,bgmac))
+
+
 define KernelPackage/ifb
   SUBMENU:=$(NETWORK_DEVICES_MENU)
   TITLE:=Intermediate Functional Block support

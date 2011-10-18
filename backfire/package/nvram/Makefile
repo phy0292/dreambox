@@ -18,7 +18,7 @@ define Package/nvram
   SECTION:=utils
   CATEGORY:=Base system
   TITLE:=Userspace port of the Broadcom NVRAM manipulation tool
-  DEPENDS:=@TARGET_brcm_2_4||@TARGET_brcm47xx||@TARGET_ar71xx
+  DEPENDS:=@TARGET_brcm_2_4||@TARGET_brcm47xx||@TARGET_ar71xx||@TARGET_brcm4716
 endef
 
 define Package/nvram/description

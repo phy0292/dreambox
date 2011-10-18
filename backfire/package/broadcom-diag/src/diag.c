@@ -66,6 +66,8 @@ enum {
 	WRT600N,
 	WRT600NV11,
 	WRT610N,
+	WRT610NV2,
+	E3000V1,
 
 	/* ASUS */
 	WLHDD,
@@ -81,6 +83,7 @@ enum {
 	WL520GU,
 	ASUS_4702,
 	WL700GE,
+	RTN16,
 
 	/* Buffalo */
 	WBR2_G54,
@@ -356,6 +359,34 @@ static struct platform_t __initdata platforms[] = {
 			{ .name = "ses_blue",   .gpio = 1 << 9,  .polarity = REVERSE }, // WiFi protected setup LED blue
 		},
 	},
+	[WRT610NV2] = {
+		.name		= "Linksys WRT610N V2",
+		.buttons	= {
+			{ .name = "reset",	.gpio = 1 << 6 },
+			{ .name = "ses",	.gpio = 1 << 4 },
+		},
+		.leds		= {
+			{ .name = "power",	.gpio = 1 << 5,	.polarity = NORMAL },	// Power LED
+			{ .name = "usb",	.gpio = 1 << 7,	.polarity = NORMAL },	// USB LED
+			{ .name = "ses_amber",	.gpio = 1 << 0,	.polarity = REVERSE },	// WiFi protected setup LED amber
+			{ .name = "ses_blue",	.gpio = 1 << 3,	.polarity = REVERSE },	// WiFi protected setup LED blue
+			{ .name = "wlan",	.gpio = 1 << 1,	.polarity = NORMAL },	// Wireless LED
+		},
+	},
+	[E3000V1] = {
+		.name		= "Linksys E3000 V1",
+		.buttons	= {
+			{ .name = "reset",	.gpio = 1 << 6 },
+			{ .name = "ses",	.gpio = 1 << 4 },
+		},
+		.leds		= {
+			{ .name = "power",	.gpio = 1 << 5,	.polarity = NORMAL },	// Power LED
+			{ .name = "usb",	.gpio = 1 << 7,	.polarity = NORMAL },	// USB LED
+			{ .name = "ses_amber",	.gpio = 1 << 0,	.polarity = REVERSE },	// WiFi protected setup LED amber
+			{ .name = "ses_blue",	.gpio = 1 << 3,	.polarity = REVERSE },	// WiFi protected setup LED blue
+			{ .name = "wlan",	.gpio = 1 << 1,	.polarity = NORMAL },	// Wireless LED
+		},
+	},
 	/* Asus */
 	[WLHDD] = {
 		.name		= "ASUS WL-HDD",
@@ -494,6 +525,17 @@ static struct platform_t __initdata platforms[] = {
 			{ .name = "diag",	.gpio = 1 << 1, .polarity = REVERSE }, // actual name ready
 		},
 		.platform_init = bcm4780_init,
+	},
+	[RTN16] = {
+		.name		= "ASUS RT-N16",
+		.buttons	= {
+			{ .name = "reset",	.gpio = 1 << 8 },
+			{ .name = "ses",	.gpio = 1 << 5 },
+		},
+		.leds		= {
+			{ .name = "power",	.gpio = 1 << 1, .polarity = REVERSE },
+			{ .name = "wlan",	.gpio = 1 << 7, .polarity = NORMAL },
+		},
 	},
 	/* Buffalo */
 	[WHR_G54S] = {
@@ -921,6 +963,8 @@ static struct platform_t __init *platform_detect(void)
 			return &platforms[WL520GU];
 		if (startswith(buf,"WL330GE-")) /* WL330GE-* */
 			return &platforms[WL330GE];
+		if (startswith(buf,"RT-N16-")) /* RT-N16-* */
+			return &platforms[RTN16];
 	}
 
 	/* Based on "ModelId" */
@@ -968,6 +1012,19 @@ static struct platform_t __init *platform_detect(void)
 
 	if (!strcmp(boardtype, "0x478") && !strcmp(getvar("cardbus"), "0"))
 			return &platforms[WRT600N];
+	}
+
+	/*
+	 * Normally, these would go inside the "CFE based - newer hardware" block below; however, during early init, the
+	 * "pmon_ver" variable is not available on the E3000v1 (and probably the WRT610Nv2 also).  Until this is figured out,
+	 * these will need to remain here in order for platform detection to work.
+	 */
+	if (!strcmp(boardnum, "42")) { /* Linksys */
+		if (!strcmp(boardtype, "0x04cf") && !strcmp(getvar("boot_hw_model"), "E300") && !strcmp(getvar("boot_hw_ver"), "1.0"))
+			return &platforms[E3000V1];
+
+		if (!strcmp(boardtype, "0x04cf") && !strcmp(getvar("boot_hw_model"), "WRT610N") && !strcmp(getvar("boot_hw_ver"), "2.0"))
+			return &platforms[WRT610NV2];
 	}
 
 	if (startswith(getvar("pmon_ver"), "CFE")) {
