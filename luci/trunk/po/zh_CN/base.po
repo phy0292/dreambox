@@ -1572,6 +1572,9 @@ msgstr ""
 msgid "Realtime Connections"
 msgstr "实时连接"
 
+msgid "Realtime Graphs"
+msgstr "实时状态"
+
 msgid "Realtime Load"
 msgstr "实时负载"
 
