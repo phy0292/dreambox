@@ -1602,6 +1602,9 @@ msgstr "接收天线"
 msgid "Reconnect this interface"
 msgstr "重新连接"
 
+msgid "Connections"
+msgstr "连接"
+
 msgid "Reconnecting interface"
 msgstr "重新连接"
 
