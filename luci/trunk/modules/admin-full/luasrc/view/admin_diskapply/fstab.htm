@@ -17,6 +17,8 @@ $Id: syslog.htm 5448 2009-10-31 15:54:11Z jow $
 local fdisklist = luci.util.exec("fdisk -l")
 local blkidlist = luci.util.exec("blkid")
 local smartctllist = luci.util.exec("/usr/bin/disk_info")
+local isddnas = luci.util.exec("cat /proc/cpuinfo|grep -c DDNAS") or 0 
+local isddnas = tonumber(isddnas) 
 %>
 
 <h2><a id="content" name="content"><%:Disk Information%></a></h2>
@@ -26,8 +28,10 @@ local smartctllist = luci.util.exec("/usr/bin/disk_info")
 <textarea readonly="readonly" wrap="off" rows="<%=fdisklist:cmatch("\n")%>" id="diskinfo"><%=fdisklist:pcdata()%></textarea><br></br>
 <%:blkid uuid infomation%><br></br>
 <textarea readonly="readonly" wrap="off" rows="<%=blkidlist:cmatch("\n")%>" id="diskinfo"><%=blkidlist:pcdata()%></textarea><br></br>
+<% if  isddnas >= 1 then %>
 <%:smartctl infomation%><br></br>
 <textarea readonly="readonly" wrap="off" rows="<%=smartctllist:cmatch("\n")%>" id="diskinfo"><%=smartctllist:pcdata()%></textarea><br></br>
+<% end -%>
 </div>
 <%+footer%>
 
