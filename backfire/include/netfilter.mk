@@ -151,15 +151,15 @@ endif
 
 # XXX: ttl/TTL extensions have been merged in ttl/TTL in linux 2.6.30, but not yet in iptables
 ifeq ($(strip $(call CompareKernelPatchVer,$(KERNEL_PATCHVER),ge,2.6.30)),1)
-#  $(eval $(call nf_add,IPT_IPOPT,CONFIG_NETFILTER_XT_MATCH_HL, $(P_XT)xt_hl))
-#  $(eval $(call nf_add,IPT_IPOPT,CONFIG_NETFILTER_XT_TARGET_HL, $(P_XT)xt_HL))
-  $(eval $(if $(NF_KMOD),,$(call nf_add,IPT_IPOPT,CONFIG_IP_NF_MATCH_TTL, $(P_V4)ipt_ttl)))  
-  $(eval $(if $(NF_KMOD),,$(call nf_add,IPT_IPOPT,CONFIG_IP_NF_TARGET_TTL, $(P_V4)ipt_TTL)))  
-  $(eval $(if $(NF_KMOD),,$(call nf_add,IPT_IPOPT,CONFIG_IP_NF_TARGET_IPID, $(P_V4)ipt_IPID)))  
+  $(eval $(call nf_add,IPT_IPOPT,CONFIG_NETFILTER_XT_MATCH_HL, $(P_XT)xt_hl))
+  $(eval $(call nf_add,IPT_IPOPT,CONFIG_NETFILTER_XT_TARGET_HL, $(P_XT)xt_HL))
+  $(eval $(if $(NF_KMOD),,$(call nf_add,IPT_IPOPT,CONFIG_IP_NF_MATCH_TTL, $(P_V4)ipt_ttl)))
+  $(eval $(if $(NF_KMOD),,$(call nf_add,IPT_IPOPT,CONFIG_IP_NF_TARGET_TTL, $(P_V4)ipt_TTL)))
+  $(eval $(if $(NF_KMOD),,$(call nf_add,IPT_IPOPT,CONFIG_NETFILTER_XT_TARGET_IPID, $(P_XT)xt_IPID)))  
 else
   $(eval $(call nf_add,IPT_IPOPT,CONFIG_IP_NF_MATCH_TTL, $(P_V4)ipt_ttl))
   $(eval $(call nf_add,IPT_IPOPT,CONFIG_IP_NF_TARGET_TTL, $(P_V4)ipt_TTL))
-  $(eval $(call nf_add,IPT_IPOPT,CONFIG_IP_NF_TARGET_IPID, $(P_V4)ipt_IPID))
+  $(eval $(call nf_add,IPT_IPOPT,CONFIG_NETFILTER_XT_TARGET_IPID, $(P_XT)xt_IPID)) 
 endif
 
 
