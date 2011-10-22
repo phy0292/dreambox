@@ -1,7 +1,7 @@
 <%#
 LuCI - Lua Configuration Interface
-Copyright 2008 Steven Barth <steven@midlink.org>
-Copyright 2008-2009 Jo-Philipp Wich <xm@subsignal.org>
+Copyright 2010 openwrtcn <openwrtcn@gmail.com>
+Copyright 2011 flyzjhz<flyzjhz@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,23 +13,11 @@ $Id: guide.htm 4520 2010-04-07 23:46:56Z openwrt.org.cn $
 
 -%>
 
-<script type="text/javascript">
-<!--
-function quitx()
-{
-//	document.location="/systeminfo.asp";
-	document.getElementById('guide_quit').value="1";
-	document.location="<%=controller%>/admin/system/system/";
-}
+<%
+local is6358 = luci.util.exec("cat /proc/cpuinfo|grep -c 96358VW2") or 0 
+local is6358 = tonumber(is6358) 
+%>
 
-
-function goback()
-{
-	//history.back();
-	document.location="<%=REQUEST_URI%>?step=0";
-}
--->
-</script>
 
 <%
 		function default_sel(value)
@@ -50,6 +38,25 @@ function goback()
 
 <%+header%>
 
+<script type="text/javascript">
+function quitx()
+{
+//	document.location="/systeminfo.asp";
+	document.getElementById('guide_quit').value="1";
+	document.location="<%=controller%>/admin/";
+}
+
+
+function goback()
+{
+	history.back();
+	document.location="<%=REQUEST_URI%>?step=0";
+}
+
+</script>
+
+
+
 <h2><a id="content" name="content"><%:Quick Guide%></a></h2>
 <br />
 
@@ -68,10 +75,11 @@ function goback()
 <br />
 <br />
 
-
+<% if  is6358 >= 1 then %>
 		<div class="cbi-value" id="cbi-route-model"><label class="cbi-value-title" for="cbid.route.model"><%:route model %></label>
 			<div class="cbi-value-field">	
 			<select class="cbi-input-select" onchange="cbi_d_update(this.id)" id="cbid.route.model" name="cbid.route.model" size="1">
+			<option id="cbi-route-model-default" value="0"  >default</option>
 			<option id="cbi-route-model-db120" value="1"  >db120</option>
 			<option id="cbi-route-model-rg100a" value="2" >rg100a</option>
 <!--
@@ -86,13 +94,13 @@ function goback()
 
 			</div>
 		</div>
-
+<% end -%>
 <br />
 <br />
 		<input type="hidden" name="step" value="1" />
 		<input type="hidden" id="guide_quit" name="quit" value="0" />
 		<input class="cbi-button cbi-button-apply" type="submit" value="<%:Guide Next Step%>" style="float: right" />
-		<input class="cbi-button cbi-button-reset" type="reset" onClick=quitx() value="<%:Guide Quit%>" style="float: right"/>
+		<input class="cbi-button cbi-button-reset" type="reset" onClick=quitx() value="<%:Guide Quit%>" style="float: left"/>
 		<br />
 
 <% elseif step == 1 then %>
@@ -180,7 +188,7 @@ function goback()
 				<div class="cbi-value-description">
 					<br />
 					<span class="cbi-value-helpicon"><img src="/luci-static/resources/cbi/help.gif" alt="" /></span>
-					<%:guide_gateway_desc If you don't know, just to contact your ISP%>
+					<%:guide_gateway_desc If you don t know, just to contact your ISP%>
 				</div>
 	
 		</div></div>
@@ -231,7 +239,7 @@ function goback()
 				<div class="cbi-value-description">
 					<br />
 					<span class="cbi-value-helpicon"><img src="/luci-static/resources/cbi/help.gif" alt="" /></span>
-					<%:guide_dns_desc If you don't know, just to contact your ISP%>
+					<%:guide_dns_desc If you don t know, just to contact your ISP%>
 				</div>
 			</div>
 		</div>
@@ -258,8 +266,7 @@ function goback()
 		<input type="hidden" name="step" value="2" />
 
     <input class="cbi-button cbi-button-apply" type="submit" value="<%:Guide Next Step%>" style="float: right" />
-
-		<input class="cbi-button cbi-button-apply" type="submit" onclick = "javascript:history.back(-1);" value="<%:Guide Prev Step%>" style="float: right" />
+		<input class="cbi-button cbi-button-reset" type="reset" onClick=quitx() value="<%:Guide Quit%>" style="float: left"/>
 
 <% elseif step == 2 then  %>
 <%
@@ -304,8 +311,7 @@ function goback()
 		<br />
 		<input type="hidden" name="step" value="3" />
 		<input class="cbi-button cbi-button-apply" type="submit" value="<%:Guide Next Step%>" style="float: right"/>
-		<input class="cbi-button cbi-button-apply" type="submit" onclick = "javascript:history.back(-1);" value="<%:Guide Prev Step%>" style="float: right" />
-
+		<input class="cbi-button cbi-button-reset" type="reset" onClick=quitx() value="<%:Guide Quit%>" style="float: left"/>
 
 <% elseif step == 3 then %>
 		<br />
@@ -317,8 +323,7 @@ function goback()
 		<input type="hidden" id="guide_quit" name="quit" value="0" />
 
 		<input class="cbi-button cbi-button-apply" type="submit" value="<%:guide_apply Apply%>" style="float: right"/>
-		<input class="cbi-button cbi-button-apply" type="submit" onclick = "javascript:history.back(-1);" value="<%:Guide Prev Step%>" style="float: right" />
-		<input class="cbi-button cbi-button-reset" type="reset" onClick=quitx() value="<%:guide_quit Quit%>" style="float: right"/>
+		<input class="cbi-button cbi-button-reset" type="reset" onClick=quitx() value="<%:guide_quit Quit%>" style="float: left"/>
 
 <% elseif step == 4 then %>
 		<br />
