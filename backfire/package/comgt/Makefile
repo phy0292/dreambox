@@ -23,7 +23,7 @@ define Package/comgt
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=Option/Vodafone 3G/GPRS control tool
-  DEPENDS:=+chat
+  DEPENDS:=+chat +huaweiaktbbo
   URL:= http://www.pharscape.org/content/view/46/70/
 endef
 
