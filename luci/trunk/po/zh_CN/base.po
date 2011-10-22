@@ -2990,4 +2990,314 @@ msgstr "校园网认证"
 msgid "portmap"
 msgstr "端口映射"
 
-#title 
+#title  
+
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+msgid "-- Please choose --"
+msgstr "--请选择--"
+
+msgid "APN"
+msgstr ""
+
+msgid "ARP retry threshold"
+msgstr ""
+
+msgid "ATM Virtual Channel Identifier (VCI)"
+msgstr "ATM虚通道标识符"
+
+msgid "ATM Virtual Path Identifier (VPI)"
+msgstr "ATM虚拟路径标识符"
+
+msgid "ATM device number"
+msgstr "ATM设备号"
+
+msgid "Accept router advertisements"
+msgstr "接受路由器通告"
+
+msgid "Access Concentrator"
+msgstr "访问集中器"
+
+msgid "Address to access local relay bridge"
+msgstr "地址来访问本地中继桥"
+
+msgid "Advertise IPv6 on network"
+msgstr ""
+
+msgid "Advertised network ID"
+msgstr ""
+
+msgid "Allowed range is 1 to 65535"
+msgstr "允许的范围 1～65535"
+
+msgid "Client ID to send when requesting DHCP"
+msgstr "请求DHCP时发送客户端ID"
+
+msgid ""
+"Close inactive connection after the given amount of seconds, use 0 to "
+"persist connection"
+msgstr ""
+
+msgid "Default gateway"
+msgstr "默认网关"
+
+msgid "Dynamic tunnel"
+msgstr "动态通道"
+
+msgid "Enable HE.net dynamic endpoint update"
+msgstr "允许HE.net动态端点升级"
+
+msgid "Enable IPv6 negotiation on the PPP link"
+msgstr "允许在ppp链路上使用IPv6协议"
+
+msgid "Enable buffering"
+msgstr "允许缓冲"
+
+msgid "Forward DHCP traffic"
+msgstr ""
+
+msgid "Forward broadcast traffic"
+msgstr ""
+
+msgid "GHCA Dialer"
+msgstr "GHCA拨号"
+
+msgid "HE.net password"
+msgstr "HE.net密码"
+
+msgid "HE.net user ID"
+msgstr "HE.net 用户ID"
+
+msgid "Host expiry timeout"
+msgstr "主机到期超时"
+
+msgid "Hostname to send when requesting DHCP"
+msgstr "在请求DHCP是发送主机名"
+
+msgid "IPv4 address"
+msgstr "IPv4地址"
+
+msgid "IPv4 broadcast"
+msgstr "IPv4广播"
+
+msgid "IPv4 gateway"
+msgstr "IPv4网关"
+
+msgid "IPv4 netmask"
+msgstr "IPv4掩码"
+
+msgid "IPv6 address"
+msgstr "IPv6地址"
+
+msgid "IPv6 gateway"
+msgstr "IPv6网关"
+
+msgid "IPv6-in-IPv4 (RFC4213)"
+msgstr ""
+
+msgid "IPv6-over-IPv4"
+msgstr ""
+
+msgid "If checked,Dial with GHCA auto."
+msgstr ""
+
+msgid "If unchecked, no default route is configured"
+msgstr "如果未确认，不会配置默认路由"
+
+msgid "If unchecked, the advertised DNS server addresses are ignored"
+msgstr "如果未确认，高级DNS服务器地址忽略"
+
+msgid "Inactivity timeout"
+msgstr ""
+
+msgid "LCP echo failure threshold"
+msgstr ""
+
+msgid "LCP echo interval"
+msgstr ""
+
+msgid "Leave empty to autodetect"
+msgstr "不填使用自动侦测"
+
+msgid "Leave empty to use the current WAN address"
+msgstr ""
+
+msgid "Local IPv4 address"
+msgstr "本地IPv4地址"
+
+msgid "Local IPv6 address"
+msgstr "本地IPv6地址"
+
+msgid "Maximum amount of seconds to wait for the modem to become ready"
+msgstr ""
+
+msgid "Modem device"
+msgstr "猫设备名"
+
+msgid "Modem init timeout"
+msgstr "猫启动超时"
+
+msgid "Override MAC address"
+msgstr "覆盖MAC地址"
+
+msgid "Override MTU"
+msgstr "覆盖MTU"
+
+msgid "Override the gateway in DHCP responses"
+msgstr ""
+
+msgid "Override the table used for internal routes"
+msgstr ""
+
+msgid "PAP/CHAP password"
+msgstr "PAP/CHAP密码"
+
+msgid "PAP/CHAP username"
+msgstr "PAP/CHAP用户名"
+
+msgid "PIN"
+msgstr ""
+
+msgid "PPP"
+msgstr ""
+
+msgid "PPPoA Encapsulation"
+msgstr ""
+
+msgid "PPPoATM"
+msgstr ""
+
+msgid "PPPoE"
+msgstr ""
+
+msgid "PPtP"
+msgstr ""
+
+msgid ""
+"Presume peer to be dead after given amount of LCP echo failures, use 0 to "
+"ignore failures"
+msgstr ""
+
+msgid "Relay"
+msgstr ""
+
+msgid "Relay Bridge"
+msgstr ""
+
+msgid "Relay between networks"
+msgstr ""
+
+msgid "Relay bridge"
+msgstr ""
+
+msgid "Remote IPv4 address"
+msgstr "远程IPv4地址"
+
+msgid "Required for certain ISPs, e.g. Charter with DOCSIS 3"
+msgstr ""
+
+msgid ""
+"Send LCP echo requests at the given interval in seconds, only effective in "
+"conjunction with failure threshold"
+msgstr ""
+
+msgid "Send router solicitations"
+msgstr ""
+
+msgid "Service Name"
+msgstr "服务名称"
+
+msgid "Service Type"
+msgstr "服务型号"
+
+msgid "Specifies the advertised preferred prefix lifetime in seconds"
+msgstr ""
+
+msgid "Specifies the advertised valid prefix lifetime in seconds"
+msgstr ""
+
+msgid ""
+"Specifies the maximum amount of failed ARP requests until hosts are presumed "
+"to be dead"
+msgstr ""
+
+msgid ""
+"Specifies the maximum amount of seconds after which hosts are presumed to be "
+"dead"
+msgstr ""
+
+msgid "This is the 32 byte hex encoded user ID, not the login name"
+msgstr ""
+
+msgid ""
+"This is the local endpoint address assigned by the tunnel broker, it usually "
+"ends with <code>:2</code>"
+msgstr ""
+
+msgid ""
+"This is usually the address of the nearest PoP operated by the tunnel broker"
+msgstr ""
+
+msgid "Tunnel ID"
+msgstr "通道ID"
+
+msgid "UMTS/GPRS/EV-DO"
+msgstr ""
+
+msgid "Use DHCP gateway"
+msgstr "使用DHCP网关"
+
+msgid "Use DNS servers advertised by peer"
+msgstr ""
+
+msgid "Use MTU on tunnel interface"
+msgstr ""
+
+msgid "Use TTL on tunnel interface"
+msgstr ""
+
+msgid "Use broadcast flag"
+msgstr ""
+
+msgid "Use custom DNS servers"
+msgstr "使用自定义DNS服务器"
+
+msgid "Use default gateway"
+msgstr "使用默认网关"
+
+msgid "Use gateway metric"
+msgstr ""
+
+msgid "Use preferred lifetime"
+msgstr ""
+
+msgid "Use routing table"
+msgstr "使用路由表"
+
+msgid "Use valid lifetime"
+msgstr ""
+
+msgid "VPN Server"
+msgstr "VPN 服务器"
+
+msgid "Vendor Class to send when requesting DHCP"
+msgstr ""
+
+msgid "auto"
+msgstr "自动"
+
+msgid "Protocol support is not installed"
+msgstr "需要的协议未安装"
+
+msgid "Really switch protocol?"
+msgstr "真的切换协议？"
+
+msgid "Switch protocol"
+msgstr "切换协议"
+
+msgid "Install package %q" 
+msgstr "安装包 \%\q" 
+
+
+
