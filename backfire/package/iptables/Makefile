@@ -149,8 +149,6 @@ iptables extensions for matching/changing IP packet options.
 
  Matches:
   - dscp
-  - hashlimit
-  - connlimit
   - ecn
   - length
   - mark
