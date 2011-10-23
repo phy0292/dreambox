@@ -4,7 +4,7 @@ BEGIN {
 	FS=":"
 	n = 0
 }
-
+ 
 ($1 != "") {
 	n++
 	class[n] = $1
@@ -13,7 +13,8 @@ BEGIN {
 	pktsize[n] = $4
 	delay[n] = $5
 	maxrate[n] = ($6 * linespeed / 100)
-	qdisc_esfq[n] = $7
+	qdisc[n] = $7
+	filter[n] = $8
 }
 
 END {
@@ -65,20 +66,6 @@ END {
 		}
 	}
 
-	# main qdisc
-	for (i = 1; i <= n; i++) {
-		printf "tc class add dev "device" parent 1:1 classid 1:"class[i]"0 hfsc"
-		if (qdisc_esfq[i] != "") {
-			# user requested esfq
-			print "esfq " qdisc_esfq[i] " limit " ql
-		} else if (rtm1[i] > 0) {
-			# rt class - use sfq
-			printf " rt m1 " int(rtm1[i]) "kbit d " int(d[i] * 1000) "us m2 " int(rtm2[i])"kbit"
-		}
-		printf " ls m1 " int(lsm1[i]) "kbit d " int(d[i] * 1000) "us m2 " int(lsm2[i]) "kbit"
-		print " ul rate " int(maxrate[i]) "kbit"
-	}
-
 	# leaf qdisc
 	avpkt = 1200
 	for (i = 1; i <= n; i++) {
@@ -96,7 +83,10 @@ END {
 		max = 3 * min
 		limit = (min + max) * 3
 
-		if (rtm1[i] > 0) {
+		if (qdisc[i] != "") {
+			# user specified qdisc
+			print qdisc[i] " limit " limit
+		} else if (rtm1[i] > 0) {
 			# rt class - use sfq
 			print "sfq perturb 2 limit "  limit
 		} else {
@@ -118,11 +108,6 @@ END {
 			if (rburst < 2) rburst = 2
 			print "red min " min " max " max " burst " rburst " avpkt " avpkt " limit " limit " probability " prob " ecn"
 		}
-	}
-	
-	# filter rule
-	for (i = 1; i <= n; i++) {
-		print "tc filter add dev "device" parent 1: prio "class[i]" protocol ip handle "class[i]" fw flowid 1:"class[i] "0" 
 	}
 }
 

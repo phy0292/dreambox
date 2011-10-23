@@ -7,7 +7,7 @@
 	insmod="insmod"
 	rmmod="rmmod"
 }
-
+ 
 add_insmod() {
 	eval "export isset=\${insmod_$1}"
 	case "$isset" in
@@ -69,9 +69,9 @@ parse_matching_rule() {
 				append "$var" "-d $value"
 			;;
 			*:layer7)
-				add_insmod ipt_layer7
-				add_insmod xt_layer7
-				append "$var" "-m layer7 --l7proto $value${pkt:+ --l7pkt}"
+				add_insmod xt_opendpi
+
+				append "$var" "-m opendpi --$value"
 			;;
 			*:ports|*:srcports|*:dstports)
 				value="$(echo "$value" | sed -e 's,-,:,g')"
@@ -210,7 +210,7 @@ config_cb() {
 			config_get_bool enabled "$CONFIG_SECTION" enabled 1
 			[ 1 -eq "$enabled" ] || return 0
 			config_get classgroup "$CONFIG_SECTION" classgroup
-			config_set "$CONFIG_SECTION" imqdev "$C"
+			config_set "$CONFIG_SECTION" ifbdev "$C"
 			C=$(($C+1))
 			append INTERFACES "$CONFIG_SECTION"
 			config_set "$classgroup" enabled 1
@@ -274,7 +274,7 @@ tcrules() {
 
 start_interface() {
 	local iface="$1"
-	local num_imq="$2"
+	local num_ifb="$2"
 	config_get device "$iface" device
 	config_get_bool enabled "$iface" enabled 1
 	[ -z "$device" -o 1 -ne "$enabled" ] && {
@@ -298,10 +298,10 @@ start_interface() {
 				prefix="cls"
 			;;
 			down)
-				[ "$(ls -d /proc/sys/net/ipv4/conf/imq* 2>&- | wc -l)" -ne "$num_imq" ] && add_insmod imq numdevs="$num_imq"
-				config_get imqdev "$iface" imqdev
+				[ "$(ls -d /proc/sys/net/ipv4/conf/ifb* 2>&- | wc -l)" -ne "$num_ifb" ] && add_insmod ifb numifbs="$num_ifb"
+				config_get ifbdev "$iface" ifbdev
 				[ "$overhead" = 1 ] && download=$(($download * 98 / 100 - (80 * 1024 / $download)))
-				dev="imq$imqdev"
+				dev="ifb$ifbdev"
 				rate="$download"
 				dl_mode=1
 				prefix="d_cls"
@@ -315,26 +315,63 @@ start_interface() {
 			cls_var maxrate "$class" limitrate $dir 100
 			cls_var prio "$class" priority $dir 1
 			cls_var avgrate "$class" avgrate $dir 0
-			cls_var qdisc_esfq "$class" qdisc_esfq $dir ""
-			[ "$qdisc_esfq" != "" ] && add_insmod sch_esfq
+			cls_var qdisc "$class" qdisc $dir ""
+			cls_var filter "$class" filter $dir ""
 			config_get classnr "$class" classnr
-			append cstr "$classnr:$prio:$avgrate:$pktsize:$pktdelay:$maxrate:$qdisc_esfq" "$N"
+			append cstr "$classnr:$prio:$avgrate:$pktsize:$pktdelay:$maxrate:$qdisc:$filter" "$N"
 		done
 		append ${prefix}q "$(tcrules)" "$N"
 		export dev_${dir}="ifconfig $dev up txqueuelen 5 >&- 2>&-
 tc qdisc del dev $dev root >&- 2>&-
-tc qdisc add dev $dev root handle 1: hfsc default ${class_default}0
-tc class add dev $dev parent 1: classid 1:1 hfsc sc rate ${rate}kbit ul rate ${rate}kbit"
+tc qdisc add dev $dev root handle 1: htb default ${class_default}0
+tc class add dev $dev parent 1: classid 1:1 htb  rate ${rate}kbit ceil ${rate}kbit"
 	done
+	[ -n "$download" ] && {
+		add_insmod cls_u32
+		add_insmod em_u32
+		add_insmod act_connmark
+		add_insmod act_mirred
+		add_insmod sch_ingress
+	}
+	if [ -n "$halfduplex" ]; then
+		export dev_up="tc qdisc del dev $device root >&- 2>&-
+tc qdisc add dev $device root handle 1: htb
+tc filter add dev $device parent 1: protocol ip prio 10 u32 match u32 0 0 flowid 1:1 action connmark action mirred egress redirect dev ifb$ifbdev"
+	elif [ -n "$download" ]; then
+		append dev_${dir} "tc qdisc del dev $device ingress >&- 2>&-
+tc qdisc add dev $device ingress
+tc filter add dev $device parent ffff: protocol ip prio 1 u32 match u32 0 0 flowid 1:1 action connmark action mirred egress redirect dev ifb$ifbdev" "$N"
+	fi
 	add_insmod cls_fw
-	add_insmod sch_hfsc
+	add_insmod sch_htb
 	add_insmod sch_sfq
 	add_insmod sch_red
 
 	cat <<EOF
 ${INSMOD:+$INSMOD$N}${dev_up:+$dev_up
+tc class add dev $device parent 1:1 classid 1:10 htb rate 15kbps ceil "$upload"kbit prio 1
+tc class add dev $device parent 1:1 classid 1:20 htb rate 20kbps ceil "$upload"kbit prio 2
+tc class add dev $device parent 1:1 classid 1:30 htb rate 10kbps ceil "$upload"kbit prio 3 
+tc class add dev $device parent 1:1 classid 1:4 htb rate 10kbps ceil $(($upload * 80 /100))kbit 
+tc class add dev $device parent 1:4 classid 1:40 htb rate 5kbps ceil $(($upload * 80 /100))kbit prio 4 
+tc class add dev $device parent 1:4 classid 1:50 htb rate 5kbps ceil $(($upload * 80 /100))kbit prio 5 
+tc filter add dev $device parent 1: prio 1 protocol ip handle 1 fw flowid 1:10
+tc filter add dev $device parent 1: prio 2 protocol ip handle 2 fw flowid 1:20
+tc filter add dev $device parent 1: prio 3 protocol ip handle 3 fw flowid 1:30
+tc filter add dev $device parent 1: prio 4 protocol ip handle 4 fw flowid 1:40
+tc filter add dev $device parent 1: prio 4 protocol ip handle 9 fw flowid 1:40
+tc filter add dev $device parent 1: prio 5 protocol ip handle 5 fw flowid 1:50
 $clsq
-}${imqdev:+$dev_down
+}${ifbdev:+$dev_down
+tc class add dev ifb$ifbdev parent 1:1 classid 1:10 htb rate 30kbps ceil "$download"kbit prio 1
+tc class add dev ifb$ifbdev parent 1:1 classid 1:20 htb rate 50kbps ceil "$download"kbit prio 2
+tc class add dev ifb$ifbdev parent 1:1 classid 1:3 htb rate 100kbps ceil $(($download * 85 /100))kbit 
+tc class add dev ifb$ifbdev parent 1:3 classid 1:30 htb rate 50kbps ceil $(($download * 85 /100))kbit prio 3
+tc class add dev ifb$ifbdev parent 1:3 classid 1:40 htb rate 50kbps ceil $(($download * 85 /100))kbit prio 4
+tc filter add dev ifb$ifbdev parent 1: prio 1 protocol ip handle 1 fw flowid 1:10
+tc filter add dev ifb$ifbdev parent 1: prio 2 protocol ip handle 2 fw flowid 1:20
+tc filter add dev ifb$ifbdev parent 1: prio 3 protocol ip handle 3 fw flowid 1:30
+tc filter add dev ifb$ifbdev parent 1: prio 4 protocol ip handle 4 fw flowid 1:40
 $d_clsq
 $d_clsl
 $d_clsf
@@ -344,10 +381,10 @@ EOF
 }
 
 start_interfaces() {
-	local C="$1"
-	for iface in $INTERFACES; do
-		start_interface "$iface" "$C"
-	done
+     local C="$1"
+        for iface in $INTERFACES; do
+                start_interface "$iface" "$C"
+        done
 }
 
 add_rules() {
@@ -388,39 +425,70 @@ start_cg() {
 		config_get maxsize "$class" maxsize
 		[ -z "$maxsize" -o -z "$mark" ] || {
 			add_insmod ipt_length
-			append pktrules "iptables -t mangle -A ${cg} -m mark --mark $mark -m length --length $maxsize: -j MARK --set-mark 0" "$N"
+			append pktrules "iptables -t mangle -A ${cg} -m mark --mark $mark -m length --length ${maxsize}: -j MARK --set-mark 0" "$N"
 		}
 	done
 	add_rules pktrules "$rules" "iptables -t mangle -A ${cg}"
 	for iface in $INTERFACES; do
 		config_get classgroup "$iface" classgroup
 		config_get device "$iface" device
-		config_get imqdev "$iface" imqdev
+		config_get ifbdev "$iface" ifbdev
 		config_get upload "$iface" upload
 		config_get download "$iface" download
 		config_get halfduplex "$iface" halfduplex
 		download="${download:-${halfduplex:+$upload}}"
-		add_insmod ipt_IMQ
 		append up "iptables -t mangle -A OUTPUT -o $device -j ${cg}" "$N"
 		append up "iptables -t mangle -A FORWARD -o $device -j ${cg}" "$N"
-		[ -z "$download" ] || {
-			append down "iptables -t mangle -A POSTROUTING -o $device -j ${cg}" "$N"
-			[ -z "$halfduplex" ] || {
-				append down "iptables -t mangle -A POSTROUTING -o $device -j IMQ --todev $imqdev" "$N"
-			}
-			append down "iptables -t mangle -A PREROUTING -i $device -j ${cg}" "$N"
-			append down "iptables -t mangle -A PREROUTING -i $device -j IMQ --todev $imqdev" "$N"
-		}
 	done
+	add_insmod xt_opendpi
 	cat <<EOF
 $INSMOD
-iptables -t mangle -N ${cg} >&- 2>&-
-iptables -t mangle -N ${cg}_ct >&- 2>&-
-${iptrules:+${iptrules}${N}iptables -t mangle -A ${cg}_ct -j CONNMARK --save-mark}
-iptables -t mangle -A ${cg} -j CONNMARK --restore-mark
-iptables -t mangle -A ${cg} -m mark --mark 0 -j ${cg}_ct
-$pktrules
-$up$N${down:+${down}$N}
+iptables -t mangle -N Default
+iptables -t mangle -N Default_ct
+iptables -t mangle -A Default_ct -m mark --mark 0 -m tcp -p tcp -m multiport --ports 22,53 -j MARK --set-mark 2
+iptables -t mangle -A Default_ct -m mark --mark 0 -p udp -m udp -m multiport --ports 22,53 -j MARK --set-mark 2
+iptables -t mangle -A Default_ct -m mark --mark 0 -p tcp -m tcp -m multiport --ports 80,3389,3390,5900,1080,1194 -j MARK --set-mark 3
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --hf -j MARK --set-mark 1
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --pt11 -j MARK --set-mark 1
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --warcraft -j MARK --set-mark 1
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --counterstrike -j MARK --set-mark 1
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --qq -j MARK --set-mark 2
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --aliwangwang -j MARK --set-mark 2
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --http -j MARK --set-mark 3
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --ppstream -j MARK --set-mark 4
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --bittorrent -j MARK --set-mark 4
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --funshion -j MARK --set-mark 9
+iptables -t mangle -A Default_ct -m mark --mark 9 -m recent --set --name funshion --rsource --rport 
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --pptv -j MARK --set-mark 8
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --thunder -j MARK --set-mark 8
+iptables -t mangle -A Default_ct -m mark --mark 8 -m recent --set --name p2p_up --rsource --rport -j MARK --set-mark 0x4
+iptables -t mangle -A Default_ct -j CONNMARK --save-mark
+iptables -t mangle -A Default -m connmark --mark 0 -m recent --update --seconds 600 --name p2p_up --rsource --rport -j CONNMARK --set-mark 0x4
+iptables -t mangle -A Default -m connmark --mark 0 -m recent --update --seconds 600 --name funshion --rsource --rport -j CONNMARK --set-mark 0x9
+iptables -t mangle -A Default -m connmark --mark 3 -m opendpi --thunder -j CONNMARK --set-mark 4
+iptables -t mangle -A Default -j CONNMARK --restore-mark
+iptables -t mangle -A Default -m mark --mark 0 -j Default_ct
+iptables -t mangle -A Default -m mark --mark 1 -m length --length 400: -j MARK --set-mark 0
+iptables -t mangle -A Default -m mark --mark 2 -m length --length 800: -j MARK --set-mark 0
+iptables -t mangle -A Default -p icmp -j MARK --set-mark 1
+iptables -t mangle -A Default -p tcp -m length --length :128 -m mark  --mark 3 -m tcp --tcp-flags ALL SYN -j MARK --set-mark 2
+iptables -t mangle -A Default -p tcp -m length --length :128 -m mark  --mark 3 -m tcp --tcp-flags ALL ACK -j MARK --set-mark 2
+iptables -t mangle -A Default -p tcp -m length --length :128 -m mark  --mark 0 -m tcp --tcp-flags ALL SYN -j MARK --set-mark 3
+iptables -t mangle -A Default -p tcp -m length --length :128 -m mark  --mark 0 -m tcp --tcp-flags ALL ACK -j MARK --set-mark 3
+iptables -t mangle -A Default -m mark --mark 0 -p udp -m length --length 0: -j MARK --set-mark 4
+iptables -t mangle -A Default -m mark --mark 0 -p tcp -m length --length 0: -j MARK --set-mark 4
+iptables -t mangle -A Default -m mark --mark 4 -p udp -m length --length 300: -j MARK --set-mark 5
+iptables -t mangle -A Default -m mark --mark 4 -p tcp -m length --length 300: -j MARK --set-mark 5
+iptables -t mangle -A Default -m mark --mark 9 -p udp -m length --length 300: -j MARK --set-mark 5
+iptables -t mangle -A Default -m mark --mark 9 -p tcp -m length --length 300: -j MARK --set-mark 5
+iptables -t mangle -A OUTPUT -o $device -j Default
+iptables -t mangle -A FORWARD -o $device -j Default
+iptables -t mangle -N Default_dn >&- 2>&-
+iptables -t mangle -N Default_ct_dn >&- 2>&-
+iptables -t mangle -A Default_dn -j CONNMARK --restore-mark
+iptables -t mangle -A Default_dn -m mark --mark 0 -j Default_ct_dn
+iptables -t mangle -A INPUT -i $device -j Default_dn
+iptables -t mangle -A FORWARD -i $device -j Default_dn
 EOF
 	unset INSMOD
 }
