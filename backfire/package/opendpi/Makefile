@@ -25,6 +25,8 @@ define KernelPackage/ipt-opendpi
   SUBMENU:=Netfilter Extensions
   TITLE:= OpenDPI net netfilter module
   DEPENDS:=@!LINUX_2_4  +kmod-nf-conntrack-netlink +kmod-ipt-compat-xtables
+  KCONFIG:=CONFIG_NF_CONNTRACK \
+	   CONFIG_NF_CONNTRACK_EVENTS=y	 
   FILES:=$(PKG_BUILD_DIR)/wrapper/src/xt_opendpi.$(LINUX_KMOD_SUFFIX)
  AUTOLOAD:=$(call AutoLoad,46,xt_opendpi)
 

@@ -548,10 +548,7 @@ define KernelPackage/nf-conntrack-netlink
 $(call KernelPackage/nfnetlink/Depends,+kmod-ipt-conntrack)
   TITLE:=Connection tracking netlink interface
   FILES:=$(LINUX_DIR)/net/netfilter/nf_conntrack_netlink.$(LINUX_KMOD_SUFFIX)
-  KCONFIG:=CONFIG_NF_CT_NETLINK \
-	   CONFIG_NF_CONNTRACK_EVENTS=y \
-	   CONFIG_NF_CONNTRACK
-
+  KCONFIG:=CONFIG_NF_CT_NETLINK 
   AUTOLOAD:=$(call AutoLoad,49,nf_conntrack_netlink)
 endef
 
