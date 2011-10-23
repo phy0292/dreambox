@@ -1,0 +1,16 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006 OpenWrt.org
+
+START=50
+
+boot() {
+	/usr/lib/nqos/generate.sh firewall | sh
+}
+
+start() {
+	nqos-start
+}
+
+stop() {
+	nqos-stop
+}
