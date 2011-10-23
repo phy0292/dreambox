@@ -1,6 +1,10 @@
+---
+ include/linux/netfilter_ipv4/ip_tables.h |    3 +++
+ 1 file changed, 3 insertions(+)
+
 --- a/include/linux/netfilter_ipv4/ip_tables.h
 +++ b/include/linux/netfilter_ipv4/ip_tables.h
-@@ -114,7 +114,10 @@ struct ipt_entry
+@@ -113,7 +113,10 @@ struct ipt_entry {
  #define IPT_CONTINUE XT_CONTINUE
  #define IPT_RETURN XT_RETURN
  
