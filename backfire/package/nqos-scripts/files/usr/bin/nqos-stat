@@ -23,7 +23,7 @@ config_cb() {
 	}
 }
 
-config_load qos
+config_load nqos
 
 print_comments() {
 	echo ''
