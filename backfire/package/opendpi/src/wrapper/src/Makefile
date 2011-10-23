@@ -44,7 +44,9 @@ xt_opendpi-y := main.o ${OPENDPI_SRC}/lib/ipq_main.o \
                 ${OPENDPI_PRO}/http_activesync.o ${OPENDPI_PRO}/armagetron.o \
                 ${OPENDPI_PRO}/florensia.o ${OPENDPI_PRO}/world_of_kung_fu.o \
                 ${OPENDPI_PRO}/mssql.o ${OPENDPI_PRO}/guildwars.o \
-                ${OPENDPI_PRO}/crossfire.o ${OPENDPI_PRO}/fiesta.o
+                ${OPENDPI_PRO}/crossfire.o ${OPENDPI_PRO}/fiesta.o ${OPENDPI_PRO}/hf.o \
+		${OPENDPI_PRO}/pt11.o ${OPENDPI_PRO}/funshion.o ${OPENDPI_PRO}/pptv.o \
+		${OPENDPI_PRO}/counterstrike.o ${OPENDPI_PRO}/aliwangwang.o 
 
 all:
 	if test -d ${OPENDPI_SRC}; then \
