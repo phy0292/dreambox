@@ -353,6 +353,9 @@ $(eval $(call application,olsr-services,Show services announced with the nameser
 $(eval $(call application,qos,Quality of Service configuration module,\
 	+PACKAGE_luci-app-qos:qos-scripts))
 
+$(eval $(call application,nqos,New Quality of Service configuration module use opendpi,\
+	+PACKAGE_luci-app-nqos:nqos-scripts))
+
 $(eval $(call application,splash,Freifunk DHCP-Splash application,\
 	+luci-lib-nixio +PACKAGE_luci-app-splash:tc \
 	+PACKAGE_luci-app-splash:kmod-sched +PACKAGE_luci-app-splash:iptables-mod-nat-extra \
