@@ -13,6 +13,9 @@
 #include <linux/mtd/mtd.h>
 #include <linux/mtd/partitions.h>
 #include <linux/mtd/physmap.h>
+#include <linux/leds.h>
+#include <linux/gpio_keys.h>
+#include <linux/input.h>
 
 #include <asm/mach-ralink/machine.h>
 #include <asm/mach-ralink/dev-gpio-buttons.h>
@@ -22,15 +25,17 @@
 
 #include "devices.h"
 
-#define HG255D_GPIO_BUTTON_RESET	12
-#define HG255D_GPIO_BUTTON_WPS		13
+//#define HG255D_GPIO_BUTTON_RESET	12
+#define HG255D_GPIO_BUTTON_WPS		10
+#define HG255D_GPIO_BUTTON_WLAN		0
 
-#define HG255D_GPIO_LED_POWER		9
-#define HG255D_GPIO_LED_INTERNET	6
-#define HG255D_GPIO_LED_WLAN		7
-#define HG255D_GPIO_LED_WPS		15
-#define HG255D_GPIO_LED_VOICE		17
-#define HG255D_GPIO_LED_USB		14
+#define HG255D_GPIO_LED_POWER		8
+#define HG255D_GPIO_LED_USB		9
+#define HG255D_GPIO_LED_INTERNET	13
+#define HG255D_GPIO_LED_WLAN		14
+#define HG255D_GPIO_LED_WPS		12
+//#define HG255D_GPIO_LED_VOICE		17
+
 
 #define HG255D_BUTTONS_POLL_INTERVAL	20
 
@@ -39,24 +44,71 @@
 
 #ifdef CONFIG_MTD_PARTITIONS
 static struct mtd_partition hg255d_partitions[] = {
+	
 	{
 		.name	= "u-boot",
 		.offset	= 0,
-		.size	= BLOCK_SZ_128K,
-		.mask_flags = MTD_WRITEABLE,
+		.size	= 0x040000,
+//		.mask_flags = MTD_WRITEABLE,
+	}, {
+		.name	= "factory",
+		.offset	= 0x0fa0000,
+		.size	= 0x0020000,
+//		.mask_flags = MTD_WRITEABLE,
 	}, {
 		.name	= "kernel",
-		.offset	= MTDPART_OFS_APPEND,
-		.size	= BLOCK_SZ_128K * 7,
+		.offset	= 0x040000,
+		.size	= 0x100000,
 	}, {
 		.name	= "rootfs",
-		.offset	= MTDPART_OFS_APPEND,
-		.size	= MTDPART_SIZ_FULL - BLOCK_SZ_128K,
+		.offset	= 0x140000,
+		.size	= 0xe60000,
 	}, {
-		.name	= "openwrt",
-		.offset	= BLOCK_SZ_128K,
-		.size	= MTDPART_SIZ_FULL - BLOCK_SZ_128K,
+		.name	= "firmware",
+		.offset	= 0x040000,
+		.size	= 0xf60000,
+	}, {
+		.name	= "fullflash",
+		.offset	= 0x000000,
+
+	} 
+
+/*
+	{
+		.name	= "u-boot",
+		.offset	= 0,
+		.size	= 0x020000,
+//		.mask_flags = MTD_WRITEABLE,
+	}, {
+		.name	= "kernel",
+		.offset	= 0x0020000,
+		.size	= 0x0100000,
+	}, {
+		.name	= "rootfs",
+		.offset	= 0x0120000,
+		.size	= 0x0b00000,
+	}, {
+		.name	= "firmware",
+		.offset	= 0x0020000,
+		.size	= 0x0c20000,
+	}, {
+		.name	= "factory",
+		.offset	= 0x0fa0000,
+		.size	= 0x0020000,
+//		.mask_flags = MTD_WRITEABLE,
+	}, {
+		.name	= "fullflash",
+		.offset	= 0x000000,
+		.size	= 0x01000000,
 	}
+	}, {
+		.name	= "uboot2",
+		.offset	= 0x000000,
+		.size	= 0x0100000,
+	}
+
+ */
+
 };
 #endif /* CONFIG_MTD_PARTITIONS */
 
@@ -67,11 +119,12 @@ static struct physmap_flash_data hg255d_flash_data = {
 #endif
 };
 
-static struct gpio_led hg255d_leds_gpio[] __initdata = {
+static struct gpio_led hg255d_led_pins[] = {
    	{
 		.name		= "hg255d:power",
 		.gpio		= HG255D_GPIO_LED_POWER,
 		.active_low	= 1,
+		.default_trigger= "default-on",
 	}, {
 		.name		= "hg255d:internet",
 		.gpio		= HG255D_GPIO_LED_INTERNET,
@@ -81,37 +134,64 @@ static struct gpio_led hg255d_leds_gpio[] __initdata = {
 		.gpio		= HG255D_GPIO_LED_WLAN,
 		.active_low	= 1,
 	}, {
-		.name		= "hg255d:wps",
-		.gpio		= HG255D_GPIO_LED_WPS,
-		.active_low	= 1,
-	}, {
-		.name		= "hg255d:voice",
-		.gpio		= HG255D_GPIO_LED_VOICE,
-		.active_low	= 1,
-	}, {
 		.name		= "hg255d:usb",
 		.gpio		= HG255D_GPIO_LED_USB,
+		.active_low	= 1,
+	}, {
+		.name		= "hg255d:wps",
+		.gpio		= HG255D_GPIO_LED_WPS,
 		.active_low	= 1,
 	}
 };
 
-static struct gpio_button hg255d_gpio_buttons[] __initdata = {
-	{
-		.desc		= "reset",
-		.type		= EV_KEY,
-		.code		= KEY_RESTART,
-		.threshold	= 3,
-		.gpio		= HG255D_GPIO_BUTTON_RESET,
-		.active_low	= 1,
-	}, {
-		.desc		= "wps",
-		.type		= EV_KEY,
-		.code		= BTN_1,
-		.threshold	= 3,
-		.gpio		= HG255D_GPIO_BUTTON_WPS,
-		.active_low	= 1,
+static struct gpio_led_platform_data hg255d_led_data = {
+	.leds		= hg255d_led_pins,
+	.num_leds	= ARRAY_SIZE(hg255d_led_pins),
+};
+
+static struct platform_device hg255d_leds = {
+	.name	= "leds-gpio",
+	.id	= -1,
+	.dev	= {
+		.platform_data	= &hg255d_led_data,
 	}
 };
+
+
+static struct gpio_keys_button hg255d_buttons[] = {
+	{
+		.desc		= "BTN_0",
+		.type		= EV_KEY,
+		.code		= BTN_0,
+		.gpio		= HG255D_GPIO_BUTTON_RESET,
+		.active_low	= 1,
+		.debounce_interval = 100,
+	}, {
+		.desc		= "BTN_1",
+		.type		= EV_KEY,
+		.code		= BTN_1,
+		.gpio		= HG255D_GPIO_BUTTON_WPS,
+		.active_low	= 1,
+		.debounce_interval = 100,
+	}
+		
+};
+
+
+static struct gpio_keys_platform_data hg255d_button_data = {
+	.buttons	= hg255d_buttons,
+	.nbuttons	= ARRAY_SIZE(hg255d_buttons),
+};
+
+static struct platform_device hg255d_button_device = {
+	.name		= "gpio-keys",
+	.id		= -1,
+	.num_resources	= 0,
+	.dev		= {
+		.platform_data	= &hg255d_button_data,
+	}
+};
+
 
 static void __init hg255d_init(void)
 {
@@ -119,12 +199,14 @@ static void __init hg255d_init(void)
 
 	rt305x_register_flash(0, &hg255d_flash_data);
 
-	ramips_register_gpio_leds(-1, ARRAY_SIZE(hg255d_leds_gpio),
-				  hg255d_leds_gpio);
+	//ramips_register_gpio_leds(-1, ARRAY_SIZE(hg255d_leds_gpio),
+	//			  hg255d_leds_gpio);
+	platform_device_register(&hg255d_leds);
 
-	ramips_register_gpio_buttons(-1, HG255D_BUTTONS_POLL_INTERVAL,
-				     ARRAY_SIZE(hg255d_gpio_buttons),
-				     hg255d_gpio_buttons);
+	//ramips_register_gpio_buttons(-1, HG255D_BUTTONS_POLL_INTERVAL,
+	//			     ARRAY_SIZE(hg255d_gpio_buttons),
+	//			     hg255d_gpio_buttons);
+	platform_device_register(&hg255d_button_device);
 
 	rt305x_esw_data.vlan_config = RT305X_ESW_VLAN_CONFIG_WLLLL;
 	rt305x_register_ethernet();
