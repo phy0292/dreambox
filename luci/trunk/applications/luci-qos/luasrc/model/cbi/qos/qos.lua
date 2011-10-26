@@ -9,7 +9,7 @@ You may obtain a copy of the License at
 
 	http://www.apache.org/licenses/LICENSE-2.0
 
-$Id: qos.lua 7238 2011-06-25 23:17:10Z jow $
+$Id: qos.lua 7239 2011-06-25 23:17:54Z jow $
 ]]--
 
 local wa = require "luci.tools.webadmin"
@@ -38,7 +38,7 @@ s:option(Flag, "halfduplex", translate("Half-duplex"))
 s:option(Value, "download", translate("Download speed (kbit/s)"))
 
 s:option(Value, "upload", translate("Upload speed (kbit/s)"))
-
+--[[
 s = m:section(TypedSection, "classify", translate("Classification Rules"))
 s.template = "cbi/tblsection"
 s.anonymous = true
@@ -65,21 +65,18 @@ wa.cbi_add_knownips(dsth)
 l7 = s:option(ListValue, "layer7", translate("Service"))
 l7.rmempty = true
 l7:value("", translate("all"))
-
-local pats = io.popen("find /etc/l7-protocols/ -type f -name '*.pat'")
-if pats then
-	local l
-	while true do
-		l = pats:read("*l")
-		if not l then break end
-
-		l = l:match("([^/]+)%.pat$")
-		if l then
-			l7:value(l)
-		end
-	end
-	pats:close()
-end
+l7:value("ssh", translate("ssh"))
+l7:value("http", translate("http"))
+l7:value("qq", translate("qq"))
+l7:value("hf", translate("hf"))
+l7:value("thunder", translate("thunder"))
+l7:value("warcraft3", translate("warcraft3"))
+l7:value("bittorrent", translate("bittorrent"))
+l7:value("pplive", translate("pplive"))
+l7:value("ppstream", translate("ppstream"))
+l7:value("sip", translate("sip"))
+l7:value("rdp", translate("rdp"))
+l7:value("vnc", translate("vnc"))
 
 p = s:option(Value, "proto", translate("Protocol"))
 p:value("", translate("all"))
@@ -93,5 +90,5 @@ ports.rmempty = true
 ports:value("", translate("all"))
 
 bytes = s:option(Value, "connbytes", translate("Number of bytes"))
-
+--]]
 return m
