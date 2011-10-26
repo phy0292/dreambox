@@ -20,6 +20,7 @@
 #include "dev-ar913x-wmac.h"
 #include "dev-gpio-buttons.h"
 #include "dev-leds-gpio.h"
+#include "dev-usb.h"
 
 #define TL_WR941ND_GPIO_LED_SYSTEM	2
 #define TL_WR941ND_GPIO_LED_QSS_RED	4
@@ -130,6 +131,8 @@ static void __init tl_wr941nd_setup(void)
 	ar71xx_eth0_data.duplex = DUPLEX_FULL;
 
 	ar71xx_add_device_eth(0);
+	ar71xx_add_device_usb();
+
 	ar71xx_add_device_dsa(0, &tl_wr941nd_dsa_data);
 
 	ar71xx_add_device_m25p80(&tl_wr941nd_flash_data);
