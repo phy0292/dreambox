@@ -72,7 +72,7 @@ endef
 define Package/luci-lib-core/config
        choice
                prompt "Build Target"
-               default PACKAGE_luci-lib-core_source
+               default PACKAGE_luci-lib-core_compile
 
        config PACKAGE_luci-lib-core_compile
                bool "Precompiled"
