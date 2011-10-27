@@ -21,11 +21,20 @@ endef
 define Package/block-mount
   $(call Package/block-mount/Default)
   TITLE:=Block device mounting and checking
-  DEPENDS:= +blkid +swap-utils +libext2fs +e2fsprogs +ntfs-3g +fdisk +uuidgen +tune2fs +smartmontools
 endef
 
 define Package/block-mount/description
   Scripts used to mount and check block devices (filesystems and swap)
+endef
+
+define Package/block-mount-allsupport
+  $(call Package/block-mount/Default)
+  TITLE:= mounting support uuid ntfs-3g ext..
+  DEPENDS:= +blkid +swap-utils +libext2fs +e2fsprogs +ntfs-3g +fdisk +uuidgen +tune2fs +block-hotplug
+endef
+
+define Package/block-mount-allsupport/description
+ block-mount package add blkid swap-utils libext2fs e2fsprogs ntfs-3g fdisk uuidgen tune2fs package
 endef
 
 define Package/block-hotplug
@@ -44,6 +53,11 @@ endef
 define Package/block-mount/conffiles
 /etc/config/fstab
 endef
+
+define Package/block-mount-allsupport/install
+
+endef
+
 
 define Package/block-mount/install
 	$(INSTALL_DIR) $(1)/etc/init.d
@@ -66,5 +80,6 @@ define Package/block-hotplug/install
 endef
 
 $(eval $(call BuildPackage,block-mount))
+$(eval $(call BuildPackage,block-mount-allsupport))
 $(eval $(call BuildPackage,block-hotplug))
 
