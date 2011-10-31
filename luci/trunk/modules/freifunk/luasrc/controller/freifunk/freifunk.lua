@@ -9,7 +9,7 @@ You may obtain a copy of the License at
 
 	http://www.apache.org/licenses/LICENSE-2.0
 
-$Id: freifunk.lua 7362 2011-08-12 13:16:27Z jow $
+$Id: freifunk.lua 7682 2011-10-10 16:04:27Z soma $
 ]]--
 
 module("luci.controller.freifunk.freifunk", package.seeall)

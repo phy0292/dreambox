@@ -36,6 +36,7 @@ $dir/helpers/rename-wifi.sh
 community=$(uci -q get meshwizard.community.name || uci -q get freifunk.community.name)
 [ -z "$community" ] && echo "Error: Community is not set in /etc/config/freifunk, aborting now." && exit 1
 export community="$community"
+echo $community
 
 # Get a list of networks we need to setup
 networks=$(uci show meshwizard.netconfig | grep -v "netconfig=" | sed -e 's/meshwizard.netconfig\.\(.*\)\_.*/\1/' |sort|uniq)
@@ -55,6 +56,23 @@ done < /tmp/meshwizard.tmp
 $dir/helpers/initial_config.sh
 $dir/helpers/setup_dnsmasq.sh
 $dir/helpers/setup_system.sh
+$dir/helpers/setup_olsrd.sh
+$dir/helpers/setup_firewall.sh
+
+if [ "$wan_proto" == "static" ] && [ -n "$wan_ip4addr" ] && [ -n "$wan_netmask" ]; then
+	$dir/helpers/setup_wan_static.sh
+fi
+
+if [ "$lan_proto" == "static" ] && [ -n "$lan_ip4addr" ] && [ -n "$lan_netmask" ]; then
+	$dir/helpers/setup_lan_static.sh
+fi
+
+# Setup policyrouting if internet sharing is disabled and wan is not used for olsrd
+# Always disable it first to make sure its disabled when the user decied to share his internet
+uci set freifunk-policyrouting.pr.enable=0
+if [ ! "$sharenet" == 1 ] && [ ! "$(uci -q get meshwizard.netconfig.wan_proto)" == "olsr" ]; then
+	$dir/helpers/setup_policyrouting.sh
+fi
 
 # Configure found networks
 for net in $networks; do
@@ -62,8 +80,10 @@ for net in $networks; do
 	netrenamed="${net/radio/wireless}"
 	export netrenamed
 	$dir/helpers/setup_network.sh $net
-	$dir/helpers/setup_wifi.sh $net
-	$dir/helpers/setup_olsrd.sh $net
+	if [ ! "$net" == "wan" ] && [ ! "$net" == "lan" ]; then
+		$dir/helpers/setup_wifi.sh $net
+	fi
+	$dir/helpers/setup_olsrd_interface.sh $net
 
 	net_dhcp=$(uci -q get meshwizard.netconfig.${net}_dhcp)
 	if [ "$net_dhcp" == 1 ]; then
@@ -71,7 +91,7 @@ for net in $networks; do
 	fi
 
 	$dir/helpers/setup_splash.sh $net
-	$dir/helpers/setup_firewall.sh $net
+	$dir/helpers/setup_firewall_interface.sh $net
 done
 
 ##### Reboot the router (because simply restarting services gave errors)

@@ -31,7 +31,7 @@ function index()
 	local page
 
 	page = node("admin", "network")
-	page.target = alias("admin", "network", "network")
+	page.target = firstchild()
 	page.title  = _("Network")
 	page.order  = 50
 	page.index  = true
@@ -198,9 +198,21 @@ end
 
 function wifi_delete(network)
 	local ntm = require "luci.model.network".init()
-
-	ntm:del_wifinet(network)
-	ntm:save("wireless")
+	local wnet = ntm:get_wifinet(network)
+	if wnet then
+		local dev = wnet:get_device()
+		local net = wnet:get_network()
+		if dev then
+			luci.sys.call("env -i /sbin/wifi down %q" % dev:name())
+			ntm:del_wifinet(network)
+			ntm:commit("wireless")
+			if net:is_empty() then
+				ntm:del_network(net:name())
+				ntm:commit("network")
+			end
+			luci.sys.call("env -i /sbin/wifi up %q" % dev:name())
+		end
+	end
 
 	luci.http.redirect(luci.dispatcher.build_url("admin/network/wireless"))
 end
@@ -269,6 +281,12 @@ function iface_status()
 			end
 
 			rv[#rv+1] = data
+		else
+			rv[#rv+1] = {
+				id   = iface,
+				name = iface,
+				type = "ethernet"
+			}
 		end
 	end
 

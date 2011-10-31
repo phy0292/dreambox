@@ -8,7 +8,7 @@ You may obtain a copy of the License at
 
 	http://www.apache.org/licenses/LICENSE-2.0
 
-$Id: splash.htm 5457 2009-10-31 19:26:07Z jow $
+$Id: splash.htm 7747 2011-10-18 09:23:27Z soma $
 
 -%>
 
@@ -19,6 +19,7 @@ local ipt = require "luci.sys.iptparser".IptParser()
 local uci = require "luci.model.uci".cursor_state()
 local wat = require "luci.tools.webadmin"
 local fs  = require "nixio.fs"
+luci.i18n.loadc("splash")
 
 local clients = { }
 local leasetime = tonumber(uci:get("luci_splash", "general", "leasetime") or 1) * 60 * 60

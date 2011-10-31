@@ -103,6 +103,10 @@ div.di_upgrade a {
 	background-image: url(icons/flash.png);
 }
 
+div.di_flashops a {
+	background-image: url(icons/flash.png);
+}
+
 div.di_services a {
 	background-image: url(icons/services.png);
 }

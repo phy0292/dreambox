@@ -22,7 +22,7 @@ function index()
 	end
 	entry({"about"}, template("about"))
 	local page   = node("admin")
-	page.target  = alias("admin", "status")
+	page.target  = firstchild()
 	page.title   = _("Administration")
 	page.order   = 10
 	page.sysauth = "root"
@@ -30,6 +30,8 @@ function index()
 	page.ucidata = true
 	page.index = true
 
+	-- Empty services menu to be populated by addons
+	entry({"admin", "services"}, firstchild(), _("Services"), 40).index = true
 	entry({"admin", "Free_Memory"}, call("Free_Memory"), _("Free Memory"), 98)
 	entry({"admin", "logout"}, call("action_logout"), _("Logout"), 99)
 end

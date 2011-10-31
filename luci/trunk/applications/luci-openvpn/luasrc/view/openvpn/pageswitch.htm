@@ -9,7 +9,7 @@ You may obtain a copy of the License at
 
 	http://www.apache.org/licenses/LICENSE-2.0
 
-$Id: pageswitch.htm 5457 2009-10-31 19:26:07Z jow $
+$Id: pageswitch.htm 7719 2011-10-14 00:11:19Z soma $
 
 These strings need to be here to be included in the translation template
 translate("Service")
@@ -26,7 +26,7 @@ translate("Cryptography")
 	</legend>
 
 	<% if self.mode == "basic" then %>
-		<a href="<%=luci.dispatcher.build_url("admin", "services", "openvpn", "advanced", self.instance)%>"><%:Switch to advanced configuration »%></a>
+		<a href="<%=luci.dispatcher.build_url("admin", "services", "openvpn", "advanced", self.instance, "Service")%>"><%:Switch to advanced configuration »%></a>
 	<% else %>
 		<a href="<%=luci.dispatcher.build_url("admin", "services", "openvpn", "basic", self.instance)%>"><%:« Switch to basic configuration%></a>
 		<hr style="margin:0.5em 0" />

@@ -9,7 +9,7 @@ You may obtain a copy of the License at
 
 http://www.apache.org/licenses/LICENSE-2.0
 
-$Id: openvpn-basic.lua 7114 2011-06-03 23:09:54Z soma $
+$Id: openvpn-basic.lua 7612 2011-10-06 22:37:27Z soma $
 ]]--
 
 require("luci.ip")
