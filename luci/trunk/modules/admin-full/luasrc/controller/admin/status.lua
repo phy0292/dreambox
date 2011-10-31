@@ -24,19 +24,17 @@ function index()
 	entry({"admin", "status", "dmesg"}, call("action_dmesg"), _("Kernel Log"), 5)
 	entry({"admin", "status", "processes"}, cbi("admin_status/processes"), _("Processes"), 6)
 
-	entry({"admin", "status", "realtime"}, alias("admin", "status", "realtime", "load"), _("Realtime Graphs"), 7).index= true
+	entry({"admin", "status",  "load"}, template("admin_status/load"), _("Load"), 7).leaf = true
+	entry({"admin", "status",  "load_status"}, call("action_load")).leaf = true
 
-	entry({"admin", "status", "realtime", "load"}, template("admin_status/load"), _("Load"), 1).leaf = true
-	entry({"admin", "status", "realtime", "load_status"}, call("action_load")).leaf = true
+	entry({"admin", "status",  "bandwidth"}, template("admin_status/bandwidth"), _("Traffic"), 8).leaf = true
+	entry({"admin", "status",  "bandwidth_status"}, call("action_bandwidth")).leaf = true
 
-	entry({"admin", "status", "realtime", "bandwidth"}, template("admin_status/bandwidth"), _("Traffic"), 2).leaf = true
-	entry({"admin", "status", "realtime", "bandwidth_status"}, call("action_bandwidth")).leaf = true
+	entry({"admin", "status",  "wireless"}, template("admin_status/wireless"), _("Wireless"), 9).leaf = true
+	entry({"admin", "status",  "wireless_status"}, call("action_wireless")).leaf = true
 
-	entry({"admin", "status", "realtime", "wireless"}, template("admin_status/wireless"), _("Wireless"), 3).leaf = true
-	entry({"admin", "status", "realtime", "wireless_status"}, call("action_wireless")).leaf = true
-
-	entry({"admin", "status", "realtime", "connections"}, template("admin_status/connections"), _("Connections"), 4).leaf = true
-	entry({"admin", "status", "realtime", "connections_status"}, call("action_connections")).leaf = true
+	entry({"admin", "status",  "connections"}, template("admin_status/connections"), _("Connections"), 10).leaf = true
+	entry({"admin", "status",  "connections_status"}, call("action_connections")).leaf = true
 end
 
 function action_syslog()

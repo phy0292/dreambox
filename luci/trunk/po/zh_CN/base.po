@@ -465,10 +465,10 @@ msgid "Contributing Developers"
 msgstr "Contributing Developers"
 
 msgid "Country"
+msgstr "国家"
 
 msgid "Connections"
-msgstr ""
-msgstr "国家"
+msgstr "连接状态"
 
 msgid "Country Code"
 msgstr "国家代码"
