@@ -5,7 +5,7 @@ Description:
 The request dispatcher and module dispatcher generators
 
 FileId:
-$Id: dispatcher.lua 7361 2011-08-12 13:11:29Z jow $
+$Id: dispatcher.lua 7851 2011-10-30 15:00:54Z jow $
 
 License:
 Copyright 2008 Steven Barth <steven@midlink.org>
@@ -284,13 +284,15 @@ function dispatch(request)
 			assert(media, "No valid theme found")
 		end
 
-		local function ifattr(cond, key, val)
+		local function _ifattr(cond, key, val)
 			if cond then
-				local env = getfenv(1)
+				local env = getfenv(3)
+				local scope = (type(env.self) == "table") and env.self
 				return string.format(
 					' %s="%s"', tostring(key),
 					luci.util.pcdata(tostring( val
 					 or (type(env[key]) ~= "function" and env[key])
+					 or (scope and type(scope[key]) ~= "function" and scope[key])
 					 or "" ))
 				)
 			else
@@ -308,8 +310,8 @@ function dispatch(request)
 		   media       = media;
 		   theme       = fs.basename(media);
 		   resource    = luci.config.main.resourcebase;
-		   ifattr      = ifattr;
-		   attr        = function(...) return ifattr(true, ...) end
+		   ifattr      = function(...) return _ifattr(...) end;
+		   attr        = function(...) return _ifattr(true, ...) end;
 		}, {__index=function(table, key)
 			if key == "controller" then
 				return build_url()

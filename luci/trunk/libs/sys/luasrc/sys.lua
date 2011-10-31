@@ -5,7 +5,7 @@ Description:
 Utilities for interaction with the Linux system
 
 FileId:
-$Id: sys.lua 7088 2011-05-21 16:29:31Z jow $
+$Id: sys.lua 7793 2011-10-26 21:23:37Z jow $
 
 License:
 Copyright 2008 Steven Barth <steven@midlink.org>
@@ -179,15 +179,14 @@ function sysinfo()
 	local cpuclock = tonumber(cpuinfo:match("[Cc][Pp][Uu][Cc]lock.-: ([^\n]+)")) or 0
 	local flashsize = tonumber(cpuinfo:match("[Ff][Ll][Aa][Ss][Hh][Ss]ize.-: ([^\n]+)")) or 0
 	local model =
-
 		cpuinfo:match("Processor\t+: ([^\n]+)") or
+		cpuinfo:match("system type\t+: ([^\n]+)") or
 		cpuinfo:match("cpu model\t+: ([^\n]+)") or
 		cpuinfo:match("model name\t+: ([^\n]+)")
 
 	local system =
 		cpuinfo:match("machine\t+: ([^\n]+)") or
 		cpuinfo:match("Hardware\t+: ([^\n]+)") or
-		cpuinfo:match("system type\t+: ([^\n]+)") or
 		luci.util.pcdata(fs.readfile("/proc/diag/model")) or
 		nixio.uname().machine or
 		system
@@ -978,5 +977,4 @@ function iproute()
 
 	return data
 end
-
 

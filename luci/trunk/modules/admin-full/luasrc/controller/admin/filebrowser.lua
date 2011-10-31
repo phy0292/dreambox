@@ -16,5 +16,10 @@ $Id: filebrowser.lua 3555 2008-10-10 21:52:22Z jow $
 module("luci.controller.admin.filebrowser", package.seeall)
 
 function index()
-	entry( {"admin", "filebrowser"}, template("cbi/filebrowser") ).leaf = true
+	local page
+	page = entry( {"admin", "system","filebrowser"}, template("cbi/filebrowser") , _("filebrowser"))
+	page.i18n = "filebrowser"
+	page.dependent = true
+
 end
+

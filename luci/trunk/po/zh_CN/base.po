@@ -360,7 +360,7 @@ msgid "CPU"
 msgstr "CPU"
 
 msgid "CPU Clock"
-msgstr "CPU 时钟"
+msgstr "CPU主频"
 
 msgid "CPU usage (%)"
 msgstr "CPU使用率(%)"
@@ -2453,10 +2453,10 @@ msgid "guide_quit Quit"
 msgstr "退出向导"
 
 msgid "Guide Quit"
-msgid "Erasing..."
-msgstr ""
-
 msgstr "退出向导"
+
+msgid "Erasing..."
+msgstr "擦除中..."
 
 msgid "ipaddress Address"
 msgstr "IP地址"
