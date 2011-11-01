@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ghca
-PKG_RELEASE:=1.2.2007.4
+PKG_RELEASE:=1.2.2007.5
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 

@@ -1,5 +1,5 @@
 CFLAGS = -O2
-OBJ = c21.o
+OBJ = md5c.o getPIN.o c21.o
 LIB = 
 
 TLSLIB =
