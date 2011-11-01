@@ -54,11 +54,11 @@ defaultroute = section:taboption("advanced", Flag, "defaultroute",
 
 defaultroute.default = defaultroute.enabled
 
-ghcat = section:taboption("advanced", Flag, "ghcat",
-	translate("GHCA Dialer"),
-	translate("If checked,Dial with GHCA auto."))
-
-ghcat.default = ghcat.disabled
+ghcat = section:taboption("advanced", ListValue, "ghcat",translate("Special Dialer"))
+ghcat:value(0, translate("None"))
+ghcat:value(1, translate("GHCA"))
+ghcat:value(2, translate("Shanxun"))
+ghcat.default = 0
 
 metric = section:taboption("advanced", Value, "metric",
 	translate("Use gateway metric"))
