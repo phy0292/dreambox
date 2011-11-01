@@ -260,30 +260,55 @@ int main(int argc,char * argv[])
 	
 	char final[100]="";
 	char acc[52],pwd[52];
-	if(argc==1 || strcmp(argv[1],"--help")==0 || strcmp(argv[1],"-h")==0)
+	switch(argc)
 	{
-		puts("Welcome!!!");
-		puts("Use in this way:");
-		printf("%s",argv[0]);
-		puts(" account password [mode]");
-		puts("1.ghca\n2.shanxun.");
-		return -1;
+		case 1:
+		{
+			puts("Welcome!!!");
+			puts("Use in this way:");
+			printf("%s",argv[0]);
+			puts(" account password [mode]");
+			puts("1.ghca\n2.shanxun.");
+			return -1;
+		}break;
+		case 2:
+		{
+			if(strcmp(argv[1],"--help")==0 || strcmp(argv[1],"-h")==0)
+			{
+				puts("Welcome!!!");
+				puts("Use in this way:");
+				printf("%s",argv[0]);
+				puts(" account password [mode]");
+				puts("1.ghca\n2.shanxun.");
+				return -1;
+			}
+			printf("%s\n",argv[1]);
+		}break;
+		case 3:
+		{
+			printf("%s\n",argv[1]);
+		}break;
+		case 4:
+		{
+			if(strcmp(argv[3],"0")==0)
+				printf("%s\n",argv[1]);
+			if(strcmp(argv[3],"1")==0)
+			{
+				strcpy(acc,argv[1]);
+				strcpy(pwd,argv[2]);
+				covacc(acc,pwd,final);
+				printf("%s\n",final);
+			}
+			if(strcmp(argv[3],"2")==0)
+			{
+				byte *userName = (byte *)(argv[1]);
+				byte PIN[30] = {0};
+				getPIN(userName,PIN);
+				printf("%s\n",PIN+2);
+			}
+		}break;
+		default:break;;
 	}
-	if(argc==3 || strcmp(argv[3],"1")==0)
-	{
-		strcpy(acc,argv[1]);
-		strcpy(pwd,argv[2]);
-		covacc(acc,pwd,final);
-		printf("%s\n",final);
-	}
-	if(argc==4 && strcmp(argv[3],"2")==0)
-	{
-		byte *userName = (byte *)(argv[1]);
-		byte PIN[30] = {0};
-		getPIN(userName,PIN);
-		printf("%s\n",PIN+2);
-	}
-
 //	byte *userName1 = "057400000000@ND.XY";
 //	byte PIN[30] = {0};
 //	getPIN(userName1,PIN);

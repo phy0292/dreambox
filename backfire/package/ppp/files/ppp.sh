@@ -45,11 +45,9 @@ start_pppd() {
 
 	local ghcat
 	config_get ghcat "$cfg" ghcat
-	[ "$ghcat" -eq 1 ] && {
-				logger "PPPoE with GHCACalculator!"
-				username=$(ghcadia $username $password)
-				logger "GHCACalculator Done!"
-				}
+	logger "PPPoE with GHCACalculator!"
+	username=$(ghcadia $username $password $ghcat)
+	logger "GHCACalculator Done!"
 	logger "Dial username:$username"
 
 	local keepalive
