@@ -2355,7 +2355,7 @@ msgid ""
 msgstr "这里可以粘贴公用SSH密钥以用于SSH公共密钥认证(每行一个密钥)。"
 
 msgid "Download backup"
-msgstr ""
+msgstr "下载备份"
 
 msgid "Dropbear Instance"
 msgstr "Dropbear实例"
@@ -2369,11 +2369,12 @@ msgid ""
 "scripts like \"network\", your device might become inaccesable!</strong>"
 msgstr ""
 "此处可以启用或禁用安装的启动脚本。更改在设备重启后生效。<br /><strong>警告: "
+"如果禁用了必要的启动脚本 (比如: \"network\") ，可能会导致设备无法访问！</"
+"strong>"
 
 msgid "Dynamic tunnel"
 msgstr ""
-"如果禁用了必要的启动脚本 (比如: \"network\") ，可能会导致设备无法访问！</"
-"strong>"
+
 
 msgid ""
 "This is the content of /etc/rc.local. Insert your own commands here (in "
