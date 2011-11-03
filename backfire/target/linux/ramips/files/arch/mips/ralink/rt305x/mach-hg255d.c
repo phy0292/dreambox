@@ -25,7 +25,9 @@
 
 #include "devices.h"
 
-//#define HG255D_GPIO_BUTTON_RESET	12
+#define HG255D_MTD_PARTITIONS		3  // 1 bootform 0x20000 ,2 bootform 0x40000,3 bootform 0x50000
+
+//#define HG255D_GPIO_BUTTON_RESET	7
 #define HG255D_GPIO_BUTTON_WPS		10
 #define HG255D_GPIO_BUTTON_WLAN		0
 
@@ -43,37 +45,9 @@
 
 
 #ifdef CONFIG_MTD_PARTITIONS
+#if (HG255D_MTD_PARTITIONS == 1)
 static struct mtd_partition hg255d_partitions[] = {
-	
-	{
-		.name	= "u-boot",
-		.offset	= 0,
-		.size	= 0x040000,
-//		.mask_flags = MTD_WRITEABLE,
-	}, {
-		.name	= "factory",
-		.offset	= 0x0fa0000,
-		.size	= 0x0020000,
-//		.mask_flags = MTD_WRITEABLE,
-	}, {
-		.name	= "kernel",
-		.offset	= 0x040000,
-		.size	= 0x100000,
-	}, {
-		.name	= "rootfs",
-		.offset	= 0x140000,
-		.size	= 0xe60000,
-	}, {
-		.name	= "firmware",
-		.offset	= 0x040000,
-		.size	= 0xf60000,
-	}, {
-		.name	= "fullflash",
-		.offset	= 0x000000,
 
-	} 
-
-/*
 	{
 		.name	= "u-boot",
 		.offset	= 0,
@@ -86,11 +60,11 @@ static struct mtd_partition hg255d_partitions[] = {
 	}, {
 		.name	= "rootfs",
 		.offset	= 0x0120000,
-		.size	= 0x0b00000,
+		.size	= 0x06e0000,
 	}, {
 		.name	= "firmware",
 		.offset	= 0x0020000,
-		.size	= 0x0c20000,
+		.size	= 0x07e0000,
 	}, {
 		.name	= "factory",
 		.offset	= 0x0fa0000,
@@ -101,15 +75,75 @@ static struct mtd_partition hg255d_partitions[] = {
 		.offset	= 0x000000,
 		.size	= 0x01000000,
 	}
-	}, {
-		.name	= "uboot2",
-		.offset	= 0x000000,
-		.size	= 0x0100000,
-	}
+};
+#elif (HG255D_MTD_PARTITIONS == 2)
+static struct mtd_partition hg255d_partitions[] = {
 
- */
+	
+	{
+		.name	= "u-boot",
+		.offset	= 0,
+		.size	= 0x040000,
+//		.mask_flags = MTD_WRITEABLE,
+	}, {
+		.name	= "kernel",
+		.offset	= 0x040000,
+		.size	= 0x100000,
+	}, {
+		.name	= "rootfs",
+		.offset	= 0x140000,
+		.size	= 0x600000,
+	}, {
+		.name	= "firmware",
+		.offset	= 0x040000,
+		.size	= 0xe60000,
+	}, {
+		.name	= "factory",
+		.offset	= 0x0fa0000,
+		.size	= 0x0020000,
+//		.mask_flags = MTD_WRITEABLE,
+	}, {
+		.name	= "fullflash",
+		.offset	= 0x000000,
+		.size	= 0xfa0000,
+	
+	} 
 
 };
+
+#elif (HG255D_MTD_PARTITIONS == 3)
+static struct mtd_partition hg255d_partitions[] = {
+
+	{
+		.name	= "u-boot",
+		.offset	= 0,
+		.size	= 0x040000,
+//		.mask_flags = MTD_WRITEABLE,
+	}, {
+		.name	= "kernel",
+		.offset	= 0x0050000,
+		.size	= 0x0100000,
+	}, {
+		.name	= "rootfs",
+		.offset	= 0x0150000,
+		.size	= 0x0e50000,
+	}, {
+		.name	= "firmware",
+		.offset	= 0x0040000,
+		.size	= 0x0f60000,
+	}, {
+		.name	= "factory",
+		.offset	= 0x0fa0000,
+		.size	= 0x0020000,
+//		.mask_flags = MTD_WRITEABLE,
+	}, {
+		.name	= "fullflash",
+		.offset	= 0x000000,
+		.size	= 0x01000000,
+	}
+};
+
+#endif /* CONFIG_MTD_PARTITIONS */
 #endif /* CONFIG_MTD_PARTITIONS */
 
 static struct physmap_flash_data hg255d_flash_data = {
@@ -163,7 +197,7 @@ static struct gpio_keys_button hg255d_buttons[] = {
 		.desc		= "BTN_0",
 		.type		= EV_KEY,
 		.code		= BTN_0,
-		.gpio		= HG255D_GPIO_BUTTON_RESET,
+		.gpio		= HG255D_GPIO_BUTTON_WLAN,
 		.active_low	= 1,
 		.debounce_interval = 100,
 	}, {
