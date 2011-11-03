@@ -108,7 +108,7 @@
  
  	printk(KERN_NOTICE "Creating %d MTD partitions on \"%s\":\n", nbparts, master->name);
 +	
-+	if (!strcmp(mips_machine_name, "TP-LINK TL-MR3420"))||(!strcmp(mips_machine_name, "TP-LINK TL-WR941ND"))  {
++	if (!strcmp(mips_machine_name, "TP-LINK TL-MR3420") || !strcmp(mips_machine_name, "TP-LINK TL-WR941ND"))  {
 +	SPI_AR71xx_AUTO_MTD = 1;
 +	SPI_AR71xx_UBOOT_SIZE = 0x020000 ;
 +	SPI_AR71xx_KERNEL_SIZE = 0x140000 ;
