@@ -452,9 +452,12 @@ opendpi_mt (const struct sk_buff *skb,
             unsigned int protoff,
             bool *hotdrop)
 
-#else
+#elif LINUX_VERSION_CODE < KERNEL_VERSION(2,6,35)
 static bool
 opendpi_mt(const struct sk_buff *skb, const struct xt_match_param *par)
+#else
+static bool
+opendpi_mt(const struct sk_buff *skb, struct xt_action_param *par)
 #endif
 {
 	u32 proto;
@@ -538,7 +541,7 @@ opendpi_mt_check(const char *tablename,
 	return nf_ct_l3proto_try_module_get (match->family) == 0;
 }
 
-#else
+#elif LINUX_VERSION_CODE < KERNEL_VERSION(2,6,35)
 static bool
 opendpi_mt_check(const struct xt_mtchk_param *par)
 {
@@ -552,6 +555,21 @@ opendpi_mt_check(const struct xt_mtchk_param *par)
         opendpi_enable_protocols (info);
 
 	return nf_ct_l3proto_try_module_get (par->family) == 0;
+}
+#else
+static int
+opendpi_mt_check(const struct xt_mtchk_param *par)
+{
+	const struct xt_opendpi_mtinfo *info = par->matchinfo;
+
+	if (IPOQUE_BITMASK_IS_ZERO(info->flags)){
+		pr_info("None selected protocol.\n");
+		return -EINVAL;
+	}
+
+        opendpi_enable_protocols (info);
+
+	return nf_ct_l3proto_try_module_get (par->family);
 }
 #endif
 

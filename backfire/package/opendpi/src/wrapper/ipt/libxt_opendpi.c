@@ -25,6 +25,8 @@
 #include <arpa/inet.h>
 #include <xtables.h>
 
+#include <linux/version.h>
+
 #include "xt_opendpi.h"
 
 static char *prot_long_str[] = { IPOQUE_PROTOCOL_LONG_STRING };
@@ -122,7 +124,11 @@ opendpi_mt4_reg = {
 	.version = XTABLES_VERSION,
 	.name = "opendpi",
 	.revision = 0,
+#if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,28)
 	.family = AF_INET,
+#else
+	.family = NFPROTO_IPV4,
+#endif
 	.size = XT_ALIGN(sizeof(struct xt_opendpi_mtinfo)),
 	.userspacesize = XT_ALIGN(sizeof(struct xt_opendpi_mtinfo)),
 	.help = opendpi_mt_help,
