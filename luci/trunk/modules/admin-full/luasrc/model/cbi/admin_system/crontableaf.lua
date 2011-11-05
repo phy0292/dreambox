@@ -183,7 +183,7 @@ task_task:value("ifup wan", translate("Wan Up"))
 task_task:value("ifdown wan", translate("Wan Down"))
 task_task:value("/usr/lib/ddns/dynamic_dns_updater.sh scheduler", translate("ddns UP"))
 task_task:value("/usr/bin/trextra  scheduler", translate("transmission que"))
-
+task_task:value("sh /tmp/qosv4/qos_scheduler", translate("qosv4 scheduler"))
 
 
 return m

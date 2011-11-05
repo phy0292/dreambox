@@ -26,11 +26,8 @@ s = m:section(TypedSection, "goble", "")
 s.addremove = false
 s.anonymous = true
 
-
-s:option(Flag, "enabled", translate("Enable"))
-
-s:option(Value, "check_interval",	translate("Check for changed IP every"),translate("interval minute")).default = 10
-
+crontab = s:option( DummyValue,"crontab", translate("intelvel update"))
+ crontab.titleref = luci.dispatcher.build_url("admin", "system", "crontab")
 
 
 service = m:section(TypedSection, "service", "")

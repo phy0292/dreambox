@@ -30,11 +30,8 @@ enable.default = false
 enable.optional = false
 enable.rmempty = false
 
-qos_scheduler = s:option(Flag, "qos_scheduler", translate("qos scheduler enable", "qos scheduler enable"),
-                         translate("qos scheduler desc","qos scheduler desc"))
-qos_scheduler.default = false
-qos_scheduler.optional = false
-qos_scheduler.rmempty = false
+crontab = s:option( DummyValue,"crontab", translate("qos scheduler update"))
+ crontab.titleref = luci.dispatcher.build_url("admin", "system", "crontab")
 
 
 DOWN = s:option(Value, "DOWN", translate("DOWN speed","DOWN speed"),

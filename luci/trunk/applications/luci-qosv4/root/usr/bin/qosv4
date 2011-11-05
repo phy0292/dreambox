@@ -220,13 +220,7 @@ fi
 #当只有1个IP在线时候，关闭内网QOS限速 。
 #当没有IP在线时候，关闭QOS限速 关闭transmission限速。
 qos_scheduler(){
-	
- wait_time="5"
- [ -f /etc/crontabs/root ]|| touch /etc/crontabs/root 
- [ -f /tmp/tmp_crontab ]|| touch /tmp/tmp_crontab
-	[ -z "$(cat /etc/crontabs/root| grep qos_scheduler)" ]&&echo -e "*/${wait_time} * * * *  sh ${qosv4_tmp_pach}/qos_scheduler #qos_scheduler#" >> /etc/crontabs/root
-	[ -z "$(cat /tmp/tmp_crontab  | grep qos_scheduler)" ]&&echo -e "*/${wait_time} * * * *  sh ${qosv4_tmp_pach}/qos_scheduler #qos_scheduler#" >> /tmp/tmp_crontab
-  [ $(ps | grep crond | grep -v grep | wc -l ) == 0 ] && /etc/init.d/cron restart
+
 cat >${qosv4_tmp_pach}/qos_scheduler <<"EOF"
 
 devup="imq1"

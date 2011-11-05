@@ -3082,8 +3082,6 @@ msgstr "任务名称"
 msgid "task name desc"
 msgstr "任务名称，描述你所执行的任务"
 
-
-
 msgid "custom minute"
 msgstr "自定义时间 ，单位分钟"
 
@@ -3092,5 +3090,18 @@ msgstr "当前任务所执行的命令，也也可自己定义"
 
 msgid "task command"
 msgstr "任务命令"
+
+msgid "intelvel update"
+msgstr "定时更新，，点击设定定时更新任务"
+
+msgid "intelvel queue"
+msgstr "定时更新队列下载和定时检测并且发送邮件，点击设定定时更新任务"
+
+msgid "qos scheduler update"
+msgstr "qosv4 定时检测更新设定，点击设定定时更新任务"
+
+
+
+
 
 

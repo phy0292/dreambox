@@ -57,10 +57,7 @@ smtp_password.optional = false
 smtp_password.rmempty = false
 smtp_password.password = true
 
-queue_enabled = s:taboption("trextraqueue", Flag, "queue_enabled", translate("queue_enabled", "queue enabled"))
-queue_enabled.default = false
-queue_enabled.optional = false
-queue_enabled.rmempty = false
+
 
 queue_max_downloadings= s:taboption("trextraqueue", Value, "queue_max_downloadings", translate("queue_max_downloadings","queue max downloadings"),
           translate("queue_max_downloadings_desc","queue max downloadings num"))
@@ -72,12 +69,8 @@ queue_max_seedings= s:taboption("trextraqueue", Value, "queue_max_seedings", tra
 queue_max_seedings.optional = false
 queue_max_seedings.rmempty = false
 
-queue_interval= s:taboption("trextraqueue", Value, "queue_interval", translate("queue_interval","queue interval"),
-          translate("queue_interval_desc","queue interval default 30 min"))
-queue_interval.optional = false
-queue_interval.rmempty = false
-
-
+crontab = s:taboption("trextraqueue", DummyValue,"crontab", translate("intelvel queue"))
+ crontab.titleref = luci.dispatcher.build_url("admin", "system", "crontab")
 
 s = m:section(TypedSection, "mail_address", translate("mail_address","mail_address"),
  translate("mail_address_desc","mail_address_desc"))
@@ -106,3 +99,4 @@ address.optional = false
 address.rmempty = false
 
 return m
+

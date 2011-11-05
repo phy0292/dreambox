@@ -53,15 +53,6 @@ get_trextraemail_set(){
   echo  "syslog LOG_MAIL"  >> /etc/msmtprc  
   echo  "logfile /var/log/msmtp.log"  >> /etc/msmtprc
 
-if  [ $email_enable == 1 -o $queue_enabled == 1 ];then
-#make  scheduler
- [ -f /etc/crontabs/root ]|| touch /etc/crontabs/root 
- [ -f /tmp/tmp_crontab ]|| touch /tmp/tmp_crontab
- [ -z "$(cat /etc/crontabs/root| grep trextra_scheduler)" ]&&echo -e "*/${queue_interval} * * * *  /usr/bin/trextra  scheduler #trextra_scheduler#" >> /etc/crontabs/root
- [ -z "$(cat /tmp/tmp_crontab  | grep trextra_scheduler)" ]&&echo -e "*/${queue_interval} * * * *  /usr/bin/trextra  scheduler #trextra_scheduler#" >> /tmp/tmp_crontab
- [ $(ps | grep crond | grep -v grep | wc -l ) == 0 ] && /etc/init.d/cron restart
-
- fi
 }
  
 
@@ -158,13 +149,6 @@ unset  DOWN_NUM
  [ -s $filepath/add_finished_id  -a "$use_enable" == "1"  ]&&trfinished_mail
 }
 
-del_scheduler()
-{
- [ "$trextradebug" = "1" ]&& echo "stop 111"
-[ -n "$(cat /tmp/tmp_crontab| grep trextra_scheduler)" ]&& sed -i -e '/trextra_scheduler/d' /tmp/tmp_crontab
-[ -n "$(cat /etc/crontabs/root| grep trextra_scheduler)" ]&& sed -i -e '/trextra_scheduler/d' /etc/crontabs/root
-
-}
 
 
 que_scheduler(){
@@ -264,8 +248,7 @@ case "$1" in
  config_foreach get_trextraemail_set trextraqueueemail 
  	 ;;
 	stop)
-    del_scheduler
-   echo "srop test "
+    echo "srop test "
 	;;
  scheduler)
      	[ "$transmission_enabled" != 0 ] && {
