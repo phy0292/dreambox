@@ -28,7 +28,8 @@ function index()
 	end
 
 	entry({"admin", "system", "startup"}, form("admin_system/startup"), _("Startup"), 45)
-	entry({"admin", "system", "crontab"}, form("admin_system/crontab"), _("Scheduled Tasks"), 46)
+	entry({"admin", "system", "crontab"}, cbi("admin_system/crontab"), _("Scheduled Tasks"), 46)
+	entry({"admin", "system", "crontab","crontableaf"}, cbi("admin_system/crontableaf"), nil).leaf = true
 
 	--if nixio.fs.access("/etc/config/fstab") then
 	--	entry({"admin", "system", "fstab"}, cbi("admin_system/fstab"), _("Mount Points"), 50)

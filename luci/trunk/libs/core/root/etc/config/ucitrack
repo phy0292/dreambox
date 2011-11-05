@@ -48,3 +48,6 @@ config samba
 
 config tinyproxy
 	option init tinyproxy
+
+config cron
+	option init cron

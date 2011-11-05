@@ -3012,3 +3012,85 @@ msgstr ""
 msgid "Verify"
 msgstr ""
 
+msgid "Friday"
+msgstr "星期五"
+
+msgid "Interval minute"
+msgstr "间隔时间"
+
+msgid "Monday"
+msgstr "星期一"
+
+msgid "Sartuday"
+msgstr "星期六"
+
+msgid "Scheduled Tasks"
+msgstr "计划任务"
+
+msgid "Sunday"
+msgstr "星期日"
+
+
+msgid "Thursday"
+msgstr "星期四"
+
+msgid "Tuesday"
+msgstr "星期二"
+
+msgid "Wednesday"
+msgstr "星期三"
+
+msgid "every-custom-minute"
+msgstr "自定义间隔时间"
+
+msgid "every_12_hour"
+msgstr "每隔12小时"
+
+msgid "every_15_minute"
+msgstr "每隔15分钟"
+
+msgid "every_1_hour"
+msgstr "每隔1小时"
+
+msgid "every_24_hour"
+msgstr "每隔24小时"
+
+msgid "every_30_minute"
+msgstr "每隔30分钟"
+
+msgid "every_5_minute"
+msgstr "每隔5分钟"
+
+msgid "halt"
+msgstr "关机"
+
+msgid "minute"
+msgstr "分钟"
+
+msgid "reboot"
+msgstr "重启"
+
+msgid "task"
+msgstr "任务"
+
+msgid "time"
+msgstr "时间"
+
+msgid "task name"
+msgstr "任务名称"
+
+msgid "task name desc"
+msgstr "任务名称，描述你所执行的任务"
+
+
+
+msgid "custom minute"
+msgstr "自定义时间 ，单位分钟"
+
+msgid "command desc"
+msgstr "当前任务所执行的命令，也也可自己定义"
+
+msgid "task command"
+msgstr "任务命令"
+
+
