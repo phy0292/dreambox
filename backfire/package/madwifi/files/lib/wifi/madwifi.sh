@@ -408,6 +408,7 @@ detect_atheros() {
 config wifi-device  $dev
 	option type     atheros
 	option channel  auto
+	option macaddr	$(cat /sys/class/ieee80211/${dev}/macaddress)
 $EXTRA_DEV
 	# REMOVE THIS LINE TO ENABLE WIFI:
 	option disabled 1
@@ -416,7 +417,7 @@ config wifi-iface
 	option device	$dev
 	option network	lan
 	option mode	ap
-	option ssid	OpenWrt
+	option ssid     DreamBox_$(cat /sys/class/ieee80211/${dev}/macaddress|awk -F ":" '{print $4""$5""$6 }'| tr a-z A-Z)
 	option encryption none
 EOF
 	done
