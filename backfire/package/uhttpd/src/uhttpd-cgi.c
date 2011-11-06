@@ -1,7 +1,7 @@
 /*
  * uhttpd - Tiny single-threaded httpd - CGI handler
  *
- *   Copyright (C) 2011 Jo-Philipp Wich <xm@subsignal.org>
+ *   Copyright (C) 2010-2011 Jo-Philipp Wich <xm@subsignal.org>
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ static struct http_response * uh_cgi_header_parse(char *buf, int len, int *off)
 				if( ! hdrname )
 					break;
 
-				buf[pos++] = 0; 
+				buf[pos++] = 0;
 
 				if( (pos < len) && (buf[pos] == '\n') )
 					pos++;
