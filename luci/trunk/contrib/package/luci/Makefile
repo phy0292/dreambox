@@ -466,6 +466,9 @@ $(eval $(call application,ipid,ipid configuration module,\
 $(eval $(call application,pppoeserver,pppoeserver configuration module,\
 	 +luci-app-pppoeserver:rp-pppoe-server +kmod-mppe))
 
+$(eval $(call application,filebrowser,File browser tool module,\
+	+PACKAGE_luci-app-filebrowser))
+
 $(eval $(call application,guide,guide configuration module,\
 	+PACKAGE_luci-app-guide))
 
