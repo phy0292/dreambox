@@ -1,7 +1,6 @@
 #!/bin/sh
 uci batch <<-EOF
 	uci set luci.themes.LuciXEyE=/luci-static/LuciXEyE
-	uci set luci.main.mediaurlbase=/luci-static/LuciXEyE
-	uci commit
+	commit luci
 EOF
 

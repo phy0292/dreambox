@@ -100,7 +100,7 @@ require("luci.http").prepare_content("application/xhtml+xml")
 						selected_name = v.name
 					end
 					%><li class="tabmenu-lv<%=level%>" >
-						<a style="display:block;padding-left:<%=(level-1)*20+5%>px;<% if nnode._menu_selected or (node.leaf and v.name == leaf) then %>font-weight:bold;background:#5a757c;<% end %>"  href="<%=nodeurl(prefix, v.name, nnode.query)%>"><%=striptags(nnode.title)%></a>
+						<a style="display:block;padding-left:<%=(level-1)*20+5%>px;<% if nnode._menu_selected or (node.leaf and v.name == leaf) then %>font-weight:bold;background:#5a757c;<% end %>"  href="<%=nodeurl(prefix, v.name, nnode.query)%>"><%=striptags(translate(nnode.title))%></a>
 					</li>		<%
 					if nnode._menu_selected then
 						subtree(prefix .. selected_name .. "/", selected_node, level + 1)
@@ -148,7 +148,7 @@ require("luci.http").prepare_content("application/xhtml+xml")
 <ul id="modemenu"><%
 for k,node in pairs(tree.nodes) do
 	if node.title and not node.hidden then %>
-<li><a<% if request[1] == k then %> class="active"<%end%> href="<%=controller%>/<%=k%>/"><%=striptags(node.title)%></a></li><%
+<li><a<% if request[1] == k then %> class="active"<%end%> href="<%=controller%>/<%=k%>/"><%=striptags(translate(nnode.title))%></a></li><%
 	end
 end
 %>
@@ -235,5 +235,3 @@ if tree.nodes[category] and tree.nodes[category].ucidata then
 	<td  valign="top" style=" WORD-BREAK:BREAK-ALL;">
 		<div style="height:0;width:600px;"></div>
 		<div class="maincontent">
-			
-				
