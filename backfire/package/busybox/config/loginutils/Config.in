@@ -93,7 +93,7 @@ config BUSYBOX_CONFIG_USE_BB_CRYPT_SHA
 
 config BUSYBOX_CONFIG_ADDGROUP
 	bool "addgroup"
-	default n
+	default y
 	help
 	  Utility for creating a new group account.
 
@@ -106,7 +106,7 @@ config BUSYBOX_CONFIG_FEATURE_ADDGROUP_LONG_OPTIONS
 
 config BUSYBOX_CONFIG_FEATURE_ADDUSER_TO_GROUP
 	bool "Support for adding users to groups"
-	default n
+	default y
 	depends on BUSYBOX_CONFIG_ADDGROUP
 	help
 	  If  called  with two non-option arguments,
@@ -115,13 +115,13 @@ config BUSYBOX_CONFIG_FEATURE_ADDUSER_TO_GROUP
 
 config BUSYBOX_CONFIG_DELGROUP
 	bool "delgroup"
-	default n
+	default y
 	help
 	  Utility for deleting a group account.
 
 config BUSYBOX_CONFIG_FEATURE_DEL_USER_FROM_GROUP
 	bool "Support for removing users from groups"
-	default n
+	default y
 	depends on BUSYBOX_CONFIG_DELGROUP
 	help
 	  If called with two non-option arguments, deluser
@@ -141,7 +141,7 @@ config BUSYBOX_CONFIG_FEATURE_CHECK_NAMES
 
 config BUSYBOX_CONFIG_ADDUSER
 	bool "adduser"
-	default n
+	default y
 	help
 	  Utility for creating a new user account.
 
@@ -170,7 +170,7 @@ config BUSYBOX_CONFIG_LAST_SYSTEM_ID
 
 config BUSYBOX_CONFIG_DELUSER
 	bool "deluser"
-	default n
+	default y
 	help
 	  Utility for deleting a user account.
 
