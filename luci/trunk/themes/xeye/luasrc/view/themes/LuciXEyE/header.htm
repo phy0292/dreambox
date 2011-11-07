@@ -148,7 +148,7 @@ require("luci.http").prepare_content("application/xhtml+xml")
 <ul id="modemenu"><%
 for k,node in pairs(tree.nodes) do
 	if node.title and not node.hidden then %>
-<li><a<% if request[1] == k then %> class="active"<%end%> href="<%=controller%>/<%=k%>/"><%=striptags(translate(nnode.title))%></a></li><%
+<li><a<% if request[1] == k then %> class="active"<%end%> href="<%=controller%>/<%=k%>/"><%=striptags(translate(node.title))%></a></li><%
 	end
 end
 %>
