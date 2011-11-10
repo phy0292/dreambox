@@ -33,7 +33,10 @@ pw.default= "xxx"
 
 nic=s:option(ListValue, "Nic", translate("net card name"))
 nic.anonymous = true
-luci.tools.webadmin.cbi_add_networks(nic)
+for k, v in pairs(luci.sys.net.devices()) do
+	nic:value(v)
+end
+
 
 s:option(Value, "IP", translate("IP"),translate("default to localhost's IP")).default="0.0.0.0"
 
