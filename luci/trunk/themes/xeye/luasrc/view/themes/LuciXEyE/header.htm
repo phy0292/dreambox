@@ -143,6 +143,12 @@ require("luci.http").prepare_content("application/xhtml+xml")
 
 <div class="hostinfo">
 	<%=hostname%> | <%=luci.version.distversion%>
+	<span id="xhr_poll_status" style="display:none" onclick="XHR.running() ? XHR.halt() : XHR.run()">
+		| <%:Auto Refresh%>:
+		<span id="xhr_poll_status_on"><%:on%></span>
+		<span id="xhr_poll_status_off" style="display:none"><%:off%></span>
+	</span>
+
 </div>
 
 <ul id="modemenu"><%
@@ -175,35 +181,21 @@ if tree.nodes[category] and tree.nodes[category].ucidata then
 
 <div class="clear"></div>
 </div>
-
 <div id="banner">
-<div style="width:813px;height:0px;padding:0;margin:0;"></div>
-<span id="logo">DreamBox - XEyE</span>
 <div id="theme_status">
-	<div>
 		Uptime:
-		<%=luci.tools.webadmin.date_format(tonumber(uptime0))%>
-
-	</div>
+		<%=luci.tools.webadmin.date_format(tonumber(uptime0))%> 
 	<% if wan then%>
-		<div>
-			Wan IPv4:
+			| Wan IPv4:
 			<%=wanip%>
-		</div>
 		<%end
 		if wan6 then%>
-		<div>
-			Wan IPv6:
+			| Wan IPv6:
 			<%=wanip6%>
-		</div>
 		<%end%>	
-		<div>
-			Memory:
+			| Memory:
 			<%=math.floor(10000 * memfree0 / memtotal0)/100%>% Free
-		</div>
-		<div>
-			Load: <%="%.2f" % load1%> <%="%.2f" % load5%> <%="%.2f" % load15%>
-		</div>
+			| Load: <%="%.2f" % load1%> <%="%.2f" % load5%> <%="%.2f" % load15%>
 </div>			
 </div>
 <noscript>
@@ -235,3 +227,5 @@ if tree.nodes[category] and tree.nodes[category].ucidata then
 	<td  valign="top" style=" WORD-BREAK:BREAK-ALL;">
 		<div style="height:0;width:600px;"></div>
 		<div class="maincontent">
+			
+				

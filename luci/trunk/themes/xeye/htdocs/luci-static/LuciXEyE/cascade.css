@@ -28,11 +28,8 @@ body {
 
 #banner
 {
-	height:70px;
+	height:22px;
 	background: #2f3d40;
-	padding:13px;
-
-
 }
 
 #logo
@@ -46,10 +43,9 @@ body {
 #theme_status
 {
 	color:#ffffff;
-	float:right;
-	width:230px;
-	text-align:right;
-
+	width:auto;
+	text-align:left;
+	padding:4px 5px;
 }
 
 * {
@@ -881,6 +877,20 @@ div.cbi-tab-descr {
 .uci-change-legend-label var del {
 	line-height: 6px;
 	border: none;
+}
+
+#xhr_poll_status {
+	cursor: pointer;
+}
+
+#xhr_poll_status #xhr_poll_status_off {
+	font-weight: bold;
+	color: #FF0000;
+}
+
+#xhr_poll_status #xhr_poll_status_on {
+	font-weight: bold;
+	color: #00FF00;
 }
 
 
