@@ -2177,10 +2177,10 @@ msgid "Wireless is restarting..."
 msgstr "无线重启中..."
 
 msgid "Wireless network is disabled"
-msgstr "无线网络是关闭的"
+msgstr "无线网络是开启的"
 
 msgid "Wireless network is enabled"
-msgstr "无线网络是开启的"
+msgstr "无线网络是关闭的"
 
 msgid "Wireless restarted"
 msgstr "重启无线"
