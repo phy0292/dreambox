@@ -445,6 +445,10 @@ start_cg() {
 $INSMOD
 iptables -t mangle -N Default
 iptables -t mangle -N Default_ct
+iptables -t mangle -A Default_ct -m mark --mark 0 -m tcp -p tcp -m multiport --ports 22,53 -j MARK --set-mark 2
+iptables -t mangle -A Default_ct -m mark --mark 0 -p udp -m udp -m multiport --ports 22,53 -j MARK --set-mark 2
+iptables -t mangle -A Default_ct -m mark --mark 0 -p tcp -m tcp -m multiport --ports 80,3389,3390,5900,1080,1194 -j MARK --set-mark 3
+
 iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --hf -j MARK --set-mark 1
 iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --pt11 -j MARK --set-mark 1
 iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --warcraft -j MARK --set-mark 1
