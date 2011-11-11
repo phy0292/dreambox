@@ -553,7 +553,7 @@ $(eval $(call theme,freifunk-generic,Freifunk Generic Theme,\
 $(eval $(call theme,oxygen,oxygen Theme,\
        oxygen ))
 
-$(eval $(call theme,xeye,xeye Theme,\
+$(eval $(call theme,XEyE,XEyE Theme,\
        XEyE ))
 
 
