@@ -445,19 +445,46 @@ start_cg() {
 $INSMOD
 iptables -t mangle -N Default
 iptables -t mangle -N Default_ct
-iptables -t mangle -A Default_ct -m mark --mark 0 -m tcp -p tcp -m multiport --ports 22,53 -j MARK --set-mark 2
-iptables -t mangle -A Default_ct -m mark --mark 0 -p udp -m udp -m multiport --ports 22,53 -j MARK --set-mark 2
-iptables -t mangle -A Default_ct -m mark --mark 0 -p tcp -m tcp -m multiport --ports 80,3389,3390,5900,1080,1194 -j MARK --set-mark 3
 iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --hf -j MARK --set-mark 1
 iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --pt11 -j MARK --set-mark 1
 iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --warcraft -j MARK --set-mark 1
 iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --counterstrike -j MARK --set-mark 1
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --crossfire  -j MARK --set-mark 1
+
 iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --qq -j MARK --set-mark 2
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --irc -j MARK --set-mark 2
 iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --aliwangwang -j MARK --set-mark 2
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --msn -j MARK --set-mark 2  
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --jabber -j MARK --set-mark 2
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --worldofwarcraft  -j MARK --set-mark 2
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --rdp -j MARK --set-mark 2 
+
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --httpactivesync -j MARK --set-mark 3
 iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --http -j MARK --set-mark 3
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --telnet -j MARK --set-mark 3  
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --flash -j MARK --set-mark 3
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --ntp -j MARK --set-mark 3 
+iptables -t mangle -A Default_ct -m mark --mark 0 -m layer7  --l7proto jpeg -j MARK --set-mark 3
+iptables -t mangle -A Default_ct -m mark --mark 0 -m layer7  --l7proto png -j MARK --set-mark 3
+iptables -t mangle -A Default_ct -m mark --mark 0 -m layer7  --l7proto gif -j MARK --set-mark 3
+iptables -t mangle -A Default_ct -m mark --mark 0 -m layer7  --l7proto pdf -j MARK --set-mark 3 
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --mdns -j MARK --set-mark 3  
+
 iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --ppstream -j MARK --set-mark 4
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --qqlive -j MARK --set-mark 4
 iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --bittorrent -j MARK --set-mark 4
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --ftp -j MARK --set-mark 4 
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --feidian -j MARK --set-mark 4 
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --ddl -j  MARK --set-mark 4
+
+iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --fasttrack -j  MARK --set-mark 5 
+iptables -t mangle -A Default_ct -m mark --mark 0 -m layer7 --l7proto rar -j MARK --set-mark 5 
+iptables -t mangle -A Default_ct -m mark --mark 0 -m layer7 --l7proto zip -j MARK --set-mark 5
+iptables -t mangle -A Default_ct -m mark --mark 0 -m layer7 --l7proto exe -j MARK --set-mark 5
+iptables -t mangle -A Default_ct -m mark --mark 0 -m layer7 --l7proto tar -j MARK --set-mark 5 
+
 iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --funshion -j MARK --set-mark 9
+#iptables -t mangle -A Default_ct -m mark --mark 0 -m ipp2p --ipp2p -j MARK --set-mark 9
 iptables -t mangle -A Default_ct -m mark --mark 9 -m recent --set --name funshion --rsource --rport 
 iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --pptv -j MARK --set-mark 8
 iptables -t mangle -A Default_ct -m mark --mark 0 -m opendpi --thunder -j MARK --set-mark 8
@@ -481,6 +508,7 @@ iptables -t mangle -A Default -m mark --mark 4 -p udp -m length --length 300: -j
 iptables -t mangle -A Default -m mark --mark 4 -p tcp -m length --length 300: -j MARK --set-mark 5
 iptables -t mangle -A Default -m mark --mark 9 -p udp -m length --length 300: -j MARK --set-mark 5
 iptables -t mangle -A Default -m mark --mark 9 -p tcp -m length --length 300: -j MARK --set-mark 5
+
 iptables -t mangle -A OUTPUT -o $device -j Default
 iptables -t mangle -A FORWARD -o $device -j Default
 iptables -t mangle -N Default_dn >&- 2>&-
