@@ -3010,7 +3010,10 @@ msgid "Vendor Class to send when requesting DHCP"
 msgstr ""
 
 msgid "Verify"
-msgstr ""
+msgstr "校验"
+
+msgid "Everyday"
+msgstr "每天"
 
 msgid "Friday"
 msgstr "星期五"
@@ -3029,7 +3032,6 @@ msgstr "计划任务"
 
 msgid "Sunday"
 msgstr "星期日"
-
 
 msgid "Thursday"
 msgstr "星期四"
@@ -3091,14 +3093,18 @@ msgstr "当前任务所执行的命令，也也可自己定义"
 msgid "task command"
 msgstr "任务命令"
 
+msgid "task Everyday desc"
+msgstr "选择每天后，下面的星期选项将失效"
+
+
 msgid "intelvel update"
-msgstr "定时更新，，点击设定定时更新任务"
+msgstr "定时更新，点击详细设定定时更新任务"
 
 msgid "intelvel queue"
-msgstr "定时更新队列下载和定时检测并且发送邮件，点击设定定时更新任务"
+msgstr "定时更新队列下载和定时检测并且发送邮件，点击详细设定定时更新任务"
 
 msgid "qos scheduler update"
-msgstr "qosv4 定时检测更新设定，点击设定定时更新任务"
+msgstr "qosv4 定时检测更新设定，点击详细设定定时更新任务"
 
 msgid "WebShell"
 msgstr "网页终端"

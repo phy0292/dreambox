@@ -53,6 +53,25 @@ get_trextraemail_set(){
   echo  "syslog LOG_MAIL"  >> /etc/msmtprc  
   echo  "logfile /var/log/msmtp.log"  >> /etc/msmtprc
 
+#make  scheduler
+if  [ $email_enable == 1 -o $queue_enabled == 1 ];then
+
+uci delete cron.`uci show cron|grep /usr/bin/trextra |cut -d "." -f2`
+uci add cron task
+uci set cron.@task[-1].enabled=1
+uci set cron.@task[-1].task_Everyday=1
+uci set cron.@task[-1].task_time=custom
+uci set cron.@task[-1].task_minute=${queue_interval}
+uci set cron.@task[-1].task_name="trextra_scheduler"
+uci set cron.@task[-1].task_task=" /usr/bin/trextra  scheduler"
+uci commit cron
+/etc/init.d/cron restart
+else
+uci delete cron.`uci show cron|grep /usr/bin/trextra|cut -d "." -f2`
+uci commit cron
+/etc/init.d/cron restart
+fi
+
 }
  
 
@@ -248,6 +267,9 @@ case "$1" in
  config_foreach get_trextraemail_set trextraqueueemail 
  	 ;;
 	stop)
+uci delete cron.`uci show cron|grep /usr/bin/trextra|cut -d "." -f2`
+uci commit cron
+/etc/init.d/cron restart
     echo "srop test "
 	;;
  scheduler)

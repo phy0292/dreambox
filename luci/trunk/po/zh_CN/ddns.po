@@ -95,3 +95,6 @@ msgstr "用于二级路由，更新外网的ip地址"
 msgid "register url"
 msgstr "注册网址"
 
+msgid "Enable intelvel update"
+msgstr "开启定时更新"
+

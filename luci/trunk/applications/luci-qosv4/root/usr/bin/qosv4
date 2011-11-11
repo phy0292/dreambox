@@ -413,11 +413,24 @@ case $1 in
  	fi
 	echo "qos_scheduler = $qos_scheduler"
 	if [ "$qosv4_enable" == "1" -a "$qos_scheduler" == "1" ];then
+
+uci delete cron.`uci show cron|grep ${qosv4_tmp_pach}/qos_scheduler|cut -d "." -f2`
+uci add cron task
+uci set cron.@task[-1].enabled=1
+uci set cron.@task[-1].task_Everyday=1
+uci set cron.@task[-1].task_time=custom
+uci set cron.@task[-1].task_minute=5
+uci set cron.@task[-1].task_name="qosv4_schedule"
+uci set cron.@task[-1].task_task="sh ${qosv4_tmp_pach}/qos_scheduler"
+uci commit cron
+/etc/init.d/cron restart
+
 	echo "qos_scheduler start....."	
 	qos_scheduler
 	else
-	[ -n "$(cat /etc/crontabs/root| grep qos_scheduler)" ] && sed -i -e '/qos_scheduler/d' /etc/crontabs/root
-	[ -n "$(cat /tmp/tmp_crontab  | grep qos_scheduler)" ] && sed -i -e '/qos_scheduler/d' /tmp/tmp_crontab
+uci delete cron.`uci show cron|grep ${qosv4_tmp_pach}/qos_scheduler |cut -d "." -f2`
+uci commit cron
+/etc/init.d/cron restart
 	fi
 echo 0 >${qosv4_tmp_pach}/qos_state
 

@@ -18,140 +18,11 @@ kill -9 ${execute}
 done
 }
 
-oscam_conf() {
 
- config_get global_logfile $1 global_logfile
- config_get logenable $1 logenable
- config_get global_maxlogsize $1 global_maxlogsize
- config_get readerautoloadbalance $1 readerautoloadbalance
-
- config_get webifenable $1 webifenable
- config_get webif_httpport $1 webif_httpport
- config_get webif_httpuser $1 webif_httpuser
- config_get webif_httppwd $1 webif_httppwd
- config_get webif_httpallowed $1 webif_httpallowed 
- 
- config_get cccam_port $1 cccam_port
- config_get cccam_version $1 cccam_version
- config_get cccam_ignorereshare $1 cccam_ignorereshare
- 
-[ "$logenable" = "" ]&& logenable=0
-[ "$webifenable" = "" ]&& webifenable=0
-[ "$readerautoloadbalance" = "" ]&& readerautoloadbalance=0
-
- echo -e "\n" >> $path/oscam.conf 
-cat >> $path/oscam.conf <<"EOF"
-[global]
-nice                       = 9
-netprio                    = 9  
-clientmaxidle              = 300
-resolvegethostbyname       = 1
-waitforcards               = 0    
-preferlocalcards           = 0 
-EOF
-
- if [ "$logenable" = "1" ];then
-   [ -n "$global_logfile" ] && echo -e "logfile = $global_logfile" >> $path/oscam.conf
-   [ -n "$global_maxlogsize" ] && echo -e "maxlogsize = $global_maxlogsize" >> $path/oscam.conf
-  else
-  echo -e "disablelog = 1" >> $path/oscam.conf
- fi
-
- [ "$readerautoloadbalance" = "1" ]&& echo -e "readerautoloadbalance = $readerautoloadbalance" >> $path/oscam.conf  
-
- 
- echo -e "\n" >> $path/oscam.conf
- 
- cat >> $path/oscam.conf <<"EOF"  
-[monitor]
-port	  = 888
-aulow	  = 120
-monlevel   = 1
-EOF
-
- echo -e "\n" >> $path/oscam.conf
-if [ "$webifenable" = "1" ];then
-echo -e "\n[webif]\n" >> $path/oscam.conf
-  [ -n "$webif_httpport" ] && echo -e "httpport = $webif_httpport" >> $path/oscam.conf
-  [ -n "$webif_httpuser" ] && echo -e "httpuser = $webif_httpuser" >> $path/oscam.conf
-  [ -n "$webif_httppwd" ] && echo -e "httppwd = $webif_httppwd" >> $path/oscam.conf
-  [ -n "$webif_httpallowed" ] && echo -e "httpallowed = $webif_httpallowed" >> $path/oscam.conf
-fi
-  
- echo -e "\n[cccam]\n" >> $path/oscam.conf
-  [ -n "$cccam_port" ] && echo -e "port = $cccam_port" >> $path/oscam.conf
-  [ -n "$cccam_version" ] && echo -e "version = $cccam_version" >> $path/oscam.conf
-  [ -n "$cccam_ignorereshare" ] && echo -e "ignorereshare = $cccam_ignorereshare" >> $path/oscam.conf
-
-}
-
-oscam_server() {
-	
- config_get cenable $1 cenable
- config_get cccam_account $1 cccam_account
- config_get cccam_label $1 cccam_label
- 
-[ "$cenable" = "" ]&& cenable=0
-oscam_server_device=$(echo $cccam_account| awk -F " " '{print $2","$3 }')
-oscam_server_user=$(echo $cccam_account| awk -F " " '{print $4 }')
-oscam_server_password=$(echo $cccam_account| awk -F " " '{print $5 }')
-
-
-if [ "$cenable" = "1" ];then 
- echo -e "" >> $path/oscam.server
-  
-cat >> $path/oscam.server <<"EOF"
-[reader]
-enable                        = 1
-protocol                      = cccam
-inactivitytimeout             = 1
-reconnecttimeout              = 30
-fix9993                       = 0
-group                         = 1
-blockemm-unknown              = 1
-blockemm-u                    = 1
-blockemm-s                    = 1
-blockemm-g                    = 1
-lb_weight                     = 100
-cccversion                    = 2.1.4
-cccmaxhops                    = 10
-cccmindown                    = 0
-audisabled                    = 1
-cccdisableautoblock           = 1 
-EOF
- echo -e "label                          = $cccam_label" >> $path/oscam.server
- echo -e "device                        = $oscam_server_device" >> $path/oscam.server
- echo -e "user                          = $oscam_server_user" >> $path/oscam.server
- echo -e "password                      = $oscam_server_password \n" >> $path/oscam.server
-fi
-
-}
-
-oscam_user() {
-
- config_get user $1 user
- config_get pwd $1 pwd
- config_get uenable $1 uenable
- 
-[ "$uenablee" = "" ]&& cenable=0
-if [ "$uenable" = "1" ];then  
-
-        echo -e "\n[account]\n" >> $path/oscam.user
-        echo -e "user = $user" >> $path/oscam.user
-        echo -e "pwd = $pwd" >> $path/oscam.user
-        echo -e "group = 1" >> $path/oscam.user
- fi
-
- }
- 
 
 oscam_start()
 {
 
- config_load oscam
- config_foreach oscam_conf conf
- config_foreach oscam_server server
- config_foreach oscam_user user
  /usr/bin/oscam -b -c $path
   echo "readdy go....."
 
@@ -169,18 +40,25 @@ echo "game  start....."
  fi
 
  [  "$enable" == "1"  ]&&oscam_start 
-    interval=$(uci get oscam.@setting[0].interval)
-   echo $interval=interval
+   interval=$(uci get oscam.@setting[0].interval)
+
   
   if  [ "$enable" == "1" -a "$interval" != "0" ]; then 
- [ -z "$(cat /etc/crontabs/root| grep oscam_scheduler)" ]&&echo "*/${interval} * * * * /etc/init.d/oscam restart  #oscam_scheduler#" >> /etc/crontabs/root
- [ -z "$(cat /tmp/tmp_crontab  | grep oscam_scheduler)" ]&&echo "*/${interval} * * * * /etc/init.d/oscam restart  #oscam_scheduler#" >> /tmp/tmp_crontab
-			[ $(ps | grep crond | grep -v grep | wc -l ) == 0 ] && /etc/init.d/cron restart
-		echo oscam_scheduler
-				else 
-		[ -n "$(cat /tmp/tmp_crontab| grep  oscam_scheduler)" ]&& sed -i -e '/oscam_scheduler/d' /tmp/tmp_crontab
-    [ -n "$(cat /etc/crontabs/root| grep  oscam_scheduler)" ]&& sed -i -e '/oscam_scheduler/d' /etc/crontabs/root
-		fi
+uci delete cron.`uci show cron|grep "/etc/init.d/oscam"|cut -d "." -f2`
+uci add cron task
+uci set cron.@task[-1].enabled=1
+uci set cron.@task[-1].task_Everyday=1
+uci set cron.@task[-1].task_time=custom
+uci set cron.@task[-1].task_minute=${interval}
+uci set cron.@task[-1].task_name="oscam_scheduler"
+uci set cron.@task[-1].task_task="/etc/init.d/oscam restart"
+uci commit cron
+/etc/init.d/cron restart
+else
+uci delete cron.`uci show cron|grep "/etc/init.d/oscam"|cut -d "." -f2`
+uci commit cron
+/etc/init.d/cron restart
+fi
 
 
 }

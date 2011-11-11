@@ -114,28 +114,33 @@ cp ${path}epg.xml ${path}/epg
 
 epg_start() {
 	
-	config_get enable $1 enable
- config_get interval $1 interval
- 
-	[ "$enable" = "" ]&&enable=0
-if  [ "$enable" == 1 ];then
+config_get enable $1 enable
+config_get interval $1 interval
+[ "$enable" = "" ]&&enable=0
 
+#make  scheduler
+
+if  [ "$enable" == "1"  -a  "${interval}" != "0" ]; then 
+uci delete cron.`uci show cron|grep "/usr/bin/epg"|cut -d "." -f2`
 mkdir -p /tmp/epg/
 mkdir -p /tmp/epg/store
 mkdir -p /tmp/epg/epg
-mkdir -p  /www/atmosphere
-#make  scheduler
- [ -f /etc/crontabs/root ]|| touch /etc/crontabs/root 
- [ -f /tmp/tmp_crontab ]|| touch /tmp/tmp_crontab
- [ -z "$(cat /etc/crontabs/root| grep epg_scheduler)" ]&&echo -e "*/${interval} * * * *  /usr/bin/epg  scheduler #epg_scheduler#" >> /etc/crontabs/root
- [ -z "$(cat /tmp/tmp_crontab  | grep epg_scheduler)" ]&&echo -e "*/${interval} * * * *  /usr/bin/epg  scheduler #epg_scheduler#" >> /tmp/tmp_crontab
- [ $(ps | grep crond | grep -v grep | wc -l ) == 0 ] && /etc/init.d/cron restart
-else
-[ -n "$(cat /tmp/tmp_crontab| grep epg_scheduler)" ]&& sed -i -e '/epg_scheduler/d' /tmp/tmp_crontab
-[ -n "$(cat /etc/crontabs/root| grep epg_scheduler)" ]&& sed -i -e '/epg_scheduler/d' /etc/crontabs/root
- fi
+mkdir -p /www/atmosphere
 
-
+uci add cron task
+uci set cron.@task[-1].enabled=1
+uci set cron.@task[-1].task_Everyday=1
+uci set cron.@task[-1].task_time=custom
+uci set cron.@task[-1].task_minute=${interval}
+uci set cron.@task[-1].task_name="epg_scheduler"
+uci set cron.@task[-1].task_task="usr/bin/epg  scheduler"
+uci commit cron
+/etc/init.d/cron restart
+		else
+uci delete cron.`uci show cron|grep "/usr/bin/epg"|cut -d "." -f2`
+uci commit cron
+/etc/init.d/cron restart
+fi
 }
 
 

@@ -43,6 +43,8 @@ enable = task:option(Flag, "enabled", translate("Enable"))
 
 task_task_task=task:option(Value, "task_name", translate("task name"),translate("task name desc"))
 
+task_Everyday=task:option(Flag, "task_Everyday", translate("Everyday"),translate("task Everyday desc"))
+task_Everyday.disabled = 0
 
 task_Monday=task:option(Flag, "task_Monday", translate("Monday"))
 task_Monday.disabled = 0

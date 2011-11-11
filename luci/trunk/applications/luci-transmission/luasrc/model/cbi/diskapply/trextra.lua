@@ -57,7 +57,15 @@ smtp_password.optional = false
 smtp_password.rmempty = false
 smtp_password.password = true
 
+queue_enabled = s:taboption("trextraqueue", Flag, "queue_enabled", translate("queue_enabled", "queue enabled"))
+queue_enabled.default = false
+queue_enabled.optional = false
+queue_enabled.rmempty = false
 
+queue_interval= s:taboption("trextraqueue", Value, "queue_interval", translate("queue_interval","queue interval"),
+          translate("queue_interval_desc","queue interval default 30 min"))
+queue_interval.optional = false
+queue_interval.rmempty = false
 
 queue_max_downloadings= s:taboption("trextraqueue", Value, "queue_max_downloadings", translate("queue_max_downloadings","queue max downloadings"),
           translate("queue_max_downloadings_desc","queue max downloadings num"))
