@@ -476,10 +476,13 @@ $(eval $(call application,epg-oscam,epg-oscam configuration module,\
 	+PACKAGE_luci-app-epg-oscam +oscam +libpthread))
 
 $(eval $(call application,mldonkey,mldonkey configuration module,\
-	+PACKAGE_luci-app-mldonkey +libopenssl +libpthread))
+	+PACKAGE_luci-app-mldonkey:libopenssl +libpthread))
 
 $(eval $(call application,webcam,webcam configuration module,\
 	 +PACKAGE_luci-app-webcam:mjpg-streamer))
+
+$(eval $(call application,webshell,webshell configuration module,\
+	 +PACKAGE_luci-app-webshell))
 
 ### Server Gateway Interfaces ###
 define sgi
@@ -649,12 +652,16 @@ ifeq ($(USELOCAL),1)
 		--exclude=dist | \
 			tar x -C $(PKG_BUILD_DIR)/
 	$(SED) 's/distversion)%>/distversion)%>${IMAGE_TEST_VERSION}/g' $(PKG_BUILD_DIR)/modules/admin-full/luasrc/view/admin_status/index.htm
+	$(SED) 's/distversion%>/distversion%>${IMAGE_TEST_VERSION}/g' $(PKG_BUILD_DIR)/themes/openwrt/luasrc/view/themes/openwrt.org/header.htm
+	$(SED) 's/distversion%>/distversion%>${IMAGE_TEST_VERSION}/g' $(PKG_BUILD_DIR)/themes/XEyE/luasrc/view/themes/LuciXEyE/header.htm
 	$(SED) 's/distversion%>/distversion%>${IMAGE_TEST_VERSION}/g' $(PKG_BUILD_DIR)/themes/oxygen/luasrc/view/themes/oxygen/header.htm
   endef
 else
   define Build/Prepare
 	$(call Build/Prepare/Default)
 	$(SED) 's/distversion)%>/distversion)%>${IMAGE_TEST_VERSION}/g' $(PKG_BUILD_DIR)/modules/admin-full/luasrc/view/admin_status/index.htm
+	$(SED) 's/distversion%>/distversion%>${IMAGE_TEST_VERSION}/g' $(PKG_BUILD_DIR)/themes/openwrt/luasrc/view/themes/openwrt.org/header.htm
+	$(SED) 's/distversion%>/distversion%>${IMAGE_TEST_VERSION}/g' $(PKG_BUILD_DIR)/themes/XEyE/luasrc/view/themes/LuciXEyE/header.htm
 	$(SED) 's/distversion%>/distversion%>${IMAGE_TEST_VERSION}/g' $(PKG_BUILD_DIR)/themes/oxygen/luasrc/view/themes/oxygen/header.htm
   endef
 endif
