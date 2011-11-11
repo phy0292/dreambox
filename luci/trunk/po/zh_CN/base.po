@@ -3100,6 +3100,9 @@ msgstr "定时更新队列下载和定时检测并且发送邮件，点击设定
 msgid "qos scheduler update"
 msgstr "qosv4 定时检测更新设定，点击设定定时更新任务"
 
+msgid "WebShell"
+msgstr "网页终端"
+
 
 
 
