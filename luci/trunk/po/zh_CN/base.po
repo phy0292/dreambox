@@ -657,7 +657,7 @@ msgid "Backup Archive"
 msgstr "已备份的档案"
 
 msgid "Backup file list"
-msgstr ""
+msgstr "备份文件列表"
 
 msgid "Bad address specified!"
 msgstr "指定的地址错误"
@@ -679,7 +679,7 @@ msgid ""
 "configuration files marked by opkg, essential base files and the user "
 "defined backup patterns."
 msgstr ""
-
+"下面是确定要备份的文件列表。它包括更改的配置文件，opkg标记必需的基本文件和用户定义的备份模式。"
 msgid "Bit Rate"
 msgstr "比特率"
 
@@ -793,7 +793,7 @@ msgid ""
 msgstr ""
 
 msgid "Close list..."
-msgstr ""
+msgstr "关闭备份文件列表"
 
 msgid "Collecting data..."
 msgstr "收集信息..."
@@ -2254,7 +2254,7 @@ msgid "Open"
 msgstr "打开"
 
 msgid "Open list..."
-msgstr ""
+msgstr "打开备份列表"
 
 msgid "OpenWrt Chinese Forum"
 msgstr ""
@@ -2388,7 +2388,7 @@ msgid "Perform reboot"
 msgstr "系统重启"
 
 msgid "Perform reset"
-msgstr "系统服务"
+msgstr "系统复位"
 
 msgid "Phone"
 msgstr ""
@@ -3495,10 +3495,10 @@ msgid "Wireless is restarting..."
 msgstr "无线重启中..."
 
 msgid "Wireless network is disabled"
-msgstr "无线网络是开启的"
+msgstr "无线网络是关闭的，点击按钮开启无线"
 
 msgid "Wireless network is enabled"
-msgstr "无线网络是关闭的"
+msgstr "无线网络是开启的，点击按钮关闭无线"
 
 msgid "Wireless restarted"
 msgstr "重启无线"
