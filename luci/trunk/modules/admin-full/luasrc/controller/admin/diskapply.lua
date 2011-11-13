@@ -15,12 +15,12 @@ module("luci.controller.admin.diskapply", package.seeall)
 
 function index()
 
-	if nixio.fs.access("/etc/config/fstab") then
+
 		entry({"admin", "diskapply"}, cbi("admin_system/fstab"), _("diskapply"), 55).index = true
 		entry({"admin", "diskapply", "fstab"}, cbi("admin_system/fstab"), _("Mount Points"), 1)
 		entry({"admin", "diskapply", "fstab", "mount"}, cbi("admin_system/fstab/mount"), nil).leaf = true
 		entry({"admin", "diskapply", "fstab", "swap"},  cbi("admin_system/fstab/swap"),  nil).leaf = true
-	end
+
 
 
 	entry({"admin", "diskapply", "diskinfo"}, call("action_diskinfo"), _("Diskinfo"), 2)

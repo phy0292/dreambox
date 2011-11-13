@@ -559,7 +559,8 @@ $(eval $(call theme,oxygen,oxygen Theme,\
 $(eval $(call theme,XEyE,XEyE Theme,\
        XEyE ))
 
-
+$(eval $(call theme,openwrtcn,openwrtcn,\
+       openwrtcn ))
 
 ### Translations ###
 define translation
