@@ -12,10 +12,19 @@ You may obtain a copy of the License at
 ]]--
 
 
-require("luci.sys")
+local fs     = require "nixio.fs"
 local uci = require "luci.model.uci".cursor()
 local lanipaddr = uci:get("network", "lan", "ipaddr") or "192.168.1.1"
-local oscamport = luci.util.exec("cat /usr/oscam |grep httpport |cut -d \"=\" -f2 |sed s/\ //g") or "8899"
+--- Retrieves the output of the "get_oscam_port" command.
+-- @return	String containing the current get_oscam_port
+function get_oscam_port()
+
+	local oscam_conf= fs.readfile("/usr/oscam/oscam.conf")
+	local oscam_conf_port = tonumber(oscam_conf:match("[Hh]ttppor[Tt].-= ([^\n]+)")) or "8899"
+	return oscam_conf_port
+end
+
+local oscamport = get_oscam_port()
 
 m = Map("oscam", translate("OSCAM","OSCAM"),translate("oscam desc",
 "oscam for openwrt"))
@@ -40,4 +49,5 @@ s:option(DummyValue,"oscamweb" ,translate("<a target=\"_blank\" href='http://"..
 
 
 return m
+
 

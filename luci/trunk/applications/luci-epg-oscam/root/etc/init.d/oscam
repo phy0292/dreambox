@@ -4,7 +4,7 @@
 START=94
 
 . /etc/functions.sh
-path="/var/oscam"
+path="/usr/oscam/"
 
 
 kill_oscam()
@@ -32,8 +32,6 @@ oscam_start()
 
 start(){
 echo "game  start....."
- rm -rf $path
- mkdir -p $path
  enable=$(uci get oscam.@setting[0].enable)
  if [  "$enable" == ""  ];then
  enable=0
@@ -60,12 +58,11 @@ uci commit cron
 /etc/init.d/cron restart
 fi
 
-
 }
 
 stop() {
   kill_oscam
-  rm -rf $path
 	echo "oscam stopped"
 }
+
 
