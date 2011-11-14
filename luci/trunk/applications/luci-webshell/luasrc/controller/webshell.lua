@@ -1,18 +1,19 @@
 module("luci.controller.webshell", package.seeall)
 
 function index()
-luci.i18n.loadc("base")
-local i18n = luci.i18n.translate
+
+	page = entry({"admin", "system", "WebShell"}, template("webshell"), _("WebShell"), 60)
+	page.i18n = "base"
+	page.dependent = true
+
 	page = entry({"admin", "system", "cmd_run"}, call("cmd_run"), nil)
 	page.leaf = true
 
 	page = entry({"admin", "system", "cmd_read"}, call("read_to_json"), nil)
 	page.leaf = true
 
-	page = node("admin", "system", "WebShell")
-	page.target = template("webshell")
-	page.title  = i18n("WebShell")
-	page.order  = 60
+
+
 end
 
 function string.starts(String,Start)
