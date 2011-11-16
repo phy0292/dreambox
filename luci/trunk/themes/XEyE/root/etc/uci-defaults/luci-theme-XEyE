@@ -1,6 +1,7 @@
 #!/bin/sh
 uci batch <<-EOF
-	uci set luci.themes.LuciXEyE=/luci-static/LuciXEyE
+	set luci.themes.LuciXEyE=/luci-static/LuciXEyE
 	commit luci
 EOF
+
 
