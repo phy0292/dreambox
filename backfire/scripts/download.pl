@@ -119,7 +119,7 @@ sub cleanup
 
 @mirrors = localmirrors();
 
-push @mirrors, 'http://openwrt.8800.org:82/sources';
+push @mirrors, 'http://downloads.openwrt.org.cn/sources';
 
 foreach my $mirror (@ARGV) {
 	if ($mirror =~ /^\@SF\/(.+)$/) {
