@@ -12,7 +12,7 @@ BOARDNAME:=Atheros AR913x/AR934x Trunk
 FEATURES:=squashfs jffs2 targz
 CFLAGS:=-Os -pipe -mips32r2 -mtune=mips32r2 -funit-at-a-time
 
-LINUX_VERSION:=2.6.32.27
+LINUX_VERSION:=2.6.32.48
 
 include $(INCLUDE_DIR)/target.mk
 
