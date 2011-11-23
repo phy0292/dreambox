@@ -1,0 +1,284 @@
+#!/bin/sh 
+# copyrights 
+# (1)trextra Script VER 0.10a-1 for openwrt  by zjhzzyf
+
+
+. /etc/functions.sh
+
+
+filepath=/tmp/.trextra
+trextradebug=0
+
+transmission_comm(){
+HOST=localhost
+PORT=$(uci get transmission.@transmission[0].rpc_port)
+RPC_AUTH=$(uci get transmission.@transmission[0].rpc_authentication_required)
+USER=$(uci get transmission.@transmission[0].rpc_username)
+PASS=$(uci get transmission.@transmission[0].rpc_password)
+
+  [ "$RPC_AUTH" = "" ] &&RPC_AUTH=0
+  
+ if [ "$RPC_AUTH" = "1" ] ;then	
+		COMMAND="transmission-remote ${HOST}:${PORT} --auth ${USER}:${PASS}"
+	else
+		COMMAND="transmission-remote ${HOST}:${PORT}"
+	fi
+ [ "$trextradebug" = "1" ]&&	echo "line 26 command"
+
+	}
+
+
+
+get_trextraemail_set(){
+ config_get email_enable $1 email_enable
+ config_get smtp_address $1 smtp_address
+ config_get smtp_user $1 smtp_user
+ config_get smtp_password $1 smtp_password
+ config_get from_address $1 from_address
+ config_get  queue_enabled $1 queue_enabled 
+ config_get  queue_interval $1 queue_interval
+
+	 if [  "$queue_enabled" == ""  ]; then
+		queue_enabled=0
+    fi 
+
+ 	echo -e "" >  /etc/msmtprc
+  echo -e "account default \n" >> /etc/msmtprc
+	[ -n "$smtp_address" ] && echo  "host  $smtp_address" >> /etc/msmtprc
+	echo "auth login" >> /etc/msmtprc
+	[ -n "$smtp_user" ] && echo "user $smtp_user"  >> /etc/msmtprc
+	[ -n "$smtp_password" ] && echo  "password $smtp_password"  >> /etc/msmtprc
+    echo "auto_from off"  >> /etc/msmtprc
+	[ -n "$from_address" ] && echo "from  $from_address"  >> /etc/msmtprc
+  echo  "syslog LOG_MAIL"  >> /etc/msmtprc  
+  echo  "logfile /var/log/msmtp.log"  >> /etc/msmtprc
+
+#make  scheduler
+if  [ $email_enable == 1 -o $queue_enabled == 1 ];then
+
+uci delete cron.`uci show cron|grep /usr/bin/trextra |cut -d "." -f2`
+uci add cron task
+uci set cron.@task[-1].enabled=1
+uci set cron.@task[-1].task_Everyday=1
+uci set cron.@task[-1].task_time=custom
+uci set cron.@task[-1].task_minute=${queue_interval}
+uci set cron.@task[-1].task_name="trextra_scheduler"
+uci set cron.@task[-1].task_task=" /usr/bin/trextra  scheduler"
+uci commit cron
+/etc/init.d/cron restart
+else
+uci delete cron.`uci show cron|grep /usr/bin/trextra|cut -d "." -f2`
+uci commit cron
+/etc/init.d/cron restart
+fi
+
+}
+ 
+
+lowspeed_mail ()
+{
+	
+	unset NOWDOWNSPEED
+ [ "$trextradebug" = "1" ]&&	 echo " line 72 NOWDOWNSPEED=$NOWDOWNSPEED  low_speed= $low_speed"
+ [ -n "$low_speed" -a $low_speed != 0 ]&&{
+NOWDOWNSPEED=$(cat $filepath/avespeed)
+	 echo " NOWDOWNSPEED222=$NOWDOWNSPEED  low_speed= $low_speed"
+
+  if [ $NOWDOWNSPEED -gt $low_speed ]; then
+    echo "speed ok"
+	
+  else
+	#创建低速下载邮件内容
+		from_address=$(uci get trextra.@trextraqueueemail[0].from_address)
+		echo "From: ${from_address} " > $filepath/trlow_speed.tmp      
+		echo "Subject: Transmission低与${low_speed}Kb,${NOWDOWNSPEED}KB下载中 "  >>$filepath/trlow_speed.tmp
+		echo -e "To: ${address} \n" >>$filepath/trlow_speed.tmp
+		echo " 现在脱的速度是: $NOWDOWNSPEED KB" >>$filepath/trlow_speed.tmp
+		# send email
+		sendmail $address <$filepath/trlow_speed.tmp
+		echo "	sendmail $address <$filepath/trlow_speed.tmp"
+	fi
+}
+	
+}
+
+
+
+trfinished_mail(){
+
+ID_list=$(cat $filepath/add_finished_id )
+for ID in $ID_list
+do
+from_address=$(uci get trextra.@trextraqueueemail[0].from_address)
+echo "From: ${from_address}" >$filepath/transmissionfinish
+echo "Subject: Transmission编号$ID下载完成"  >>$filepath/transmissionfinish
+echo -e "To: ${address} \n" >>$filepath/transmissionfinish
+echo -e " \n" >>$filepath/transmissionfinish
+$COMMAND -t "$ID" -i >> $filepath/transmissionfinish
+sendmail $address < $filepath/transmissionfinish
+
+done
+}
+
+
+get_transmission_information(){
+
+unset avespeed
+unset nowspeed
+unset oldspeed
+
+$COMMAND -l > $filepath/all_list
+cat $filepath/all_list |grep -v ID|grep -v Sum: > $filepath/que_all_list
+
+[ ! -f $filepath/nowspeed ]&& cat $filepath/all_list | tail -1| awk {'print $5'}|awk -F . {'print $1'}> $filepath/nowspeed
+cp $filepath/nowspeed $filepath/oldspeed 
+cat $filepath/all_list | tail -1| awk {'print $5'}|awk -F . {'print $1'}> $filepath/nowspeed
+nowspeed=$(cat $filepath/nowspeed)
+oldspeed=$(cat $filepath/oldspeed)
+avespeed=$((($oldspeed+$nowspeed)/2))
+cat $filepath/all_list |grep Down |wc -l > $filepath/down_num
+echo $avespeed > $filepath/avespeed 
+[ ! -f $filepath/now_finished_id ]&&cat $filepath/all_list |grep -v ID|grep -v Sum |grep 100% |awk {'print $1 '}| sed 's/\*//' >  $filepath/now_finished_id
+cp  $filepath/now_finished_id  $filepath/old_finished_id 
+cat $filepath/all_list |grep -v ID|grep -v Sum |grep 100% |awk {'print $1 '}| sed 's/\*//' > $filepath/now_finished_id 
+diff  $filepath/old_finished_id $filepath/now_finished_id |tail +4|grep +|  sed 's/\+//'>  $filepath/add_finished_id
+}
+
+
+make_mail_list(){
+unset  DOWN_NUM
+ config_get use_enable $1 use_enable
+ config_get address $1 address
+ config_get low_speed $1 low_speed
+ config_get finish $1 finish
+
+  if [  "$low_speed" == ""  ]; then
+		low_speed=0
+  fi 
+  if [  "$finish" == ""  ]; then
+		finish=0
+  fi 
+    if [  "$use_enable" == ""  ]; then
+		use_enable=0
+  fi 
+  
+ [ "$trextradebug" = "1" ]&& echo " $address use_enable=$use_enable"
+ DOWN_NUM=$(cat $filepath/down_num)
+ [  "$use_enable" == "1"  -a "$DOWN_NUM" -ge "2" ]&&lowspeed_mail 
+ [ -s $filepath/add_finished_id  -a "$use_enable" == "1"  ]&&trfinished_mail
+}
+
+
+
+que_scheduler(){
+
+ config_get MAXDONLOADING $1 queue_max_downloadings
+ config_get MAXSEEDING $1 queue_max_seedings
+ config_get trkeepon $1 trkeepon
+ config_get queue_enabled $1 queue_enabled 
+
+[ "$trkeepon" = "" ] && trkeepon=0
+
+[ "$trkeepon" == "1" ] && {
+	if [ $(ps|grep transmission-daemon|wc -l) -le 1 ]; then
+		/etc/init.d/transmission restart
+	fi
+}
+
+ [ "$trextradebug" = "1" ]&& echo "que 186"
+[ "$queue_enabled" == "1" ]&&{
+ [ "$trextradebug" = "1" ]&& echo "MAXDONLOADING=$MAXDONLOADING  MAXSEEDING=$MAXSEEDING"
+
+SEEDING_SUM=$(cat $filepath/que_all_list| grep 100% | grep -v Stopped | wc -l )
+
+if [ "$SEEDING_SUM" -gt "$MAXSEEDING" ];then
+NEED_STOP_SEED_SUM=$(($SEEDING_SUM-$MAXSEEDING))
+NEED_STOP_SEED_ID=$(cat $filepath/que_all_list | grep 100% | grep -v Stopped | tail -n $NEED_STOP_SEED_SUM  | awk '{ print $1; }'| sed 's/\*//')
+for SEED_ID in $NEED_STOP_SEED_ID;do
+local RUN="$COMMAND --torrent ${SEED_ID} --stop"
+ [ "$trextradebug" = "1" ]&& echo "seed: $RUN"
+eval $RUN
+
+		# sleep 1
+done
+fi
+
+if [ "$SEEDING_SUM" -lt "$MAXSEEDING" ];then
+NEED_START_SEED_SUM=$(($MAXSEEDING-$SEEDING_SUM))
+NEED_START_SEED_ID=$(cat $filepath/que_all_list | grep 100% | grep Stopped | head -n $NEED_START_SEED_SUM  | awk '{ print $1; }'| sed 's/\*//')
+for SEED_START_ID in $NEED_START_SEED_ID;do
+local RUN="$COMMAND --torrent ${SEED_START_ID} --start"
+ 
+ [ "$trextradebug" = "1" ]&& echo "seed:$RUN"
+ eval $RUN
+		# sleep 1
+done
+
+fi
+
+#Free the downloading tasks to the setting
+
+DONLOADING_SUM=$(cat $filepath/que_all_list|grep -v Stopped|grep -v 100%|wc -l)
+
+if [ $DONLOADING_SUM -gt $MAXDONLOADING ];then
+MAXDONLOADING2=$(($MAXDONLOADING+1))
+NEED_DONLOADING_STOP_ID=$(cat $filepath/que_all_list|grep -v Stopped|grep -v 100%|tail -n +${MAXDONLOADING2} | awk '{ print $1; }'| sed 's/\*//')
+for NEED_STOP_ID in $NEED_DONLOADING_STOP_ID ;do
+local RUN="$COMMAND --torrent ${NEED_STOP_ID} --stop"
+ [ "$trextradebug" = "1" ]&& echo "download:$RUN"
+  #  $COMMAND --torrent ${NEED_STOP_ID} --stop > /dev/null
+ eval $RUN
+   # sleep 1
+ done 
+ fi
+ 
+if [ $DONLOADING_SUM -lt $MAXDONLOADING ];then
+NEED_START_SEED_SUM=$(($MAXDONLOADING-$DONLOADING_SUM))
+NEED_DONLOADING_START_ID=$(cat $filepath/que_all_list|grep -v 100%|grep  Stopped | head -n $NEED_START_SEED_SUM | awk '{ print $1; }'| sed 's/\*//')
+for NEED_START_ID in $NEED_DONLOADING_START_ID ;do
+local RUN="$COMMAND --torrent ${NEED_START_ID} --start" 
+ [ "$trextradebug" = "1" ]&& echo "download:$RUN"
+   # $COMMAND --torrent ${NEED_START_ID} --start  > /dev/null
+ eval $RUN
+    # sleep 1
+ done
+ fi
+}
+
+}
+
+
+
+echo "transmission start queue email setting scheduler "
+
+transmission_enabled=$(uci get transmission.@transmission[0].enable)
+	 if [  "$transmission_enabled" == ""  ]; then
+		transmission_enabled=0
+fi 
+ 
+ 
+transmission_comm
+config_load trextra  
+
+
+case "$1" in
+	start)
+ mkdir -p /tmp/.trextra
+ config_foreach get_trextraemail_set trextraqueueemail 
+ 	 ;;
+	stop)
+uci delete cron.`uci show cron|grep /usr/bin/trextra|cut -d "." -f2`
+uci commit cron
+/etc/init.d/cron restart
+    echo "srop test "
+	;;
+ scheduler)
+     	[ "$transmission_enabled" != 0 ] && {
+  	get_transmission_information
+  	config_foreach que_scheduler trextraqueueemail
+  	config_foreach make_mail_list mail_address  
+  }
+;;
+esac
+
+

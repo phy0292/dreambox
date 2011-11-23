@@ -1,0 +1,114 @@
+#!/bin/sh
+# load-balance(N-WAN) Script VER 0.10a for openwrt  by QQ GROUP 120752328
+
+my_config_get(){
+	local enddata="$1"
+	local iface="$2"
+	local option="$3"
+	local ucidata
+ucidata=$(uci get network.${iface}.${option})
+eval export ${NO_EXPORT:+-n} -- "${1}=${ucidata:-$4}" 2>/dev/null
+
+}
+
+
+start_pppd() {
+	local cfg="$1"; shift
+
+	# unique link identifier
+	local link="${proto:-ppp}-$cfg"
+
+	local device
+	my_config_get device "$cfg" device
+
+	local username
+	my_config_get username "$cfg" username
+
+	local password
+	my_config_get password "$cfg" password
+
+	local keepalive
+	my_config_get keepalive "$cfg" keepalive
+
+	local connect
+	my_config_get connect "$cfg" connect
+
+	local disconnect
+	my_config_get disconnect "$cfg" disconnect
+
+	local pppd_options
+	my_config_get pppd_options "$cfg" pppd_options
+
+
+	local interval="${keepalive##*[, ]}"
+	[ "$interval" != "$keepalive" ] || interval=5
+
+	local dns
+	my_config_get dns "$config" dns
+
+	local proto
+	my_config_get proto "$cfg" proto
+	
+[ $proto = "pppoe" ] &&{
+echo "start-stop-daemon -S -b -x /usr/sbin/pppd -m -p /var/run/ppp-$link.pid -- "$@" \
+		${keepalive:+lcp-echo-interval $interval lcp-echo-failure ${keepalive%%[, ]*}} \
+		$demandargs \
+		$peerdns \
+		$defaultroute \
+		${username:+user "$username" password "$password"} \
+		ipparam "$cfg" \
+		ifname "$link" \
+		${connect:+connect "$connect"} \
+		${disconnect:+disconnect "$disconnect"} \
+		${ipv6} \
+		${pppd_options} \
+		nodetach &" >> /tmp/pppoeallup
+}
+
+}
+
+
+setup_interface_pppoe() {
+	local iface="$1"
+	local config="$1"
+
+	my_config_get mtu "$config" mtu
+	my_config_get ifname "$config" ifname
+
+	mtu=${mtu:-1492}
+	start_pppd "$config" \
+		plugin rp-pppoe.so \
+		mtu $mtu mru $mtu \
+		"nic-$ifname"
+}
+
+
+
+kill_pppd()
+{
+local otherpids
+local execute
+otherpids=$(ps -a 2>&1 | grep 'pppd' | grep -v $$ | awk -F " " '{print $1}')
+echo "$otherpids" | while read execute
+do
+kill -9 ${execute} 
+done
+}
+
+all_up(){
+ifdown_all_wan=$(uci show  nwan |grep interface|grep -v loopback|grep -v lan|cut -d"=" -f1 | awk -F . '{printf "ifdown " $2"&"}')
+#ifup_all_wan=$(uci show  nwan |grep interface|grep -v loopback|grep -v lan|cut -d"=" -f1 | awk -F . '{printf "ifup " $2"&"}')
+ifup_all_wan=$(uci show  nwan |grep interface|grep -v loopback|grep -v lan|cut -d"=" -f1 | awk -F . '{printf $2"\ "}')
+kill_pppd
+kill_pppd
+# kill -SIGHUP  pppd
+# eval $ifup_all_wan
+
+echo "" > /tmp/pppoeallup
+for dev in ${ifup_all_wan}; do
+	setup_interface_pppoe "$dev" 
+done
+sh /tmp/pppoeallup
+}
+
+all_up 
