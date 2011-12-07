@@ -1,4 +1,4 @@
-ifeq ($(CONFIG_TARGET_s3c24xx_mini2440GEC2440),y)
+ifeq ($(CONFIG_TARGET_s3c24xx),y)
 	SOUNDCORE_FILES = \
 		$(LINUX_DIR)/sound/soundcore.ko \
 		$(LINUX_DIR)/sound/sound_firmware.ko \
@@ -12,6 +12,8 @@ ifeq ($(CONFIG_TARGET_s3c24xx_mini2440GEC2440),y)
 		$(LINUX_DIR)/sound/soc/snd-soc-core.ko \
 		$(LINUX_DIR)/sound/soc/s3c24xx/snd-soc-s3c24xx-i2s.ko \
 		$(LINUX_DIR)/sound/soc/s3c24xx/snd-soc-s3c24xx.ko \
+		$(LINUX_DIR)/sound/soc/codecs/snd-soc-l3.ko \
+		$(LINUX_DIR)/sound/soc/codecs/snd-soc-uda134x.ko \
 		$(LINUX_DIR)/sound/soc/s3c24xx/snd-soc-s3c24xx-uda134x.ko
 	SOUNDCORE_LOAD = \
 		soundcore \
@@ -26,5 +28,7 @@ ifeq ($(CONFIG_TARGET_s3c24xx_mini2440GEC2440),y)
 		snd-soc-core \
 		snd-soc-s3c24xx-i2s \
 		snd-soc-s3c24xx \
+		snd-soc-l3 \
+		snd-soc-uda134x\
 		snd-soc-s3c24xx-uda134x
 endif

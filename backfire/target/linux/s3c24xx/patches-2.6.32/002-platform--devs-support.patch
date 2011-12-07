@@ -91,26 +91,6 @@ diff -Nur linux-2.6.32.2/drivers/media/video/Makefile linux-2.6.32.2-mini2440/dr
  EXTRA_CFLAGS += -Idrivers/media/dvb/frontends
  EXTRA_CFLAGS += -Idrivers/media/common/tuners
 
-diff -Nur linux-2.6.32.2/drivers/mmc/host/s3cmci.c linux-2.6.32.2-mini2440/drivers/mmc/host/s3cmci.c
---- linux-2.6.32.2/drivers/mmc/host/s3cmci.c	2009-12-19 06:27:07.000000000 +0800
-+++ linux-2.6.32.2-mini2440/drivers/mmc/host/s3cmci.c	2009-12-31 13:45:24.000000000 +0800
-@@ -22,6 +22,7 @@
- #include <linux/gpio.h>
- #include <linux/irq.h>
- #include <linux/io.h>
-+#include <linux/delay.h>
- 
- #include <mach/dma.h>
- 
-@@ -493,6 +494,7 @@
- 	struct s3cmci_host *host = (struct s3cmci_host *) data;
- 
- 	s3cmci_disable_irq(host, true);
-+	udelay(50);
- 
- 	if (host->pio_active == XFER_WRITE)
- 		do_pio_write(host);
-
 diff -Nur linux-2.6.32.2/drivers/net/dm9000.c linux-2.6.32.2-mini2440/drivers/net/dm9000.c
 --- linux-2.6.32.2/drivers/net/dm9000.c	2009-12-19 06:27:07.000000000 +0800
 +++ linux-2.6.32.2-mini2440/drivers/net/dm9000.c	2009-12-29 19:12:02.000000000 +0800
