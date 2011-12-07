@@ -145,3 +145,40 @@ $(call KernelPackage/sound/Depends)
 endef
 
 $(eval $(call KernelPackage,sound-soc-core))
+
+define KernelPackage/sound-soc-s3c24xx-i2s
+$(call KernelPackage/sound/Depends)
+  TITLE:=S3c24xx SoC sound support
+  DEPENDS:=@AUDIO_SUPPORT @TARGET_s3c24xx +kmod-sound-soc-core
+  KCONFIG:= \
+	CONFIG_SND_S3C24XX_SOC \
+	CONFIG_SND_S3C24XX_SOC_I2S
+  FILES:= \
+	$(LINUX_DIR)/sound/soc/s3c24xx/snd-soc-s3c24xx.ko \
+	$(LINUX_DIR)/sound/soc/s3c24xx/snd-soc-s3c24xx-i2s.ko
+  AUTOLOAD:= \
+	$(call AutoLoad,55, snd-soc-s3c24xx) \
+	$(call AutoLoad,55, snd-soc-s3c24xx-i2s) 
+endef
+
+$(eval $(call KernelPackage,sound-soc-s3c24xx-i2s))
+
+define KernelPackage/sound-soc-s3c24xx-uda134x
+$(call KernelPackage/sound/Depends)
+  TITLE:=UDA134x SoC sound Chip support
+  DEPENDS:=@AUDIO_SUPPORT @TARGET_s3c24xx +kmod-sound-soc-s3c24xx-i2s
+  KCONFIG:= \
+	CONFIG_SND_SOC_UDA134X \
+	CONFIG_SND_S3C24XX_SOC_LN2440SBC_ALC650=n \
+	CONFIG_SND_S3C24XX_SOC_S3C24XX_UDA134X \
+	CONFIG_SND_S3C24XX_SOC_SIMTEC_TLV320AIC23=n \
+	CONFIG_SND_S3C24XX_SOC_SIMTEC_HERMES=n \
+  FILES:= \
+	$(LINUX_DIR)/sound/soc/codecs/snd-soc-uda134x.ko \
+	$(LINUX_DIR)/sound/soc/s3c24xx/snd-soc-s3c24xx-uda134x.ko
+  AUTOLOAD:= \
+	$(call AutoLoad,55,snd-soc-uda134x) \
+	$(call AutoLoad,55,snd-soc-s3c24xx-uda134x) 
+endef
+
+$(eval $(call KernelPackage,sound-soc-s3c24xx-uda134x))

@@ -101,6 +101,25 @@ endef
 
 $(eval $(call KernelPackage,i2c-gpio))
 
+I2C_S3C24XX_MODULES:=\
+  CONFIG_I2C_S3C2410:drivers/i2c/busses/i2c-s3c2410
+
+define KernelPackage/i2c-s3c24xx
+  $(call i2c_defaults,$(I2C_S3C24XX_MODULES),59)
+  TITLE:=S3C24xx I2C Driver
+  DEPENDS:=@TARGET_s3c24xx +kmod-i2c-core
+  KCONFIG+= \
+	CONFIG_I2C_S3C2410
+
+endef
+
+define KernelPackage/i2c-s3c24xx/description
+ Kernel module for I2C on the Samsung S3C24xx processors.
+endef
+
+$(eval $(call KernelPackage,i2c-s3c24xx))
+
+
 I2C_SCX200_MODULES:=\
   CONFIG_SCx200_I2C:drivers/i2c/busses/scx200_i2c
 
