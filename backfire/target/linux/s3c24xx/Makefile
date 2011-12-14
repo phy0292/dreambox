@@ -14,7 +14,7 @@ CFLAGS:=-O2 -pipe -march=armv4t -mtune=arm920t -funit-at-a-time
 SUBTARGETS:=mini2440 gec2440 
 
 #LINUX_VERSION:=2.6.32.26
-LINUX_VERSION:=2.6.32.48
+LINUX_VERSION:=2.6.32.50
 
 #DEVICE_TYPE=phone
 
