@@ -19,17 +19,3 @@
  	seq_printf(m, "microsecond timers\t: %s\n",
  	              cpu_has_counter ? "yes" : "no");
 
---- a/arch/mips/ar71xx/setup.c	2011-04-14 07:03:46.000000000 +0800
-+++ b/arch/mips/ar71xx/setup.c	2011-04-22 14:40:04.153481002 +0800
-@@ -306,5 +306,10 @@
- 	/* Nothing to do */
- }
- 
-+unsigned int getCPUClock(void)
-+{
-+    return ar71xx_cpu_freq/1000000;
-+}
-+
- MIPS_MACHINE(AR71XX_MACH_GENERIC, "Generic", "Generic AR71xx board",
- 	     ar71xx_generic_init);
-

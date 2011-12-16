@@ -128,6 +128,6 @@ static void __init tl_wr740n_v5_setup(void)
 }
 
 MIPS_MACHINE(AR71XX_MACH_TL_WR740N_V5, "TL_WR740N_V5", "TP-LINK WR740N V5",
-	     WR740N_V5_setup);
+	     tl_WR740N_V5_setup);
 
 
