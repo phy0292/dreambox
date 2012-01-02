@@ -15,7 +15,7 @@ LINUX_VERSION:=2.6.32.51
 
 include $(INCLUDE_DIR)/target.mk
 
-DEFAULT_PACKAGES += wpad-mini kmod-switch gpioctl
+DEFAULT_PACKAGES += wpad-mini kmod-switch gpioctl kmod-usb-core kmod-usb2 kmod-input-gpio-buttons kmod-input-evdev  kmod-leds-gpio kmod-bcm63xx-spi
 
 define Target/Description
 	Build firmware images for Broadcom based xDSL/routers
