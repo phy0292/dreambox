@@ -21,7 +21,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/mediatomb
   SECTION:=multimedia
   CATEGORY:=Multimedia
-  DEPENDS:=+libexif +libsqlite3 +id3lib +libiconv +file +libexpat +libpthread
+  DEPENDS:=+libexif +libsqlite3 +id3lib +libiconv-full +libcharset +iconv +file +libexpat +libpthread
   TITLE:=A powerfull UPNP media server
   URL:=http://www.mediatomb.cc/
 endef
@@ -45,8 +45,8 @@ CONFIGURE_ARGS += \
 ifneq ($(CONFIG_USE_UCLIBC),)
 
 CONFIGURE_ARGS += \
-	--with-iconv-h=$(STAGING_DIR)/usr/lib/libiconv-stub/include/ \
-	--with-iconv-libs=$(STAGING_DIR)/usr/lib/libiconv-stub/lib/ \
+	--with-iconv-h=$(STAGING_DIR)/usr/lib/libiconv-full/include/ \
+	--with-iconv-libs=$(STAGING_DIR)/usr/lib/libiconv-full/lib/ \
 
 endif
 
