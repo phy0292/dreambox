@@ -322,3 +322,15 @@ msgstr "vsftpd本地root"
 msgid "write_enable"
 msgstr "全局配置可写 "
 
+msgid "watch_dir_enabled"
+msgstr "开启监视"
+
+msgid "watch_dir_enabled_desc"
+msgstr "选取，开启种子文件监视，需要内核开启INOTIFY。"
+
+msgid "watch_dir"
+msgstr "监视目录"
+
+msgid "watch_dir_desc"
+msgstr "种子文件监视的目录"
+
