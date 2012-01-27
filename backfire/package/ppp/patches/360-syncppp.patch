@@ -1,0 +1,263 @@
+diff -Naur ppp-2.4.4.0/pppd/chap-new.c ppp-2.4.4/pppd/chap-new.c
+--- ppp-2.4.4.0/pppd/chap-new.c	2005-07-13 18:41:58.000000000 +0800
++++ ppp-2.4.4/pppd/chap-new.c	2012-01-27 09:08:11.336087452 +0800
+@@ -36,6 +36,7 @@
+ #include "chap-new.h"
+ #include "chap-md5.h"
+ 
++#include "syncppp.h"
+ #ifdef CHAPMS
+ #include "chap_ms.h"
+ #define MDTYPE_ALL (MDTYPE_MICROSOFT_V2 | MDTYPE_MICROSOFT | MDTYPE_MD5)
+@@ -492,6 +493,7 @@
+ 			msg = "CHAP authentication failed";
+ 	}
+ 	if (msg) {
++    syncppp();
+ 		if (len > 0)
+ 			info("%s: %.*v", msg, len, pkt);
+ 		else
+diff -Naur ppp-2.4.4.0/pppd/Makefile.linux ppp-2.4.4/pppd/Makefile.linux
+--- ppp-2.4.4.0/pppd/Makefile.linux	2006-06-04 13:07:46.000000000 +0800
++++ ppp-2.4.4/pppd/Makefile.linux	2012-01-27 10:29:41.012085580 +0800
+@@ -13,16 +13,16 @@
+ 
+ PPPDSRCS = main.c magic.c fsm.c lcp.c ipcp.c upap.c chap-new.c md5.c ccp.c \
+ 	   ecp.c ipxcp.c auth.c options.c sys-linux.c md4.c chap_ms.c \
+-	   demand.c utils.c tty.c eap.c chap-md5.c
++	   demand.c utils.c tty.c eap.c chap-md5.c syncppp.c
+ 
+ HEADERS = ccp.h chap-new.h ecp.h fsm.h ipcp.h \
+ 	ipxcp.h lcp.h magic.h md5.h patchlevel.h pathnames.h pppd.h \
+-	upap.h eap.h
++	upap.h eap.h syncppp.h
+ 
+ MANPAGES = pppd.8
+ PPPDOBJS = main.o magic.o fsm.o lcp.o ipcp.o upap.o chap-new.o md5.o ccp.o \
+ 	   ecp.o auth.o options.o demand.o utils.o sys-linux.o ipxcp.o tty.o \
+-	   eap.o chap-md5.o
++	   eap.o chap-md5.o syncppp.o
+ 
+ #
+ # include dependencies if present
+@@ -33,7 +33,7 @@
+ # CC = gcc
+ #
+ COPTS = -O2 -pipe -Wall -g
+-LIBS =
++LIBS = -lpthread
+ 
+ # Uncomment the next 2 lines to include support for Microsoft's
+ # MS-CHAP authentication protocol.  Also, edit plugins/radius/Makefile.linux.
+@@ -67,6 +67,9 @@
+ # Enable plugins
+ PLUGIN=y
+ 
++# Enable SYNC_PPP plugins
++SYNC_PPP=y
++
+ # Enable Microsoft proprietary Callback Control Protocol
+ #CBCP=y
+ 
+@@ -94,6 +97,13 @@
+ endif
+ endif
+ 
++# syncppp 
++ifdef SYNC_PPP
++TARGETS	+= syncpppinit
++EXTRAINSTALL = $(INSTALL) -c -m 555 syncpppinit $(BINDIR)/syncpppinit
++EXTRACLEAN += syncpppinit.o
++endif
++
+ # EAP SRP-SHA1
+ ifdef USE_SRP
+ CFLAGS	+= -DUSE_SRP -DOPENSSL -I/usr/local/ssl/include
+@@ -208,6 +218,9 @@
+ pppd: $(PPPDOBJS)
+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o pppd $(PPPDOBJS) $(LIBS)
+ 
++syncpppinit:	syncpppinit.c
++	${CC} $(CFLAGS) $(LDFLAGS) -o syncpppinit syncpppinit.c $(LIBS)
++
+ srp-entry:	srp-entry.c
+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ srp-entry.c $(LIBS)
+ 
+diff -Naur ppp-2.4.4.0/pppd/syncppp.c ppp-2.4.4/pppd/syncppp.c
+--- ppp-2.4.4.0/pppd/syncppp.c	1970-01-01 08:00:00.000000000 +0800
++++ ppp-2.4.4/pppd/syncppp.c	2012-01-26 11:44:30.000000000 +0800
+@@ -0,0 +1,53 @@
++#include<stdio.h>
++#include<sys/types.h>
++#include<sys/shm.h>
++#include<sys/ipc.h>
++#include<stdlib.h>
++#include<semaphore.h>
++#include <fcntl.h>
++#include <sys/file.h>
++#include"syncppp.h"
++#include <sys/stat.h>
++#include<unistd.h>
++
++void syncppp(void)
++{
++    int shm_id;
++    key_t key;
++    int fdlock;
++    struct semaphores *semphs;
++
++    key = ftok(keyfilename, 4);
++
++    if (key < 0) {
++        perror("key error\n");
++        exit(1);
++    }
++
++    //printf("the key is: %x\n", key);
++
++    shm_id = shmget(key, 1, 0644);
++    if (shm_id < 0) {
++        perror("shmget");
++        exit(1);
++    }
++    //printf("shm id: %u\n", shm_id);
++
++    if ( (void *)(semphs = shmat(shm_id, 0, 0)) == (void *)-1) {
++        perror("shmat error");
++        exit(1);
++    }
++
++    sem_post(&(semphs->count));
++    shmdt(semphs);
++
++    if ((fdlock = open(lockfilename,O_RDONLY, 0644)) < 0) {
++        perror("lockfile open error");
++        exit(1);
++    }
++
++    flock(fdlock,LOCK_SH);
++
++    close(fdlock);
++
++}
+diff -Naur ppp-2.4.4.0/pppd/syncppp.h ppp-2.4.4/pppd/syncppp.h
+--- ppp-2.4.4.0/pppd/syncppp.h	1970-01-01 08:00:00.000000000 +0800
++++ ppp-2.4.4/pppd/syncppp.h	2012-01-26 11:44:32.000000000 +0800
+@@ -0,0 +1,15 @@
++#include<semaphore.h>
++
++#define MAX_PPP_NUM 30
++
++#define keyfilename "/tmp/pppkeyfile"
++
++#define lockfilename "/tmp/ppplockfile"
++
++void syncppp(void);
++
++struct semaphores {
++    sem_t count;  /* count the pppd processes which has recieved the challenge */
++    //int ppp_num;  /* total number of pppd */
++};
++
+diff -Naur ppp-2.4.4.0/pppd/syncpppinit.c ppp-2.4.4/pppd/syncpppinit.c
+--- ppp-2.4.4.0/pppd/syncpppinit.c	1970-01-01 08:00:00.000000000 +0800
++++ ppp-2.4.4/pppd/syncpppinit.c	2012-01-26 11:44:30.000000000 +0800
+@@ -0,0 +1,98 @@
++#include<stdio.h>
++#include<sys/types.h>
++#include<sys/shm.h>
++#include<sys/ipc.h>
++#include<stdlib.h>
++#include <semaphore.h>
++#include <fcntl.h>
++#include <sys/file.h>
++#include <sys/stat.h>
++#include<unistd.h>
++#include "syncppp.h"
++
++int openlockfile()
++{
++    int fdlock;
++
++    if ((fdlock = creat(lockfilename, 0644)) < 0) {
++        perror("fdlock open error");
++        exit(1);
++    }
++    return fdlock;
++}
++
++void lockfile(int fdlock)
++{
++    if (flock(fdlock, LOCK_EX) < 0) {
++        perror("flock lock error");
++        exit(1);
++    }    
++    fprintf(stderr,"initppp: locked\n");
++}
++
++void unlockfile(int fdlock)
++{
++    if (flock(fdlock, LOCK_UN) < 0) {
++        perror("flock unlock error");
++        exit(1);
++    }
++}
++
++
++int main(int argc, char *argv[])
++{
++    int shm_id;
++    int ppp_num;
++    int fdlock;
++    sem_t *p_sem;
++    key_t key;
++    struct semaphores *semphs;
++
++    if (argc != 2) {
++        fprintf(stderr, "Usage: %s <number of pppd>\n", argv[0]);
++        exit(1);
++    }
++    
++    ppp_num = atoi(argv[1]);
++    if (ppp_num > MAX_PPP_NUM || ppp_num <= 0) {
++        fprintf(stderr, "Number of pppd beyoung limit\n");
++        exit(1);
++    }
++
++    /* create a uniqe key */
++    creat(keyfilename, 0755);
++    key = ftok(keyfilename, 4);
++    if (key < 0) {
++        perror("key error\n");
++        exit(1);
++    }
++
++    //printf("the key is: %x\n", key);
++
++    shm_id = shmget(key, sizeof(struct semaphores), IPC_CREAT | IPC_EXCL | 0644);
++    if (shm_id < 0) {
++        /* exist */
++        shm_id = shmget(key, 1, 0644);
++    }
++
++    //printf("shm id: %u\n", shm_id);
++
++    if ( (void *)(semphs = shmat(shm_id, 0, 0)) == (void *)-1) {
++        perror("shmat error");
++        exit(1);
++    }
++
++    sem_init(&(semphs->count), 1, 0); /* shared between processes, init 0 */
++    fdlock = openlockfile();
++    lockfile(fdlock);
++
++    while (ppp_num > 0) {
++        sem_wait(&(semphs->count));
++        fprintf(stderr,"%d ",ppp_num);
++        ppp_num--;
++    }
++    unlockfile(fdlock);
++    fprintf(stderr,"\ninitppp: unlocked\n");
++
++    return 0;
++}
