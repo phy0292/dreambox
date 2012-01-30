@@ -1,6 +1,6 @@
 diff -Naur ppp-2.4.4.0/pppd/chap-new.c ppp-2.4.4/pppd/chap-new.c
---- ppp-2.4.4.0/pppd/chap-new.c	2012-01-28 22:04:42.249584406 +0800
-+++ ppp-2.4.4/pppd/chap-new.c	2012-01-28 22:06:44.334805752 +0800
+--- ppp-2.4.4.0/pppd/chap-new.c	2012-01-30 20:52:16.389255467 +0800
++++ ppp-2.4.4/pppd/chap-new.c	2012-01-30 20:54:09.201000101 +0800
 @@ -36,6 +36,8 @@
  #include "chap-new.h"
  #include "chap-md5.h"
@@ -10,17 +10,36 @@ diff -Naur ppp-2.4.4.0/pppd/chap-new.c ppp-2.4.4/pppd/chap-new.c
  #ifdef CHAPMS
  #include "chap_ms.h"
  #define MDTYPE_ALL (MDTYPE_MICROSOFT_V2 | MDTYPE_MICROSOFT | MDTYPE_MD5)
-@@ -475,6 +477,7 @@
+@@ -58,6 +60,7 @@
+ int chap_max_transmits = 10;
+ int chap_rechallenge_time = 0;
+ int chapms_strip_domain = 0;
++bool syncpppd = 0;
+ 
+ /*
+  * Command-line options.
+@@ -71,6 +74,8 @@
+ 	  "Set interval for rechallenge", OPT_PRIO },
+ 	{ "chapms-strip-domain", o_bool, &chapms_strip_domain,
+ 	  "Strip the domain prefix before the Username", 1 },
++    { "syncppp", o_bool, &syncpppd,
++      "sync among multiple pppd when sending chap respond", 1 },
+ 	{ NULL }
+ };
+ 
+@@ -475,6 +480,9 @@
  	p[2] = len >> 8;
  	p[3] = len;
  
-+    syncppp();
++    if (syncpppd) {
++        syncppp();
++    }
  	output(0, response, PPP_HDRLEN + len);
  }
  
 diff -Naur ppp-2.4.4.0/pppd/Makefile.linux ppp-2.4.4/pppd/Makefile.linux
---- ppp-2.4.4.0/pppd/Makefile.linux	2006-06-04 13:07:46.000000000 +0800
-+++ ppp-2.4.4/pppd/Makefile.linux	2012-01-27 10:29:41.012085580 +0800
+--- ppp-2.4.4.0/pppd/Makefile.linux	2012-01-30 20:52:16.389255467 +0800
++++ ppp-2.4.4/pppd/Makefile.linux	2012-01-30 20:47:24.714744804 +0800
 @@ -13,16 +13,16 @@
  
  PPPDSRCS = main.c magic.c fsm.c lcp.c ipcp.c upap.c chap-new.c md5.c ccp.c \
@@ -50,7 +69,7 @@ diff -Naur ppp-2.4.4.0/pppd/Makefile.linux ppp-2.4.4/pppd/Makefile.linux
  
  # Uncomment the next 2 lines to include support for Microsoft's
  # MS-CHAP authentication protocol.  Also, edit plugins/radius/Makefile.linux.
-@@ -67,6 +67,9 @@
+@@ -70,6 +70,9 @@
  # Enable plugins
  PLUGIN=y
  
@@ -60,7 +79,7 @@ diff -Naur ppp-2.4.4.0/pppd/Makefile.linux ppp-2.4.4/pppd/Makefile.linux
  # Enable Microsoft proprietary Callback Control Protocol
  #CBCP=y
  
-@@ -94,6 +97,13 @@
+@@ -97,6 +100,13 @@
  endif
  endif
  
@@ -74,7 +93,7 @@ diff -Naur ppp-2.4.4.0/pppd/Makefile.linux ppp-2.4.4/pppd/Makefile.linux
  # EAP SRP-SHA1
  ifdef USE_SRP
  CFLAGS	+= -DUSE_SRP -DOPENSSL -I/usr/local/ssl/include
-@@ -208,6 +218,9 @@
+@@ -219,6 +229,9 @@
  pppd: $(PPPDOBJS)
  	$(CC) $(CFLAGS) $(LDFLAGS) -o pppd $(PPPDOBJS) $(LIBS)
  
@@ -86,7 +105,7 @@ diff -Naur ppp-2.4.4.0/pppd/Makefile.linux ppp-2.4.4/pppd/Makefile.linux
  
 diff -Naur ppp-2.4.4.0/pppd/syncppp.c ppp-2.4.4/pppd/syncppp.c
 --- ppp-2.4.4.0/pppd/syncppp.c	1970-01-01 08:00:00.000000000 +0800
-+++ ppp-2.4.4/pppd/syncppp.c	2012-01-26 11:44:30.000000000 +0800
++++ ppp-2.4.4/pppd/syncppp.c	2012-01-30 20:47:24.711411422 +0800
 @@ -0,0 +1,53 @@
 +#include<stdio.h>
 +#include<sys/types.h>
@@ -143,7 +162,7 @@ diff -Naur ppp-2.4.4.0/pppd/syncppp.c ppp-2.4.4/pppd/syncppp.c
 +}
 diff -Naur ppp-2.4.4.0/pppd/syncppp.h ppp-2.4.4/pppd/syncppp.h
 --- ppp-2.4.4.0/pppd/syncppp.h	1970-01-01 08:00:00.000000000 +0800
-+++ ppp-2.4.4/pppd/syncppp.h	2012-01-26 11:44:32.000000000 +0800
++++ ppp-2.4.4/pppd/syncppp.h	2012-01-30 20:47:24.711411422 +0800
 @@ -0,0 +1,15 @@
 +#include<semaphore.h>
 +
@@ -162,7 +181,7 @@ diff -Naur ppp-2.4.4.0/pppd/syncppp.h ppp-2.4.4/pppd/syncppp.h
 +
 diff -Naur ppp-2.4.4.0/pppd/syncpppinit.c ppp-2.4.4/pppd/syncpppinit.c
 --- ppp-2.4.4.0/pppd/syncpppinit.c	1970-01-01 08:00:00.000000000 +0800
-+++ ppp-2.4.4/pppd/syncpppinit.c	2012-01-26 11:44:30.000000000 +0800
++++ ppp-2.4.4/pppd/syncpppinit.c	2012-01-30 20:47:24.711411422 +0800
 @@ -0,0 +1,98 @@
 +#include<stdio.h>
 +#include<sys/types.h>
