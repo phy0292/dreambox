@@ -8,7 +8,7 @@ msgid "(%s available)"
 msgstr "(%s 可用)"
 
 msgid "(optional)"
-msgstr ""
+msgstr "(可选)"
 
 msgid "-- Please choose --"
 msgstr "-- 请选择 --"
@@ -26,7 +26,7 @@ msgid "0:45"
 msgstr ""
 
 msgid "1 Minute Load:"
-msgstr "1分钟负载:"
+msgstr "1分钟内负载:"
 
 msgid "10:00"
 msgstr ""
@@ -89,7 +89,7 @@ msgid "14:45"
 msgstr ""
 
 msgid "15 Minute Load:"
-msgstr "15分钟负载:"
+msgstr "15分钟内负载:"
 
 msgid "15:00"
 msgstr ""
@@ -236,10 +236,10 @@ msgid "3:45"
 msgstr ""
 
 msgid "40MHz 2nd channel above"
-msgstr "40MHz高频组合"
+msgstr "40MHz双频道"
 
 msgid "40MHz 2nd channel below"
-msgstr ""
+msgstr "40MHz三频道"
 
 msgid "4:00"
 msgstr ""
@@ -636,7 +636,7 @@ msgid "Back"
 msgstr "返回"
 
 msgid "Back to configuration"
-msgstr ""
+msgstr "返回配置页"
 
 msgid "Back to overview"
 msgstr "返回至总览"
@@ -662,11 +662,8 @@ msgstr "备份文件列表"
 msgid "Bad address specified!"
 msgstr "指定的地址错误"
 
-msgid "Basic Settings"
-msgstr ""
-
 msgid "Basic settings"
-msgstr ""
+msgstr "基础设置"
 
 msgid "Basic settings are incomplete. Please go to"
 msgstr ""
@@ -702,7 +699,7 @@ msgid "Buttons"
 msgstr "按钮"
 
 msgid "Bytes sent"
-msgstr ""
+msgstr "已发送字节"
 
 msgid "CPU"
 msgstr "CPU"
@@ -736,7 +733,7 @@ msgid "Changes the administrator password for accessing the device"
 msgstr "修改访问此路由的管理员密码"
 
 msgid "Channel"
-msgstr "信道"
+msgstr "频道"
 
 msgid "Check"
 msgstr "检查"
@@ -776,7 +773,7 @@ msgid ""
 msgstr ""
 "点击 \"生成压缩包\" 将会把配置文件生成一个tar压缩包提供下载。 "
 "让系统恢复到初始状态, 请点击 "
-"\"系统复位\" (只有squashfs压缩的固件才能复位)."
+"\"恢复默认设置\" (只有squashfs压缩的固件才能复位)."
 
 msgid "Client"
 msgstr "客户端"
@@ -785,7 +782,7 @@ msgid "Client ID to send when requesting DHCP"
 msgstr "请求DHCP时发送客户端ID"
 
 msgid "Client network size"
-msgstr ""
+msgstr "客户端网络大小"
 
 msgid ""
 "Close inactive connection after the given amount of seconds, use 0 to "
@@ -793,7 +790,7 @@ msgid ""
 msgstr ""
 
 msgid "Close list..."
-msgstr "关闭备份文件列表"
+msgstr "关闭列表..."
 
 msgid "Collecting data..."
 msgstr "收集信息..."
@@ -873,7 +870,7 @@ msgid "Connected"
 msgstr "已链接"
 
 msgid "Connection Limit"
-msgstr "连接限制"
+msgstr "连接数限制"
 
 msgid "Connection Protocol"
 msgstr ""
@@ -900,7 +897,7 @@ msgid "Country Code"
 msgstr "国家代码"
 
 msgid "Country code"
-msgstr ""
+msgstr "国家代码"
 
 msgid "Cover the following interface"
 msgstr "覆盖下列网络接口"
@@ -909,13 +906,13 @@ msgid "Cover the following interfaces"
 msgstr "覆盖下列网络接口"
 
 msgid "Cpu Clock"
-msgstr "Cpu主频"
+msgstr "CPU主频"
 
 msgid "Cpu Model"
-msgstr "Cpu型号"
+msgstr "CPU型号"
 
 msgid "Create / Assign firewall-zone"
-msgstr "Create / Assign firewall-zone"
+msgstr "创建/分配防火墙区域"
 
 msgid "Create Interface"
 msgstr "创建一个接口"
@@ -971,7 +968,7 @@ msgid "Default gateway"
 msgstr "默认网关"
 
 msgid "Default routes"
-msgstr ""
+msgstr "默认路由"
 
 msgid "Default state"
 msgstr "默认状态"
@@ -1016,7 +1013,7 @@ msgid "Device running the service"
 msgstr ""
 
 msgid "Devices"
-msgstr ""
+msgstr "设备"
 
 msgid "Diagnostics"
 msgstr "网络诊断"
@@ -1039,7 +1036,7 @@ msgid ""
 msgstr "在本接口上禁用DHCP"
 
 msgid "Disable Bridge"
-msgstr ""
+msgstr "设备禁用桥接"
 
 msgid "Disable DNS setup"
 msgstr "禁用DNS设置"
@@ -1123,7 +1120,7 @@ msgid "Download backup"
 msgstr "下载备份"
 
 msgid "Dropbear Instance"
-msgstr "Dropbear实例"
+msgstr "Dropbear设置"
 
 msgid ""
 "Dropbear offers <abbr title=\"Secure Shell\">SSH</abbr> network shell access "
@@ -1202,7 +1199,7 @@ msgid "Enable Jumbo Frame passthrough"
 msgstr ""
 
 msgid "Enable Powersaving"
-msgstr ""
+msgstr "启用省电模式"
 
 msgid "Enable TFTP server"
 msgstr "开启TFTP服务器"
@@ -1247,7 +1244,7 @@ msgid "Error"
 msgstr "错误"
 
 msgid "Errors"
-msgstr ""
+msgstr "错误"
 
 msgid "Essentials"
 msgstr ""
@@ -1275,7 +1272,7 @@ msgid "Extend network %s"
 msgstr ""
 
 msgid "External Port"
-msgstr ""
+msgstr "外部端口"
 
 msgid "External system log server"
 msgstr "外部系统日志服务"
@@ -1343,22 +1340,22 @@ msgid "Flags"
 msgstr "标志"
 
 msgid "Flash Firmware"
-msgstr "刷写固件"
+msgstr "更新固件"
 
 msgid "Flash Size"
 msgstr "闪存容量"
 
 msgid "Flash image..."
-msgstr "固件刷写"
+msgstr "更新固件..."
 
 msgid "Flash new firmware image"
 msgstr "更新新的固件版本"
 
 msgid "Flash operations"
-msgstr "闪存操作"
+msgstr "Flash操作"
 
 msgid "Flashing..."
-msgstr "刷机中....."
+msgstr "正在更新固件..."
 
 msgid ""
 "For QoS to work correctly you need to provide the upload and download speed "
@@ -1413,7 +1410,7 @@ msgid "Friday"
 msgstr "星期五"
 
 msgid "GHCA"
-msgstr ""
+msgstr "协同拨号"
 
 msgid "Gateway"
 msgstr "网关"
@@ -1437,7 +1434,7 @@ msgid "Given password confirmation did not match, password not changed!"
 msgstr "输入的确认密码不匹配，密码未更改！"
 
 msgid "Go to"
-msgstr ""
+msgstr "转到"
 
 msgid "HE.net password"
 msgstr "HE.net密码"
@@ -1458,7 +1455,7 @@ msgid "Hang Up"
 msgstr "挂起"
 
 msgid "Hardware Address"
-msgstr ""
+msgstr "硬件地址"
 
 msgid "Hello and welcome in the network of"
 msgstr ""
@@ -1744,7 +1741,7 @@ msgid "It is operated by"
 msgstr ""
 
 msgid "Join (Client)"
-msgstr ""
+msgstr "加入(客户端)"
 
 msgid "Join Network"
 msgstr "加入网络"
@@ -1810,7 +1807,7 @@ msgid "Lead Development"
 msgstr "项目领导者"
 
 msgid "Lease Time"
-msgstr ""
+msgstr "租借时间"
 
 msgid "Lease validity time"
 msgstr "租用有效时间"
@@ -1884,7 +1881,7 @@ msgid "Local IPv6 address"
 msgstr "本地IPv6地址"
 
 msgid "Local Network"
-msgstr ""
+msgstr "本地网络"
 
 msgid "Local Settings"
 msgstr ""
@@ -2181,7 +2178,7 @@ msgid "Noise"
 msgstr "噪声"
 
 msgid "Noise:"
-msgstr ""
+msgstr "噪声:"
 
 msgid "None"
 msgstr "无"
@@ -2254,7 +2251,7 @@ msgid "Open"
 msgstr "打开"
 
 msgid "Open list..."
-msgstr "打开备份列表"
+msgstr "打开列表.."
 
 msgid "OpenWrt Chinese Forum"
 msgstr ""
@@ -2388,13 +2385,13 @@ msgid "Perform reboot"
 msgstr "系统重启"
 
 msgid "Perform reset"
-msgstr "系统复位"
+msgstr "重置系统"
 
 msgid "Phone"
 msgstr ""
 
 msgid "Phy Rate:"
-msgstr ""
+msgstr "实际速度"
 
 msgid "Physical Settings"
 msgstr "物理设置"
@@ -2430,7 +2427,7 @@ msgid "Port Forwarding Restrictions"
 msgstr ""
 
 msgid "Ports"
-msgstr ""
+msgstr "端口"
 
 msgid "Power"
 msgstr "Power"
@@ -2450,13 +2447,13 @@ msgid "Prevents client-to-client communication"
 msgstr "禁止客户端间的通信"
 
 msgid "Prioritization"
-msgstr ""
+msgstr "优先级"
 
 msgid "Priority"
-msgstr ""
+msgstr "优先"
 
 msgid "Proceed"
-msgstr "洗 刷 刷"
+msgstr "开始更新"
 
 msgid "Proceed reverting all settings and resetting to firmware defaults?"
 msgstr "放弃所有设置并将路由还原至默认设置吗？"
@@ -2468,7 +2465,7 @@ msgid "Processor"
 msgstr "处理器"
 
 msgid "Profile"
-msgstr ""
+msgstr "配置文件"
 
 msgid "Profile (Expert)"
 msgstr ""
@@ -2477,7 +2474,7 @@ msgid "Project Homepage"
 msgstr "项目主页"
 
 msgid "Prot."
-msgstr "Prot."
+msgstr "端口."
 
 msgid "Protocol"
 msgstr "协议"
@@ -2540,15 +2537,15 @@ msgstr ""
 msgid ""
 "Really delete this interface? The deletion cannot be undone!\n"
 "You might lose access to this router if you are connected via this interface."
-msgstr ""
+msgstr "确认删除该接口？此操作无法撤消，如果您通过此网络连接，你的连接将会被断开。"
 
 msgid ""
 "Really delete this wireless network? The deletion cannot be undone!\n"
 "You might lose access to this router if you are connected via this network."
-msgstr ""
+msgstr "确认删除该无线网络？此操作无法撤消，如果您通过此网络连接，你的连接将会被断开。"
 
 msgid "Really reset all changes?"
-msgstr ""
+msgstr "确认重置所有修改?"
 
 msgid ""
 "Really shutdown interface \"%s\" ?\n"
@@ -2627,7 +2624,7 @@ msgid "Remove"
 msgstr "移除"
 
 msgid "Repeat scan"
-msgstr "中继扫描"
+msgstr "重新扫描"
 
 msgid "Replace default route"
 msgstr "重置默认路由"
@@ -2698,11 +2695,11 @@ msgid "Run filesystem check"
 msgstr "运行文件系统检查"
 
 msgid "SSH Access"
-msgstr ""
+msgstr "SSH访问"
 
 msgid "SSH-Keys"
-msgstr ""
-
+msgstr "SSH-密钥"
+  
 msgid "SSID"
 msgstr "SSID"
 
@@ -2757,10 +2754,10 @@ msgid "Separate WDS"
 msgstr "隔离WDS"
 
 msgid "Server Settings"
-msgstr ""
+msgstr "服务设置"
 
 msgid "Service"
-msgstr ""
+msgstr "服务"
 
 msgid "Service Name"
 msgstr "服务名称"
@@ -2775,16 +2772,16 @@ msgid "Settings"
 msgstr "设置"
 
 msgid "Setup DHCP Server"
-msgstr ""
+msgstr "配置DHCP服务"
 
 msgid "Shanxun"
-msgstr ""
+msgstr "闪讯拨号"
 
 msgid "Show OpenStreetMap"
 msgstr ""
 
 msgid "Show current backup file list"
-msgstr ""
+msgstr "显示当前需要备份的文件列表"
 
 msgid "Show ethernet adapters in use"
 msgstr ""
@@ -2802,7 +2799,7 @@ msgid "Signal"
 msgstr "信号"
 
 msgid "Signal:"
-msgstr ""
+msgstr "信号:"
 
 msgid "Size"
 msgstr "大小"
@@ -2828,7 +2825,7 @@ msgid "Source"
 msgstr "源"
 
 msgid "Special Dialer"
-msgstr ""
+msgstr "指定拨号器"
 
 msgid "Specifies the advertised preferred prefix lifetime in seconds"
 msgstr ""
@@ -2857,13 +2854,13 @@ msgid ""
 msgstr ""
 
 msgid "Specify the secret encryption key here."
-msgstr ""
+msgstr "这这里输入密钥."
 
 msgid "Start"
 msgstr "启动"
 
 msgid "Start Upgrade"
-msgstr ""
+msgstr "开始更新"
 
 msgid "Start priority"
 msgstr "启动优先级"
@@ -3228,13 +3225,13 @@ msgid "Transfer"
 msgstr "流量"
 
 msgid "Transmission"
-msgstr ""
+msgstr "BT下载器"
 
 msgid "Transmission Power"
-msgstr ""
+msgstr "传输功率"
 
 msgid "Transmission Rate"
-msgstr "速率"
+msgstr "传输速率"
 
 msgid "Transmit"
 msgstr "发送"
@@ -3399,7 +3396,7 @@ msgid "Verify"
 msgstr "校验"
 
 msgid "Verify downloaded images"
-msgstr ""
+msgstr "校验下载的镜像"
 
 msgid "Version"
 msgstr "版本"
@@ -3474,7 +3471,7 @@ msgid "Wireless"
 msgstr "无线"
 
 msgid "Wireless Device"
-msgstr ""
+msgstr "无线设备"
 
 msgid "Wireless Overview"
 msgstr "无线网络总览"
@@ -3486,19 +3483,19 @@ msgid "Wireless Security"
 msgstr "无线安全"
 
 msgid "Wireless Settings"
-msgstr ""
+msgstr "无线设置"
 
 msgid "Wireless is disabled or not associated"
 msgstr "未开启无线或未安装无线"
 
 msgid "Wireless is restarting..."
-msgstr "无线重启中..."
+msgstr "重启无线中..."
 
 msgid "Wireless network is disabled"
-msgstr "无线网络是关闭的，点击按钮开启无线"
+msgstr "无线网络已关闭，点击按钮开启无线"
 
 msgid "Wireless network is enabled"
-msgstr "无线网络是开启的，点击按钮关闭无线"
+msgstr "无线网络已开启，点击按钮关闭无线"
 
 msgid "Wireless restarted"
 msgstr "重启无线"
@@ -3549,13 +3546,13 @@ msgid ""
 msgstr ""
 
 msgid "Zone"
-msgstr ""
+msgstr "区域"
 
 msgid "active"
 msgstr ""
 
 msgid "all"
-msgstr ""
+msgstr "全部"
 
 msgid "and fill out all required fields."
 msgstr ""
@@ -3567,10 +3564,10 @@ msgid "auto"
 msgstr "自动"
 
 msgid "automatic"
-msgstr ""
+msgstr "自动"
 
 msgid "automatically reconnect"
-msgstr ""
+msgstr "自动重连"
 
 msgid "blkid uuid infomation"
 msgstr "UUID等信息"
@@ -3612,7 +3609,7 @@ msgid "e.g."
 msgstr ""
 
 msgid "enable"
-msgstr ""
+msgstr "启用"
 
 msgid "every-custom-minute"
 msgstr "自定义间隔时间"
@@ -3670,7 +3667,7 @@ msgid "local <abbr title=\"Domain Name System\">DNS</abbr> file"
 msgstr "local <abbr title=\"Domain Name System\">DNS</abbr> file"
 
 msgid "manual"
-msgstr ""
+msgstr "手动"
 
 msgid "minute"
 msgstr "分钟"
@@ -3679,10 +3676,10 @@ msgid "mldonkey"
 msgstr ""
 
 msgid "never"
-msgstr ""
+msgstr "从不"
 
 msgid "nfsd"
-msgstr ""
+msgstr "NFSD"
 
 msgid "no"
 msgstr "否"
@@ -3694,10 +3691,10 @@ msgid "off"
 msgstr "关闭"
 
 msgid "optional"
-msgstr ""
+msgstr "可选"
 
 msgid "printer"
-msgstr ""
+msgstr "打印机"
 
 msgid "qosv4 scheduler"
 msgstr ""
@@ -3760,10 +3757,10 @@ msgid "used"
 msgstr "已使用"
 
 msgid "vsftpd"
-msgstr ""
+msgstr "FTP服务器"
 
 msgid "wireless settings"
-msgstr ""
+msgstr "无线设置"
 
 msgid "yes"
 msgstr "是"
@@ -4176,7 +4173,7 @@ msgid "unspecified"
 msgstr "未指定"
 
 msgid "unspecified -or- create:"
-msgstr "unspecified -or- create:"
+msgstr "不指定-或-新建:"
 
 msgid "« Back"
 msgstr "返回"
@@ -4370,4 +4367,4 @@ msgid "qos scheduler update"
 msgstr "qosv4 定时检测更新设定，点击详细设定定时更新任务"
 
 msgid "WebShell"
-msgstr "网页终端"
+msgstr "Shell终端"

@@ -56,7 +56,7 @@ msgid "VnStat Graphs"
 msgstr "VnStat图"
 
 msgid "VnStat Traffic Monitor"
-msgstr "VnStat流量监控"
+msgstr "流量监控"
 
 msgid ""
 "VnStat is a network traffic monitor for Linux that keeps a log of network "
