@@ -71,7 +71,7 @@ watch_dir_enabled.rmempty = false
 
 watch_dir= s:option(Value, "watch_dir", translate("watch_dir","watch dir"),
           translate("watch_dir_desc","watch dir desc"))
-rpc_username:depends("watch_dir_enabled", "1")
+watch_dir:depends("watch_dir_enabled", "1")
 watch_dir.optional = false
 watch_dir.rmempty = true
 watch_dir.placeholder = "/mnt/sda1/transmission/watchdir"
