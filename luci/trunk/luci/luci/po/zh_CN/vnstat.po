@@ -53,7 +53,7 @@ msgid "VnStat"
 msgstr "VnStat"
 
 msgid "VnStat Graphs"
-msgstr "VnStat图"
+msgstr "流量统计图"
 
 msgid "VnStat Traffic Monitor"
 msgstr "流量监控"

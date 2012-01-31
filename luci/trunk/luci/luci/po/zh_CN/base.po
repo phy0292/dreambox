@@ -3401,6 +3401,9 @@ msgstr "校验下载的镜像"
 msgid "Version"
 msgstr "版本"
 
+msgid "VnStat Traffic Monitor"
+msgstr "流量监控"
+
 msgid "WDS"
 msgstr "WDS"
 
