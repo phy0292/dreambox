@@ -455,8 +455,8 @@ int wl_get_assoclist(const char *ifname, char *buf, int *len)
 int wl_get_txpwrlist(const char *ifname, char *buf, int *len)
 {
 	struct iwinfo_txpwrlist_entry entry;
-	uint8_t dbm[8] = { 0, 6, 8, 10, 12, 14, 16, 18 };
-	uint8_t mw[8]  = { 1, 3, 6, 10, 15, 25, 39, 63 };
+	uint8_t dbm[8] = { 8, 12, 14, 16, 18, 20, 23, 29};
+	uint8_t mw[8]  = { 6, 15, 25, 39, 63, 100, 200 800};
 	int i;
 
 	for( i = 0; i < 8; i++ )
