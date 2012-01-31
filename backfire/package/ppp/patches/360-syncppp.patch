@@ -1,6 +1,6 @@
 diff -Naur ppp-2.4.4.0/pppd/chap-new.c ppp-2.4.4/pppd/chap-new.c
 --- ppp-2.4.4.0/pppd/chap-new.c	2012-01-30 20:52:16.389255467 +0800
-+++ ppp-2.4.4/pppd/chap-new.c	2012-01-30 20:54:09.201000101 +0800
++++ ppp-2.4.4/pppd/chap-new.c	2012-01-31 19:23:26.087948094 +0800
 @@ -36,6 +36,8 @@
  #include "chap-new.h"
  #include "chap-md5.h"
@@ -27,13 +27,18 @@ diff -Naur ppp-2.4.4.0/pppd/chap-new.c ppp-2.4.4/pppd/chap-new.c
  	{ NULL }
  };
  
-@@ -475,6 +480,9 @@
+@@ -475,6 +480,14 @@
  	p[2] = len >> 8;
  	p[3] = len;
  
 +    if (syncpppd) {
-+        syncppp();
++        if (syncppp() < 0) {
++            error("syncppp sync fail");
++        } else {
++            info("syncppp sync succeeded");
++        }   
 +    }
++
  	output(0, response, PPP_HDRLEN + len);
  }
  
@@ -105,84 +110,85 @@ diff -Naur ppp-2.4.4.0/pppd/Makefile.linux ppp-2.4.4/pppd/Makefile.linux
  
 diff -Naur ppp-2.4.4.0/pppd/syncppp.c ppp-2.4.4/pppd/syncppp.c
 --- ppp-2.4.4.0/pppd/syncppp.c	1970-01-01 08:00:00.000000000 +0800
-+++ ppp-2.4.4/pppd/syncppp.c	2012-01-30 20:47:24.711411422 +0800
-@@ -0,0 +1,53 @@
-+#include<stdio.h>
-+#include<sys/types.h>
-+#include<sys/shm.h>
-+#include<sys/ipc.h>
-+#include<stdlib.h>
-+#include<semaphore.h>
++++ ppp-2.4.4/pppd/syncppp.c	2012-01-31 19:17:42.579302502 +0800
+@@ -0,0 +1,56 @@
++#include <stdio.h>
++#include <sys/types.h>
++#include <sys/shm.h>
++#include <sys/ipc.h>
++#include <stdlib.h>
++#include <semaphore.h>
 +#include <fcntl.h>
 +#include <sys/file.h>
-+#include"syncppp.h"
++#include "pppd.h"
++#include "syncppp.h"
 +#include <sys/stat.h>
-+#include<unistd.h>
++#include <unistd.h>
 +
-+void syncppp(void)
++int syncppp(void)
 +{
 +    int shm_id;
 +    key_t key;
 +    int fdlock;
 +    struct semaphores *semphs;
 +
-+    key = ftok(keyfilename, 4);
-+
-+    if (key < 0) {
-+        perror("key error\n");
-+        exit(1);
++    if ((key = ftok(keyfilename, PROJ_ID)) == -1) {
++        error("ftok key error");
++        return -1;
 +    }
 +
-+    //printf("the key is: %x\n", key);
-+
-+    shm_id = shmget(key, 1, 0644);
-+    if (shm_id < 0) {
-+        perror("shmget");
-+        exit(1);
++    if ((shm_id = shmget(key, 1, 0644)) < 0) {
++        error("shmget error");
++        return -1;
 +    }
-+    //printf("shm id: %u\n", shm_id);
 +
 +    if ( (void *)(semphs = shmat(shm_id, 0, 0)) == (void *)-1) {
-+        perror("shmat error");
-+        exit(1);
++        error("shmat error");
++        return -1;
 +    }
 +
-+    sem_post(&(semphs->count));
++    if ((sem_post(&(semphs->count))) < 0) {
++        error("sem_post error");
++        return -1;
++    }
++
 +    shmdt(semphs);
 +
 +    if ((fdlock = open(lockfilename,O_RDONLY, 0644)) < 0) {
-+        perror("lockfile open error");
-+        exit(1);
++        error("lockfile open error");
++        return -1;
 +    }
 +
-+    flock(fdlock,LOCK_SH);
-+
++    if (flock(fdlock,LOCK_SH) < 0) {
++        error("flock error");
++        return -1;
++    }
 +    close(fdlock);
++
++    return 0;
 +
 +}
 diff -Naur ppp-2.4.4.0/pppd/syncppp.h ppp-2.4.4/pppd/syncppp.h
 --- ppp-2.4.4.0/pppd/syncppp.h	1970-01-01 08:00:00.000000000 +0800
-+++ ppp-2.4.4/pppd/syncppp.h	2012-01-30 20:47:24.711411422 +0800
-@@ -0,0 +1,15 @@
++++ ppp-2.4.4/pppd/syncppp.h	2012-01-31 19:18:04.829646549 +0800
+@@ -0,0 +1,13 @@
 +#include<semaphore.h>
 +
 +#define MAX_PPP_NUM 30
-+
++#define PROJ_ID 225
 +#define keyfilename "/tmp/pppkeyfile"
-+
 +#define lockfilename "/tmp/ppplockfile"
 +
-+void syncppp(void);
++int syncppp(void);
 +
 +struct semaphores {
 +    sem_t count;  /* count the pppd processes which has recieved the challenge */
-+    //int ppp_num;  /* total number of pppd */
 +};
 +
 diff -Naur ppp-2.4.4.0/pppd/syncpppinit.c ppp-2.4.4/pppd/syncpppinit.c
 --- ppp-2.4.4.0/pppd/syncpppinit.c	1970-01-01 08:00:00.000000000 +0800
-+++ ppp-2.4.4/pppd/syncpppinit.c	2012-01-30 20:47:24.711411422 +0800
-@@ -0,0 +1,98 @@
++++ ppp-2.4.4/pppd/syncpppinit.c	2012-01-31 19:17:53.396136452 +0800
+@@ -0,0 +1,97 @@
 +#include<stdio.h>
 +#include<sys/types.h>
 +#include<sys/shm.h>
@@ -212,7 +218,7 @@ diff -Naur ppp-2.4.4.0/pppd/syncpppinit.c ppp-2.4.4/pppd/syncpppinit.c
 +        perror("flock lock error");
 +        exit(1);
 +    }    
-+    fprintf(stderr,"initppp: locked\n");
++    fprintf(stderr,"syncpppinit: locked\n");
 +}
 +
 +void unlockfile(int fdlock)
@@ -246,13 +252,10 @@ diff -Naur ppp-2.4.4.0/pppd/syncpppinit.c ppp-2.4.4/pppd/syncpppinit.c
 +
 +    /* create a uniqe key */
 +    creat(keyfilename, 0755);
-+    key = ftok(keyfilename, 4);
-+    if (key < 0) {
-+        perror("key error\n");
++    if ((key = ftok(keyfilename, PROJ_ID)) == -1) {
++        perror("key error");
 +        exit(1);
 +    }
-+
-+    //printf("the key is: %x\n", key);
 +
 +    shm_id = shmget(key, sizeof(struct semaphores), IPC_CREAT | IPC_EXCL | 0644);
 +    if (shm_id < 0) {
@@ -260,14 +263,16 @@ diff -Naur ppp-2.4.4.0/pppd/syncpppinit.c ppp-2.4.4/pppd/syncpppinit.c
 +        shm_id = shmget(key, 1, 0644);
 +    }
 +
-+    //printf("shm id: %u\n", shm_id);
-+
 +    if ( (void *)(semphs = shmat(shm_id, 0, 0)) == (void *)-1) {
 +        perror("shmat error");
 +        exit(1);
 +    }
 +
-+    sem_init(&(semphs->count), 1, 0); /* shared between processes, init 0 */
++    if (sem_init(&(semphs->count), 1, 0) < 0) {
++        perror("sem_init error"); /* shared between processes, init 0 */
++        exit(1);
++    }
++
 +    fdlock = openlockfile();
 +    lockfile(fdlock);
 +
@@ -277,7 +282,7 @@ diff -Naur ppp-2.4.4.0/pppd/syncpppinit.c ppp-2.4.4/pppd/syncpppinit.c
 +        ppp_num--;
 +    }
 +    unlockfile(fdlock);
-+    fprintf(stderr,"\ninitppp: unlocked\n");
++    fprintf(stderr,"\nsyncpppinit: unlocked\n");
 +
 +    return 0;
 +}
