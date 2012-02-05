@@ -411,13 +411,13 @@ config wifi-device  $dev
 	option macaddr	$(cat /sys/class/ieee80211/${dev}/macaddress)
 $EXTRA_DEV
 	# REMOVE THIS LINE TO ENABLE WIFI:
-	option disabled 1
+	option disabled 0
 
 config wifi-iface
 	option device	$dev
 	option network	lan
 	option mode	ap
-	option ssid     DreamBox_$(cat /sys/class/ieee80211/${dev}/macaddress|awk -F ":" '{print $4""$5""$6 }'| tr a-z A-Z)
+	option ssid     DreamBox
 	option encryption none
 EOF
 	done
