@@ -1,7 +1,14 @@
-require("luci.tools.webadmin")
-
 --[[
-	
+LuCI - Lua Configuration Interface
+
+Copyright 2011 feixiang <feixiang@openwrt.org.cn>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
 config 'emailserver'
 	option 'email_enable' '1'
 	option 'smtp_address' 'smtp.163.com'      
@@ -10,15 +17,14 @@ config 'emailserver'
 	   
 config 'mail_address'
 	option 'address' '138888888@139.com'
-	
-config 'mail_address'
-	option 'address' 'openwrt@163.com'
 
 ]]--
 
-m = Map("email", translate("email"))
+require("luci.tools.webadmin")
 
-s = m:section(TypedSection, "emailserver", translate("email setting"))
+m = Map("email", translate("E-Mail"),translate("email setting"))
+
+s = m:section(TypedSection, "emailserver", translate("email server"))
 s.anonymous = true
 s.addremove = false
 

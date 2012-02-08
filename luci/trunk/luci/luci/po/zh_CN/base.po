@@ -4308,6 +4308,34 @@ msgstr "禁止扫描"
 msgid "noscan desc"
 msgstr "如果你需要实现11N，300M的功能，可能需要开启此项"
 
+msgid "email setting"
+msgstr "这里设定将路由作为一个，发送邮件的中转服务器，需要设定SMTP服务器地址密码等。设定后 sendmail命令，可以发送email，如果在某些功能下你设定了邮件通知，请在此页面先设定好邮件服务器等。"
+
+msgid "email server"
+msgstr "E-Mail的SMTP服务器"
+
+msgid "smtp_address"
+msgstr "设置SMTP服务器地址"
+
+msgid "smtp_password"
+msgstr "SMTP服务器密码"
+
+msgid "smtp_user"
+msgstr "SMTP服务器用户名"
+
+msgid "receive address"
+msgstr "接收邮件地址"
+
+msgid "from_address"
+msgstr "发送邮件地址"
+
+msgid "mail_address"
+msgstr "E-mail地址"
+
+msgid "mail_address_desc"
+msgstr "设置你要接收邮件的E-mail邮箱地址，有些功能开启邮件通知后将发送到指定的地址"
+
+
 # title 
 msgid "menu_set_macvlan"
 msgstr "创建WAN"
