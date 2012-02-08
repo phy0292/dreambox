@@ -51,3 +51,6 @@ config tinyproxy
 
 config cron
 	option init cron
+
+config email
+	option init email
