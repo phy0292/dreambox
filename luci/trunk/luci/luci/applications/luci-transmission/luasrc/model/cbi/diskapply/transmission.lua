@@ -45,7 +45,7 @@ s.addremove = false
 
 s:option(DummyValue,"trweb" ,translate("<a target=\"_blank\" href='http://"..lanipaddr..":"..trport.."'>Transmission Web Intelface</a> "),translate("Open the Transmission Web"))
 
-enable = s:option(Flag, "enable", translate("Transmission_enable", "Transmission_enable"))
+enable = s:option(Flag, "enabled", translate("Transmission_enable", "Transmission_enable"))
 enable.default = false
 enable.optional = false
 enable.rmempty = false
