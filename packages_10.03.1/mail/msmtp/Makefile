@@ -47,6 +47,7 @@ endef
 
 define Package/msmtp/conffiles
 /etc/msmtprc
+/etc/config/email
 endef
 
 define Package/msmtp/description
@@ -86,6 +87,10 @@ ifeq ($(BUILD_VARIANT),nossl)
 endif
 
 define Package/msmtp/install
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) ./files/email.init $(1)/etc/init.d/email
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_DATA) ./files/email.config $(1)/etc/config/email
 	$(INSTALL_DIR) $(1)/etc
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/doc/msmtprc-system.example \
 		$(1)/etc/msmtprc
