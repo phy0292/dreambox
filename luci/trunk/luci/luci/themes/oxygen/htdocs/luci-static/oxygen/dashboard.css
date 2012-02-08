@@ -123,10 +123,6 @@ div.di_Transmission a {
 	background-image: url(icons/transmission.png);
 }
 
-div.di_transmission a {
-	background-image: url(icons/transmission.png);
-}
-
 div.di_vsftpd a {
 	background-image: url(icons/vsftpd.png);
 }
@@ -145,7 +141,7 @@ div.di_externaldevice a {
 div.di_diskapply a {
 	background-image: url(icons/diskapply.png);
 }
-div.di_trextra a {
+div.di_email a {
 	background-image: url(icons/email.png);
 }
 div.di_p910nd a {

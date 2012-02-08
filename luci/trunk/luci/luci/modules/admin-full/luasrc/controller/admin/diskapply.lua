@@ -28,9 +28,6 @@ function index()
 	if nixio.fs.access("/etc/config/transmission") then
 		entry({"admin", "diskapply", "Transmission"}, cbi("diskapply/transmission"), _("Transmission"), 11).i18n = "diskapply"
 	end
-	if nixio.fs.access("/etc/config/trextra") then
-		entry({"admin", "diskapply", "trextra"}, cbi("diskapply/trextra"), _("trextra"), 12).i18n = "diskapply"
-	end
 
 	if nixio.fs.access("/etc/config/mldonkey") then
 		entry({"admin", "diskapply", "mldonkey"}, cbi("diskapply/mldonkey"), _("mldonkey"), 13).i18n = "diskapply"

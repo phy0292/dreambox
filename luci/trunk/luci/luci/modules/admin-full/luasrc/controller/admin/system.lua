@@ -31,6 +31,9 @@ function index()
 	entry({"admin", "system", "crontab"}, cbi("admin_system/crontab"), _("Scheduled Tasks"), 46)
 	entry({"admin", "system", "crontab","crontableaf"}, cbi("admin_system/crontableaf"), nil).leaf = true
 
+	if nixio.fs.access("/etc/config/email") then
+	entry({"admin", "system", "email"}, form("admin_system/email"), _("E-mail"), 50)
+	end
 	--if nixio.fs.access("/etc/config/fstab") then
 	--	entry({"admin", "system", "fstab"}, cbi("admin_system/fstab"), _("Mount Points"), 50)
 	--	entry({"admin", "system", "fstab", "mount"}, cbi("admin_system/fstab/mount"), nil).leaf = true
