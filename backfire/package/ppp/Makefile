@@ -30,7 +30,7 @@ endef
 
 define Package/ppp
 $(call Package/ppp/Default)
-  DEPENDS:=+kmod-ppp +libpthread
+  DEPENDS:=+kmod-ppp
   TITLE:=PPP daemon
   MENU:=1
 endef
