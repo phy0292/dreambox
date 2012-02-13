@@ -8,7 +8,10 @@
 # if you need to enter the same text in the url (which seems very unlikely) put 
 # that text in lowercase, while the variables should remain in uppercase
 
-"3322.org"   "http://[USERNAME]:[PASSWORD]@members.3322.org/dyndns/update?system=dyndns&hostname=[DOMAIN]&myip=[IP]"
+
+"dnsever.com"		"http://[USERNAME]:[PASSWORD]@dyna.dnsever.com/update.php?host[[DOMAIN]]=[IP]"
+"oray.com" 		"http://[USERNAME]:[PASSWORD]@ddns.oray.com/ph/update?&hostname=[DOMAIN]&myip=[IP]"
+"3322.org"   		"http://[USERNAME]:[PASSWORD]@members.3322.org/dyndns/update?system=dyndns&hostname=[DOMAIN]&myip=[IP]"
 "dyndns.org"		"http://[USERNAME]:[PASSWORD]@members.dyndns.org/nic/update?hostname=[DOMAIN]&myip=[IP]"
 "changeip.com"		"http://[USERNAME]:[PASSWORD]@nic.changeip.com/nic/update?u=[USERNAME]&p=[PASSWORD]&cmd=update&hostname=[DOMAIN]&ip=[IP]"
 "zoneedit.com"		"http://[USERNAME]:[PASSWORD]@dynamic.zoneedit.com/auth/dynamic.html?host=[DOMAIN]&dnsto=[IP]"
