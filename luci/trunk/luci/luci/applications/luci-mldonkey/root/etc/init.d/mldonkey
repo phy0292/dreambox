@@ -43,7 +43,7 @@ now_md5_mldonkey_gz="0"
 
 install_mldonkey_ddnas() {
 
-mldonkey_down_url="http://project-ddnas.openmobilefree.net/raw-attachment/wiki/mldonkey/mlnet.byte.static_ddnas.tar.gz"
+mldonkey_down_url="http://ddnas.openmobilefree.net:8000/raw-attachment/wiki/mldonkey/mlnet.byte.static_ddnas.tar.gz"
 md5_mldonkey="5708ad126797a6a628b59dff11f5fd52"
 now_md5_mldonkey="0"
 
@@ -76,7 +76,7 @@ chmod 755 mlnet.byte.static
 
 install_mldonkey_ddnas_utf8() {
 
-mldonkey_down_url="http://project-ddnas.openmobilefree.net/raw-attachment/wiki/mldonkey/mlnet.byte.static_ddnas_utf8.tar.gz"
+mldonkey_down_url="http://ddnas.openmobilefree.net:8000/raw-attachment/wiki/mldonkey/mlnet.byte.static_ddnas_utf8.tar.gz"
 md5_mldonkey="c64778f1e70ca1c09a6495f57f2a7eb0"
 now_md5_mldonkey="0"
 
