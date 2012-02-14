@@ -220,19 +220,19 @@ ip_ru_del_0
 local RUN="ip rule add fwmark $mark table ${ifc}_rt"
 [ "$log_record" = "5" ]&&echo  add mark to rule : $RUN >> $logpath
 eval $RUN
-#echo ¡°Set PREROUTING¡­¡±
+#echo â€œSet PREROUTINGâ€¦â€
 
-#ËùÓÐwan½øÈëµÄ°ü(NEW)¶¼±ê¼ÇÎª mark,×ßWan ²ßÂÔÂ·ÓÉ
+#æ‰€æœ‰wanè¿›å…¥çš„åŒ…(NEW)éƒ½æ ‡è®°ä¸º mark,èµ°Wan ç­–ç•¥è·¯ç”±
 
 #local RUN="iptables -t mangle -A NWANPRE -i $device -m conntrack  --ctstate NEW  -j CONNMARK --set-mark $mark"
 local RUN="iptables -t mangle -A NWANPRE -i $device -m state --state NEW  -j CONNMARK --set-mark $mark"
-[ "$log_record" = "5" ]&&echo  Set NWANPREROUTING¡­ : $RUN >> $logpath
+[ "$log_record" = "5" ]&&echo  Set NWANPREROUTINGâ€¦ : $RUN >> $logpath
 eval $RUN 
-#echo ¡°Set POSTROUTING¡­¡±
-#ËùÓÐWAN1³öÈ¥µÄ°ü
+#echo â€œSet POSTROUTINGâ€¦â€
+#æ‰€æœ‰WAN1å‡ºåŽ»çš„åŒ…
 #local RUN="iptables -t mangle -A NWANPOS -o $device  -m conntrack  --ctstate NEW  -j CONNMARK --set-mark $mark"
 local RUN="iptables -t mangle -A NWANPOS -o $device  -m state --state NEW  -j CONNMARK --set-mark $mark"
-[ "$log_record" = "5" ]&&echo  et NWANPOSTROUTING¡­ : $RUN >> $logpath
+[ "$log_record" = "5" ]&&echo  et NWANPOSTROUTINGâ€¦ : $RUN >> $logpath
 eval $RUN 
 
 
@@ -258,13 +258,13 @@ ip route del table ${ifc}_rt default
 
 done
 
-#ËùÓÐLAN½øÈë²¢ÇÒÒÑ¾­½¨Á¢Á¬½ÓµÄ°ü,»Ö¸´MARK
+#æ‰€æœ‰LANè¿›å…¥å¹¶ä¸”å·²ç»å»ºç«‹è¿žæŽ¥çš„åŒ…,æ¢å¤MARK
 lan_ifname=$(uci_get network.lan.ifname)
 local RUN="iptables -t mangle -A NWANPRE -i $lan_ifname -m conntrack --ctstate ESTABLISHED,RELATED -j CONNMARK --restore-mark"
- [ "$log_record" = "5" ]&&echo ËùÓÐLAN½øÈë²¢ÇÒÒÑ¾­½¨Á¢Á¬½ÓµÄ°ü,»Ö¸´MARK: $RUN  >> $logpath
+ [ "$log_record" = "5" ]&&echo æ‰€æœ‰LANè¿›å…¥å¹¶ä¸”å·²ç»å»ºç«‹è¿žæŽ¥çš„åŒ…,æ¢å¤MARK: $RUN  >> $logpath
  eval $RUN
 local RUN="iptables -t mangle -A NWANOUT -m conntrack --ctstate ESTABLISHED,RELATED -j CONNMARK --restore-mark"
- [ "$log_record" = "5" ]&&echo ËùÓÐLAN½øÈë²¢ÇÒÒÑ¾­½¨Á¢Á¬½ÓµÄ°ü,output: $RUN  >> $logpath
+ [ "$log_record" = "5" ]&&echo æ‰€æœ‰LANè¿›å…¥å¹¶ä¸”å·²ç»å»ºç«‹è¿žæŽ¥çš„åŒ…,output: $RUN  >> $logpath
  eval $RUN
  
  add_default_route
@@ -346,3 +346,4 @@ ifdown_start)
 esac
 
 [ "$nwan_enable" = "1" ] && [ "$ping_ck" = "1" ] && /lib/nwan/nwan-ping 2>/dev/null& 
+

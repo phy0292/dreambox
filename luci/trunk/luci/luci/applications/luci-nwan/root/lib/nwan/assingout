@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/bin/sh
 # load-balance(N-WAN) Script VER 1.1i 2011.4.4 for openwrt  by QQ GROUP 120752328
 
 . /etc/functions.sh
