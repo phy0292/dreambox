@@ -11,8 +11,11 @@ kirkwood_board_name() {
 
 	case "$machine" in
 
-	'DDNAS Wireless')
-		name="ddnas"
+	'DDNAS Wireless V1')
+		name="ddnasv1"
+		;;
+	'DDNAS Wireless V2')
+		name="ddnasv2"
 		;;
 	esac
 

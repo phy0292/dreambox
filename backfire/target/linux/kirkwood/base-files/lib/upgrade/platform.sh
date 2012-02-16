@@ -19,7 +19,14 @@ platform_check_image() {
 	[ "$ARGC" -gt 1 ] && return 1
      	case "$board" in
          # hardware with padded uImage + padded rootfs
-         'ddnas')
+         'ddnasv1')
+                [ "${magic}" != '2705' ] && {
+                        echo "Invalid image type ${magic}."
+                        return 1
+                }
+                return 0
+                ;;
+         'ddnasv2')
                 [ "${magic}" != '2705' ] && {
                         echo "Invalid image type ${magic}."
                         return 1
