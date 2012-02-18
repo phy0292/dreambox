@@ -20,7 +20,7 @@ ifeq ($(USELOCAL),1)
   PKG_REV:=$(shell LC_ALL=C svn info $(CURDIR) | sed -ne's/^Revision: //p')
   PKG_VERSION:=trunk+svn
 else
-  PKG_SOURCE_URL:=http://openwrt-dreambox.googlecode.com/svn/luci/$(PKG_BRANCH)
+  PKG_SOURCE_URL:=svn://www.openwrt.org.cn/dreambox/luci/trunk/$(PKG_BRANCH)
   ifeq ($(DUMP),)
     PKG_REV:=$(shell LC_ALL=C svn info $(CURDIR) | sed -ne's/^Revision: //p')
     PKG_VERSION:=trunk+svn$(PKG_REV)
@@ -557,14 +557,11 @@ $(eval $(call theme,freifunk-hannover,Freifunk Hannover Theme,\
 $(eval $(call theme,freifunk-generic,Freifunk Generic Theme,\
         Manuel Munz <freifunk-at-somakoma-dot-de>))
 
-$(eval $(call theme,oxygen,oxygen Theme,\
-       oxygen ))
+$(eval $(call theme,oxygen,oxygen Theme,oxygen ))
+$(eval $(call theme,XEyE,XEyE Theme, XEyE ))
+$(eval $(call theme,openwrtcn,openwrtcn,openwrtcn ))
+$(eval $(call theme,bootstrap,Bootstrap Theme))
 
-$(eval $(call theme,XEyE,XEyE Theme,\
-       XEyE ))
-
-$(eval $(call theme,openwrtcn,openwrtcn,\
-       openwrtcn ))
 
 ### Translations ###
 define translation
