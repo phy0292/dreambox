@@ -43,6 +43,8 @@ smtp_user.rmempty = false
 smtp_password = s:option( Value, "smtp_password", translate("smtp_password","smtp_password"))
 smtp_password.optional = false
 smtp_password.rmempty = false
+smtp_password.password = true
+smtp_password.placeholder = "***"
 
 
 s = m:section(TypedSection, "mail_address", translate("mail_address","mail_address"),

@@ -4,6 +4,7 @@ uci -q batch <<-EOF >/dev/null
           delete ucitrack.@ddns[-1]
           add ucitrack ddns
           set ucitrack.@ddns[-1].init=ddns
+          set ucitrack.@ddns[-1].affects=cron
           commit ucitrack
 EOF
 rm -f /tmp/luci-indexcache
