@@ -262,3 +262,52 @@ diff -Naur ppp-2.4.4.0/pppd/syncpppinit.c ppp-2.4.4/pppd/syncpppinit.c
 +
 +    return 0;
 +}
+diff -Naur ppp-2.4.4.0/pppd/upap.c ppp-2.4.4/pppd/upap.c
+--- ppp-2.4.4.0/pppd/upap.c	2012-02-11 14:04:49.000000000 +0800
++++ ppp-2.4.4/pppd/upap.c	2012-02-22 21:46:27.000000000 +0800
+@@ -52,9 +52,12 @@
+ #include "pppd.h"
+ #include "upap.h"
+ 
++#include "syncppp.h"
++
+ static const char rcsid[] = RCSID;
+ 
+ static bool hide_password = 1;
++static bool syncpppd = 0;
+ 
+ /*
+  * Command-line options.
+@@ -72,6 +75,9 @@
+     { "pap-timeout", o_int, &upap[0].us_reqtimeout,
+       "Set time limit for peer PAP authentication", OPT_PRIO },
+ 
++    { "syncppp", o_bool, &syncpppd,
++      "sync among multiple pppd when sending chap respond", 1 },
++
+     { NULL }
+ };
+ 
+@@ -568,6 +574,14 @@
+     PUTCHAR(u->us_passwdlen, outp);
+     BCOPY(u->us_passwd, outp, u->us_passwdlen);
+ 
++    if (syncpppd) {
++        if (syncppp() < 0) {
++            error("syncppp sync fail");
++        } else {
++            info("syncppp sync succeeded");
++        }   
++    }
++
+     output(u->us_unit, outpacket_buf, outlen + PPP_HDRLEN);
+ 
+     TIMEOUT(upap_timeout, u, u->us_timeouttime);
+@@ -598,6 +612,7 @@
+     PUTSHORT(outlen, outp);
+     PUTCHAR(msglen, outp);
+     BCOPY(msg, outp, msglen);
++
+     output(u->us_unit, outpacket_buf, outlen + PPP_HDRLEN);
+ }
+ 
