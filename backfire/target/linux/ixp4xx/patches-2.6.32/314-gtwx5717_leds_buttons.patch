@@ -30,27 +30,27 @@
 +/* Leds */
 +static struct gpio_led gtwx5715_led_pins[] = {
 +	{
-+		.name		= "gtwx5715:power",
++		.name		= "power",
 +		.gpio		= GTWX5715_LED1_GPIO,
-+		.active_low	= true,
++
 +	},
 +	{
-+		.name		= "gtwx5715:wireless",
++		.name		= "wireless",
 +		.gpio		= GTWX5715_LED2_GPIO,
 +		.active_low	= true,
 +	},
 +	{
-+		.name		= "gtwx5715:wireless2",
++		.name		= "wireless2",
 +		.gpio		= GTWX5715_LED3_GPIO,
 +		.active_low	= true,
 +	},
 +	{
-+		.name		= "gtwx5715:internet",
++		.name		= "internet",
 +		.gpio		= GTWX5715_LED4_GPIO,
 +		.active_low	= true,
 +	},
 +	{
-+		.name		= "gtwx5715:dmz",
++		.name		= "dmz",
 +		.gpio		= GTWX5715_LED9_GPIO,
 +		.active_low	= true,
 +	},
