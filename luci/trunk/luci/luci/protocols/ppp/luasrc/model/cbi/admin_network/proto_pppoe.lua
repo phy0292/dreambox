@@ -15,6 +15,7 @@ local map, section, net = ...
 local username, password, ac, service
 local ipv6, defaultroute, metric, peerdns, dns,
       keepalive_failure, keepalive_interval, demand, ghcat
+local has_ghcadia = nixio.fs.access("/usr/bin/ghcadia")
 
 
 username = section:taboption("general", Value, "username", translate("PAP/CHAP username"))
@@ -54,11 +55,13 @@ defaultroute = section:taboption("advanced", Flag, "defaultroute",
 
 defaultroute.default = defaultroute.enabled
 
-ghcat = section:taboption("advanced", ListValue, "ghcat",translate("Special Dialer"))
-ghcat:value(0, translate("None"))
-ghcat:value(1, translate("GHCA"))
-ghcat:value(2, translate("Shanxun"))
-ghcat.default = 0
+if has_ghcadia then
+	ghcat = section:taboption("advanced", ListValue, "ghcat",translate("Special Dialer"))
+	ghcat:value(0, translate("None"))
+	ghcat:value(1, translate("GHCA"))
+	ghcat:value(2, translate("Shanxun"))
+	ghcat.default = 0
+end
 
 metric = section:taboption("advanced", Value, "metric",
 	translate("Use gateway metric"))
