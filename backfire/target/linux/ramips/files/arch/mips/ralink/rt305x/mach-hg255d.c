@@ -26,8 +26,12 @@
 #include "devices.h"
 
 #define HG255D_MTD_PARTITIONS		3  // 1 bootform 0x20000 ,2 bootform 0x40000,3 bootform 0x50000
-
-//#define HG255D_GPIO_BUTTON_RESET	7
+/*
+ Note:
+ GPIO [6:3] is share with SPI interface,so,if use for gpio,must disable the SPI.
+ see datasheet Page NO.37.
+ */
+#define HG255D_GPIO_BUTTON_RESET	4 
 #define HG255D_GPIO_BUTTON_WPS		10
 #define HG255D_GPIO_BUTTON_WLAN		0
 
@@ -36,7 +40,7 @@
 #define HG255D_GPIO_LED_INTERNET	13
 #define HG255D_GPIO_LED_WLAN		14
 #define HG255D_GPIO_LED_WPS		12
-//#define HG255D_GPIO_LED_VOICE		17
+#define HG255D_GPIO_LED_VOICE		5
 
 
 #define HG255D_BUTTONS_POLL_INTERVAL	20
