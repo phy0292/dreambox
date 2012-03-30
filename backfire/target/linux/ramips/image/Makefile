@@ -83,7 +83,7 @@ endef
 # mtdlayout_16M=mtdparts=physmap-flash.0:128k(u-boot),896k(kernel),15232k(rootfs),16128k@0x20000(firmware),256k@0x00(uboot-new),128k@0x40000(uboot-new-env),128k@0xFE0000(factory)
 mtdlayout_16M=
 define Image/Build/Template/GENERIC_16M
-	$(call BuildFirmware/Generic,$(1),$(2),board=$(3),mtdlayout_16M,1048576,7208960)
+	$(call BuildFirmware/Generic,$(1),$(2),board=$(3),mtdlayout_16M,1048576,14680064)
 endef
 
 define Image/Build/Profile/DIR300B1
