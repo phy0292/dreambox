@@ -30,6 +30,9 @@ preinit_set_mac_address() {
 	rt-n13)
 		ralink_set_mac
 		;;
+	hg255d)
+		ralink_set_mac
+		;;
 	esac
 }
 
