@@ -1,6 +1,6 @@
 config 'interface' 'wan'
 	option 'classgroup' 'Default'
-	option 'enabled' '1'
+	option 'enabled' '0'
 	option 'overhead' '1'
 	option 'download' '20000'
 	option 'upload' '1024'
