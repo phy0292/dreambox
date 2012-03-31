@@ -544,7 +544,7 @@ detect_mac80211() {
 		[ "$ht_cap" -gt 0 ] && {
 			mode_11n="n"
 			append ht_capab "	option htmode	HT20" "$N"
-
+			append ht_capab "	option noscan	1" "$N"
 			list="	list ht_capab"
 			[ "$(($ht_cap & 1))" -eq 1 ] && append ht_capab "$list	LDPC" "$N"
 			[ "$(($ht_cap & 16))" -eq 16 ] && append ht_capab "$list	GF" "$N"
