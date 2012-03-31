@@ -236,10 +236,10 @@ msgid "3:45"
 msgstr ""
 
 msgid "40MHz 2nd channel above"
-msgstr "40MHz双频道"
+msgstr "40MHz三频道"
 
 msgid "40MHz 2nd channel below"
-msgstr "40MHz三频道"
+msgstr "40MHz双频道"
 
 msgid "4:00"
 msgstr ""
