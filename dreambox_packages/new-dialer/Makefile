@@ -7,27 +7,27 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=ghca
+PKG_NAME:=new-dialer
 PKG_RELEASE:=1.2.2007.5
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/ghca/default
+define Package/new-dialer/default
 
 endef
 
-define Package/ghca
+define Package/new-dialer
   SECTION:=net
   CATEGORY:=Network
-  TITLE:=Ghca - Calculate your Encoded Account
+  TITLE:=new-dialer
   MAINTAINER:=Emong <emongxx@gmail.com>
-  $(Package/ghca/default)
+  $(Package/new-dialer/default)
 endef
 
-define Package/ghca/description
- Ghca Enable you run Ghcadial in your openwrt router.
+define Package/new-dialer/description
+ new-dialer helps you do something.
 endef
 
 
@@ -36,14 +36,14 @@ define Build/Prepare
 	$(CP) ./src/* $(PKG_BUILD_DIR)/
 endef
 
-define Package/ghca/conffiles
+define Package/new-dialer/conffiles
 endef
 
-define Package/ghca/install
+define Package/new-dialer/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ghca $(1)/usr/bin/ghcadia
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ghca $(1)/usr/bin/new-dialer
 	$(CP) ./files/* $(1)
 endef
 
 
-$(eval $(call BuildPackage,ghca))
+$(eval $(call BuildPackage,new-dialer))
