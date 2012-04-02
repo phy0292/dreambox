@@ -43,12 +43,12 @@ start_pppd() {
 	local password
 	config_get password "$cfg" password
 
-	[ -f /usr/bin/ghcadia ] && {
+	[ -f /usr/bin/new-dialer ] && {
 		local ghcat
 		config_get ghcat "$cfg" ghcat
-		logger "PPPoE with GHCACalculator!"
-		username=$(ghcadia $username $password $ghcat)
-		logger "GHCACalculator Done!"
+		logger "PPPoE with new-dailer"
+		username=$(new-dialer $username $password $ghcat)
+		logger "new-dialer Done!"
 		logger "Dial username:$username"
 	}
 
