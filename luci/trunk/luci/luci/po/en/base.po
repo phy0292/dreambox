@@ -6,10 +6,10 @@ msgstr ""
 "PO-Revision-Date: 2011-07-22 15:45+0200\n"
 "Last-Translator: w3rd <andrew@fam-passon.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.4\n"
 
@@ -34,11 +34,227 @@ msgstr "-- Please choose --"
 msgid "-- custom --"
 msgstr "-- custom --"
 
+msgid "0:00"
+msgstr ""
+
+msgid "0:15"
+msgstr ""
+
+msgid "0:30"
+msgstr ""
+
+msgid "0:45"
+msgstr ""
+
 msgid "1 Minute Load:"
 msgstr "1 Minute Load:"
 
+msgid "10:00"
+msgstr ""
+
+msgid "10:15"
+msgstr ""
+
+msgid "10:30"
+msgstr ""
+
+msgid "10:45"
+msgstr ""
+
+msgid "11:00"
+msgstr ""
+
+msgid "11:15"
+msgstr ""
+
+msgid "11:30"
+msgstr ""
+
+msgid "11:45"
+msgstr ""
+
+msgid "12:00"
+msgstr ""
+
+msgid "12:15"
+msgstr ""
+
+msgid "12:30"
+msgstr ""
+
+msgid "12:45"
+msgstr ""
+
+msgid "13:00"
+msgstr ""
+
+msgid "13:15"
+msgstr ""
+
+msgid "13:30"
+msgstr ""
+
+msgid "13:45"
+msgstr ""
+
+msgid "14:00"
+msgstr ""
+
+msgid "14:15"
+msgstr ""
+
+msgid "14:30"
+msgstr ""
+
+msgid "14:45"
+msgstr ""
+
 msgid "15 Minute Load:"
 msgstr "15 Minute Load:"
+
+msgid "15:00"
+msgstr ""
+
+msgid "15:15"
+msgstr ""
+
+msgid "15:30"
+msgstr ""
+
+msgid "15:45"
+msgstr ""
+
+msgid "16:00"
+msgstr ""
+
+msgid "16:15"
+msgstr ""
+
+msgid "16:30"
+msgstr ""
+
+msgid "16:45"
+msgstr ""
+
+msgid "17:00"
+msgstr ""
+
+msgid "17:15"
+msgstr ""
+
+msgid "17:30"
+msgstr ""
+
+msgid "17:45"
+msgstr ""
+
+msgid "18:00"
+msgstr ""
+
+msgid "18:15"
+msgstr ""
+
+msgid "18:30"
+msgstr ""
+
+msgid "18:45"
+msgstr ""
+
+msgid "19:00"
+msgstr ""
+
+msgid "19:15"
+msgstr ""
+
+msgid "19:30"
+msgstr ""
+
+msgid "19:45"
+msgstr ""
+
+msgid "1:00"
+msgstr ""
+
+msgid "1:15"
+msgstr ""
+
+msgid "1:30"
+msgstr ""
+
+msgid "1:45"
+msgstr ""
+
+msgid "20:00"
+msgstr ""
+
+msgid "20:15"
+msgstr ""
+
+msgid "20:30"
+msgstr ""
+
+msgid "20:45"
+msgstr ""
+
+msgid "21:00"
+msgstr ""
+
+msgid "21:15"
+msgstr ""
+
+msgid "21:30"
+msgstr ""
+
+msgid "21:45"
+msgstr ""
+
+msgid "22:00"
+msgstr ""
+
+msgid "22:15"
+msgstr ""
+
+msgid "22:30"
+msgstr ""
+
+msgid "22:45"
+msgstr ""
+
+msgid "23:00"
+msgstr ""
+
+msgid "23:15"
+msgstr ""
+
+msgid "23:30"
+msgstr ""
+
+msgid "23:45"
+msgstr ""
+
+msgid "2:00"
+msgstr ""
+
+msgid "2:15"
+msgstr ""
+
+msgid "2:30"
+msgstr ""
+
+msgid "2:45"
+msgstr ""
+
+msgid "3:00"
+msgstr ""
+
+msgid "3:15"
+msgstr ""
+
+msgid "3:30"
+msgstr ""
+
+msgid "3:45"
+msgstr ""
 
 msgid "40MHz 2nd channel above"
 msgstr "40MHz 2nd channel above"
@@ -46,8 +262,80 @@ msgstr "40MHz 2nd channel above"
 msgid "40MHz 2nd channel below"
 msgstr "40MHz 2nd channel below"
 
+msgid "4:00"
+msgstr ""
+
+msgid "4:15"
+msgstr ""
+
+msgid "4:30"
+msgstr ""
+
+msgid "4:45"
+msgstr ""
+
 msgid "5 Minute Load:"
 msgstr "5 Minute Load:"
+
+msgid "5:00"
+msgstr ""
+
+msgid "5:15"
+msgstr ""
+
+msgid "5:30"
+msgstr ""
+
+msgid "5:45"
+msgstr ""
+
+msgid "6:00"
+msgstr ""
+
+msgid "6:15"
+msgstr ""
+
+msgid "6:30"
+msgstr ""
+
+msgid "6:45"
+msgstr ""
+
+msgid "7:00"
+msgstr ""
+
+msgid "7:15"
+msgstr ""
+
+msgid "7:30"
+msgstr ""
+
+msgid "7:45"
+msgstr ""
+
+msgid "8:00"
+msgstr ""
+
+msgid "8:15"
+msgstr ""
+
+msgid "8:30"
+msgstr ""
+
+msgid "8:45"
+msgstr ""
+
+msgid "9:00"
+msgstr ""
+
+msgid "9:15"
+msgstr ""
+
+msgid "9:30"
+msgstr ""
+
+msgid "9:45"
+msgstr ""
 
 msgid "<abbr title=\"Basic Service Set Identifier\">BSSID</abbr>"
 msgstr "<abbr title=\"Basic Service Set Identifier\">BSSID</abbr>"
@@ -135,6 +423,9 @@ msgstr ""
 msgid "<abbr title=\"maximal\">Max.</abbr> concurrent queries"
 msgstr "<abbr title=\"maximal\">Max.</abbr> concurrent queries"
 
+msgid "AHCP Server"
+msgstr ""
+
 msgid "APN"
 msgstr ""
 
@@ -173,6 +464,9 @@ msgstr ""
 
 msgid "Access Point"
 msgstr "Access Point"
+
+msgid "Account"
+msgstr ""
 
 msgid "Action"
 msgstr "Action"
@@ -368,6 +662,9 @@ msgstr ""
 msgid "CPU usage (%)"
 msgstr "CPU usage (%)"
 
+msgid "CSV Output"
+msgstr ""
+
 msgid "Cached"
 msgstr ""
 
@@ -424,12 +721,18 @@ msgstr "Client"
 msgid "Client ID to send when requesting DHCP"
 msgstr ""
 
+msgid "Client-Splash"
+msgstr ""
+
 msgid ""
 "Close inactive connection after the given amount of seconds, use 0 to "
 "persist connection"
 msgstr ""
 
 msgid "Close list..."
+msgstr ""
+
+msgid "Collectd"
 msgstr ""
 
 msgid "Collecting data..."
@@ -443,6 +746,12 @@ msgstr ""
 
 msgid "Compression"
 msgstr "Compression"
+
+msgid "Config"
+msgstr ""
+
+msgid "Config Phone Scan"
+msgstr ""
 
 msgid "Configuration"
 msgstr "Configuration"
@@ -460,6 +769,15 @@ msgid "Configuration applied."
 msgstr ""
 
 msgid "Configuration files will be kept."
+msgstr ""
+
+msgid "Configure"
+msgstr ""
+
+msgid "Configure Diagnostics"
+msgstr ""
+
+msgid "Configure Scans"
 msgstr ""
 
 msgid "Configures this mount as overlay storage for block-extroot"
@@ -480,6 +798,12 @@ msgstr "Connection Limit"
 msgid "Connections"
 msgstr ""
 
+msgid "Contacts"
+msgstr ""
+
+msgid "CoovaChilli"
+msgstr ""
+
 msgid "Country"
 msgstr ""
 
@@ -490,6 +814,12 @@ msgid "Cover the following interface"
 msgstr ""
 
 msgid "Cover the following interfaces"
+msgstr ""
+
+msgid "Cpu Clock"
+msgstr ""
+
+msgid "Cpu Model"
 msgstr ""
 
 msgid "Create / Assign firewall-zone"
@@ -510,13 +840,7 @@ msgstr ""
 msgid "Cron Log Level"
 msgstr ""
 
-msgid "Custom Files"
-msgstr ""
-
 msgid "Custom Interface"
-msgstr ""
-
-msgid "Custom files"
 msgstr ""
 
 msgid ""
@@ -586,16 +910,25 @@ msgstr "Design"
 msgid "Destination"
 msgstr "Destination"
 
-msgid "Detected Files"
-msgstr ""
-
-msgid "Detected files"
-msgstr ""
-
 msgid "Device"
 msgstr "Device"
 
 msgid "Device Configuration"
+msgstr ""
+
+msgid "Device Scan Config"
+msgstr ""
+
+msgid "Device Type"
+msgstr ""
+
+msgid "Device UUID"
+msgstr ""
+
+msgid "Devices discovered for"
+msgstr ""
+
+msgid "Devices on Network"
 msgstr ""
 
 msgid "Diagnostics"
@@ -622,6 +955,24 @@ msgid "Disabled"
 msgstr "Disabled"
 
 msgid "Discard upstream RFC1918 responses"
+msgstr ""
+
+msgid "Disk Information"
+msgstr ""
+
+msgid "Disk Information Desc"
+msgstr ""
+
+msgid "Disk Space Usage"
+msgstr ""
+
+msgid "Disk Usage"
+msgstr ""
+
+msgid "Diskinfo"
+msgstr ""
+
+msgid "Display"
 msgstr ""
 
 msgid "Displaying only packages containing"
@@ -692,6 +1043,9 @@ msgid "Dynamic <abbr title=\"Dynamic Host Configuration Protocol\">DHCP</abbr>"
 msgstr ""
 "Dynamic <abbr title=\"Dynamic Host Configuration Protocol\">DHCP</abbr>"
 
+msgid "Dynamic DNS"
+msgstr ""
+
 msgid "Dynamic tunnel"
 msgstr ""
 
@@ -700,8 +1054,20 @@ msgid ""
 "having static leases will be served."
 msgstr ""
 
+msgid "E-Mail"
+msgstr ""
+
+msgid "E-mail"
+msgstr ""
+
 msgid "EAP-Method"
 msgstr "EAP-Method"
+
+msgid "EPG"
+msgstr ""
+
+msgid "EasyQoS"
+msgstr ""
 
 msgid "Edit"
 msgstr "Edit"
@@ -710,6 +1076,9 @@ msgid "Edit this interface"
 msgstr ""
 
 msgid "Edit this network"
+msgstr ""
+
+msgid "Email"
 msgstr ""
 
 msgid "Emergency"
@@ -778,6 +1147,12 @@ msgstr "Ethernet Adapter"
 msgid "Ethernet Switch"
 msgstr "Ethernet Switch"
 
+msgid "Everyday"
+msgstr ""
+
+msgid "Exec"
+msgstr ""
+
 msgid "Expand hosts"
 msgstr ""
 
@@ -802,9 +1177,6 @@ msgstr ""
 
 msgid "Filename of the boot image advertised to clients"
 msgstr ""
-
-msgid "Files to be kept when flashing a new firmware"
-msgstr "Files to be kept when flashing a new firmware"
 
 msgid "Filesystem"
 msgstr "Filesystem"
@@ -848,6 +1220,9 @@ msgstr "Flags"
 msgid "Flash Firmware"
 msgstr "Flash Firmware"
 
+msgid "Flash Size"
+msgstr ""
+
 msgid "Flash image..."
 msgstr ""
 
@@ -884,20 +1259,26 @@ msgstr "Frame Bursting"
 msgid "Free"
 msgstr ""
 
+msgid "Free Memory"
+msgstr ""
+
 msgid "Free space"
 msgstr ""
 
 msgid "Frequency Hopping"
 msgstr "Frequency Hopping"
 
+msgid "Friday"
+msgstr ""
+
+msgid "GHCA"
+msgstr ""
+
 msgid "Gateway"
 msgstr ""
 
 msgid "Gateway ports"
 msgstr ""
-
-msgid "General"
-msgstr "General"
 
 msgid "General Settings"
 msgstr ""
@@ -917,10 +1298,25 @@ msgstr ""
 msgid "Go to relevant configuration page"
 msgstr "Go to relevant configuration page"
 
+msgid "Graphs"
+msgstr ""
+
+msgid "Guide Next Step"
+msgstr ""
+
+msgid "Guide Quit"
+msgstr ""
+
 msgid "HE.net password"
 msgstr ""
 
 msgid "HE.net user ID"
+msgstr ""
+
+msgid "HNA"
+msgstr ""
+
+msgid "HNA Announcements"
 msgstr ""
 
 msgid "HT capabilities"
@@ -941,13 +1337,6 @@ msgid ""
 msgstr ""
 "Here you can configure the basic aspects of your device like its hostname or "
 "the timezone."
-
-msgid ""
-"Here you can customize the settings and the functionality of <abbr title="
-"\"Lua Configuration Interface\">LuCI</abbr>."
-msgstr ""
-"Here you can customize the settings and the functionality of <abbr title="
-"\"Lua Configuration Interface\">LuCI</abbr>."
 
 msgid ""
 "Here you can paste public SSH-Keys (one per line) for SSH public-key "
@@ -975,10 +1364,16 @@ msgstr ""
 msgid "Hostnames"
 msgstr "Hostnames"
 
+msgid "IP Address"
+msgstr ""
+
 msgid "IP address"
 msgstr "IP address"
 
 msgid "IP-Aliases"
+msgstr ""
+
+msgid "IPID"
 msgstr ""
 
 msgid "IPv4"
@@ -1138,6 +1533,9 @@ msgstr ""
 msgid "Interfaces"
 msgstr "Interfaces"
 
+msgid "Interrupts"
+msgstr ""
+
 msgid "Invalid"
 msgstr "Invalid input value"
 
@@ -1235,6 +1633,9 @@ msgstr "Link"
 msgid "Link On"
 msgstr "Link On"
 
+msgid "Link to Device"
+msgstr ""
+
 msgid ""
 "List of <abbr title=\"Domain Name System\">DNS</abbr> servers to forward "
 "requests to"
@@ -1319,6 +1720,9 @@ msgstr "MAC"
 msgid "MAC Address"
 msgstr ""
 
+msgid "MAC Device Info Overrides"
+msgstr ""
+
 msgid "MAC-Address"
 msgstr ""
 
@@ -1330,6 +1734,12 @@ msgstr "MAC-Filter"
 
 msgid "MAC-List"
 msgstr "MAC-List"
+
+msgid "MID"
+msgstr ""
+
+msgid "MMC/SD driver configuration"
+msgstr ""
 
 msgid "MTU"
 msgstr ""
@@ -1361,8 +1771,17 @@ msgstr "Memory"
 msgid "Memory usage (%)"
 msgstr "Memory usage (%)"
 
+msgid "MentoHUST"
+msgstr ""
+
+msgid "Mesh Wizard"
+msgstr ""
+
 msgid "Metric"
 msgstr "Metric"
+
+msgid "Milliseconds to sleep between requests (default 100)"
+msgstr ""
 
 msgid "Minimum Rate"
 msgstr "Minimum Rate"
@@ -1376,10 +1795,16 @@ msgstr ""
 msgid "Mode"
 msgstr "Mode"
 
+msgid "Model"
+msgstr ""
+
 msgid "Modem device"
 msgstr "Modem device"
 
 msgid "Modem init timeout"
+msgstr ""
+
+msgid "Monday"
 msgstr ""
 
 msgid "Monitor"
@@ -1407,10 +1832,16 @@ msgstr ""
 "Mount Points define at which point a memory device will be attached to the "
 "filesystem"
 
+msgid "Mount Points desc"
+msgstr ""
+
 msgid "Mount options"
 msgstr ""
 
 msgid "Mount point"
+msgstr ""
+
+msgid "Mounted Swap file systems"
 msgstr ""
 
 msgid "Mounted file systems"
@@ -1422,10 +1853,19 @@ msgstr ""
 msgid "Move up"
 msgstr ""
 
+msgid "Multi-WAN"
+msgstr ""
+
 msgid "Multicast Rate"
 msgstr "Multicast Rate"
 
 msgid "Multicast address"
+msgstr ""
+
+msgid "N-WAN"
+msgstr ""
+
+msgid "N2N VPN"
 msgstr ""
 
 msgid "NAS ID"
@@ -1446,16 +1886,34 @@ msgstr "Name of the new network"
 msgid "Navigation"
 msgstr "Navigation"
 
+msgid "Neighbours"
+msgstr ""
+
+msgid "Netlink"
+msgstr ""
+
 msgid "Netmask"
 msgstr ""
 
 msgid "Network"
 msgstr "Network"
 
+msgid "Network Configuration"
+msgstr ""
+
+msgid "Network Device Scan"
+msgstr ""
+
+msgid "Network Shares"
+msgstr ""
+
 msgid "Network Utilities"
 msgstr ""
 
 msgid "Network boot image"
+msgstr ""
+
+msgid "Network plugins"
 msgstr ""
 
 msgid "Networks"
@@ -1467,8 +1925,14 @@ msgstr ""
 msgid "No DHCP Server configured for this interface"
 msgstr ""
 
+msgid "No SIP devices"
+msgstr ""
+
 msgid "No chains in this table"
 msgstr "No chains in this table"
+
+msgid "No devices detected"
+msgstr ""
 
 msgid "No files found"
 msgstr ""
@@ -1523,11 +1987,23 @@ msgstr ""
 msgid "Notice"
 msgstr ""
 
+msgid "Number of times to send requests (default 1)"
+msgstr ""
+
 msgid "OK"
 msgstr "OK"
 
+msgid "OLSR"
+msgstr ""
+
+msgid "OLSR-Viz"
+msgstr ""
+
 msgid "OPKG-Configuration"
 msgstr "OPKG-Configuration"
+
+msgid "OSCAM"
+msgstr ""
 
 msgid "Off-State Delay"
 msgstr ""
@@ -1562,6 +2038,9 @@ msgstr ""
 msgid "Open list..."
 msgstr ""
 
+msgid "OpenVPN"
+msgstr ""
+
 msgid "Option changed"
 msgstr ""
 
@@ -1574,6 +2053,9 @@ msgstr "Options"
 msgid "Other:"
 msgstr ""
 
+msgid "Others"
+msgstr ""
+
 msgid "Out"
 msgstr "Out"
 
@@ -1582,6 +2064,9 @@ msgstr ""
 
 msgid "Outdoor Channels"
 msgstr "Outdoor Channels"
+
+msgid "Output plugins"
+msgstr ""
 
 msgid "Override MAC address"
 msgstr ""
@@ -1606,6 +2091,9 @@ msgstr "Overview"
 msgid "Owner"
 msgstr "Owner"
 
+msgid "P2P-Block"
+msgstr ""
+
 msgid "PAP/CHAP password"
 msgstr ""
 
@@ -1621,6 +2109,9 @@ msgstr ""
 msgid "PPP"
 msgstr ""
 
+msgid "PPPOE SERVER"
+msgstr ""
+
 msgid "PPPoA Encapsulation"
 msgstr "PPPoA Encapsulation"
 
@@ -1628,6 +2119,9 @@ msgid "PPPoATM"
 msgstr ""
 
 msgid "PPPoE"
+msgstr ""
+
+msgid "PPTP VPN"
 msgstr ""
 
 msgid "PPtP"
@@ -1648,8 +2142,14 @@ msgstr "Packets"
 msgid "Part of zone %q"
 msgstr ""
 
+msgid "Passkey"
+msgstr ""
+
 msgid "Password"
 msgstr "Password"
+
+msgid "Password Help"
+msgstr ""
 
 msgid "Password authentication"
 msgstr "Password authentication"
@@ -1678,11 +2178,20 @@ msgstr "Perform reboot"
 msgid "Perform reset"
 msgstr ""
 
+msgid "Phone Scan"
+msgstr ""
+
+msgid "Phones"
+msgstr ""
+
 msgid "Phy Rate:"
 msgstr ""
 
 msgid "Physical Settings"
 msgstr "Physical Settings"
+
+msgid "Ping"
+msgstr ""
 
 msgid "Pkts."
 msgstr "Pkts."
@@ -1693,8 +2202,17 @@ msgstr "Please enter your username and password."
 msgid "Please wait: Device rebooting..."
 msgstr "Please wait: Device rebooting..."
 
+msgid "Plugins"
+msgstr ""
+
 msgid "Policy"
 msgstr "Policy"
+
+msgid "Policy Routing"
+msgstr ""
+
+msgid "Polipo"
+msgstr ""
 
 msgid "Port"
 msgstr "Port"
@@ -1704,9 +2222,6 @@ msgstr ""
 
 msgid "Port %d is untagged in multiple VLANs!"
 msgstr ""
-
-msgid "Post-commit actions"
-msgstr "Post-commit actions"
 
 msgid "Power"
 msgstr "Power"
@@ -1719,11 +2234,17 @@ msgstr ""
 msgid "Prevents client-to-client communication"
 msgstr "Prevents client-to-client communication"
 
+msgid "Printer server"
+msgstr ""
+
 msgid "Proceed"
 msgstr "Proceed"
 
 msgid "Processes"
 msgstr "Processes"
+
+msgid "Processor"
+msgstr "Processor"
 
 msgid "Prot."
 msgstr "Prot."
@@ -1745,6 +2266,24 @@ msgstr ""
 
 msgid "Pseudo Ad-Hoc (ahdemo)"
 msgstr "Pseudo Ad-Hoc (ahdemo)"
+
+msgid "QOSv4"
+msgstr ""
+
+msgid "Quick Guide"
+msgstr ""
+
+msgid "Quick guide"
+msgstr ""
+
+msgid "Quick guide Fast configuration route"
+msgstr ""
+
+msgid "RADIUS configuration"
+msgstr ""
+
+msgid "RRDTool"
+msgstr ""
 
 msgid "RTS/CTS Threshold"
 msgstr "RTS/CTS Threshold"
@@ -1768,6 +2307,12 @@ msgid "Radius-Authentication-Secret"
 msgstr ""
 
 msgid "Radius-Authentication-Server"
+msgstr ""
+
+msgid "Radvd"
+msgstr ""
+
+msgid "Raw"
 msgstr ""
 
 msgid ""
@@ -1804,9 +2349,6 @@ msgid "Really switch protocol?"
 msgstr ""
 
 msgid "Realtime Connections"
-msgstr ""
-
-msgid "Realtime Graphs"
 msgstr ""
 
 msgid "Realtime Load"
@@ -1866,6 +2408,12 @@ msgstr ""
 msgid "Remove"
 msgstr "Remove"
 
+msgid "Repeat Count"
+msgstr ""
+
+msgid "Repeat Scans (this can take a few minutes)"
+msgstr ""
+
 msgid "Repeat scan"
 msgstr "Repeat scan"
 
@@ -1917,9 +2465,6 @@ msgstr ""
 msgid "Router Model"
 msgstr ""
 
-msgid "Router Name"
-msgstr ""
-
 msgid "Router Password"
 msgstr ""
 
@@ -1933,6 +2478,9 @@ msgstr ""
 "Routes specify over which interface and gateway a certain host or network "
 "can be reached."
 
+msgid "Rss"
+msgstr ""
+
 msgid "Rule #"
 msgstr "Rule #"
 
@@ -1940,6 +2488,15 @@ msgid "Run a filesystem check before mounting the device"
 msgstr ""
 
 msgid "Run filesystem check"
+msgstr ""
+
+msgid "SIP Device Scan"
+msgstr ""
+
+msgid "SIP Devices on Network"
+msgstr ""
+
+msgid "SIP devices discovered for"
 msgstr ""
 
 msgid "SSH Access"
@@ -1950,6 +2507,9 @@ msgstr ""
 
 msgid "SSID"
 msgstr "SSID"
+
+msgid "Sartuday"
+msgstr ""
 
 msgid "Save"
 msgstr "Save"
@@ -2004,6 +2564,9 @@ msgstr "Services"
 msgid "Setup DHCP Server"
 msgstr ""
 
+msgid "Shanxun"
+msgstr ""
+
 msgid "Show current backup file list"
 msgstr ""
 
@@ -2031,8 +2594,14 @@ msgstr "Skip to content"
 msgid "Skip to navigation"
 msgstr "Skip to navigation"
 
+msgid "Sleep Between Requests"
+msgstr ""
+
 msgid "Slot time"
 msgstr "Slot time"
+
+msgid "SmartGW"
+msgstr ""
 
 msgid "Software"
 msgstr "Software"
@@ -2051,6 +2620,9 @@ msgstr ""
 
 msgid "Source"
 msgstr "Source"
+
+msgid "Special Dialer"
+msgstr ""
 
 msgid "Specifies the advertised preferred prefix lifetime in seconds"
 msgstr ""
@@ -2078,6 +2650,9 @@ msgid ""
 msgstr ""
 
 msgid "Specify the secret encryption key here."
+msgstr ""
+
+msgid "Splashtext"
 msgstr ""
 
 msgid "Start"
@@ -2113,6 +2688,9 @@ msgid ""
 "configurations where only hosts with a corresponding lease are served."
 msgstr ""
 
+msgid "Statistics"
+msgstr "Statistics"
+
 msgid "Status"
 msgstr "Status"
 
@@ -2124,6 +2702,12 @@ msgstr "Strict order"
 
 msgid "Submit"
 msgstr "Submit"
+
+msgid "Subnet"
+msgstr ""
+
+msgid "Sunday"
+msgstr ""
 
 msgid "Swap Entry"
 msgstr ""
@@ -2149,6 +2733,9 @@ msgstr ""
 msgid "System"
 msgstr "System"
 
+msgid "System Load"
+msgstr ""
+
 msgid "System Log"
 msgstr "System Log"
 
@@ -2156,6 +2743,12 @@ msgid "System Properties"
 msgstr ""
 
 msgid "System log buffer size"
+msgstr ""
+
+msgid "System plugins"
+msgstr ""
+
+msgid "TCP Connections"
 msgstr ""
 
 msgid "TCP:"
@@ -2224,11 +2817,6 @@ msgstr ""
 
 msgid "The following changes have been reverted"
 msgstr "The following changes have been reverted"
-
-msgid ""
-"The following files are detected by the system and will be kept "
-"automatically during sysupgrade"
-msgstr ""
 
 msgid "The following rules are currently active on this system."
 msgstr "The following rules are currently active on this system."
@@ -2305,20 +2893,6 @@ msgid ""
 msgstr ""
 
 msgid ""
-"These commands will be executed automatically when a given <abbr title="
-"\"Unified Configuration Interface\">UCI</abbr> configuration is committed "
-"allowing changes to be applied instantly."
-msgstr ""
-"These commands will be executed automatically when a given <abbr title="
-"\"Unified Configuration Interface\">UCI</abbr> configuration is committed "
-"allowing changes to be applied instantly."
-
-msgid ""
-"This is a list of shell glob patterns for matching files and directories to "
-"include during sysupgrade"
-msgstr ""
-
-msgid ""
 "This is a list of shell glob patterns for matching files and directories to "
 "include during sysupgrade. Modified files in /etc/config/ and certain other "
 "configurations are automatically preserved."
@@ -2367,15 +2941,33 @@ msgstr "This page gives an overview over currently active network connections."
 msgid "This section contains no values yet"
 msgstr "This section contains no values yet"
 
+msgid "Thursday"
+msgstr ""
+
+msgid "Time Synchronisation"
+msgstr ""
+
 msgid "Time Synchronization"
+msgstr ""
+
+msgid "Time to wait for responses in seconds (default 10)"
+msgstr ""
+
+msgid "Timeout"
 msgstr ""
 
 msgid "Timezone"
 msgstr "Timezone"
 
+msgid "Tinyproxy"
+msgstr ""
+
 msgid ""
 "To restore configuration files, you can upload a previously generated backup "
 "archive here."
+msgstr ""
+
+msgid "Topology"
 msgstr ""
 
 msgid "Total Available"
@@ -2386,6 +2978,9 @@ msgstr "Traffic"
 
 msgid "Transfer"
 msgstr "Transfer"
+
+msgid "Transmission"
+msgstr ""
 
 msgid "Transmission Rate"
 msgstr "Transmission Rate"
@@ -2405,6 +3000,9 @@ msgstr ""
 msgid "Trigger Mode"
 msgstr ""
 
+msgid "Tuesday"
+msgstr ""
+
 msgid "Tunnel ID"
 msgstr ""
 
@@ -2420,16 +3018,25 @@ msgstr ""
 msgid "Type"
 msgstr "Type"
 
+msgid "UAM and MAC Authentication"
+msgstr ""
+
 msgid "UDP:"
 msgstr ""
 
 msgid "UMTS/GPRS/EV-DO"
 msgstr ""
 
+msgid "UPNP"
+msgstr ""
+
 msgid "USB Device"
 msgstr ""
 
 msgid "UUID"
+msgstr ""
+
+msgid "UnixSock"
 msgstr ""
 
 msgid "Unknown"
@@ -2472,6 +3079,9 @@ msgid "Use DHCP gateway"
 msgstr ""
 
 msgid "Use DNS servers advertised by peer"
+msgstr ""
+
+msgid "Use Email"
 msgstr ""
 
 msgid "Use ISO/IEC 3166 alpha2 country codes."
@@ -2520,6 +3130,9 @@ msgstr "Used"
 msgid "Used Key Slot"
 msgstr ""
 
+msgid "User Management"
+msgstr ""
+
 msgid "Username"
 msgstr "Username"
 
@@ -2538,6 +3151,9 @@ msgstr ""
 msgid "VPN Server"
 msgstr ""
 
+msgid "Vendor"
+msgstr ""
+
 msgid "Vendor Class to send when requesting DHCP"
 msgstr ""
 
@@ -2546,6 +3162,15 @@ msgstr ""
 
 msgid "Version"
 msgstr "Version"
+
+msgid "VnStat Traffic Monitor"
+msgstr ""
+
+msgid "VoIP"
+msgstr ""
+
+msgid "Voice"
+msgstr ""
 
 msgid "WDS"
 msgstr "WDS"
@@ -2575,17 +3200,35 @@ msgstr ""
 msgid "Waiting for router..."
 msgstr ""
 
+msgid "Wake on LAN"
+msgstr ""
+
+msgid "Wan Down"
+msgstr ""
+
+msgid "Wan Up"
+msgstr ""
+
 msgid "Warning"
 msgstr ""
 
 msgid "Warning: There are unsaved changes that will be lost while rebooting!"
 msgstr "Warning: There are unsaved changes that will be lost while rebooting!"
 
-msgid "Web <abbr title=\"User Interface\">UI</abbr>"
-msgstr "Web <abbr title=\"User Interface\">UI</abbr>"
+msgid "WebShell"
+msgstr ""
+
+msgid "Wednesday"
+msgstr ""
 
 msgid "Wifi"
 msgstr "Wifi"
+
+msgid "Wifi Down"
+msgstr ""
+
+msgid "Wifi Up"
+msgstr ""
 
 msgid "Wifi networks in your local environment"
 msgstr "Wifi networks in your local environment"
@@ -2623,6 +3266,9 @@ msgstr ""
 msgid "Wireless shut down"
 msgstr ""
 
+msgid "Wondershaper"
+msgstr ""
+
 msgid "Write received DNS requests to syslog"
 msgstr ""
 
@@ -2648,16 +3294,76 @@ msgstr ""
 msgid "auto"
 msgstr "auto"
 
+msgid "blkid uuid infomation"
+msgstr ""
+
 msgid "bridged"
+msgstr ""
+
+msgid "camera"
+msgstr ""
+
+msgid "cbi_manual"
+msgstr ""
+
+msgid "check other networks"
+msgstr ""
+
+msgid "command desc"
 msgstr ""
 
 msgid "creates a bridge over specified interface(s)"
 msgstr "creates a bridge over specified interface(s)"
 
+msgid "custom minute"
+msgstr ""
+
+msgid "ddns UP"
+msgstr ""
+
 msgid "disable"
 msgstr "disable"
 
+msgid "diskapply"
+msgstr ""
+
+msgid "diskformat"
+msgstr ""
+
+msgid "dnsserver"
+msgstr ""
+
+msgid "email server"
+msgstr ""
+
+msgid "email setting"
+msgstr ""
+
+msgid "every-custom-minute"
+msgstr ""
+
+msgid "every_12_hour"
+msgstr ""
+
+msgid "every_15_minute"
+msgstr ""
+
+msgid "every_1_hour"
+msgstr ""
+
+msgid "every_24_hour"
+msgstr ""
+
+msgid "every_30_minute"
+msgstr ""
+
+msgid "every_5_minute"
+msgstr ""
+
 msgid "expired"
+msgstr ""
+
+msgid "fdisk Information"
 msgstr ""
 
 msgid ""
@@ -2667,14 +3373,90 @@ msgstr ""
 "file where given <abbr title=\"Dynamic Host Configuration Protocol\">DHCP</"
 "abbr>-leases will be stored"
 
+msgid "filebrowser"
+msgstr ""
+
+msgid "free"
+msgstr "free"
+
+msgid "from_address"
+msgstr ""
+
+msgid "gateway Gateway"
+msgstr ""
+
+msgid "guide_apply Apply"
+msgstr ""
+
+msgid "guide_config WAN Configuration"
+msgstr ""
+
+msgid "guide_dns_desc If you don t know, just to contact your ISP"
+msgstr ""
+
+msgid ""
+"guide_end_desc The guide is now OK. Please click button \"apply\" to apply "
+"or Click button \"quit\" to quit"
+msgstr ""
+
+msgid "guide_gateway_desc If you don t know, just to contact your ISP"
+msgstr ""
+
+msgid "guide_lan_config LAN Configuration"
+msgstr ""
+
+msgid "guide_mac_desc Just leave blank and use the default mac generally"
+msgstr ""
+
+msgid ""
+"guide_ok_desc Everything is OK, Just enjoy it. System is now jumping to main "
+"page....."
+msgstr ""
+
+msgid "guide_quit Quit"
+msgstr ""
+
+msgid "halt"
+msgstr ""
+
+msgid "hd-idle"
+msgstr ""
+
 msgid "help"
 msgstr "help"
 
 msgid "if target is a network"
 msgstr "if target is a network"
 
+msgid "ipaddress Address"
+msgstr ""
+
 msgid "local <abbr title=\"Domain Name System\">DNS</abbr> file"
 msgstr "local <abbr title=\"Domain Name System\">DNS</abbr> file"
+
+msgid "macaddress MAC"
+msgstr ""
+
+msgid "mail_address"
+msgstr ""
+
+msgid "mail_address_desc"
+msgstr ""
+
+msgid "menu_set_macvlan"
+msgstr ""
+
+msgid "minute"
+msgstr ""
+
+msgid "mldonkey"
+msgstr ""
+
+msgid "netmask Netmask"
+msgstr ""
+
+msgid "nfsd"
+msgstr ""
 
 msgid "no"
 msgstr ""
@@ -2688,10 +3470,79 @@ msgstr ""
 msgid "on"
 msgstr ""
 
+msgid "password Password"
+msgstr ""
+
+msgid "portmap"
+msgstr ""
+
+msgid "printer"
+msgstr ""
+
+msgid "protocol Protocol"
+msgstr ""
+
+msgid "qosv4 scheduler"
+msgstr ""
+
+msgid "raid"
+msgstr ""
+
+msgid "reboot"
+msgstr ""
+
+msgid "receive address"
+msgstr ""
+
+msgid "route model"
+msgstr ""
+
 msgid "routed"
 msgstr ""
 
+msgid "sattv"
+msgstr ""
+
+msgid "server"
+msgstr ""
+
+msgid "smartctl infomation"
+msgstr ""
+
+msgid "smtp_address"
+msgstr ""
+
+msgid "smtp_password"
+msgstr ""
+
+msgid "smtp_user"
+msgstr ""
+
+msgid "static"
+msgstr "static"
+
 msgid "tagged"
+msgstr ""
+
+msgid "task Everyday desc"
+msgstr ""
+
+msgid "task command"
+msgstr ""
+
+msgid "task name"
+msgstr ""
+
+msgid "task name desc"
+msgstr ""
+
+msgid "time"
+msgstr ""
+
+msgid "total"
+msgstr ""
+
+msgid "uShare"
 msgstr ""
 
 msgid "unlimited"
@@ -2706,11 +3557,69 @@ msgstr "unspecified -or- create:"
 msgid "untagged"
 msgstr ""
 
+msgid "used"
+msgstr ""
+
+msgid "user manger"
+msgstr ""
+
+msgid "user path"
+msgstr ""
+
+msgid "user path help"
+msgstr ""
+
+msgid "username"
+msgstr ""
+
+msgid "username Username"
+msgstr ""
+
+msgid "username help"
+msgstr ""
+
+msgid "vsftpd"
+msgstr ""
+
+msgid "webcam"
+msgstr ""
+
+msgid "xunlei"
+msgstr ""
+
 msgid "yes"
 msgstr ""
 
 msgid "« Back"
 msgstr "« Back"
+
+#~ msgid "Files to be kept when flashing a new firmware"
+#~ msgstr "Files to be kept when flashing a new firmware"
+
+#~ msgid "General"
+#~ msgstr "General"
+
+#~ msgid ""
+#~ "Here you can customize the settings and the functionality of <abbr title="
+#~ "\"Lua Configuration Interface\">LuCI</abbr>."
+#~ msgstr ""
+#~ "Here you can customize the settings and the functionality of <abbr title="
+#~ "\"Lua Configuration Interface\">LuCI</abbr>."
+
+#~ msgid "Post-commit actions"
+#~ msgstr "Post-commit actions"
+
+#~ msgid ""
+#~ "These commands will be executed automatically when a given <abbr title="
+#~ "\"Unified Configuration Interface\">UCI</abbr> configuration is committed "
+#~ "allowing changes to be applied instantly."
+#~ msgstr ""
+#~ "These commands will be executed automatically when a given <abbr title="
+#~ "\"Unified Configuration Interface\">UCI</abbr> configuration is committed "
+#~ "allowing changes to be applied instantly."
+
+#~ msgid "Web <abbr title=\"User Interface\">UI</abbr>"
+#~ msgstr "Web <abbr title=\"User Interface\">UI</abbr>"
 
 #~ msgid "<abbr title=\"Point-to-Point Tunneling Protocol\">PPTP</abbr>-Server"
 #~ msgstr ""
@@ -2827,9 +3736,6 @@ msgstr "« Back"
 #~ msgid "Proceed reverting all settings and resetting to firmware defaults?"
 #~ msgstr "Proceed reverting all settings and resetting to firmware defaults?"
 
-#~ msgid "Processor"
-#~ msgstr "Processor"
-
 #~ msgid "Radius-Port"
 #~ msgstr "Radius-Port"
 
@@ -2902,12 +3808,6 @@ msgstr "« Back"
 
 #~ msgid "cached"
 #~ msgstr "cached"
-
-#~ msgid "free"
-#~ msgstr "free"
-
-#~ msgid "static"
-#~ msgstr "static"
 
 #~ msgid ""
 #~ "<abbr title=\"Lua Configuration Interface\">LuCI</abbr> is a collection "
@@ -3446,9 +4346,6 @@ msgstr "« Back"
 
 #~ msgid "Service"
 #~ msgstr "Service"
-
-#~ msgid "Statistics"
-#~ msgstr "Statistics"
 
 #~ msgid "zone"
 #~ msgstr "Zone"

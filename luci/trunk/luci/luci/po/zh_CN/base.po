@@ -7,11 +7,20 @@ msgstr "(%d 分钟图, 每 %d 秒刷新)"
 msgid "(%s available)"
 msgstr "(%s 可用)"
 
-msgid "(optional)"
-msgstr "(可选)"
+msgid "(empty)"
+msgstr "(空)"
+
+msgid "(no interfaces attached)"
+msgstr "(没有已连接的接口)"
+
+msgid "-- Additional Field --"
+msgstr "-- 更多选项 --"
 
 msgid "-- Please choose --"
 msgstr "-- 请选择 --"
+
+msgid "-- custom --"
+msgstr "-- 自定义 --"
 
 msgid "0:00"
 msgstr ""
@@ -268,9 +277,6 @@ msgstr ""
 msgid "5:45"
 msgstr ""
 
-msgid "6791556"
-msgstr ""
-
 msgid "6:00"
 msgstr ""
 
@@ -382,26 +388,8 @@ msgstr "<abbr title=\"发光二极管\">LED</abbr> 设置"
 msgid "<abbr title=\"Light Emitting Diode\">LED</abbr> Name"
 msgstr "<abbr title=\"发光二极管\">LED</abbr> 名称"
 
-msgid ""
-"<abbr title=\"Lua Configuration Interface\">LuCI</abbr> is a collection of "
-"free Lua software including an <abbr title=\"Model-View-Controller\">MVC</"
-"abbr>-Webframework and webinterface for embedded devices. <abbr title=\"Lua "
-"Configuration Interface\">LuCI</abbr> is licensed under the Apache-License."
-msgstr ""
-"<abbr title=\"Lua Configuration Interface\">LuCI</abbr> 是一款免费的Lua软"
-"件， 让你可以在图形化的界面管理你的嵌入式设备。<abbr title="
-"\"LuaConfiguration Interface\">LuCI</abbr> 遵循 Apache-License。"
-
-msgid ""
-"<abbr title=\"Lua Configuration Interface\">LuCI</abbr> is a free, flexible, "
-"and user friendly graphical interface for configuring OpenWrt Kamikaze."
-msgstr ""
-
 msgid "<abbr title=\"Media Access Control\">MAC</abbr>-Address"
 msgstr "<abbr title=\"Media Access Control\">MAC</abbr>-地址"
-
-msgid "<abbr title=\"Point-to-Point Tunneling Protocol\">PPTP</abbr>-Server"
-msgstr "<abbr title=\"Point-to-Point Tunneling Protocol\">PPTP</abbr>-服务器"
 
 msgid "<abbr title=\"Wireless Local Area Network\">WLAN</abbr>-Scan"
 msgstr "搜索<abbr title=\"Wireless Local Area Network\">WLAN</abbr>"
@@ -422,7 +410,7 @@ msgstr ""
 msgid "<abbr title=\"maximal\">Max.</abbr> concurrent queries"
 msgstr "<abbr title=\"maximal\">允许的最大</abbr> 并发请求"
 
-msgid "AP-Isolation"
+msgid "AHCP Server"
 msgstr ""
 
 msgid "APN"
@@ -452,9 +440,6 @@ msgstr ""
 msgid "ATM device number"
 msgstr ""
 
-msgid "About"
-msgstr "关于"
-
 msgid "Accept router advertisements"
 msgstr "接受路由器通告"
 
@@ -464,7 +449,7 @@ msgstr ""
 msgid "Access Point"
 msgstr "接入点"
 
-msgid "Access Point (Current Settings)"
+msgid "Account"
 msgstr ""
 
 msgid "Action"
@@ -506,23 +491,11 @@ msgstr "额外的Hosts文件"
 msgid "Address"
 msgstr "地址"
 
-msgid "Address Configuration"
-msgstr ""
-
-msgid "Address Settings"
-msgstr ""
-
 msgid "Address to access local relay bridge"
 msgstr "地址来访问本地中继桥"
 
-msgid "Admin Password"
-msgstr "管理密码"
-
 msgid "Administration"
 msgstr "管理界面"
-
-msgid "Administrator Password"
-msgstr ""
 
 msgid "Advanced Settings"
 msgstr "高级设置"
@@ -538,9 +511,6 @@ msgstr "警报"
 
 msgid "Allow <abbr title=\"Secure Shell\">SSH</abbr> password authentication"
 msgstr "允许<abbr title=\"Secure Shell\">SSH</abbr>密码验证"
-
-msgid "Allow Burst Transmissions"
-msgstr ""
 
 msgid "Allow all except listed"
 msgstr "仅允许列表外"
@@ -567,20 +537,8 @@ msgstr "允许 127.0.0.0/8 网段回应特定响应, 比如 RBL 服务"
 msgid "Allowed range is 1 to 65535"
 msgstr "允许的范围 1～65535"
 
-msgid ""
-"Allows UPnP-capable applications to automatically forward ports on the "
-"router to their IP-Address. Be aware that this is a potential security risk "
-"as applications are not authenticated."
-msgstr ""
-
-msgid "Also generate addresses for unknown devices"
-msgstr ""
-
 msgid "An additional network will be created if you leave this unchecked."
 msgstr "如果你不选则此项则会创建一个新的网络。"
-
-msgid "And now have fun with your router!"
-msgstr ""
 
 msgid "Antenna 1"
 msgstr "天线 1"
@@ -591,10 +549,8 @@ msgstr "天线 2"
 msgid "Apply"
 msgstr "应用"
 
-msgid ""
-"As we always want to improve this interface we are looking forward to your "
-"feedback and suggestions."
-msgstr ""
+msgid "Applying changes"
+msgstr "应用更改"
 
 msgid "Associated Stations"
 msgstr "已连接户端"
@@ -608,17 +564,8 @@ msgstr "全局"
 msgid "Authorization Required"
 msgstr "需要认证"
 
-msgid "Automatic Disconnect"
-msgstr "自动断开"
-
-msgid "Automatic Port Forwarding (UPnP IGD)"
-msgstr ""
-
-msgid "Automatic address assignment for network devices"
-msgstr ""
-
-msgid "Automatic and Manual Forwarding"
-msgstr ""
+msgid "Auto Refresh"
+msgstr "自动刷新"
 
 msgid "Available"
 msgstr "可用"
@@ -634,6 +581,9 @@ msgstr "BSSID"
 
 msgid "Back"
 msgstr "返回"
+
+msgid "Back to Overview"
+msgstr "返回到总览"
 
 msgid "Back to configuration"
 msgstr "返回配置页"
@@ -653,35 +603,28 @@ msgstr "备份|刷机"
 msgid "Backup / Restore"
 msgstr "备份/还原"
 
-msgid "Backup Archive"
-msgstr "已备份的档案"
-
 msgid "Backup file list"
 msgstr "备份文件列表"
 
 msgid "Bad address specified!"
 msgstr "指定的地址错误"
 
-msgid "Basic settings"
-msgstr "基础设置"
-
-msgid "Basic settings are incomplete. Please go to"
-msgstr ""
-
-msgid "Basic system settings"
-msgstr ""
-
 msgid ""
 "Below is the determined list of files to backup. It consists of changed "
 "configuration files marked by opkg, essential base files and the user "
 "defined backup patterns."
 msgstr ""
-"下面是确定要备份的文件列表。它包括更改的配置文件，opkg标记必需的基本文件和用户定义的备份模式。"
+"下面是确定要备份的文件列表。它包括更改的配置文件，opkg标记必需的基本文件和用"
+"户定义的备份模式。"
+
 msgid "Bit Rate"
 msgstr "比特率"
 
 msgid "Bitrate"
 msgstr "比特率"
+
+msgid "Bridge"
+msgstr "桥"
 
 msgid "Bridge interfaces"
 msgstr "桥接接口"
@@ -698,16 +641,13 @@ msgstr "已缓冲"
 msgid "Buttons"
 msgstr "按钮"
 
-msgid "Bytes sent"
-msgstr "已发送字节"
-
 msgid "CPU"
 msgstr "CPU"
 
 msgid "CPU usage (%)"
 msgstr "CPU使用率(%)"
 
-msgid "Cable / Ethernet / DHCP"
+msgid "CSV Output"
 msgstr ""
 
 msgid "Cached"
@@ -718,10 +658,6 @@ msgstr "取消"
 
 msgid "Chain"
 msgstr "链"
-
-msgid ""
-"Change the password of the system administrator (User <code>root</code>)"
-msgstr "修改管理员(<code>root</code>)的密码"
 
 msgid "Changes"
 msgstr "修改数"
@@ -737,9 +673,6 @@ msgstr "频道"
 
 msgid "Check"
 msgstr "检查"
-
-msgid "Check for new firmware versions and perform automatic updates."
-msgstr ""
 
 msgid "Checksum"
 msgstr "校验"
@@ -763,17 +696,13 @@ msgstr ""
 "请选择你需要链接到无线网络接口的网络. 如果不链接到任何网络请选择 <em>未指定</"
 "em>,如果需要创建新网络请点<em>创建</em>."
 
-msgid "Clamp Segment Size"
-msgstr ""
-
 msgid ""
 "Click \"Generate archive\" to download a tar archive of the current "
 "configuration files. To reset the firmware to its initial state, click "
 "\"Perform reset\" (only possible with squashfs images)."
 msgstr ""
-"点击 \"生成压缩包\" 将会把配置文件生成一个tar压缩包提供下载。 "
-"让系统恢复到初始状态, 请点击 "
-"\"恢复默认设置\" (只有squashfs压缩的固件才能复位)."
+"点击 \"生成压缩包\" 将会把配置文件生成一个tar压缩包提供下载。 让系统恢复到初"
+"始状态, 请点击 \"恢复默认设置\" (只有squashfs压缩的固件才能复位)."
 
 msgid "Client"
 msgstr "客户端"
@@ -781,8 +710,8 @@ msgstr "客户端"
 msgid "Client ID to send when requesting DHCP"
 msgstr "请求DHCP时发送客户端ID"
 
-msgid "Client network size"
-msgstr "客户端网络大小"
+msgid "Client-Splash"
+msgstr ""
 
 msgid ""
 "Close inactive connection after the given amount of seconds, use 0 to "
@@ -791,6 +720,9 @@ msgstr ""
 
 msgid "Close list..."
 msgstr "关闭列表..."
+
+msgid "Collectd"
+msgstr ""
 
 msgid "Collecting data..."
 msgstr "收集信息..."
@@ -801,23 +733,14 @@ msgstr "命令"
 msgid "Common Configuration"
 msgstr "一般设置"
 
-msgid "Communication Protocol"
-msgstr ""
-
-msgid "Community"
-msgstr ""
-
-msgid "Community profile"
-msgstr ""
-
-msgid "Community settings"
-msgstr ""
-
-msgid "Compiled By"
-msgstr "编译者"
-
 msgid "Compression"
 msgstr "压缩"
+
+msgid "Config"
+msgstr ""
+
+msgid "Config Phone Scan"
+msgstr ""
 
 msgid "Configuration"
 msgstr "设置"
@@ -831,34 +754,23 @@ msgstr "设置 / 修改"
 msgid "Configuration / Revert"
 msgstr "设置 / 重置"
 
-msgid "Configuration Template"
-msgstr ""
+msgid "Configuration applied."
+msgstr "设置修改完成"
 
 msgid "Configuration files will be kept."
 msgstr "配置文件将被保存。"
 
-msgid "Configure Access Point"
+msgid "Configure"
 msgstr ""
 
-msgid "Configure Local Network"
+msgid "Configure Diagnostics"
 msgstr ""
 
-msgid "Configure Private Access Point"
+msgid "Configure Scans"
 msgstr ""
-
-msgid "Configure WLAN-Adapter for Client Connection"
-msgstr ""
-
-msgid ""
-"Configure the local DNS server to use the name servers adverticed by the PPP "
-"peer"
-msgstr "本地DNS使用PPP对端提供的DNS服务器"
 
 msgid "Configures this mount as overlay storage for block-extroot"
 msgstr "对于block-extroot则设置挂载为overlay存储"
-
-msgid "Confirm Upgrade"
-msgstr ""
 
 msgid "Confirmation"
 msgstr "确认密码"
@@ -872,31 +784,19 @@ msgstr "已链接"
 msgid "Connection Limit"
 msgstr "连接数限制"
 
-msgid "Connection Protocol"
-msgstr ""
-
 msgid "Connections"
 msgstr "连接状态"
 
-msgid "Contact"
+msgid "Contacts"
 msgstr ""
 
-msgid "Contact information is incomplete. Please go to"
-msgstr ""
-
-msgid "Contributing Developers"
-msgstr "Contributing Developers"
-
-msgid "Coordinates"
+msgid "CoovaChilli"
 msgstr ""
 
 msgid "Country"
 msgstr "国家"
 
 msgid "Country Code"
-msgstr "国家代码"
-
-msgid "Country code"
 msgstr "国家代码"
 
 msgid "Cover the following interface"
@@ -923,22 +823,19 @@ msgstr "创建一个网络"
 msgid "Create a bridge over multiple interfaces"
 msgstr "在多个接口间创建网桥"
 
-msgid "Create backup"
-msgstr "创建备份"
-
 msgid "Critical"
 msgstr ""
 
 msgid "Cron Log Level"
 msgstr "Cron 日志级别"
 
+msgid "Custom Interface"
+msgstr "自定义接口"
+
 msgid ""
 "Customizes the behaviour of the device <abbr title=\"Light Emitting Diode"
 "\">LED</abbr>s if possible."
 msgstr "可以自定义<abbr title=\"Light Emitting Diode\">LED</abbr>s 的状态"
-
-msgid "DHCP"
-msgstr ""
 
 msgid "DHCP Leases"
 msgstr "DHCP静态分配"
@@ -948,6 +845,9 @@ msgstr "DHCP服务器"
 
 msgid "DHCP and DNS"
 msgstr "DHCP和DNS"
+
+msgid "DHCP client"
+msgstr ""
 
 msgid "DHCP-Options"
 msgstr "DHCP-额外设置"
@@ -966,9 +866,6 @@ msgstr ""
 
 msgid "Default gateway"
 msgstr "默认网关"
-
-msgid "Default routes"
-msgstr "默认路由"
 
 msgid "Default state"
 msgstr "默认状态"
@@ -1006,26 +903,26 @@ msgstr "设备"
 msgid "Device Configuration"
 msgstr "设备设置"
 
+msgid "Device Scan Config"
+msgstr ""
+
+msgid "Device Type"
+msgstr ""
+
 msgid "Device UUID"
 msgstr "设备 UUID"
 
-msgid "Device running the service"
+msgid "Devices discovered for"
 msgstr ""
 
-msgid "Devices"
-msgstr "设备"
+msgid "Devices on Network"
+msgstr ""
 
 msgid "Diagnostics"
 msgstr "网络诊断"
 
-msgid ""
-"Different kinds of network traffic usually have different transmission "
-"requirements. For example the important factor for a large HTTP-download is "
-"bandwith whereas VoIP has a large focus on low packet latency. "
-"Prioritization takes these quality of service factors into account and "
-"optimizes priorities to allow reasonable performance for time critical "
-"services."
-msgstr ""
+msgid "Directory"
+msgstr "目录"
 
 msgid "Disable"
 msgstr "禁用"
@@ -1035,20 +932,11 @@ msgid ""
 "this interface."
 msgstr "在本接口上禁用DHCP"
 
-msgid "Disable Bridge"
-msgstr "设备禁用桥接"
-
 msgid "Disable DNS setup"
 msgstr "禁用DNS设置"
 
 msgid "Disable HW-Beacon timer"
 msgstr "Disable HW-Beacon timer"
-
-msgid "Disable Private Access Point"
-msgstr ""
-
-msgid "Disable default content"
-msgstr ""
 
 msgid "Disabled"
 msgstr "禁用"
@@ -1062,8 +950,17 @@ msgstr "磁盘信息"
 msgid "Disk Information Desc"
 msgstr "在这里你的查看磁盘分区信息和UUID等信息，方便在『挂载点』页面设置"
 
+msgid "Disk Space Usage"
+msgstr ""
+
+msgid "Disk Usage"
+msgstr ""
+
 msgid "Diskinfo"
 msgstr "磁盘信息"
+
+msgid "Display"
+msgstr ""
 
 msgid "Displaying only packages containing"
 msgstr ""
@@ -1076,9 +973,6 @@ msgstr "为远距离的客户提供优化。"
 
 msgid "Diversity"
 msgstr "Diversity"
-
-msgid "Diversity is enabled for device"
-msgstr ""
 
 msgid ""
 "Dnsmasq is a combined <abbr title=\"Dynamic Host Configuration Protocol"
@@ -1135,11 +1029,6 @@ msgstr "动态<abbr title=\"Dynamic Host Configuration Protocol\">DHCP</abbr>"
 msgid "Dynamic DNS"
 msgstr "动态DNS"
 
-msgid ""
-"Dynamic DNS allows that your router can be reached with a fixed hostname "
-"while having a dynamically changing IP-Address."
-msgstr ""
-
 msgid "Dynamic tunnel"
 msgstr ""
 
@@ -1153,17 +1042,20 @@ msgstr ""
 msgid "E-Mail"
 msgstr ""
 
+msgid "E-mail"
+msgstr ""
+
 msgid "EAP-Method"
 msgstr "EAP-Method"
 
-msgid "ESSID"
+msgid "EPG"
+msgstr "EPG电子节目表"
+
+msgid "EasyQoS"
 msgstr ""
 
 msgid "Edit"
 msgstr "修改"
-
-msgid "Edit index page"
-msgstr ""
 
 msgid "Edit this interface"
 msgstr "修改这个接口"
@@ -1171,11 +1063,11 @@ msgstr "修改这个接口"
 msgid "Edit this network"
 msgstr "修改这个网络"
 
+msgid "Email"
+msgstr ""
+
 msgid "Emergency"
 msgstr "紧急"
-
-msgid "Emergency Access Address"
-msgstr ""
 
 msgid "Enable"
 msgstr "开启"
@@ -1183,23 +1075,14 @@ msgstr "开启"
 msgid "Enable <abbr title=\"Spanning Tree Protocol\">STP</abbr>"
 msgstr "开启 <abbr title=\"生成树协议\">STP</abbr>"
 
-msgid "Enable Bridging and Repeating (WDS)"
-msgstr ""
-
 msgid "Enable HE.net dynamic endpoint update"
 msgstr "允许HE.net动态端点升级"
 
 msgid "Enable IPv6 negotiation on the PPP link"
 msgstr "允许在ppp链路上使用IPv6协议"
 
-msgid "Enable IPv6 on PPP link"
-msgstr "在PPP链路上启用IPv6"
-
 msgid "Enable Jumbo Frame passthrough"
 msgstr ""
-
-msgid "Enable Powersaving"
-msgstr "启用省电模式"
 
 msgid "Enable TFTP server"
 msgstr "开启TFTP服务器"
@@ -1243,23 +1126,20 @@ msgstr "擦除中..."
 msgid "Error"
 msgstr "错误"
 
-msgid "Errors"
-msgstr "错误"
+msgid "Ethernet Adapter"
+msgstr "以太接口卡"
 
-msgid "Essentials"
-msgstr ""
-
-msgid "Ethernet-Adapter (%s)"
-msgstr ""
+msgid "Ethernet Switch"
+msgstr "以太网交换机"
 
 msgid "Everyday"
 msgstr "每天"
 
+msgid "Exec"
+msgstr ""
+
 msgid "Expand hosts"
 msgstr "外部主机"
-
-msgid "Expert Settings"
-msgstr ""
 
 msgid "Expires"
 msgstr "到期"
@@ -1267,12 +1147,6 @@ msgstr "到期"
 msgid ""
 "Expiry time of leased addresses, minimum is 2 Minutes (<code>2m</code>)."
 msgstr "租约过期时间，最小为2分钟。"
-
-msgid "Extend network %s"
-msgstr ""
-
-msgid "External Port"
-msgstr "外部端口"
 
 msgid "External system log server"
 msgstr "外部系统日志服务"
@@ -1282,6 +1156,9 @@ msgstr "外部系统日志访问端口"
 
 msgid "Fast Frames"
 msgstr "Fast Frames"
+
+msgid "File"
+msgstr "文件"
 
 msgid "Filename of the boot image advertised to clients"
 msgstr "向客户端广播的启动镜像文件"
@@ -1304,11 +1181,8 @@ msgstr "查找和加入网络"
 msgid "Find package"
 msgstr "查找软件包"
 
-msgid "Find your coordinates with OpenStreetMap"
-msgstr ""
-
-msgid "Finetuning"
-msgstr ""
+msgid "Finish"
+msgstr "完成"
 
 msgid "Firewall"
 msgstr "防火墙"
@@ -1322,19 +1196,8 @@ msgstr "防火墙状态"
 msgid "Firmware Version"
 msgstr "固件版本"
 
-msgid "Firmware image"
-msgstr "固件文件"
-
-msgid "First leased address"
-msgstr ""
-
 msgid "Fixed source port for outbound DNS queries"
 msgstr "固定DNS查询端口"
-
-msgid ""
-"Fixes problems with unreachable websites, submitting forms or other "
-"unexpected behaviour for some ISPs."
-msgstr ""
 
 msgid "Flags"
 msgstr "标志"
@@ -1356,13 +1219,6 @@ msgstr "Flash操作"
 
 msgid "Flashing..."
 msgstr "正在更新固件..."
-
-msgid ""
-"For QoS to work correctly you need to provide the upload and download speed "
-"of your internet connection. Values are in kilobits per second. For "
-"comparison a standard consumer ADSL connection has between 1000 and 25000 "
-"kbps as donwload speed and between 128 and 1000 kbps upload speed."
-msgstr ""
 
 msgid "Force"
 msgstr "强制"
@@ -1394,15 +1250,6 @@ msgstr "释放内存"
 msgid "Free space"
 msgstr "空闲空间"
 
-msgid "Freifunk"
-msgstr ""
-
-msgid "Freifunk Overview"
-msgstr ""
-
-msgid "Freifunk Remote Update"
-msgstr ""
-
 msgid "Frequency Hopping"
 msgstr "跳频"
 
@@ -1418,9 +1265,6 @@ msgstr "网关"
 msgid "Gateway ports"
 msgstr "网关端口"
 
-msgid "General"
-msgstr ""
-
 msgid "General Settings"
 msgstr "基本设置"
 
@@ -1433,14 +1277,32 @@ msgstr "生成压缩包"
 msgid "Given password confirmation did not match, password not changed!"
 msgstr "输入的确认密码不匹配，密码未更改！"
 
-msgid "Go to"
-msgstr "转到"
+msgid "Go to password configuration..."
+msgstr "进入密码配置"
+
+msgid "Go to relevant configuration page"
+msgstr "转到有关的配置页"
+
+msgid "Graphs"
+msgstr ""
+
+msgid "Guide Next Step"
+msgstr "下一步"
+
+msgid "Guide Quit"
+msgstr "退出向导"
 
 msgid "HE.net password"
 msgstr "HE.net密码"
 
 msgid "HE.net user ID"
 msgstr "HE.net 用户ID"
+
+msgid "HNA"
+msgstr ""
+
+msgid "HNA Announcements"
+msgstr ""
 
 msgid "HT capabilities"
 msgstr ""
@@ -1454,32 +1316,10 @@ msgstr "处理程序"
 msgid "Hang Up"
 msgstr "挂起"
 
-msgid "Hardware Address"
-msgstr "硬件地址"
-
-msgid "Hello and welcome in the network of"
-msgstr ""
-
-msgid "Hello!"
-msgstr ""
-
-msgid ""
-"Here you can backup and restore your router configuration and - if possible "
-"- reset the router to the default settings."
-msgstr "这里可以还原和恢复设置，当然你也可以恢复默认设置。"
-
-msgid "Here you can configure installed wifi devices."
-msgstr ""
-
 msgid ""
 "Here you can configure the basic aspects of your device like its hostname or "
 "the timezone."
 msgstr "这里你能够设置你路由器的一些基本信息，比如主机名和时区..."
-
-msgid ""
-"Here you can customize the settings and the functionality of <abbr title="
-"\"Lua Configuration Interface\">LuCI</abbr>."
-msgstr ""
 
 msgid ""
 "Here you can paste public SSH-Keys (one per line) for SSH public-key "
@@ -1488,21 +1328,6 @@ msgstr "这里可以粘贴公用SSH密钥以用于SSH公共密钥认证(每行�
 
 msgid "Hide <abbr title=\"Extended Service Set Identifier\">ESSID</abbr>"
 msgstr "隐藏 <abbr title=\"Extended Service Set Identifier\">ESSID</abbr>"
-
-msgid "Hide Access Point"
-msgstr ""
-
-msgid "Hide OpenStreetMap"
-msgstr ""
-
-msgid "High"
-msgstr ""
-
-msgid "Highest"
-msgstr ""
-
-msgid "Homepage"
-msgstr ""
 
 msgid "Host entries"
 msgstr "主机记录"
@@ -1522,10 +1347,16 @@ msgstr "在请求DHCP是发送主机名"
 msgid "Hostnames"
 msgstr "主机名"
 
+msgid "IP Address"
+msgstr ""
+
 msgid "IP address"
 msgstr "IP 地址"
 
 msgid "IP-Aliases"
+msgstr ""
+
+msgid "IPID"
 msgstr ""
 
 msgid "IPv4"
@@ -1588,9 +1419,6 @@ msgstr ""
 msgid "Identity"
 msgstr "身份"
 
-msgid "If selected then the default content element is not shown."
-msgstr ""
-
 msgid ""
 "If specified, mount the device by its UUID instead of a fixed device node"
 msgstr "如填写，挂载的时候，使用分区UUID，代替设备节点"
@@ -1605,9 +1433,6 @@ msgstr "如果未确认，不会配置默认路由"
 
 msgid "If unchecked, the advertised DNS server addresses are ignored"
 msgstr "如果未确认，高级DNS服务器地址忽略"
-
-msgid "If you are interested in our project then contact the local community"
-msgstr ""
 
 msgid ""
 "If your physical memory is insufficient unused data can be temporarily "
@@ -1635,23 +1460,11 @@ msgstr "固件"
 msgid "In"
 msgstr "入"
 
-msgid ""
-"In case the DHCP request fails you will still be able to access this device "
-"using given IP by configuring your computer to an address in the same subnet "
-"and netmask 255.255.255.0."
-msgstr ""
-
 msgid "Inactivity timeout"
 msgstr ""
 
 msgid "Inbound:"
 msgstr "流入:"
-
-msgid "Independent (Ad-Hoc)"
-msgstr ""
-
-msgid "Index Page"
-msgstr ""
 
 msgid "Info"
 msgstr "信息"
@@ -1680,9 +1493,6 @@ msgstr "网络接口"
 msgid "Interface Configuration"
 msgstr "接口设置"
 
-msgid "Interface Details"
-msgstr ""
-
 msgid "Interface Overview"
 msgstr "接口总览"
 
@@ -1704,19 +1514,11 @@ msgstr "断开"
 msgid "Interfaces"
 msgstr "接口"
 
-msgid "Internal Address"
+msgid "Interrupts"
 msgstr ""
 
-msgid "Internal Port"
-msgstr ""
-
-msgid "Internet Connection"
-msgstr ""
-
-msgid ""
-"Internet access depends on technical and organisational conditions and may "
-"or may not work for you."
-msgstr ""
+msgid "Invalid"
+msgstr "输入错误"
 
 msgid "Invalid VLAN ID given! Only IDs between %d and %d are allowed."
 msgstr "VLAN号错误，只能介于%d和%d之间"
@@ -1732,16 +1534,8 @@ msgid ""
 "memory, please verify the image file!"
 msgstr "你试图刷写一个不适合的固件，请验证！"
 
-msgid ""
-"It is absolutely necessary that the network you are joining supports and "
-"allows bridging (WDS) otherwise your connection will fail."
-msgstr ""
-
-msgid "It is operated by"
-msgstr ""
-
-msgid "Join (Client)"
-msgstr "加入(客户端)"
+msgid "Java Script required!"
+msgstr "需要Java Script！"
 
 msgid "Join Network"
 msgstr "加入网络"
@@ -1752,20 +1546,8 @@ msgstr "加入网络:设置"
 msgid "Join Network: Wireless Scan"
 msgstr "加入网络:搜索无线"
 
-msgid "Join a local WDS network"
-msgstr "加入一个本地的WDS网络"
-
-msgid "Keep configuration"
-msgstr "保留配置"
-
-msgid "Keep configuration files"
-msgstr "保留配置文件"
-
 msgid "Keep settings"
 msgstr "保留配置"
-
-msgid "Keep-Alive"
-msgstr "保持活动"
 
 msgid "Kernel Log"
 msgstr "内核日志"
@@ -1800,15 +1582,6 @@ msgstr "语言"
 msgid "Language and Style"
 msgstr "语言和主题"
 
-msgid "Latitude"
-msgstr ""
-
-msgid "Lead Development"
-msgstr "项目领导者"
-
-msgid "Lease Time"
-msgstr "租借时间"
-
 msgid "Lease validity time"
 msgstr "租用有效时间"
 
@@ -1830,11 +1603,6 @@ msgstr ""
 msgid "Legend:"
 msgstr "图例:"
 
-msgid ""
-"Let pppd replace the current default route to use the PPP interface after "
-"successful connect"
-msgstr "pppd链接成功后设置为默认路由"
-
 msgid "Limit"
 msgstr "限制"
 
@@ -1844,8 +1612,8 @@ msgstr "链接"
 msgid "Link On"
 msgstr "活动链接"
 
-msgid "Link To"
-msgstr "链接到"
+msgid "Link to Device"
+msgstr ""
 
 msgid ""
 "List of <abbr title=\"Domain Name System\">DNS</abbr> servers to forward "
@@ -1871,20 +1639,11 @@ msgstr "平均负载"
 msgid "Loading"
 msgstr "实时负载"
 
-msgid "Local IP-Address"
-msgstr ""
-
 msgid "Local IPv4 address"
 msgstr "本地IPv4地址"
 
 msgid "Local IPv6 address"
 msgstr "本地IPv6地址"
-
-msgid "Local Network"
-msgstr "本地网络"
-
-msgid "Local Settings"
-msgstr ""
 
 msgid "Local Startup"
 msgstr "本地启动脚本"
@@ -1914,9 +1673,6 @@ msgstr "如果多个 IP 可用,将由所请求的子网决定"
 msgid "Localise queries"
 msgstr "Localise查询"
 
-msgid "Location"
-msgstr ""
-
 msgid "Locked to channel %d used by %s"
 msgstr ""
 
@@ -1935,12 +1691,6 @@ msgstr "登录"
 msgid "Logout"
 msgstr "退出"
 
-msgid "Longitude"
-msgstr ""
-
-msgid "Low"
-msgstr ""
-
 msgid "Lowest leased address as offset from the network address."
 msgstr "网络地址的起始分配基址"
 
@@ -1949,6 +1699,9 @@ msgstr "MAC"
 
 msgid "MAC Address"
 msgstr "MAC地址"
+
+msgid "MAC Device Info Overrides"
+msgstr ""
 
 msgid "MAC-Address"
 msgstr "MAC地址"
@@ -1962,38 +1715,17 @@ msgstr "MAC-过滤"
 msgid "MAC-List"
 msgstr "MAC-列表"
 
+msgid "MID"
+msgstr ""
+
+msgid "MMC/SD driver configuration"
+msgstr ""
+
 msgid "MTU"
 msgstr "MTU"
 
-msgid "Manage Port Forwarding"
-msgstr ""
-
-msgid "Manage Prioritization (QoS)"
-msgstr ""
-
-msgid "Manage Traffic Routing"
-msgstr ""
-
-msgid "Manual Forwarding Only"
-msgstr ""
-
-msgid "Manual Port Forwarding"
-msgstr ""
-
-msgid "Map"
-msgstr ""
-
-msgid "Map Error"
-msgstr ""
-
-msgid "Maximum Download Speed"
-msgstr ""
-
 msgid "Maximum Rate"
 msgstr "最大速度"
-
-msgid "Maximum Upload Speed"
-msgstr ""
 
 msgid "Maximum allowed number of active DHCP leases"
 msgstr "允许同时活跃的最大DHCP租约数"
@@ -2019,17 +1751,17 @@ msgstr "内存"
 msgid "Memory usage (%)"
 msgstr "内存使用(%)"
 
-msgid "Mesh (802.11s)"
-msgstr ""
+msgid "MentoHUST"
+msgstr "校园网认证"
 
-msgid "Mesh ID"
-msgstr ""
-
-msgid "Mesh prefix"
+msgid "Mesh Wizard"
 msgstr ""
 
 msgid "Metric"
 msgstr "跃点数"
+
+msgid "Milliseconds to sleep between requests (default 100)"
+msgstr ""
 
 msgid "Minimum Rate"
 msgstr "最少比率"
@@ -2042,6 +1774,9 @@ msgstr ""
 
 msgid "Mode"
 msgstr "模式"
+
+msgid "Model"
+msgstr ""
 
 msgid "Modem device"
 msgstr "Modem device"
@@ -2095,11 +1830,26 @@ msgstr "已挂载的SWAP文件系统"
 msgid "Mounted file systems"
 msgstr "已挂载的文件系统"
 
+msgid "Move down"
+msgstr "下移"
+
+msgid "Move up"
+msgstr "上移"
+
+msgid "Multi-WAN"
+msgstr ""
+
 msgid "Multicast Rate"
 msgstr "多播"
 
 msgid "Multicast address"
 msgstr "组播地址"
+
+msgid "N-WAN"
+msgstr ""
+
+msgid "N2N VPN"
+msgstr ""
 
 msgid "NAS ID"
 msgstr "NAS ID"
@@ -2116,15 +1866,29 @@ msgstr "新接口的名称"
 msgid "Name of the new network"
 msgstr "新网络的名称"
 
+msgid "Navigation"
+msgstr "导航"
+
+msgid "Neighbours"
+msgstr ""
+
+msgid "Netlink"
+msgstr ""
+
 msgid "Netmask"
 msgstr "子网掩码"
 
 msgid "Network"
 msgstr "网络"
 
-msgid ""
-"Network Name (<abbr title=\"Extended Service Set Identifier\">ESSID</abbr>)"
+msgid "Network Configuration"
 msgstr ""
+
+msgid "Network Device Scan"
+msgstr ""
+
+msgid "Network Shares"
+msgstr "网络共享"
 
 msgid "Network Utilities"
 msgstr "网络工具"
@@ -2132,22 +1896,25 @@ msgstr "网络工具"
 msgid "Network boot image"
 msgstr "网络启动映像"
 
-msgid "Network for client DHCP addresses"
+msgid "Network plugins"
 msgstr ""
 
 msgid "Networks"
 msgstr "网络"
 
-msgid "Nickname"
-msgstr ""
+msgid "Next »"
+msgstr "下一步 »"
 
 msgid "No DHCP Server configured for this interface"
+msgstr ""
+
+msgid "No SIP devices"
 msgstr ""
 
 msgid "No chains in this table"
 msgstr "本表中没有数据"
 
-msgid "No default routes known."
+msgid "No devices detected"
 msgstr ""
 
 msgid "No files found"
@@ -2167,6 +1934,9 @@ msgstr ""
 
 msgid "No package lists available"
 msgstr ""
+
+msgid "No password set!"
+msgstr "未设置密码"
 
 msgid "No rules in this chain"
 msgstr "无规则"
@@ -2189,11 +1959,6 @@ msgstr "正常"
 msgid "Not associated"
 msgstr "未关联"
 
-msgid ""
-"Note: Be careful that you do not accidently two DHCP servers in the same "
-"network with overlapping address ranges."
-msgstr ""
-
 msgid "Note: Configuration files will be erased."
 msgstr "注意：配置文件将被删除。"
 
@@ -2202,18 +1967,10 @@ msgid ""
 "will be moved into this network."
 msgstr "注意：当你选择一个已经存在与一个网络中的接口时，它将会被移除那个网络。"
 
-msgid ""
-"Note: You can use the access point wizard to configure your private access "
-"point to increase the range of the network you are connected to."
-msgstr ""
-
 msgid "Notice"
 msgstr "提示"
 
-msgid "Number of failed connection tests to initiate automatic reconnect"
-msgstr "启动自动重连的失败连接次数"
-
-msgid "Number of leased addresses"
+msgid "Number of times to send requests (default 1)"
 msgstr ""
 
 msgid "OK"
@@ -2222,15 +1979,17 @@ msgstr "确认"
 msgid "OLSR"
 msgstr ""
 
+msgid "OLSR-Viz"
+msgstr ""
+
 msgid "OPKG-Configuration"
 msgstr "OPKG-设置"
 
+msgid "OSCAM"
+msgstr "OSCAM"
+
 msgid "Off-State Delay"
 msgstr "替换网关"
-
-msgid ""
-"On the following pages you can adjust all important settings of your router."
-msgstr ""
 
 msgid ""
 "On this page you can configure the network interfaces. You can bridge "
@@ -2247,22 +2006,19 @@ msgstr ""
 msgid "On-State Delay"
 msgstr ""
 
+msgid "One or more fields contain invalid values!"
+msgstr ""
+
+msgid "One or more required fields have no value!"
+msgstr ""
+
 msgid "Open"
 msgstr "打开"
 
 msgid "Open list..."
 msgstr "打开列表.."
 
-msgid "OpenWrt Chinese Forum"
-msgstr ""
-
-msgid "OpenWrt Official Website"
-msgstr ""
-
-msgid "Operating Mode"
-msgstr ""
-
-msgid "Operator"
+msgid "OpenVPN"
 msgstr ""
 
 msgid "Option changed"
@@ -2277,6 +2033,9 @@ msgstr "选项"
 msgid "Other:"
 msgstr "其他r:"
 
+msgid "Others"
+msgstr "其它"
+
 msgid "Out"
 msgstr "Out"
 
@@ -2285,6 +2044,9 @@ msgstr "流出:"
 
 msgid "Outdoor Channels"
 msgstr "户外通道"
+
+msgid "Output plugins"
+msgstr ""
 
 msgid "Override MAC address"
 msgstr "覆盖MAC地址"
@@ -2309,6 +2071,9 @@ msgstr "总览"
 msgid "Owner"
 msgstr "所有者"
 
+msgid "P2P-Block"
+msgstr ""
+
 msgid "PAP/CHAP password"
 msgstr "PAP/CHAP密码"
 
@@ -2324,6 +2089,9 @@ msgstr ""
 msgid "PPP"
 msgstr ""
 
+msgid "PPPOE SERVER"
+msgstr ""
+
 msgid "PPPoA Encapsulation"
 msgstr "PPPoA Encapsulation"
 
@@ -2331,6 +2099,9 @@ msgid "PPPoATM"
 msgstr ""
 
 msgid "PPPoE"
+msgstr ""
+
+msgid "PPTP VPN"
 msgstr ""
 
 msgid "PPtP"
@@ -2357,14 +2128,14 @@ msgstr "密码设定"
 msgid "Password"
 msgstr "密码"
 
+msgid "Password Help"
+msgstr ""
+
 msgid "Password authentication"
 msgstr "密码验证"
 
 msgid "Password of Private Key"
 msgstr "私有密钥"
-
-msgid "Password successfully changed"
-msgstr ""
 
 msgid "Password successfully changed!"
 msgstr "密码修改成功！"
@@ -2387,7 +2158,10 @@ msgstr "系统重启"
 msgid "Perform reset"
 msgstr "重置系统"
 
-msgid "Phone"
+msgid "Phone Scan"
+msgstr ""
+
+msgid "Phones"
 msgstr ""
 
 msgid "Phy Rate:"
@@ -2396,23 +2170,29 @@ msgstr "实际速度"
 msgid "Physical Settings"
 msgstr "物理设置"
 
+msgid "Ping"
+msgstr ""
+
 msgid "Pkts."
 msgstr "包."
 
 msgid "Please enter your username and password."
 msgstr "请输入你的用户名和密码。默认用户名：root，密码：admin"
 
-msgid "Please fill in your contact details below."
-msgstr ""
-
-msgid "Please set your contact information"
-msgstr ""
-
 msgid "Please wait: Device rebooting..."
 msgstr "设备重启中，请稍等..."
 
+msgid "Plugins"
+msgstr ""
+
 msgid "Policy"
 msgstr "规则"
+
+msgid "Policy Routing"
+msgstr ""
+
+msgid "Polipo"
+msgstr ""
 
 msgid "Port"
 msgstr "端口"
@@ -2423,12 +2203,6 @@ msgstr "端口 %d"
 msgid "Port %d is untagged in multiple VLANs!"
 msgstr "端口 %d 同时存在与多个VLAN中!"
 
-msgid "Port Forwarding Restrictions"
-msgstr ""
-
-msgid "Ports"
-msgstr "端口"
-
 msgid "Power"
 msgstr "Power"
 
@@ -2437,41 +2211,20 @@ msgid ""
 "ignore failures"
 msgstr ""
 
-msgid "Prevent communication between clients"
-msgstr ""
-
-msgid "Prevents Client to Client communication"
-msgstr ""
-
 msgid "Prevents client-to-client communication"
 msgstr "禁止客户端间的通信"
 
-msgid "Prioritization"
-msgstr "优先级"
-
-msgid "Priority"
-msgstr "优先"
+msgid "Printer server"
+msgstr "打印服务器"
 
 msgid "Proceed"
 msgstr "开始更新"
-
-msgid "Proceed reverting all settings and resetting to firmware defaults?"
-msgstr "放弃所有设置并将路由还原至默认设置吗？"
 
 msgid "Processes"
 msgstr "系统进程"
 
 msgid "Processor"
 msgstr "处理器"
-
-msgid "Profile"
-msgstr "配置文件"
-
-msgid "Profile (Expert)"
-msgstr ""
-
-msgid "Project Homepage"
-msgstr "项目主页"
 
 msgid "Prot."
 msgstr "端口."
@@ -2488,14 +2241,34 @@ msgstr ""
 msgid "Protocol support is not installed"
 msgstr "需要的协议未安装"
 
-msgid "Provide (Access Point)"
-msgstr ""
-
 msgid "Provide new network"
 msgstr "增加新网络"
 
 msgid "Pseudo Ad-Hoc (ahdemo)"
 msgstr "虚拟 Ad-Hoc (ahdemo)"
+
+msgid "QOSv4"
+msgstr ""
+
+# Quick Guide
+msgid "Quick Guide"
+msgstr "快速向导"
+
+msgid "Quick guide"
+msgstr "快速向导"
+
+msgid "Quick guide Fast configuration route"
+msgstr ""
+"快速向导，使用本配置向导，您可以设置上网所需的基本网络参数。即使您对网络知识"
+"不太熟悉，也可以按照提示轻松的完成设置。您也可以直接到菜单项中选择您需要修改"
+"的设置项进行设置。要继续，请单击“下一步”。 要退出设置向导，请单击『退出向"
+"导』，必须正确选择路由的型号"
+
+msgid "RADIUS configuration"
+msgstr ""
+
+msgid "RRDTool"
+msgstr ""
 
 msgid "RTS/CTS Threshold"
 msgstr "RTS/CTS阈值"
@@ -2521,11 +2294,11 @@ msgstr ""
 msgid "Radius-Authentication-Server"
 msgstr ""
 
-msgid "Radius-Port"
-msgstr "Radius-端口"
+msgid "Radvd"
+msgstr ""
 
-msgid "Radius-Server"
-msgstr "Radius-服务器"
+msgid "Raw"
+msgstr ""
 
 msgid ""
 "Read <code>/etc/ethers</code> to configure the <abbr title=\"Dynamic Host "
@@ -2537,12 +2310,15 @@ msgstr ""
 msgid ""
 "Really delete this interface? The deletion cannot be undone!\n"
 "You might lose access to this router if you are connected via this interface."
-msgstr "确认删除该接口？此操作无法撤消，如果您通过此网络连接，你的连接将会被断开。"
+msgstr ""
+"确认删除该接口？此操作无法撤消，如果您通过此网络连接，你的连接将会被断开。"
 
 msgid ""
 "Really delete this wireless network? The deletion cannot be undone!\n"
 "You might lose access to this router if you are connected via this network."
-msgstr "确认删除该无线网络？此操作无法撤消，如果您通过此网络连接，你的连接将会被断开。"
+msgstr ""
+"确认删除该无线网络？此操作无法撤消，如果您通过此网络连接，你的连接将会被断"
+"开。"
 
 msgid "Really reset all changes?"
 msgstr "确认重置所有修改?"
@@ -2559,9 +2335,6 @@ msgstr "真的要关闭此接口？如果正由此接口管理路由，可能导
 
 msgid "Really switch protocol?"
 msgstr "真的切换协议？"
-
-msgid "Realname"
-msgstr ""
 
 msgid "Realtime Connections"
 msgstr "实时连接"
@@ -2623,11 +2396,17 @@ msgstr "远程IPv4地址"
 msgid "Remove"
 msgstr "移除"
 
+msgid "Repeat Count"
+msgstr ""
+
+msgid "Repeat Scans (this can take a few minutes)"
+msgstr ""
+
 msgid "Repeat scan"
 msgstr "重新扫描"
 
-msgid "Replace default route"
-msgstr "重置默认路由"
+msgid "Replace entry"
+msgstr "Replace entry"
 
 msgid "Replace wireless configuration"
 msgstr "删除网络配置"
@@ -2640,9 +2419,6 @@ msgstr "复位"
 
 msgid "Reset Counters"
 msgstr "复位计数器"
-
-msgid "Reset router to defaults"
-msgstr "还原路由为默认设置"
 
 msgid "Reset to defaults"
 msgstr "恢复系统到初始状态"
@@ -2661,6 +2437,9 @@ msgstr "重启防火墙"
 
 msgid "Restore backup"
 msgstr "还原备份"
+
+msgid "Reveal/hide password"
+msgstr "显示密码"
 
 msgid "Revert"
 msgstr "放弃"
@@ -2685,6 +2464,9 @@ msgid ""
 "can be reached."
 msgstr "路由表描述了数据包路径的选择。"
 
+msgid "Rss"
+msgstr ""
+
 msgid "Rule #"
 msgstr "规则#"
 
@@ -2694,17 +2476,29 @@ msgstr "在挂载设备前运行文件系统检查"
 msgid "Run filesystem check"
 msgstr "运行文件系统检查"
 
+msgid "SIP Device Scan"
+msgstr ""
+
+msgid "SIP Devices on Network"
+msgstr ""
+
+msgid "SIP devices discovered for"
+msgstr ""
+
 msgid "SSH Access"
 msgstr "SSH访问"
 
 msgid "SSH-Keys"
 msgstr "SSH-密钥"
-  
+
 msgid "SSID"
 msgstr "SSID"
 
 msgid "Sartuday"
 msgstr "星期六"
+
+msgid "Save"
+msgstr "保存"
 
 msgid "Save & Apply"
 msgstr "保存&应用"
@@ -2728,18 +2522,6 @@ msgid "See \"mount\" manpage for details"
 msgstr "查看 “mount” 手册获取详细信息"
 
 msgid ""
-"Select the wireless radio device that should be used to run the interface. "
-"Note that wireless radios will not show up here if you already use them for "
-"other wireless services and are not capable of being used by more than one "
-"service simultaneously or run this specific service at all."
-msgstr ""
-
-msgid ""
-"Select your location with a mouse click on the map. The map will only show "
-"up if you are connected to the Internet."
-msgstr ""
-
-msgid ""
 "Send LCP echo requests at the given interval in seconds, only effective in "
 "conjunction with failure threshold"
 msgstr ""
@@ -2756,9 +2538,6 @@ msgstr "隔离WDS"
 msgid "Server Settings"
 msgstr "服务设置"
 
-msgid "Service"
-msgstr "服务"
-
 msgid "Service Name"
 msgstr "服务名称"
 
@@ -2768,26 +2547,14 @@ msgstr "服务型号"
 msgid "Services"
 msgstr "服务"
 
-msgid "Settings"
-msgstr "设置"
-
 msgid "Setup DHCP Server"
 msgstr "配置DHCP服务"
 
 msgid "Shanxun"
 msgstr "闪讯拨号"
 
-msgid "Show OpenStreetMap"
-msgstr ""
-
 msgid "Show current backup file list"
 msgstr "显示当前需要备份的文件列表"
-
-msgid "Show ethernet adapters in use"
-msgstr ""
-
-msgid "Show on map"
-msgstr ""
 
 msgid "Shutdown this interface"
 msgstr "关闭这个接口"
@@ -2804,11 +2571,29 @@ msgstr "信号:"
 msgid "Size"
 msgstr "大小"
 
+msgid "Skip"
+msgstr "跳过"
+
+msgid "Skip to content"
+msgstr "Skip to content"
+
+msgid "Skip to navigation"
+msgstr "Skip to navigation"
+
+msgid "Sleep Between Requests"
+msgstr ""
+
 msgid "Slot time"
 msgstr "Slot time"
 
+msgid "SmartGW"
+msgstr ""
+
 msgid "Software"
 msgstr "软件包"
+
+msgid "Some fields are invalid, cannot save values!"
+msgstr "填写的某些数据不正确，无法保存!"
 
 msgid ""
 "Sorry, there is no sysupgrade support present, a new firmware image must be "
@@ -2816,10 +2601,8 @@ msgid ""
 "install instructions."
 msgstr ""
 
-msgid ""
-"Sorry. OpenWrt does not support a system upgrade on this platform.<br /> You "
-"need to manually flash your device."
-msgstr "抱歉.Openwrt不支持此平台的系统固件升级.<br /> 你需要手动刷新你的设备"
+msgid "Sort"
+msgstr "分类"
 
 msgid "Source"
 msgstr "源"
@@ -2856,23 +2639,17 @@ msgstr ""
 msgid "Specify the secret encryption key here."
 msgstr "这这里输入密钥."
 
+msgid "Splashtext"
+msgstr ""
+
 msgid "Start"
 msgstr "启动"
-
-msgid "Start Upgrade"
-msgstr "开始更新"
 
 msgid "Start priority"
 msgstr "启动优先级"
 
 msgid "Startup"
 msgstr "开机启动"
-
-msgid "Static Configuration"
-msgstr ""
-
-msgid "Static Ethernet"
-msgstr ""
 
 msgid "Static IPv4 Routes"
 msgstr "静态IPv4路由"
@@ -2888,6 +2665,9 @@ msgstr "静态路由"
 
 msgid "Static WDS"
 msgstr "静态WDS"
+
+msgid "Static address"
+msgstr ""
 
 msgid ""
 "Static leases are used to assign fixed IP addresses and symbolic hostnames "
@@ -2906,6 +2686,12 @@ msgstr "停止"
 
 msgid "Strict order"
 msgstr "严格序列"
+
+msgid "Submit"
+msgstr "提交"
+
+msgid "Subnet"
+msgstr ""
 
 msgid "Sunday"
 msgstr "星期日"
@@ -2934,7 +2720,7 @@ msgstr ""
 msgid "System"
 msgstr "系统"
 
-msgid "System Language"
+msgid "System Load"
 msgstr ""
 
 msgid "System Log"
@@ -2945,6 +2731,12 @@ msgstr "系统属性"
 
 msgid "System log buffer size"
 msgstr "系统日志大小"
+
+msgid "System plugins"
+msgstr ""
+
+msgid "TCP Connections"
+msgstr ""
 
 msgid "TCP:"
 msgstr "TCP:"
@@ -2958,9 +2750,6 @@ msgstr "TFTP服务根目录"
 msgid "TX"
 msgstr "发送"
 
-msgid "TX / RX"
-msgstr ""
-
 msgid "Table"
 msgstr "Table"
 
@@ -2969,12 +2758,6 @@ msgstr "目标"
 
 msgid "Terminate"
 msgstr "终止"
-
-msgid "Thanks To"
-msgstr "感谢"
-
-msgid "The <abbr title=\"Lua Configuration Interface\">LuCI</abbr> Team"
-msgstr ""
 
 msgid ""
 "The <em>Device Configuration</em> section covers physical settings of the "
@@ -2989,18 +2772,6 @@ msgid ""
 "component for working wireless configuration!"
 msgstr ""
 "<em>libiwinfo</em> 组件包没有被安装! 你必须安装 libiwinfo 来配置无线网络设置!"
-
-msgid ""
-"The OLSRd service is not configured to capture position data from the "
-"network.<br /> Please make sure that the nameservice plugin is properly "
-"configured and that the <em>latlon_file</em> option is enabled."
-msgstr ""
-
-msgid ""
-"The QoS application provides different useful default prioritization rules "
-"not listed here that cover many common use-cases. You however can add custom "
-"rules to finetune the prioritization process."
-msgstr ""
 
 msgid ""
 "The allowed characters are: <code>A-Z</code>, <code>a-z</code>, <code>0-9</"
@@ -3049,9 +2820,6 @@ msgid ""
 "replaced if you proceed."
 msgstr "硬件不支持多SSID,如果继续,现有的配置文件将被修改"
 
-msgid "The installed firmware is the most recent version."
-msgstr ""
-
 msgid ""
 "The network ports on your router can be combined to several <abbr title="
 "\"Virtual Local Area Network\">VLAN</abbr>s in which computers can "
@@ -3087,14 +2855,6 @@ msgid ""
 "you choose the generic image format for your platform."
 msgstr "上传的文件不被支持，请确认你选择了正确的文件！"
 
-msgid ""
-"The wireless network will be connected directly to your local network. Make "
-"sure you to assign any address to this device that is in the same subnet of "
-"the other devices in your network but that is not already occupied. If you "
-"have a DHCP-Server in this network you may also choose DHCP for address "
-"configuration."
-msgstr ""
-
 msgid "There are no active leases."
 msgstr "无活动的DHCP客户端"
 
@@ -3113,23 +2873,9 @@ msgid ""
 msgstr ""
 
 msgid ""
-"These are the basic settings for your local wireless community. These "
-"settings define the default values for the wizard and DO NOT affect the "
-"actual configuration of the router."
-msgstr ""
-
-msgid "These are the settings of your local community."
-msgstr ""
-
-msgid ""
-"These pages will assist you in setting up your router for Freifunk or "
-"similar wireless community networks."
-msgstr ""
-
-msgid ""
-"These settings affect the devices in your local network. Usually you do not "
-"need to change anything here for your router to work correctly."
-msgstr ""
+"There is no password set on this router. Please configure a root password to "
+"protect the web interface and enable SSH."
+msgstr "尚未设置密码，请为root用户设置一个密码以保护路由其和开启SSH"
 
 msgid ""
 "This is a list of shell glob patterns for matching files and directories to "
@@ -3138,14 +2884,6 @@ msgid ""
 msgstr ""
 
 msgid "This is the 32 byte hex encoded user ID, not the login name"
-msgstr ""
-
-msgid "This is the access point"
-msgstr ""
-
-msgid ""
-"This is the administration area of <abbr title=\"Lua Configuration Interface"
-"\">LuCI</abbr>."
 msgstr ""
 
 msgid ""
@@ -3185,34 +2923,36 @@ msgstr "此页面允许自定义按钮的动作"
 msgid "This page gives an overview over currently active network connections."
 msgstr "本页显示了活跃的网络连接总览。"
 
+msgid "This section contains no values yet"
+msgstr "该区域尚无任何设置"
+
 msgid "Thursday"
 msgstr "星期四"
 
-msgid "Time (in seconds) after which an unused connection will be closed"
-msgstr "断线前等待的空闲时间(S)"
+msgid "Time Synchronisation"
+msgstr "时间同步"
 
 msgid "Time Synchronization"
+msgstr ""
+
+msgid "Time to wait for responses in seconds (default 10)"
+msgstr ""
+
+msgid "Timeout"
 msgstr ""
 
 msgid "Timezone"
 msgstr "时区"
 
-msgid ""
-"To manually define a forwarding rule you have to specify at least the "
-"internal IP-address and port of the service that should be forwarded. If you "
-"ommit the external port it will be the same as the internal port. You also "
-"can forward a range of ports by using the syntax first-last Port (e.g. "
-"1024-1030) in the port field."
+msgid "Tinyproxy"
 msgstr ""
 
 msgid ""
 "To restore configuration files, you can upload a previously generated backup "
 "archive here."
-msgstr ""
-"从新导入配置文件, 从这里上传你的备份的压缩包配置文件 。"
+msgstr "从新导入配置文件, 从这里上传你的备份的压缩包配置文件 。"
 
-
-msgid "Toggle display of Routing Information"
+msgid "Topology"
 msgstr ""
 
 msgid "Total Available"
@@ -3226,9 +2966,6 @@ msgstr "流量"
 
 msgid "Transmission"
 msgstr "BT下载器"
-
-msgid "Transmission Power"
-msgstr "传输功率"
 
 msgid "Transmission Rate"
 msgstr "传输速率"
@@ -3254,6 +2991,9 @@ msgstr "星期二"
 msgid "Tunnel ID"
 msgstr "通道ID"
 
+msgid "Tunnel Interface"
+msgstr ""
+
 msgid "Turbo Mode"
 msgstr "增强模式"
 
@@ -3263,10 +3003,16 @@ msgstr "发送功率"
 msgid "Type"
 msgstr "类型"
 
+msgid "UAM and MAC Authentication"
+msgstr ""
+
 msgid "UDP:"
 msgstr "UDP:"
 
 msgid "UMTS/GPRS/EV-DO"
+msgstr ""
+
+msgid "UPNP"
 msgstr ""
 
 msgid "USB Device"
@@ -3275,22 +3021,22 @@ msgstr "USB设备"
 msgid "UUID"
 msgstr "UUID"
 
-msgid "Unique Devicename"
+msgid "UnixSock"
 msgstr ""
 
-msgid "Unknown Error"
-msgstr "未知的错误"
+msgid "Unknown"
+msgstr ""
 
 msgid "Unknown Error, password not changed!"
 msgstr ""
 
+msgid "Unmanaged"
+msgstr ""
+
+msgid "Unsaved Changes"
+msgstr "未保存的设置"
+
 msgid "Unsupported protocol type."
-msgstr ""
-
-msgid "Update Settings"
-msgstr ""
-
-msgid "Update available!"
 msgstr ""
 
 msgid "Update lists"
@@ -3301,17 +3047,14 @@ msgid ""
 "Check \"Keep settings\" to retain the current configuration (requires an "
 "OpenWrt compatible firmware image)."
 msgstr ""
-"上传一个系统文件，替换现在运行的系统. "
-"点击 \"保持配置\" 系统将会保留配置，前提是刷入的固件也是一个openwrt系统 "
-
-msgid "Upload an OpenWrt image file to reflash the device."
-msgstr "上传Openwrt固件以重新刷写这个设备。"
+"上传一个系统文件，替换现在运行的系统. 点击 \"保持配置\" 系统将会保留配置，前"
+"提是刷入的固件也是一个openwrt系统 "
 
 msgid "Upload archive..."
 msgstr "上传压缩包"
 
-msgid "Upload image"
-msgstr "上传"
+msgid "Uploaded File"
+msgstr "上传的文件"
 
 msgid "Uptime"
 msgstr "已上线"
@@ -3323,6 +3066,9 @@ msgid "Use DHCP gateway"
 msgstr "使用DHCP网关"
 
 msgid "Use DNS servers advertised by peer"
+msgstr ""
+
+msgid "Use Email"
 msgstr ""
 
 msgid "Use ISO/IEC 3166 alpha2 country codes."
@@ -3349,9 +3095,6 @@ msgstr "使用默认网关"
 msgid "Use gateway metric"
 msgstr ""
 
-msgid "Use peer DNS"
-msgstr "使用 peer DNS"
-
 msgid "Use preferred lifetime"
 msgstr ""
 
@@ -3374,11 +3117,17 @@ msgstr "已使用"
 msgid "Used Key Slot"
 msgstr ""
 
+msgid "User Management"
+msgstr ""
+
 msgid "Username"
 msgstr "用户名"
 
 msgid "VC-Mux"
 msgstr "VC-Mux"
+
+msgid "VLAN Interface"
+msgstr ""
 
 msgid "VLANs on %q"
 msgstr "%q 上的 VLANs"
@@ -3389,20 +3138,26 @@ msgstr ""
 msgid "VPN Server"
 msgstr "VPN 服务器"
 
+msgid "Vendor"
+msgstr ""
+
 msgid "Vendor Class to send when requesting DHCP"
 msgstr ""
 
 msgid "Verify"
 msgstr "校验"
 
-msgid "Verify downloaded images"
-msgstr "校验下载的镜像"
-
 msgid "Version"
 msgstr "版本"
 
 msgid "VnStat Traffic Monitor"
 msgstr "流量监控"
+
+msgid "VoIP"
+msgstr ""
+
+msgid "Voice"
+msgstr ""
 
 msgid "WDS"
 msgstr "WDS"
@@ -3415,9 +3170,6 @@ msgstr "WEP共享密钥"
 
 msgid "WEP passphrase"
 msgstr "WEP 密码"
-
-msgid "WLAN-Adapter (%s)"
-msgstr ""
 
 msgid "WMM Mode"
 msgstr "WMM多媒体模式"
@@ -3435,6 +3187,9 @@ msgstr ""
 msgid "Waiting for router..."
 msgstr "等待路由器..."
 
+msgid "Wake on LAN"
+msgstr "网络唤醒"
+
 msgid "Wan Down"
 msgstr ""
 
@@ -3447,13 +3202,8 @@ msgstr "警告"
 msgid "Warning: There are unsaved changes that will be lost while rebooting!"
 msgstr "警告: 有尚未保存的更改，路由重启后将丢失!"
 
-msgid ""
-"We are an initiative to establish a free, independent and open wireless mesh "
-"network."
-msgstr ""
-
-msgid "Web <abbr title=\"User Interface\">UI</abbr>"
-msgstr ""
+msgid "WebShell"
+msgstr "Shell终端"
 
 msgid "Wednesday"
 msgstr "星期三"
@@ -3473,20 +3223,17 @@ msgstr "扫描到的无线热点"
 msgid "Wireless"
 msgstr "无线"
 
-msgid "Wireless Device"
-msgstr "无线设备"
+msgid "Wireless Adapter"
+msgstr "无线适配器"
+
+msgid "Wireless Network"
+msgstr "无线网络"
 
 msgid "Wireless Overview"
 msgstr "无线网络总览"
 
-msgid "Wireless Radio Device"
-msgstr ""
-
 msgid "Wireless Security"
 msgstr "无线安全"
-
-msgid "Wireless Settings"
-msgstr "无线设置"
 
 msgid "Wireless is disabled or not associated"
 msgstr "未开启无线或未安装无线"
@@ -3506,9 +3253,7 @@ msgstr "重启无线"
 msgid "Wireless shut down"
 msgstr "关闭无线"
 
-msgid ""
-"With additional static routes you allow computers on your network to reach "
-"unannounced remote hosts or networks."
+msgid "Wondershaper"
 msgstr ""
 
 msgid "Write received DNS requests to syslog"
@@ -3516,12 +3261,6 @@ msgstr "将DNS请求写入系统日志"
 
 msgid "XR Support"
 msgstr "XR 支持"
-
-msgid ""
-"You can display additional content on the public index page by inserting "
-"valid XHTML in the form below.<br />Headlines should be enclosed between &lt;"
-"h2&gt; and &lt;/h2&gt;."
-msgstr ""
 
 msgid ""
 "You can enable or disable installed init scripts here. Changes will applied "
@@ -3533,32 +3272,8 @@ msgstr ""
 "strong>"
 
 msgid ""
-"You can find further information about the global Freifunk initiative at"
-msgstr ""
-
-msgid "You can manually edit the selected community profile here."
-msgstr ""
-
-msgid ""
-"You need to install \"ppp-mod-pppoe\" for PPPoE or \"pptp\" for PPtP support"
-msgstr ""
-
-msgid ""
-"You need to select a profile before you can edit it. To select a profile go "
-"to"
-msgstr ""
-
-msgid "Zone"
-msgstr "区域"
-
-msgid "active"
-msgstr ""
-
-msgid "all"
-msgstr "全部"
-
-msgid "and fill out all required fields."
-msgstr ""
+"You must enable Java Script in your browser or LuCI will not work properly."
+msgstr "你需要开启Java Script来让LuCI正常的工作。"
 
 msgid "any"
 msgstr "任意"
@@ -3566,25 +3281,19 @@ msgstr "任意"
 msgid "auto"
 msgstr "自动"
 
-msgid "automatic"
-msgstr "自动"
-
-msgid "automatically reconnect"
-msgstr "自动重连"
-
 msgid "blkid uuid infomation"
 msgstr "UUID等信息"
 
 msgid "bridged"
 msgstr "已桥接"
 
-msgid "buffered"
-msgstr "已缓冲"
-
-msgid "cached"
-msgstr "已缓存"
-
 msgid "camera"
+msgstr ""
+
+msgid "cbi_manual"
+msgstr "自定义"
+
+msgid "check other networks"
 msgstr ""
 
 msgid "command desc"
@@ -3602,17 +3311,23 @@ msgstr ""
 msgid "disable"
 msgstr "禁用"
 
-msgid "disconnect when idle for"
-msgstr ""
-
 msgid "diskapply"
 msgstr "磁盘应用"
 
-msgid "e.g."
+msgid "diskformat"
 msgstr ""
 
-msgid "enable"
-msgstr "启用"
+msgid "dnsserver"
+msgstr "dns服务器"
+
+msgid "email server"
+msgstr "E-Mail的SMTP服务器"
+
+msgid "email setting"
+msgstr ""
+"这里设定将路由作为一个，发送邮件的中转服务器，需要设定SMTP服务器地址密码等。"
+"设定后 sendmail命令，可以发送email，如果在某些功能下你设定了邮件通知，请在此"
+"页面先设定好邮件服务器等。"
 
 msgid "every-custom-minute"
 msgstr "自定义间隔时间"
@@ -3648,29 +3363,80 @@ msgstr ""
 "file where given <abbr title=\"Dynamic Host Configuration Protocol\">DHCP</"
 "abbr>-leases will be stored"
 
+msgid "filebrowser"
+msgstr ""
+
 msgid "free"
 msgstr "空闲"
 
-msgid "from LAN-bridge, unbridge on-demand"
+msgid "from_address"
+msgstr "发送邮件地址"
+
+msgid "gateway Gateway"
+msgstr "网关"
+
+msgid "guide_apply Apply"
+msgstr "应用向导"
+
+msgid "guide_config WAN Configuration"
+msgstr "配置WAN口"
+
+msgid "guide_dns_desc If you don t know, just to contact your ISP"
 msgstr ""
 
-msgid "from[-to]"
+msgid ""
+"guide_end_desc The guide is now OK. Please click button \"apply\" to apply "
+"or Click button \"quit\" to quit"
+msgstr "向导现在已经完成，如果需要应用请按下应用，否则按下退出"
+
+msgid "guide_gateway_desc If you don t know, just to contact your ISP"
 msgstr ""
+
+msgid "guide_lan_config LAN Configuration"
+msgstr "配置LAN口"
+
+msgid "guide_mac_desc Just leave blank and use the default mac generally"
+msgstr "留空，使用默认MAC,请使用格式如：00:33:44:55:66:77"
+
+msgid ""
+"guide_ok_desc Everything is OK, Just enjoy it. System is now jumping to main "
+"page....."
+msgstr "向导设置已经完成，系统将进入主页面，"
+
+msgid "guide_quit Quit"
+msgstr "退出向导"
 
 msgid "halt"
 msgstr "关机"
 
+msgid "hd-idle"
+msgstr "磁盘休眠"
+
+msgid "help"
+msgstr "帮助"
+
 msgid "if target is a network"
 msgstr "如果目标是一个网络"
 
-msgid "inactive"
-msgstr ""
+msgid "ipaddress Address"
+msgstr "IP地址"
 
 msgid "local <abbr title=\"Domain Name System\">DNS</abbr> file"
 msgstr "local <abbr title=\"Domain Name System\">DNS</abbr> file"
 
-msgid "manual"
-msgstr "手动"
+msgid "macaddress MAC"
+msgstr "MAC地址"
+
+msgid "mail_address"
+msgstr "E-mail地址"
+
+msgid "mail_address_desc"
+msgstr ""
+"设置你要接收邮件的E-mail邮箱地址，有些功能开启邮件通知后将发送到指定的地址"
+
+# title 
+msgid "menu_set_macvlan"
+msgstr "创建WAN"
 
 msgid "minute"
 msgstr "分钟"
@@ -3678,8 +3444,8 @@ msgstr "分钟"
 msgid "mldonkey"
 msgstr ""
 
-msgid "never"
-msgstr "从不"
+msgid "netmask Netmask"
+msgstr "子网掩码"
 
 msgid "nfsd"
 msgstr "NFSD"
@@ -3693,29 +3459,59 @@ msgstr "无"
 msgid "off"
 msgstr "关闭"
 
-msgid "optional"
-msgstr "可选"
+msgid "on"
+msgstr "打开"
+
+msgid "password Password"
+msgstr "密码"
+
+msgid "portmap"
+msgstr "端口映射"
 
 msgid "printer"
 msgstr "打印机"
 
+msgid "protocol Protocol"
+msgstr "接入协议，方法"
+
 msgid "qosv4 scheduler"
+msgstr ""
+
+msgid "raid"
 msgstr ""
 
 msgid "reboot"
 msgstr "重启"
 
-msgid "rickyo0"
-msgstr ""
+msgid "receive address"
+msgstr "接收邮件地址"
+
+msgid "route model"
+msgstr "路由型号"
 
 msgid "routed"
 msgstr "已路由"
 
+msgid "sattv"
+msgstr "卫星电视"
+
+msgid "server"
+msgstr "服务"
+
 msgid "smartctl infomation"
 msgstr "smartctl信息"
 
-msgid "sutuo"
-msgstr ""
+msgid "smtp_address"
+msgstr "设置SMTP服务器地址"
+
+msgid "smtp_password"
+msgstr "SMTP服务器密码"
+
+msgid "smtp_user"
+msgstr "SMTP服务器用户名"
+
+msgid "static"
+msgstr "静态"
 
 msgid "tagged"
 msgstr "已标记"
@@ -3735,442 +3531,14 @@ msgstr "任务名称，描述你所执行的任务"
 msgid "time"
 msgstr "时间"
 
-msgid "to disable it."
-msgstr ""
-
 msgid "total"
 msgstr "总计"
 
-msgid "transmission que"
-msgstr ""
-
-msgid "transmitted / received"
-msgstr ""
-
-msgid "trextra"
-msgstr "Tr增强"
+msgid "uShare"
+msgstr "UPnP/AV媒体"
 
 msgid "unlimited"
 msgstr "无限制"
-
-msgid "untagged"
-msgstr "未标记"
-
-msgid "used"
-msgstr "已使用"
-
-msgid "vsftpd"
-msgstr "FTP服务器"
-
-msgid "wireless settings"
-msgstr "无线设置"
-
-msgid "yes"
-msgstr "是"
-
-msgid "(empty)"
-msgstr "(空)"
-
-msgid "(no interfaces attached)"
-msgstr "(没有已连接的接口)"
-
-msgid "-- Additional Field --"
-msgstr "-- 更多选项 --"
-
-msgid "-- custom --"
-msgstr "-- 自定义 --"
-
-msgid " 40MHz 2nd channel below"
-msgstr "40MHz低频组合"
-
-msgid "<abbr title=\"Secure Shell\">SSH</abbr>-Keys"
-msgstr "<abbr title=\"Secure Shell\">SSH</abbr>-密钥"
-
-msgid ""
-"A lightweight HTTP/1.1 webserver written in C and Lua designed to serve "
-"LuCI"
-msgstr "一个用C语言版写的为LuCI提供服务的HTTP/1.1服务器"
-
-msgid ""
-"A small webserver which can be used to serve <abbr title=\"Lua "
-"Configuration Interface\">LuCI</abbr>."
-msgstr ""
-"A small webserver which can be used to serve <abbr title=\"Lua "
-"Configuration Interface\">LuCI</abbr>."
-
-msgid "AHCP Settings"
-msgstr "AHCP设置"
-
-msgid "ATM Settings"
-msgstr "ATM设置"
-
-msgid "Accept Router Advertisements"
-msgstr "允许路由广告"
-
-msgid "Access point (APN)"
-msgstr "接入点 (APN)"
-
-msgid "Active IP Connections"
-msgstr "活动 IP 连接"
-
-msgid "Additional pppd options"
-msgstr "额外的 pppd 设置"
-
-msgid "Addresses"
-msgstr "地址"
-
-msgid "Allowed range is 1 to FFFF"
-msgstr "范围从 1 to FFFF"
-
-msgid "Applying changes"
-msgstr "应用更改"
-
-msgid "Authentication Realm"
-msgstr "认证区域"
-
-msgid "Auto Refresh"
-msgstr "自动刷新"
-
-msgid "Back to Overview"
-msgstr "返回到总览"
-
-msgid "Bridge"
-msgstr "桥"
-
-msgid "CPU Clock"
-msgstr "CPU主频"
-
-msgid "Configuration applied."
-msgstr "设置修改完成"
-
-msgid "Configuration file"
-msgstr "配置文件"
-
-msgid "Connect script"
-msgstr "连接脚本"
-
-msgid "Connection timeout"
-msgstr "连接超时"
-
-msgid "Custom Files"
-msgstr "自定义文件"
-
-msgid "Custom Interface"
-msgstr "自定义接口"
-
-msgid "Custom files"
-msgstr "自定义文件"
-
-msgid "Default"
-msgstr "默认"
-
-msgid "Detected Files"
-msgstr "探查到的文件"
-
-msgid "Detected files"
-msgstr "探查到的文件"
-
-msgid "Directory"
-msgstr "目录"
-
-msgid "Disconnect script"
-msgstr "断开脚本"
-
-msgid "Document root"
-msgstr "文档根目录"
-
-msgid "Edit package lists and installation targets"
-msgstr "编辑软件包的来源和安装地址"
-
-msgid "Enable 4K VLANs"
-msgstr "允许 4K VLANs"
-
-msgid "Enable Keep-Alive"
-msgstr "开启 Keep-Alive"
-
-msgid "Enable device"
-msgstr "开启设备"
-
-msgid "Enable this switch"
-msgstr "开启这个交换机"
-
-msgid "Ethernet Adapter"
-msgstr "以太接口卡"
-
-msgid "Ethernet Switch"
-msgstr "以太网交换机"
-
-msgid "File"
-msgstr "文件"
-
-msgid "Files to be kept when flashing a new firmware"
-msgstr "在更新固件时保存的文件"
-
-msgid "Finish"
-msgstr "完成"
-
-msgid "Forward DHCP"
-msgstr "HDCP 转发"
-
-msgid "Forward broadcasts"
-msgstr "广播转发"
-
-msgid "Go to relevant configuration page"
-msgstr "转到有关的配置页"
-
-msgid "Installation targets"
-msgstr "安装位置"
-
-msgid "Invalid"
-msgstr "输入错误"
-
-msgid "Java Script required!"
-msgstr "需要Java Script！"
-
-msgid "KB"
-msgstr "KB"
-
-msgid "Kernel"
-msgstr "内核"
-
-msgid "Let pppd run this script after establishing the PPP link"
-msgstr "在PPP连接建立后运行这个脚本"
-
-msgid "Let pppd run this script before tearing down the PPP link"
-msgstr "PPP连接断开前执行这个脚本"
-
-msgid "MAC-List Tab"
-msgstr "MAC 表"
-
-msgid ""
-"Make sure that you provide the correct pin code here or you might lock "
-"your sim card!"
-msgstr "如果提供的PIN码错误,你的SIM将可能被锁定"
-
-msgid ""
-"Most of them are network servers, that offer a certain service for your "
-"device or network like shell access, serving webpages like <abbr title="
-"\"Lua Configuration Interface\">LuCI</abbr>, doing mesh routing, sending "
-"e-mails, ..."
-msgstr ""
-"他们中的大多数都是为你提供服务的，比如说SSH，提供网页服务比如<abbr title="
-"\"Lua Configuration Interface\">LuCI</abbr>,路由转换，发送E-mail等"
-
-msgid "Move down"
-msgstr "下移"
-
-msgid "Move up"
-msgstr "上移"
-
-msgid "Navigation"
-msgstr "导航"
-
-msgid "Next »"
-msgstr "下一步 »"
-
-msgid "No address configured on this interface."
-msgstr "没有为这个接口设置地址"
-
-msgid "No password set!"
-msgstr "未设置密码"
-
-msgid "Not configured"
-msgstr "未设置"
-
-msgid "Override Gateway"
-msgstr "代理网关"
-
-msgid "PIN code"
-msgstr "PIN code"
-
-msgid "PPP Settings"
-msgstr "PPP设置"
-
-msgid "Package lists"
-msgstr "软件同步源"
-
-msgid "Package lists updated"
-msgstr "已更新软件包列表"
-
-msgid "Plugin path"
-msgstr "插件路径"
-
-msgid ""
-"Port <abbr title=\"Primary VLAN IDs\">PVIDs</abbr> specify the default "
-"VLAN ID added to received untagged frames."
-msgstr ""
-"指定 <abbr title=\"Primary VLAN IDs\">PVIDs</abbr> 作为默认 VLAN ID 来接收"
-"未标记的数据包"
-
-msgid "Port PVIDs on %q"
-msgstr "%q 上的 PVIDs 端口设置"
-
-msgid ""
-"Really delete this interface? The deletion cannot be undone!\n"
-"You might loose access to this router if you are connected via this "
-"interface."
-msgstr ""
-"真的要删除这个接口？如果你使用此接口管理路由，你可能无法再管理你的路由器！"
-
-msgid ""
-"Really delete this wireless network? The deletion cannot be undone!\n"
-"You might loose access to this router if you are connected via this "
-"network."
-msgstr ""
-"真的要删除这个网络？如果你使用此网络管理路由，你可能无法再管理你的路由器！"
-
-msgid "Realtime Graphs"
-msgstr "实时状态"
-
-msgid "Relay Settings"
-msgstr "延时设置"
-
-msgid "Replace entry"
-msgstr "Replace entry"
-
-msgid "Reset switch during setup"
-msgstr "设置完成重启交换机"
-
-msgid "Reveal/hide password"
-msgstr "显示密码"
-
-msgid "Router Name"
-msgstr "路由器名称"
-
-msgid "Routing table ID"
-msgstr "路由 ID"
-
-msgid "Save"
-msgstr "保存"
-
-msgid ""
-"Seconds to wait for the modem to become ready before attempting to connect"
-msgstr "重连前等待Modem准备好的时间"
-
-msgid "Send Router Solicitiations"
-msgstr "Send Router Solicitiations"
-
-msgid "Service type"
-msgstr "服务类型"
-
-msgid "Services and daemons perform certain tasks on your device."
-msgstr "路由器上正在运行的任务和服务。"
-
-msgid "Setup wait time"
-msgstr "设置等待时间"
-
-msgid "Skip"
-msgstr "跳过"
-
-msgid "Skip to content"
-msgstr "Skip to content"
-
-msgid "Skip to navigation"
-msgstr "Skip to navigation"
-
-msgid "Some fields are invalid, cannot save values!"
-msgstr "填写的某些数据不正确，无法保存!"
-
-msgid "Sort"
-msgstr "分类"
-
-msgid "Specify additional command line arguments for pppd here"
-msgstr "Specify additional command line arguments for pppd here"
-
-msgid "Submit"
-msgstr "提交"
-
-msgid "TTL"
-msgstr "TTL"
-
-msgid "The device node of your modem, e.g. /dev/ttyUSB0"
-msgstr "The device node of your modem, e.g. /dev/ttyUSB0"
-
-msgid ""
-"The following files are detected by the system and will be kept "
-"automatically during sysupgrade"
-msgstr "下面这些文件被探测到，升级固件时他们可以被自动保留。"
-
-msgid ""
-"The realm which will be displayed at the authentication prompt for "
-"protected pages."
-msgstr ""
-"The realm which will be displayed at the authentication prompt for "
-"protected pages."
-
-msgid ""
-"There is no password set on this router. Please configure a root password "
-"to protect the web interface and enable SSH."
-msgstr "尚未设置密码，请为root用户设置一个密码以保护路由其和开启SSH"
-
-msgid ""
-"This is a list of shell glob patterns for matching files and directories "
-"to include during sysupgrade"
-msgstr "下面这个列表可以定义升级固件时需要额外保存的文件"
-
-msgid "This section contains no values yet"
-msgstr "该区域尚无任何设置"
-
-msgid "Time Server (rdate)"
-msgstr "时间服务器(rdate)"
-
-msgid "Tunnel Settings"
-msgstr "通道设置"
-
-msgid "Unsaved Changes"
-msgstr "未保存的设置"
-
-msgid "Update package lists"
-msgstr "更新软件列表"
-
-msgid "Upgrade installed packages"
-msgstr "升级已安装的软件"
-
-msgid "Uploaded File"
-msgstr "上传的文件"
-
-msgid "VLAN %d"
-msgstr "VLAN %d"
-
-msgid "Wireless Adapter"
-msgstr "无线适配器"
-
-msgid "Wireless Network"
-msgstr "无线网络"
-
-msgid ""
-"You can specify multiple DNS servers here, press enter to add a new "
-"entry. Servers entered here will override automatically assigned ones."
-msgstr ""
-"你可以指定多个DNS 服务器,按回车来增加新DNS服务器,增加的DNS服务器会自动覆盖"
-"之前的DNS服务器"
-
-msgid ""
-"You must enable Java Script in your browser or LuCI will not work "
-"properly."
-msgstr "你需要开启Java Script来让LuCI正常的工作。"
-
-msgid ""
-"You need to install \"comgt\" for UMTS/GPRS, \"ppp-mod-pppoe\" for PPPoE, "
-"\"ppp-mod-pppoa\" for PPPoA or \"pptp\" for PPtP support"
-msgstr ""
-"你需要安装\"comgt\" 以支持 UMTS/GPRS, \"ppp-mod-pppoe\" 以支持 PPPoE, "
-"\"ppp-mod-pppoa\" 以支持 PPPoA \"pptp\" 以支持 PPtP。"
-
-msgid "back"
-msgstr "返回"
-
-msgid "defaults to <code>/etc/httpd.conf</code>"
-msgstr "defaults to <code>/etc/httpd.conf</code>"
-
-msgid "help"
-msgstr "帮助"
-
-msgid "on"
-msgstr "打开"
-
-msgid "static"
-msgstr "静态"
 
 msgid "unspecified"
 msgstr "未指定"
@@ -4178,224 +3546,623 @@ msgstr "未指定"
 msgid "unspecified -or- create:"
 msgstr "不指定-或-新建:"
 
-msgid "« Back"
-msgstr "返回"
+msgid "untagged"
+msgstr "未标记"
 
-msgid "usbapply"
-msgstr "USB应用"
+msgid "used"
+msgstr "已使用"
 
-msgid "USBapply"
-msgstr "USB应用"
-
-msgid "mentohust"
-msgstr "锐捷认证"
-
-msgid "Free_Memory"
-msgstr "释放内存"
-
-msgid "Memory Free"
-msgstr "剩余内存"
-
-msgid "Free memory space must be greater than the firmware size"
+msgid "user manger"
 msgstr ""
-"剩余内存空间，必须大于固件文件尺寸，剩余内存空间不足，可以尝试点击（释放内"
-"存）"
 
-msgid ""
-"Here you can paste public <abbr title=\"Secure Shell\">SSH</abbr>-Keys "
-"(one per line) for <abbr title=\"Secure Shell\">SSH</abbr> public-key "
-"authentication."
+msgid "user path"
 msgstr ""
-"这里可以粘贴公用<abbr title=\"Secure Shell\">SSH</abbr>密钥以用于<abbr "
-"title=\"Secure Shell\">SSH</abbr>公共密钥认证(每行一个密钥)。"
 
-msgid "Menu"
-msgstr "开始"
-
-# Quick Guide
-msgid "Quick Guide"
-msgstr "快速向导"
-
-msgid "Quick guide"
-msgstr "快速向导"
-
-msgid "Guide Prev Step"
-msgstr "上一步"
-
-msgid "Guide Next Step"
-msgstr "下一步"
-
-msgid "Quick guide Fast configuration route"
+msgid "user path help"
 msgstr ""
-"快速向导，使用本配置向导，您可以设置上网所需的基本网络参数。即使您对网络知"
-"识不太熟悉，也可以按照提示轻松的完成设置。您也可以直接到菜单项中选择您需要"
-"修改的设置项进行设置。要继续，请单击“下一步”。 要退出设置向导，请单击『退"
-"出向导』，必须正确选择路由的型号"
 
-msgid "cbi_manual"
-msgstr "自定义"
-
-msgid "dnsserver"
-msgstr "dns服务器"
-
-msgid "gateway Gateway"
-msgstr "网关"
-
-msgid "guide_apply Apply"
-msgstr "应用向导"
-
-msgid "guide_config WAN Configuration"
-msgstr "配置WAN口"
-
-msgid "guide_dns_desc If you don't know, just to contact your ISP"
-msgstr " 如果不清楚，请咨询当地运营商，如电信、联通等"
-
-msgid ""
-"guide_end_desc The guide is now OK. Please click button \"apply\" to "
-"apply or Click button \"quit\" to quit"
-msgstr "向导现在已经完成，如果需要应用请按下应用，否则按下退出"
-
-msgid "guide_gateway_desc If you don't know, just to contact your ISP"
-msgstr " 如果不清楚，请咨询当地运营商，如电信、联通等"
-
-msgid "guide_lan_config LAN Configuration"
-msgstr "配置LAN口"
-
-msgid "guide_mac_desc Just leave blank and use the default mac generally"
-msgstr "留空，使用默认MAC,请使用格式如：00:33:44:55:66:77"
-
-msgid ""
-"guide_ok_desc Everything is OK, Just enjoy it. System is now jumping to "
-"main page....."
-msgstr "向导设置已经完成，系统将进入主页面，"
-
-msgid "guide_quit Quit"
-msgstr "退出向导"
-
-msgid "Guide Quit"
-msgstr "退出向导"
-
-msgid "ipaddress Address"
-msgstr "IP地址"
-
-msgid "macaddress MAC"
-msgstr "MAC地址"
-
-msgid "netmask Netmask"
-msgstr "子网掩码"
-
-msgid "password Password"
-msgstr "密码"
-
-msgid "protocol Protocol"
-msgstr "接入协议，方法"
-
-msgid "route model"
-msgstr "路由型号"
-
-msgid "server"
-msgstr "服务"
-
-msgid "static Static"
-msgstr "静态"
+msgid "username"
+msgstr ""
 
 msgid "username Username"
 msgstr "用户名"
 
-msgid "noscan"
-msgstr "禁止扫描"
+msgid "username help"
+msgstr ""
 
-msgid "noscan desc"
-msgstr "如果你需要实现11N，300M的功能，可能需要开启此项"
+msgid "vsftpd"
+msgstr "FTP服务器"
 
-msgid "email setting"
-msgstr "这里设定将路由作为一个，发送邮件的中转服务器，需要设定SMTP服务器地址密码等。设定后 sendmail命令，可以发送email，如果在某些功能下你设定了邮件通知，请在此页面先设定好邮件服务器等。"
+msgid "webcam"
+msgstr ""
 
-msgid "email server"
-msgstr "E-Mail的SMTP服务器"
+msgid "xunlei"
+msgstr ""
 
-msgid "smtp_address"
-msgstr "设置SMTP服务器地址"
+msgid "yes"
+msgstr "是"
 
-msgid "smtp_password"
-msgstr "SMTP服务器密码"
+msgid "« Back"
+msgstr "返回"
 
-msgid "smtp_user"
-msgstr "SMTP服务器用户名"
+#~ msgid "(optional)"
+#~ msgstr "(可选)"
 
-msgid "receive address"
-msgstr "接收邮件地址"
+#~ msgid ""
+#~ "<abbr title=\"Lua Configuration Interface\">LuCI</abbr> is a collection "
+#~ "of free Lua software including an <abbr title=\"Model-View-Controller"
+#~ "\">MVC</abbr>-Webframework and webinterface for embedded devices. <abbr "
+#~ "title=\"Lua Configuration Interface\">LuCI</abbr> is licensed under the "
+#~ "Apache-License."
+#~ msgstr ""
+#~ "<abbr title=\"Lua Configuration Interface\">LuCI</abbr> 是一款免费的Lua软"
+#~ "件， 让你可以在图形化的界面管理你的嵌入式设备。<abbr title="
+#~ "\"LuaConfiguration Interface\">LuCI</abbr> 遵循 Apache-License。"
 
-msgid "from_address"
-msgstr "发送邮件地址"
+#~ msgid "<abbr title=\"Point-to-Point Tunneling Protocol\">PPTP</abbr>-Server"
+#~ msgstr ""
+#~ "<abbr title=\"Point-to-Point Tunneling Protocol\">PPTP</abbr>-服务器"
 
-msgid "mail_address"
-msgstr "E-mail地址"
+#~ msgid "About"
+#~ msgstr "关于"
 
-msgid "mail_address_desc"
-msgstr "设置你要接收邮件的E-mail邮箱地址，有些功能开启邮件通知后将发送到指定的地址"
+#~ msgid "Admin Password"
+#~ msgstr "管理密码"
 
+#~ msgid "Automatic Disconnect"
+#~ msgstr "自动断开"
 
-# title 
-msgid "menu_set_macvlan"
-msgstr "创建WAN"
+#~ msgid "Backup Archive"
+#~ msgstr "已备份的档案"
 
-msgid "Time Synchronisation"
-msgstr "时间同步"
+#~ msgid "Basic settings"
+#~ msgstr "基础设置"
 
-msgid "Wake on LAN"
-msgstr "网络唤醒"
+#~ msgid "Bytes sent"
+#~ msgstr "已发送字节"
 
-msgid "Printer server"
-msgstr "打印服务器"
+#~ msgid ""
+#~ "Change the password of the system administrator (User <code>root</code>)"
+#~ msgstr "修改管理员(<code>root</code>)的密码"
 
-msgid "Network Shares"
-msgstr "网络共享"
+#~ msgid "Client network size"
+#~ msgstr "客户端网络大小"
 
-msgid "Others"
-msgstr "其它"
+#~ msgid "Compiled By"
+#~ msgstr "编译者"
 
-msgid "OSCAM"
-msgstr "OSCAM"
+#~ msgid ""
+#~ "Configure the local DNS server to use the name servers adverticed by the "
+#~ "PPP peer"
+#~ msgstr "本地DNS使用PPP对端提供的DNS服务器"
 
-msgid "EPG"
-msgstr "EPG电子节目表"
+#~ msgid "Contributing Developers"
+#~ msgstr "Contributing Developers"
 
-msgid "sattv"
-msgstr "卫星电视"
+#~ msgid "Country code"
+#~ msgstr "国家代码"
 
-msgid "hd-idle"
-msgstr "磁盘休眠"
+#~ msgid "Create backup"
+#~ msgstr "创建备份"
 
-msgid "uShare"
-msgstr "UPnP/AV媒体"
+#~ msgid "Default routes"
+#~ msgstr "默认路由"
 
-msgid "MentoHUST"
-msgstr "校园网认证"
+#~ msgid "Devices"
+#~ msgstr "设备"
 
-msgid "portmap"
-msgstr "端口映射"
+#~ msgid "Disable Bridge"
+#~ msgstr "设备禁用桥接"
 
-msgid "Go to password configuration..."
-msgstr "进入密码配置"
+#~ msgid "Enable IPv6 on PPP link"
+#~ msgstr "在PPP链路上启用IPv6"
 
-msgid "GHCA Dialer"
-msgstr "GHCA拨号"
+#~ msgid "Enable Powersaving"
+#~ msgstr "启用省电模式"
 
-msgid "Interval minute"
-msgstr "间隔时间"
+#~ msgid "Errors"
+#~ msgstr "错误"
 
-msgid "task"
-msgstr "任务"
+#~ msgid "External Port"
+#~ msgstr "外部端口"
 
-msgid "intelvel update"
-msgstr "定时更新，点击详细设定定时更新任务"
+#~ msgid "Firmware image"
+#~ msgstr "固件文件"
 
-msgid "intelvel queue"
-msgstr "定时更新队列下载和定时检测并且发送邮件，点击详细设定定时更新任务"
+#~ msgid "Go to"
+#~ msgstr "转到"
 
-msgid "qos scheduler update"
-msgstr "qosv4 定时检测更新设定，点击详细设定定时更新任务"
+#~ msgid "Hardware Address"
+#~ msgstr "硬件地址"
 
-msgid "WebShell"
-msgstr "Shell终端"
+#~ msgid ""
+#~ "Here you can backup and restore your router configuration and - if "
+#~ "possible - reset the router to the default settings."
+#~ msgstr "这里可以还原和恢复设置，当然你也可以恢复默认设置。"
+
+#~ msgid "Join (Client)"
+#~ msgstr "加入(客户端)"
+
+#~ msgid "Join a local WDS network"
+#~ msgstr "加入一个本地的WDS网络"
+
+#~ msgid "Keep configuration"
+#~ msgstr "保留配置"
+
+#~ msgid "Keep configuration files"
+#~ msgstr "保留配置文件"
+
+#~ msgid "Keep-Alive"
+#~ msgstr "保持活动"
+
+#~ msgid "Lead Development"
+#~ msgstr "项目领导者"
+
+#~ msgid "Lease Time"
+#~ msgstr "租借时间"
+
+#~ msgid ""
+#~ "Let pppd replace the current default route to use the PPP interface after "
+#~ "successful connect"
+#~ msgstr "pppd链接成功后设置为默认路由"
+
+#~ msgid "Link To"
+#~ msgstr "链接到"
+
+#~ msgid "Local Network"
+#~ msgstr "本地网络"
+
+#~ msgid "Number of failed connection tests to initiate automatic reconnect"
+#~ msgstr "启动自动重连的失败连接次数"
+
+#~ msgid "Ports"
+#~ msgstr "端口"
+
+#~ msgid "Prioritization"
+#~ msgstr "优先级"
+
+#~ msgid "Priority"
+#~ msgstr "优先"
+
+#~ msgid "Proceed reverting all settings and resetting to firmware defaults?"
+#~ msgstr "放弃所有设置并将路由还原至默认设置吗？"
+
+#~ msgid "Profile"
+#~ msgstr "配置文件"
+
+#~ msgid "Project Homepage"
+#~ msgstr "项目主页"
+
+#~ msgid "Radius-Port"
+#~ msgstr "Radius-端口"
+
+#~ msgid "Radius-Server"
+#~ msgstr "Radius-服务器"
+
+#~ msgid "Replace default route"
+#~ msgstr "重置默认路由"
+
+#~ msgid "Reset router to defaults"
+#~ msgstr "还原路由为默认设置"
+
+#~ msgid "Service"
+#~ msgstr "服务"
+
+#~ msgid "Settings"
+#~ msgstr "设置"
+
+#~ msgid ""
+#~ "Sorry. OpenWrt does not support a system upgrade on this platform.<br /> "
+#~ "You need to manually flash your device."
+#~ msgstr ""
+#~ "抱歉.Openwrt不支持此平台的系统固件升级.<br /> 你需要手动刷新你的设备"
+
+#~ msgid "Start Upgrade"
+#~ msgstr "开始更新"
+
+#~ msgid "Thanks To"
+#~ msgstr "感谢"
+
+#~ msgid "Time (in seconds) after which an unused connection will be closed"
+#~ msgstr "断线前等待的空闲时间(S)"
+
+#~ msgid "Transmission Power"
+#~ msgstr "传输功率"
+
+#~ msgid "Unknown Error"
+#~ msgstr "未知的错误"
+
+#~ msgid "Upload an OpenWrt image file to reflash the device."
+#~ msgstr "上传Openwrt固件以重新刷写这个设备。"
+
+#~ msgid "Upload image"
+#~ msgstr "上传"
+
+#~ msgid "Use peer DNS"
+#~ msgstr "使用 peer DNS"
+
+#~ msgid "Verify downloaded images"
+#~ msgstr "校验下载的镜像"
+
+#~ msgid "Wireless Device"
+#~ msgstr "无线设备"
+
+#~ msgid "Wireless Settings"
+#~ msgstr "无线设置"
+
+#~ msgid "Zone"
+#~ msgstr "区域"
+
+#~ msgid "all"
+#~ msgstr "全部"
+
+#~ msgid "automatic"
+#~ msgstr "自动"
+
+#~ msgid "automatically reconnect"
+#~ msgstr "自动重连"
+
+#~ msgid "buffered"
+#~ msgstr "已缓冲"
+
+#~ msgid "cached"
+#~ msgstr "已缓存"
+
+#~ msgid "enable"
+#~ msgstr "启用"
+
+#~ msgid "manual"
+#~ msgstr "手动"
+
+#~ msgid "never"
+#~ msgstr "从不"
+
+#~ msgid "optional"
+#~ msgstr "可选"
+
+#~ msgid "trextra"
+#~ msgstr "Tr增强"
+
+#~ msgid "wireless settings"
+#~ msgstr "无线设置"
+
+#~ msgid " 40MHz 2nd channel below"
+#~ msgstr "40MHz低频组合"
+
+#~ msgid "<abbr title=\"Secure Shell\">SSH</abbr>-Keys"
+#~ msgstr "<abbr title=\"Secure Shell\">SSH</abbr>-密钥"
+
+#~ msgid ""
+#~ "A lightweight HTTP/1.1 webserver written in C and Lua designed to serve "
+#~ "LuCI"
+#~ msgstr "一个用C语言版写的为LuCI提供服务的HTTP/1.1服务器"
+
+#~ msgid ""
+#~ "A small webserver which can be used to serve <abbr title=\"Lua "
+#~ "Configuration Interface\">LuCI</abbr>."
+#~ msgstr ""
+#~ "A small webserver which can be used to serve <abbr title=\"Lua "
+#~ "Configuration Interface\">LuCI</abbr>."
+
+#~ msgid "AHCP Settings"
+#~ msgstr "AHCP设置"
+
+#~ msgid "ATM Settings"
+#~ msgstr "ATM设置"
+
+#~ msgid "Accept Router Advertisements"
+#~ msgstr "允许路由广告"
+
+#~ msgid "Access point (APN)"
+#~ msgstr "接入点 (APN)"
+
+#~ msgid "Active IP Connections"
+#~ msgstr "活动 IP 连接"
+
+#~ msgid "Additional pppd options"
+#~ msgstr "额外的 pppd 设置"
+
+#~ msgid "Addresses"
+#~ msgstr "地址"
+
+#~ msgid "Allowed range is 1 to FFFF"
+#~ msgstr "范围从 1 to FFFF"
+
+#~ msgid "Authentication Realm"
+#~ msgstr "认证区域"
+
+#~ msgid "CPU Clock"
+#~ msgstr "CPU主频"
+
+#~ msgid "Configuration file"
+#~ msgstr "配置文件"
+
+#~ msgid "Connect script"
+#~ msgstr "连接脚本"
+
+#~ msgid "Connection timeout"
+#~ msgstr "连接超时"
+
+#~ msgid "Custom Files"
+#~ msgstr "自定义文件"
+
+#~ msgid "Custom files"
+#~ msgstr "自定义文件"
+
+#~ msgid "Default"
+#~ msgstr "默认"
+
+#~ msgid "Detected Files"
+#~ msgstr "探查到的文件"
+
+#~ msgid "Detected files"
+#~ msgstr "探查到的文件"
+
+#~ msgid "Disconnect script"
+#~ msgstr "断开脚本"
+
+#~ msgid "Document root"
+#~ msgstr "文档根目录"
+
+#~ msgid "Edit package lists and installation targets"
+#~ msgstr "编辑软件包的来源和安装地址"
+
+#~ msgid "Enable 4K VLANs"
+#~ msgstr "允许 4K VLANs"
+
+#~ msgid "Enable Keep-Alive"
+#~ msgstr "开启 Keep-Alive"
+
+#~ msgid "Enable device"
+#~ msgstr "开启设备"
+
+#~ msgid "Enable this switch"
+#~ msgstr "开启这个交换机"
+
+#~ msgid "Files to be kept when flashing a new firmware"
+#~ msgstr "在更新固件时保存的文件"
+
+#~ msgid "Forward DHCP"
+#~ msgstr "HDCP 转发"
+
+#~ msgid "Forward broadcasts"
+#~ msgstr "广播转发"
+
+#~ msgid "Installation targets"
+#~ msgstr "安装位置"
+
+#~ msgid "KB"
+#~ msgstr "KB"
+
+#~ msgid "Kernel"
+#~ msgstr "内核"
+
+#~ msgid "Let pppd run this script after establishing the PPP link"
+#~ msgstr "在PPP连接建立后运行这个脚本"
+
+#~ msgid "Let pppd run this script before tearing down the PPP link"
+#~ msgstr "PPP连接断开前执行这个脚本"
+
+#~ msgid "MAC-List Tab"
+#~ msgstr "MAC 表"
+
+#~ msgid ""
+#~ "Make sure that you provide the correct pin code here or you might lock "
+#~ "your sim card!"
+#~ msgstr "如果提供的PIN码错误,你的SIM将可能被锁定"
+
+#~ msgid ""
+#~ "Most of them are network servers, that offer a certain service for your "
+#~ "device or network like shell access, serving webpages like <abbr title="
+#~ "\"Lua Configuration Interface\">LuCI</abbr>, doing mesh routing, sending "
+#~ "e-mails, ..."
+#~ msgstr ""
+#~ "他们中的大多数都是为你提供服务的，比如说SSH，提供网页服务比如<abbr title="
+#~ "\"Lua Configuration Interface\">LuCI</abbr>,路由转换，发送E-mail等"
+
+#~ msgid "No address configured on this interface."
+#~ msgstr "没有为这个接口设置地址"
+
+#~ msgid "Not configured"
+#~ msgstr "未设置"
+
+#~ msgid "Override Gateway"
+#~ msgstr "代理网关"
+
+#~ msgid "PIN code"
+#~ msgstr "PIN code"
+
+#~ msgid "PPP Settings"
+#~ msgstr "PPP设置"
+
+#~ msgid "Package lists"
+#~ msgstr "软件同步源"
+
+#~ msgid "Package lists updated"
+#~ msgstr "已更新软件包列表"
+
+#~ msgid "Plugin path"
+#~ msgstr "插件路径"
+
+#~ msgid ""
+#~ "Port <abbr title=\"Primary VLAN IDs\">PVIDs</abbr> specify the default "
+#~ "VLAN ID added to received untagged frames."
+#~ msgstr ""
+#~ "指定 <abbr title=\"Primary VLAN IDs\">PVIDs</abbr> 作为默认 VLAN ID 来接收"
+#~ "未标记的数据包"
+
+#~ msgid "Port PVIDs on %q"
+#~ msgstr "%q 上的 PVIDs 端口设置"
+
+#~ msgid ""
+#~ "Really delete this interface? The deletion cannot be undone!\n"
+#~ "You might loose access to this router if you are connected via this "
+#~ "interface."
+#~ msgstr ""
+#~ "真的要删除这个接口？如果你使用此接口管理路由，你可能无法再管理你的路由器！"
+
+#~ msgid ""
+#~ "Really delete this wireless network? The deletion cannot be undone!\n"
+#~ "You might loose access to this router if you are connected via this "
+#~ "network."
+#~ msgstr ""
+#~ "真的要删除这个网络？如果你使用此网络管理路由，你可能无法再管理你的路由器！"
+
+#~ msgid "Realtime Graphs"
+#~ msgstr "实时状态"
+
+#~ msgid "Relay Settings"
+#~ msgstr "延时设置"
+
+#~ msgid "Reset switch during setup"
+#~ msgstr "设置完成重启交换机"
+
+#~ msgid "Router Name"
+#~ msgstr "路由器名称"
+
+#~ msgid "Routing table ID"
+#~ msgstr "路由 ID"
+
+#~ msgid ""
+#~ "Seconds to wait for the modem to become ready before attempting to connect"
+#~ msgstr "重连前等待Modem准备好的时间"
+
+#~ msgid "Send Router Solicitiations"
+#~ msgstr "Send Router Solicitiations"
+
+#~ msgid "Service type"
+#~ msgstr "服务类型"
+
+#~ msgid "Services and daemons perform certain tasks on your device."
+#~ msgstr "路由器上正在运行的任务和服务。"
+
+#~ msgid "Setup wait time"
+#~ msgstr "设置等待时间"
+
+#~ msgid "Specify additional command line arguments for pppd here"
+#~ msgstr "Specify additional command line arguments for pppd here"
+
+#~ msgid "TTL"
+#~ msgstr "TTL"
+
+#~ msgid "The device node of your modem, e.g. /dev/ttyUSB0"
+#~ msgstr "The device node of your modem, e.g. /dev/ttyUSB0"
+
+#~ msgid ""
+#~ "The following files are detected by the system and will be kept "
+#~ "automatically during sysupgrade"
+#~ msgstr "下面这些文件被探测到，升级固件时他们可以被自动保留。"
+
+#~ msgid ""
+#~ "The realm which will be displayed at the authentication prompt for "
+#~ "protected pages."
+#~ msgstr ""
+#~ "The realm which will be displayed at the authentication prompt for "
+#~ "protected pages."
+
+#~ msgid ""
+#~ "This is a list of shell glob patterns for matching files and directories "
+#~ "to include during sysupgrade"
+#~ msgstr "下面这个列表可以定义升级固件时需要额外保存的文件"
+
+#~ msgid "Time Server (rdate)"
+#~ msgstr "时间服务器(rdate)"
+
+#~ msgid "Tunnel Settings"
+#~ msgstr "通道设置"
+
+#~ msgid "Update package lists"
+#~ msgstr "更新软件列表"
+
+#~ msgid "Upgrade installed packages"
+#~ msgstr "升级已安装的软件"
+
+#~ msgid "VLAN %d"
+#~ msgstr "VLAN %d"
+
+#~ msgid ""
+#~ "You can specify multiple DNS servers here, press enter to add a new "
+#~ "entry. Servers entered here will override automatically assigned ones."
+#~ msgstr ""
+#~ "你可以指定多个DNS 服务器,按回车来增加新DNS服务器,增加的DNS服务器会自动覆盖"
+#~ "之前的DNS服务器"
+
+#~ msgid ""
+#~ "You need to install \"comgt\" for UMTS/GPRS, \"ppp-mod-pppoe\" for PPPoE, "
+#~ "\"ppp-mod-pppoa\" for PPPoA or \"pptp\" for PPtP support"
+#~ msgstr ""
+#~ "你需要安装\"comgt\" 以支持 UMTS/GPRS, \"ppp-mod-pppoe\" 以支持 PPPoE, "
+#~ "\"ppp-mod-pppoa\" 以支持 PPPoA \"pptp\" 以支持 PPtP。"
+
+#~ msgid "back"
+#~ msgstr "返回"
+
+#~ msgid "defaults to <code>/etc/httpd.conf</code>"
+#~ msgstr "defaults to <code>/etc/httpd.conf</code>"
+
+#~ msgid "usbapply"
+#~ msgstr "USB应用"
+
+#~ msgid "USBapply"
+#~ msgstr "USB应用"
+
+#~ msgid "mentohust"
+#~ msgstr "锐捷认证"
+
+#~ msgid "Free_Memory"
+#~ msgstr "释放内存"
+
+#~ msgid "Memory Free"
+#~ msgstr "剩余内存"
+
+#~ msgid "Free memory space must be greater than the firmware size"
+#~ msgstr ""
+#~ "剩余内存空间，必须大于固件文件尺寸，剩余内存空间不足，可以尝试点击（释放内"
+#~ "存）"
+
+#~ msgid ""
+#~ "Here you can paste public <abbr title=\"Secure Shell\">SSH</abbr>-Keys "
+#~ "(one per line) for <abbr title=\"Secure Shell\">SSH</abbr> public-key "
+#~ "authentication."
+#~ msgstr ""
+#~ "这里可以粘贴公用<abbr title=\"Secure Shell\">SSH</abbr>密钥以用于<abbr "
+#~ "title=\"Secure Shell\">SSH</abbr>公共密钥认证(每行一个密钥)。"
+
+#~ msgid "Menu"
+#~ msgstr "开始"
+
+#~ msgid "Guide Prev Step"
+#~ msgstr "上一步"
+
+#~ msgid "guide_dns_desc If you don't know, just to contact your ISP"
+#~ msgstr " 如果不清楚，请咨询当地运营商，如电信、联通等"
+
+#~ msgid "guide_gateway_desc If you don't know, just to contact your ISP"
+#~ msgstr " 如果不清楚，请咨询当地运营商，如电信、联通等"
+
+#~ msgid "static Static"
+#~ msgstr "静态"
+
+#~ msgid "noscan"
+#~ msgstr "禁止扫描"
+
+#~ msgid "noscan desc"
+#~ msgstr "如果你需要实现11N，300M的功能，可能需要开启此项"
+
+#~ msgid "GHCA Dialer"
+#~ msgstr "GHCA拨号"
+
+#~ msgid "Interval minute"
+#~ msgstr "间隔时间"
+
+#~ msgid "task"
+#~ msgstr "任务"
+
+#~ msgid "intelvel update"
+#~ msgstr "定时更新，点击详细设定定时更新任务"
+
+#~ msgid "intelvel queue"
+#~ msgstr "定时更新队列下载和定时检测并且发送邮件，点击详细设定定时更新任务"
+
+#~ msgid "qos scheduler update"
+#~ msgstr "qosv4 定时检测更新设定，点击详细设定定时更新任务"

@@ -7,6 +7,7 @@ msgstr ""
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -303,7 +304,7 @@ msgstr ""
 msgid "Admin password"
 msgstr "Admin password"
 
-#. Password to use for Administrative-User authentication in order to pick up chilli configurations and establish a device \"system\" session
+#. Password to use for Administrative-User authentication in order to pick up chilli configurations and establish a device "system" session
 #: applications/luci-coovachilli/luasrc/i18n/coovachilli.en.lua:59
 msgid ""
 "Password to use for Administrative-User authentication in order to pick up "
@@ -317,7 +318,7 @@ msgstr ""
 msgid "Admin user"
 msgstr "Admin user"
 
-#. User-name to use for Administrative-User authentication in order to pick up chilli configurations and establish a device \"system\" session
+#. User-name to use for Administrative-User authentication in order to pick up chilli configurations and establish a device "system" session
 #: applications/luci-coovachilli/luasrc/i18n/coovachilli.en.lua:61
 msgid ""
 "User-name to use for Administrative-User authentication in order to pick up "
@@ -510,7 +511,7 @@ msgstr "The IP address of radius server 2"
 msgid "Swap octets"
 msgstr "Swap octets"
 
-#. Swap the meaning of \"input octets\" and \"output octets\" as it related to RADIUS attribtues
+#. Swap the meaning of "input octets" and "output octets" as it related to RADIUS attribtues
 #: applications/luci-coovachilli/luasrc/i18n/coovachilli.en.lua:97
 msgid ""
 "Swap the meaning of \"input octets\" and \"output octets\" as it related to "
@@ -947,7 +948,12 @@ msgstr "Suffix"
 
 #. Suffix to add to the MAC address in order to form the User-Name, which is sent to the radius server
 #: applications/luci-coovachilli/luasrc/i18n/coovachilli.en.lua:177
-msgid "coovachilli_macauth_macsuffix_desc"
-msgstr ""
+msgid ""
 "Suffix to add to the MAC address in order to form the User-Name, which is "
 "sent to the radius server"
+msgstr ""
+
+#~ msgid "coovachilli_macauth_macsuffix_desc"
+#~ msgstr ""
+#~ "Suffix to add to the MAC address in order to form the User-Name, which is "
+#~ "sent to the radius server"

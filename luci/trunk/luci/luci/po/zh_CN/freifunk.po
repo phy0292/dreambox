@@ -114,9 +114,6 @@ msgstr ""
 msgid "Hostname"
 msgstr "主机名"
 
-msgid "IP Address"
-msgstr "IP地址"
-
 msgid "If selected then the default content element is not shown."
 msgstr ""
 
@@ -154,9 +151,6 @@ msgstr ""
 
 msgid "Longitude"
 msgstr ""
-
-msgid "MAC Address"
-msgstr "MAC地址"
 
 msgid "Map"
 msgstr ""
@@ -216,9 +210,6 @@ msgstr ""
 
 msgid "Please set your contact information"
 msgstr ""
-
-msgid "Policy"
-msgstr "策略"
 
 msgid "Power"
 msgstr ""
@@ -357,29 +348,26 @@ msgstr ""
 msgid "e.g."
 msgstr ""
 
-msgid "expired"
-msgstr ""
-
 msgid "free"
-msgstr ""
-
-msgid "splashed"
-msgstr ""
-
-msgid "temporarily blocked"
 msgstr ""
 
 msgid "to disable it."
 msgstr ""
 
-msgid "unknown"
-msgstr "未知"
-
 msgid "used"
-msgstr ""
-
-msgid "whitelisted"
 msgstr ""
 
 msgid "wireless settings"
 msgstr ""
+
+#~ msgid "IP Address"
+#~ msgstr "IP地址"
+
+#~ msgid "MAC Address"
+#~ msgstr "MAC地址"
+
+#~ msgid "Policy"
+#~ msgstr "策略"
+
+#~ msgid "unknown"
+#~ msgstr "未知"

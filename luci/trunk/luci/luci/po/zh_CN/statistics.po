@@ -20,8 +20,9 @@ msgid ""
 "\">Collectd</a> and uses <a href=\"http://oss.oetiker.ch/rrdtool/\">RRD "
 "Tool</a> to render diagram images from collected data."
 msgstr ""
-"数据统计工具基于 <a href=\"http://collectd.org/index.shtml\">Collectd</a> 并使用<a "
-"href=\"http://oss.oetiker.ch/rrdtool/\">RRD Tool</a> 把收集的数据渲染生成图形。"
+"数据统计工具基于 <a href=\"http://collectd.org/index.shtml\">Collectd</a> 并"
+"使用<a href=\"http://oss.oetiker.ch/rrdtool/\">RRD Tool</a> 把收集的数据渲染"
+"生成图形。"
 
 #. System plugins
 #: applications/luci-statistics/luasrc/i18n/statistics.en.lua:3
@@ -62,6 +63,10 @@ msgstr "处理器"
 #: applications/luci-statistics/luasrc/i18n/statistics.en.lua:10
 msgid "Ping"
 msgstr "Ping"
+
+#. Interval of pings
+msgid "Interval for pings"
+msgstr ""
 
 #. Firewall
 #: applications/luci-statistics/luasrc/i18n/statistics.en.lua:11
@@ -159,7 +164,9 @@ msgid ""
 "Collectd is a small daeomon for collecting data from various sources through "
 "different plugins. On this page you can change general settings for the "
 "collectd daemon."
-msgstr "Collectd是一个守护(daemon)进程，利用各种插件来收集系统运行信息，并提供RRD 文件存储以便分析。"
+msgstr ""
+"Collectd是一个守护(daemon)进程，利用各种插件来收集系统运行信息，并提供RRD 文"
+"件存储以便分析。"
 
 #. Hostname
 #: applications/luci-statistics/luasrc/i18n/statistics.en.lua:31
@@ -316,12 +323,8 @@ msgid ""
 "statistics to a running collectd daemon. This plugin is primarily intended "
 "to be used in conjunction with Mail::SpamAssasin::Plugin::Collectd but can "
 "be used in other ways as well."
-msgstr "Email插件创建一个unix socket ，用于发送email统计数据到一个collectd 守护进程。"
-
-#. group name
-#: applications/luci-statistics/luasrc/i18n/statistics.en.lua:77
-msgid "group name"
-msgstr "群名称"
+msgstr ""
+"Email插件创建一个unix socket ，用于发送email统计数据到一个collectd 守护进程。"
 
 #. Maximum allowed connections
 #: applications/luci-statistics/luasrc/i18n/statistics.en.lua:80
@@ -363,7 +366,9 @@ msgid ""
 "Here you can define external commands which will be started by collectd when "
 "certain threshold values have been reached. The values leading to invokation "
 "will be feeded to the the called programs stdin."
-msgstr "此处可定义当某阈值达到后被collectd启动的外部命令。数据会通过stdin传入外部程序。"
+msgstr ""
+"此处可定义当某阈值达到后被collectd启动的外部命令。数据会通过stdin传入外部程"
+"序。"
 
 #. Interface Plugin Configuration
 #: applications/luci-statistics/luasrc/i18n/statistics.en.lua:94
@@ -507,7 +512,9 @@ msgstr "Netlink 插件配置"
 msgid ""
 "The netlink plugin collects extended informations like qdisc-, class- and "
 "filter-statistics for selected interfaces."
-msgstr "Netlink 插件用于收集指定接口的扩展信息，例如qdisc-, class- 以及 filter-statistics "
+msgstr ""
+"Netlink 插件用于收集指定接口的扩展信息，例如qdisc-, class- 以及 filter-"
+"statistics "
 
 #. Basic monitoring
 #: applications/luci-statistics/luasrc/i18n/statistics.en.lua:133
@@ -546,7 +553,9 @@ msgid ""
 "collectd instances. Collectd can operate both in client and server mode. In "
 "client mode locally collected date is transferred to a collectd server "
 "instance, in server mode the local instance receives data from other hosts."
-msgstr "网络插件提供基于网络的不同collectd进程实例间的通信。Collectd 可同时工作于客户端和服务器模式。"
+msgstr ""
+"网络插件提供基于网络的不同collectd进程实例间的通信。Collectd 可同时工作于客户"
+"端和服务器模式。"
 
 #. Listener interfaces
 #: applications/luci-statistics/luasrc/i18n/statistics.en.lua:147
@@ -658,8 +667,9 @@ msgid ""
 "values will result in a very high memory consumption in the temporary "
 "directory. This can render the device unusable!</strong>"
 msgstr ""
-"RRDTool 插件存储所收集的数据到rrd数据库文件，这是绘图的基础。<br /><br /><strong>警告: "
-"错误的设置会导致临时文件夹高存储空间占用，可能导致设备不再可用!</strong>"
+"RRDTool 插件存储所收集的数据到rrd数据库文件，这是绘图的基础。<br /><br /"
+"><strong>警告: 错误的设置会导致临时文件夹高存储空间占用，可能导致设备不再可"
+"用!</strong>"
 
 #. Storage directory
 #: applications/luci-statistics/luasrc/i18n/statistics.en.lua:179
@@ -771,3 +781,6 @@ msgstr "无线插件用于收集无线信号的强度、噪音和品质数据"
 #: applications/luci-statistics/luasrc/i18n/statistics.en.lua:212
 msgid "Enable this plugin"
 msgstr "启用此插件"
+
+#~ msgid "group name"
+#~ msgstr "群名称"

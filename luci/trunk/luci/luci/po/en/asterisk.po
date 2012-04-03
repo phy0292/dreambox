@@ -118,6 +118,11 @@ msgstr "Transmit SLINEAR silence while recording a channel"
 msgid "Verbose Level"
 msgstr "Verbose Level"
 
+#. Time Zone
+#: applications/luci-asterisk/luasrc/i18n/asterisk.en.lua:22
+msgid "Time Zone"
+msgstr ""
+
 #. Section dialplan
 #: applications/luci-asterisk/luasrc/i18n/asterisk.en.lua:23
 msgid "Section dialplan"

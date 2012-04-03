@@ -119,7 +119,7 @@ msgid "Verbose Level"
 msgstr ""
 
 #. Time Zone
-#: applications/luci-asterisk/luasrc/i18n/asterisk.en.lua:251
+#: applications/luci-asterisk/luasrc/i18n/asterisk.en.lua:22
 msgid "Time Zone"
 msgstr "时区"
 
