@@ -15,7 +15,7 @@ local map, section, net = ...
 local username, password, ac, service
 local ipv6, defaultroute, metric, peerdns, dns,
       keepalive_failure, keepalive_interval, demand, ghcat
-local has_new-dialer = nixio.fs.access("/usr/bin/new-dialer")
+local has_new_dialer = nixio.fs.access("/usr/bin/new-dialer")
 
 
 username = section:taboption("general", Value, "username", translate("PAP/CHAP username"))
@@ -55,11 +55,11 @@ defaultroute = section:taboption("advanced", Flag, "defaultroute",
 
 defaultroute.default = defaultroute.enabled
 
-if new-dialer then
+if has_new_dialer then
 	ghcat = section:taboption("advanced", ListValue, "ghcat",translate("Special Dialer"))
 	ghcat:value(0, translate("None"))
-	ghcat:value(1, translate("特殊拨号模式1"))
-	ghcat:value(2, translate("特殊拨号模式2"))
+	ghcat:value(1, translate("Special Dialer Mode 1"))
+	ghcat:value(2, translate("Special Dialer Mode 2"))
 	ghcat.default = 0
 end
 
