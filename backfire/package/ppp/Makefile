@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2006-2010 OpenWrt.org
+# Copyright (C) 2006-2011 OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -9,12 +9,13 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/kernel.mk
 
 PKG_NAME:=ppp
-PKG_VERSION:=2.4.4
-PKG_RELEASE:=16
+PKG_VERSION:=2.4.5
+PKG_RELEASE:=4
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=ftp://ftp.samba.org/pub/ppp/
-PKG_MD5SUM:=183800762e266132218b204dfb428d29
+PKG_MD5SUM:=4621bc56167b6953ec4071043fe0ec57
+
 
 PKG_BUILD_DEPENDS:=libpcap
 
@@ -25,6 +26,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/ppp/Default
   SECTION:=net
   CATEGORY:=Network
+  MAINTAINER:=Jo-Philipp Wich <xm@subsignal.org>
   URL:=http://ppp.samba.org/
 endef
 
@@ -32,7 +34,14 @@ define Package/ppp
 $(call Package/ppp/Default)
   DEPENDS:=+kmod-ppp
   TITLE:=PPP daemon
-  MENU:=1
+  VARIANT:=default
+endef
+
+define Package/ppp-multilink
+$(call Package/ppp/Default)
+  DEPENDS:=+kmod-ppp
+  TITLE:=PPP daemon (with multilink support)
+  VARIANT:=multilink
 endef
 
 define Package/ppp/description
@@ -51,7 +60,7 @@ endef
 
 define Package/ppp-mod-pppoa
 $(call Package/ppp/Default)
-  DEPENDS:=ppp +linux-atm +kmod-pppoa
+  DEPENDS:=@(PACKAGE_ppp||PACKAGE_ppp-multilink) +linux-atm +kmod-pppoa
   TITLE:=PPPoA plugin
 endef
 
@@ -61,7 +70,7 @@ endef
 
 define Package/ppp-mod-pppoe
 $(call Package/ppp/Default)
-  DEPENDS:=ppp +kmod-pppoe
+  DEPENDS:=@(PACKAGE_ppp||PACKAGE_ppp-multilink) +kmod-pppoe
   TITLE:=PPPoE plugin
 endef
 
@@ -71,7 +80,7 @@ endef
 
 define Package/ppp-mod-radius
 $(call Package/ppp/Default)
-  DEPENDS:=ppp
+  DEPENDS:=@(PACKAGE_ppp||PACKAGE_ppp-multilink)
   TITLE:=RADIUS plugin
 endef
 
@@ -87,7 +96,7 @@ endef
 
 define Package/chat
 $(call Package/ppp/Default)
-  DEPENDS:=ppp
+  DEPENDS:=@(PACKAGE_ppp||PACKAGE_ppp-multilink)
   TITLE:=Establish conversation with a modem
 endef
 
@@ -98,7 +107,7 @@ endef
 
 define Package/pppdump
 $(call Package/ppp/Default)
-  DEPENDS:=ppp
+  DEPENDS:=@(PACKAGE_ppp||PACKAGE_ppp-multilink)
   TITLE:=Read PPP record file
 endef
 
@@ -108,7 +117,7 @@ endef
 
 define Package/pppstats
 $(call Package/ppp/Default)
-  DEPENDS:=ppp
+  DEPENDS:=@(PACKAGE_ppp||PACKAGE_ppp-multilink)
   TITLE:=Report PPP statistics
 endef
 
@@ -134,47 +143,65 @@ MAKE_FLAGS += COPTS="$(TARGET_CFLAGS)" \
 		PRECOMPILED_FILTER=1 \
 		STAGING_DIR="$(STAGING_DIR)"
 
+ifeq ($(BUILD_VARIANT),multilink)
+  MAKE_FLAGS += HAVE_MULTILINK=y
+else
+  MAKE_FLAGS += HAVE_MULTILINK=
+endif
+
+
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include
 	$(CP) $(PKG_INSTALL_DIR)/include/pppd $(1)/usr/include/
 endef
 
+ifneq ($(CONFIG_PACKAGE_netifd),)
+  define Package/ppp/script_install
+	$(INSTALL_DIR) $(1)/lib/netifd/proto
+	$(INSTALL_BIN) ./files/ppp.sh $(1)/lib/netifd/proto/
+  endef
+else
+  define Package/ppp/script_install
+	$(INSTALL_DIR) $(1)/lib/network
+	$(INSTALL_BIN) ./files.old/ppp.sh $(1)/lib/network/
+	$(INSTALL_BIN) ./files.old/etc/ppp/ip-up $(1)/etc/ppp/
+	$(INSTALL_DIR) $(1)/etc/ppp/ip-up.d
+	$(INSTALL_BIN) ./files.old/etc/ppp/ip-down $(1)/etc/ppp/
+	$(INSTALL_DIR) $(1)/etc/ppp/ip-down.d
+	$(INSTALL_BIN) ./files.old/etc/ppp/ipv6-up $(1)/etc/ppp/
+	$(INSTALL_BIN) ./files.old/etc/ppp/ipv6-down $(1)/etc/ppp/
+	$(INSTALL_DIR) $(1)/lib/network
+	$(INSTALL_BIN) ./files.old/pppoe.sh $(1)/lib/network/
+	$(INSTALL_DIR) $(1)/lib/network
+	$(INSTALL_BIN) ./files.old/pppoa.sh $(1)/lib/network/
+	$(INSTALL_DIR) $(1)/etc/hotplug.d/atm
+	$(INSTALL_DATA) ./files.old/etc/hotplug.d/atm/20-atm-modem $(1)/etc/hotplug.d/atm/
+  endef
+endif
+
 define Package/ppp/install
 	$(INSTALL_DIR) $(1)/usr/lib/pppd/$(PKG_VERSION)
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/sbin/pppd $(1)/usr/sbin/
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/sbin/syncpppinit $(1)/usr/sbin/
-	$(INSTALL_DIR) $(1)/lib/network
-	$(INSTALL_BIN) ./files/ppp.sh $(1)/lib/network/
 	$(INSTALL_DIR) $(1)/etc/ppp
 	$(INSTALL_CONF) ./files/etc/ppp/chap-secrets $(1)/etc/ppp/
 	$(INSTALL_DATA) ./files/etc/ppp/filter $(1)/etc/ppp/
-	$(INSTALL_BIN) ./files/etc/ppp/ip-up $(1)/etc/ppp/
-	$(INSTALL_DIR) $(1)/etc/ppp/ip-up.d
-	$(INSTALL_BIN) ./files/etc/ppp/ip-down $(1)/etc/ppp/
-	$(INSTALL_DIR) $(1)/etc/ppp/ip-down.d
-	$(INSTALL_BIN) ./files/etc/ppp/ipv6-up $(1)/etc/ppp/
-	$(INSTALL_BIN) ./files/etc/ppp/ipv6-down $(1)/etc/ppp/
 	$(INSTALL_DATA) ./files/etc/ppp/options $(1)/etc/ppp/
 	ln -sf /tmp/resolv.conf.ppp $(1)/etc/ppp/resolv.conf
+	$(Package/ppp/script_install)
 endef
+Package/ppp-multilink/install=$(Package/ppp/install)
 
 define Package/ppp-mod-pppoa/install
 	$(INSTALL_DIR) $(1)/usr/lib/pppd/$(PKG_VERSION)
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/lib/pppd/$(PKG_VERSION)/pppoatm.so \
 		$(1)/usr/lib/pppd/$(PKG_VERSION)/
-	$(INSTALL_DIR) $(1)/lib/network
-	$(INSTALL_BIN) ./files/pppoa.sh $(1)/lib/network/
-	$(INSTALL_DIR) $(1)/etc/hotplug.d/atm
-	$(INSTALL_DATA) ./files/etc/hotplug.d/atm/20-atm-modem $(1)/etc/hotplug.d/atm/
 endef
 
 define Package/ppp-mod-pppoe/install
 	$(INSTALL_DIR) $(1)/usr/lib/pppd/$(PKG_VERSION)
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/lib/pppd/$(PKG_VERSION)/rp-pppoe.so \
 		$(1)/usr/lib/pppd/$(PKG_VERSION)/
-	$(INSTALL_DIR) $(1)/lib/network
-	$(INSTALL_BIN) ./files/pppoe.sh $(1)/lib/network/
 endef
 
 define Package/ppp-mod-radius/install
@@ -206,6 +233,7 @@ define Package/pppstats/install
 endef
 
 $(eval $(call BuildPackage,ppp))
+$(eval $(call BuildPackage,ppp-multilink))
 $(eval $(call BuildPackage,ppp-mod-pppoa))
 $(eval $(call BuildPackage,ppp-mod-pppoe))
 $(eval $(call BuildPackage,ppp-mod-radius))
