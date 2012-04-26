@@ -7,7 +7,7 @@
 
 define Profile/tiny210-full
   NAME:=TINY210 (full)
-  PACKAGES:=xserver-xorg xf86-video-glamo xf86-input-tslib enlightenment fso-gsm0710muxd python fso-frameworkd fso-gpsd paroli wireless-tools
+  PACKAGES:=xserver-xorg xf86-video-glamo xf86-input-tslib enlightenment fso-gsm0710muxd python fso-frameworkd fso-gpsd paroli wireless-tools block-hotplug uhttpd wpad wpa-supplicant
 endef
 
 define Profile/tiny210-full/Description

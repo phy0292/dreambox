@@ -986,11 +986,6 @@ int s3c_nand_write_oob_8bit(struct mtd_info *mtd, struct nand_chip *chip, int pa
 }
 #endif
 
-#ifdef CONFIG_MACH_MINI210
-/* S5P MLC support */
-extern int s5p_nand_ext_finit(struct nand_chip *nand, void __iomem *nandregs);
-extern int s5p_nand_mlc_probe(struct nand_chip *nand, void __iomem *nandregs);
-#endif
 
 /* s3c_nand_probe
  *
@@ -1084,9 +1079,6 @@ static int s3c_nand_probe(struct platform_device *pdev, enum s3c_cpu_type cpu_ty
 		nand->options		= 0;
 		nand->badblockbits	= 8;
 
-#ifdef CONFIG_MACH_MINI210
-		s5p_nand_ext_finit(nand, s3c_nand.regs);
-#endif
 
 #if defined(CONFIG_MTD_NAND_S3C_HWECC)
 		nand->ecc.mode		= NAND_ECC_HW;
@@ -1152,10 +1144,6 @@ static int s3c_nand_probe(struct platform_device *pdev, enum s3c_cpu_type cpu_ty
 				nand_type = S3C_NAND_TYPE_MLC;
 				nand->options |= NAND_NO_SUBPAGE_WRITE;	/* NOP = 1 if MLC */
 
-#ifdef CONFIG_MACH_MINI210
-				nand->badblockbits = 4;
-				s5p_nand_mlc_probe(nand, s3c_nand.regs);
-#else
 				if ((1024 << (tmp & 3)) == 4096) {
 					/* Page size is 4Kbytes */
 					nand->ecc.read_page = s3c_nand_read_page_8bit;
@@ -1176,7 +1164,6 @@ static int s3c_nand_probe(struct platform_device *pdev, enum s3c_cpu_type cpu_ty
 					nand->ecc.bytes = 8;    /* really 7 bytes */
 					nand->ecc.layout = &s3c_nand_oob_mlc_64;
 				}
-#endif
 			}
 		} else {
 			nand_type = S3C_NAND_TYPE_SLC;

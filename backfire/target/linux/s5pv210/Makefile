@@ -22,6 +22,6 @@ define Target/Description
 endef
 
 include $(INCLUDE_DIR)/target.mk
-DEFAULT_PACKAGES += wpad-mini  kmod-gpio-dev gpioctl
+DEFAULT_PACKAGES += kmod-gpio-dev gpioctl
 
 $(eval $(call BuildTarget))
