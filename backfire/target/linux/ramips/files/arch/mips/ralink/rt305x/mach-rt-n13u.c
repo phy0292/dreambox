@@ -1,7 +1,7 @@
 /*
  *  ASUS RT-N13U b2 board support
  *
- *  Copyright (C) 2011 lintel<lintel.huang@gmail.com>
+ *  Copyright (C) 2012 lintel<lintel.huang@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify it
  *  under the terms of the GNU General Public License version 2 as published
@@ -59,7 +59,7 @@ static struct mtd_partition rt_n13u_partitions[] = {
 		.offset	= 0x150000,
 		.size	= 0x6b0000,
 	}, {
-		.name	= "openwrt",
+		.name	= "firmware",
 		.offset	= 0x050000,
 		.size	= 0x7b0000,
 	}

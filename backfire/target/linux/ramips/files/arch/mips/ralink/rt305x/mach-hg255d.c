@@ -1,7 +1,7 @@
 /*
  *  HuaWei HG255D board support by lintel
  *
- *  Copyright (C) 2011 lintel<lintel.huang@gmail.com>
+ *  Copyright (C) 2012 lintel<lintel.huang@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify it
  *  under the terms of the GNU General Public License version 2 as published
@@ -138,11 +138,11 @@ static struct mtd_partition hg255d_partitions[] = {
 	}, {
 		.name	= "rootfs",
 		.offset	= SZ_1M + SZ_128K * 4,
-		.size	= FLASH_SIZE - (SZ_1M + SZ_128K * 4),
+		.size	= FLASH_SIZE - (SZ_1M + SZ_128K * 4), 
 	}, {
 		.name	= "firmware",
 		.offset	= SZ_128K * 4,
-		.size	= FLASH_SIZE - SZ_128K * 4,
+		.size	= FLASH_SIZE - (SZ_128K * 4), 
 	}, {
 		.name	= "fullflash",
 		.offset	= 0x000000,
