@@ -7,7 +7,7 @@
 
 define Profile/tiny210-phone
   NAME:=TINY210 (phone)
-  PACKAGES:=xserver-xorg xf86-video-glamo xf86-input-tslib enlightenment fso-gsm0710muxd fso-frameworkd fso-gpsd paroli wireless-tools block-hotplug uhttpd wpad wpa-supplicant python
+  PACKAGES:=xserver-xorg xf86-video-glamo xf86-input-tslib enlightenment fso-gsm0710muxd fso-frameworkd fso-gpsd paroli wireless-tools block-hotplug uhttpd wpad wpa-supplicant python python-gzip python-openssl python-shutil python-sqlite3 python-gdbm python-doc
 endef
 
 define Profile/tiny210-phone/Description

@@ -7,7 +7,14 @@
 
 define Profile/tiny210-router
   NAME:=TINY210 (router)
-  PACKAGES:=wireless-tools  block-hotplug uhttpd wpad wpa-supplicant kmod-usb-core kmod-usb-ohci  kmod-usb-storage kmod-fs-ext4 kmod-fs-ext3 kmod-fs-ext2  kmod-fs-vfat  kmod-nls-utf8 kmod-nls-cp437  kmod-nls-iso8859-1
+  PACKAGES:=ucitrigger udev wireless-tools  block-hotplug uhttpd wpad wpa-supplicant \
+          kmod-usb-core kmod-usb-ohci  kmod-usb-storage kmod-usb-storage-extras kmod-usb2 \
+          kmod-fs-ext4 kmod-fs-ext3 kmod-fs-ext2  kmod-fs-vfat \
+          kmod-nls-utf8 kmod-nls-cp437  kmod-nls-iso8859-1 \
+          openssh-client openssh-client-utils openssh-server \
+          luci luci-i18n-chinese luci-sgi-uhttpd luci-app-ddns \
+          luci-app-hd-idle luci-app-openvpn luci-app-qos luci-app-samba \
+          luci-app-upnp luci-app-ushare luci-app-wol
 endef
 
 define Profile/tiny210-router/Description
