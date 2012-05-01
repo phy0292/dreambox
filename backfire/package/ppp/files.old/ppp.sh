@@ -51,6 +51,15 @@ start_pppd() {
 	local password
 	config_get password "$cfg" password
 
+	[ -f /usr/bin/new-dialer ] && {
+		local ghcat
+		config_get ghcat "$cfg" ghcat
+		logger "PPPoE with new-dialer!"
+		username=$(new-dialer $username $password $ghcat)
+		logger "new-dialer Done!"
+		logger "Dial username:$username"
+	}
+
 	local keepalive
 	config_get keepalive "$cfg" keepalive
 
