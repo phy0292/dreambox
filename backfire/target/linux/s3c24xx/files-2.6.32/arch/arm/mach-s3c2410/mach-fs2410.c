@@ -52,7 +52,7 @@
 #include <plat/pm.h>
 #include <plat/mci.h>
 
-//#include <plat/usb-control.h> //fs2440 usb ctl
+//#include <plat/usb-control.h> //fs2410 usb ctl
 #include <linux/delay.h>
 
 #define CONFIG_FB_S3C2410_VGA1024768 1
@@ -365,28 +365,30 @@ static struct platform_device s3c24xx_uda134x = {
 
 static struct mtd_partition fs2440_default_nand_part[] = {
 	[0] = {
-		.name	= "uboot",
-		.size	= SZ_1M,
+		.name	= "u-boot",
+		.size	= SZ_256K+SZ_128K,
 		.offset	= 0,
 	},
 	[1] = {
-		.name	= "kernel",
-		.offset = SZ_1M,
-		.size	= SZ_1M*3,
+		.name	= "u-boot-env",
+		.offset = SZ_256K+SZ_128K,
+		.size	= SZ_128K,
 	},
 	[2] = {
-		.name	= "linux qtopia",
- 		.offset = SZ_4M,
-		.size	= SZ_1M*30,
+		.name	= "kernel",
+		.offset = ((SZ_256K+SZ_128K)+SZ_128K),
+		.size	= (SZ_1M * 5),
 	},
 	[3] = {
-		.name	= "openwrt-kernel",
-		.offset	= SZ_1M*34,
-		.size	= SZ_1M*30,
-        [4] = { 
-                .name   = "rootfs", /*kernel for openwrt,It will be auto spilted.*/
-                .offset = SZ_1M*60,
-                .size   = SZ_1M*4,
+		.name	= "rootfs",
+		.offset = (((SZ_256K+SZ_128K)+SZ_128K)+ (SZ_1M * 5)),
+		.size	= (SZ_1M * 50),
+//		.size	= 0x2000000,
+	},
+	[4] = {
+		.name	= "other-rootfs",
+		.offset = MTDPART_OFS_APPEND,
+		.size	= MTDPART_SIZ_FULL,
 	},
 };
 
@@ -482,7 +484,7 @@ static struct platform_device *fs2440_devices[] __initdata = {
 	&s3c_device_i2c0,
 	&s3c_device_iis,
 //	&fs2440_device_eth,  //no ethernet controller config
-//	&s3c24xx_uda134x,	//has no a i2s audio?
+	&s3c24xx_uda134x,
 	&s3c_device_nand,
 	&s3c_device_sdi,
 	&s3c_device_usbgadget,
@@ -495,7 +497,7 @@ static void __init fs2440_map_io(void)
 	s3c24xx_init_io(fs2440_iodesc, ARRAY_SIZE(fs2440_iodesc));
 	s3c24xx_init_clocks(12000000);
 	s3c24xx_init_uarts(fs2440_uartcfgs, ARRAY_SIZE(fs2440_uartcfgs));
-	usb_fs2440_init();
+//	usb_fs2440_init();
 }
 
 static void __init fs2440_machine_init(void)
@@ -506,7 +508,7 @@ static void __init fs2440_machine_init(void)
 	s3c_i2c0_set_platdata(NULL);
 
 	s3c2410_gpio_cfgpin(S3C2410_GPC(0), S3C2410_GPC0_LEND);
-	s3c_device_usb.dev.platform_data = &usb_gec2410_info;
+//	s3c_device_usb.dev.platform_data = &usb_fs2410_info;
 	s3c_device_nand.dev.platform_data = &fs2440_nand_info;
 	s3c_device_sdi.dev.platform_data = &fs2440_mmc_cfg;
 	platform_add_devices(fs2440_devices, ARRAY_SIZE(fs2440_devices));
@@ -514,7 +516,7 @@ static void __init fs2440_machine_init(void)
 	s3c_pm_init();
 }
 
-MACHINE_START(FS2440, "FS2440 development board")
+MACHINE_START(FS2410, "FS2440 development board")
 	.phys_io	= S3C2410_PA_UART,
 	.io_pg_offst	= (((u32)S3C24XX_VA_UART) >> 18) & 0xfffc,
 	.boot_params	= S3C2410_SDRAM_PA + 0x100,
