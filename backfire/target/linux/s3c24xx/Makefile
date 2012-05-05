@@ -11,7 +11,7 @@ BOARD:=s3c24xx
 BOARDNAME:=Samsung S3C24xx
 FEATURES:=jffs2 squashfs
 CFLAGS:=-O2 -pipe -march=armv4t -mtune=arm920t -funit-at-a-time
-SUBTARGETS:=mini2440 gec2440 
+SUBTARGETS:=s3c2440 s3c2410 
 
 #LINUX_VERSION:=2.6.32.26
 LINUX_VERSION:=2.6.32.58
