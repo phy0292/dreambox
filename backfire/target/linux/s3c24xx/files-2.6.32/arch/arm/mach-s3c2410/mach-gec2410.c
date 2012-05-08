@@ -55,6 +55,7 @@
 #include <plat/nand.h>
 #include <plat/pm.h>
 #include <plat/mci.h>
+#include <plat/lcd-config.h>
 
 #include <plat/usb-control.h> //gec2410 usb ctl
 #include <linux/delay.h>
@@ -65,6 +66,7 @@
 #include <sound/s3c24xx_uda134x.h>
 
 static struct map_desc gec2410_iodesc[] __initdata = {
+	{ 0xe0000000, __phys_to_pfn(S3C2410_CS3+0x01000000), SZ_1M, MT_DEVICE }
 };
 
 #define UCON S3C2410_UCON_DEFAULT | S3C2410_UCON_UCLK
@@ -94,263 +96,6 @@ static struct s3c2410_uartcfg gec2410_uartcfgs[] __initdata = {
 		.ufcon	     = 0x51,
 	}
 };
-
-/* LCD driver info */
-
-#if defined(CONFIG_FB_S3C2410_N240320)
-
-#define LCD_WIDTH 240
-#define LCD_HEIGHT 320
-#define LCD_PIXCLOCK 100000
-
-#define LCD_RIGHT_MARGIN 36
-#define LCD_LEFT_MARGIN 19
-#define LCD_HSYNC_LEN 5
-
-#define LCD_UPPER_MARGIN 1
-#define LCD_LOWER_MARGIN 5
-#define LCD_VSYNC_LEN 1
-
-#elif defined(CONFIG_FB_S3C2410_N480272)
-
-#define LCD_WIDTH 480
-#define LCD_HEIGHT 272
-#define LCD_PIXCLOCK 100000
-
-#define LCD_RIGHT_MARGIN 36
-#define LCD_LEFT_MARGIN 19
-#define LCD_HSYNC_LEN 5
-
-#define LCD_UPPER_MARGIN 1
-#define LCD_LOWER_MARGIN 5
-#define LCD_VSYNC_LEN 1
-
-#elif defined(CONFIG_FB_S3C2410_TFT640480)
-#define LCD_WIDTH 640
-#define LCD_HEIGHT 480
-#define LCD_PIXCLOCK 40000
-
-#define LCD_RIGHT_MARGIN 67 
-#define LCD_LEFT_MARGIN 40
-#define LCD_HSYNC_LEN 31
-
-#define LCD_UPPER_MARGIN 5
-#define LCD_LOWER_MARGIN 25
-#define LCD_VSYNC_LEN 1
-
-#elif defined(CONFIG_FB_S3C2410_T240320)
-#define LCD_WIDTH 240
-#define LCD_HEIGHT 320
-#define LCD_PIXCLOCK 170000
-#define LCD_RIGHT_MARGIN 25
-#define LCD_LEFT_MARGIN 0
-#define LCD_HSYNC_LEN 4
-#define LCD_UPPER_MARGIN 1
-#define LCD_LOWER_MARGIN 4
-#define LCD_VSYNC_LEN 1
-#define LCD_CON5 (S3C2410_LCDCON5_FRM565 | S3C2410_LCDCON5_INVVDEN | S3C2410_LCDCON5_INVVFRAME | S3C2410_LCDCON5_INVVLINE | S3C2410_LCDCON5_INVVCLK | S3C2410_LCDCON5_HWSWP ) 
-
-#elif defined(CONFIG_FB_S3C2410_TFT800480)
-#define LCD_WIDTH 800
-#define LCD_HEIGHT 480
-#define LCD_PIXCLOCK 40000
-
-#define LCD_RIGHT_MARGIN 67
-#define LCD_LEFT_MARGIN 40
-#define LCD_HSYNC_LEN 31
-
-#define LCD_UPPER_MARGIN 25
-#define LCD_LOWER_MARGIN 5
-#define LCD_VSYNC_LEN 1
-
-#elif defined(CONFIG_FB_S3C2410_VGA1024768)
-#define LCD_WIDTH 1024
-#define LCD_HEIGHT 768
-#define LCD_PIXCLOCK 80000
-
-#define LCD_RIGHT_MARGIN 15
-#define LCD_LEFT_MARGIN 199
-#define LCD_HSYNC_LEN 15
-
-#define LCD_UPPER_MARGIN 1
-#define LCD_LOWER_MARGIN 1
-#define LCD_VSYNC_LEN 1
-#define LCD_CON5 (S3C2410_LCDCON5_FRM565 | S3C2410_LCDCON5_HWSWP)
-
-#endif
-
-
-
-
-/*
-#if defined (LCD_WIDTH)
-
-static struct s3c2410fb_display gec2410_lcd_cfg __initdata = {
-
-#if !defined (LCD_CON5)
-	.lcdcon5	= S3C2410_LCDCON5_FRM565 |
-			  S3C2410_LCDCON5_INVVLINE |
-			  S3C2410_LCDCON5_INVVFRAME |
-			  S3C2410_LCDCON5_PWREN |
-			  S3C2410_LCDCON5_HWSWP,
-#else
-	.lcdcon5	= LCD_CON5,
-#endif
-
-	.type		= S3C2410_LCDCON1_TFT,
-
-	.width		= LCD_WIDTH,
-	.height		= LCD_HEIGHT,
-
-	.pixclock	= LCD_PIXCLOCK,
-	.xres		= LCD_WIDTH,
-	.yres		= LCD_HEIGHT,
-	.bpp		= 16,
-	.left_margin	= LCD_LEFT_MARGIN + 1,
-	.right_margin	= LCD_RIGHT_MARGIN + 1,
-	.hsync_len	= LCD_HSYNC_LEN + 1,
-	.upper_margin	= LCD_UPPER_MARGIN + 1,
-	.lower_margin	= LCD_LOWER_MARGIN + 1,
-	.vsync_len	= LCD_VSYNC_LEN + 1,
-};
-
-
-static struct s3c2410fb_mach_info gec2410_fb_info __initdata = {
-	.displays	= &gec2410_lcd_cfg,
-	.num_displays	= 1,
-	.default_display = 0,
-
-	.gpccon =       0xaa955699,
-	.gpccon_mask =  0xffc003cc,
-	.gpcup =        0x0000ffff,
-	.gpcup_mask =   0xffffffff,
-
-	.gpdcon =       0xaa95aaa1,
-	.gpdcon_mask =  0xffc0fff0,
-	.gpdup =        0x0000faff,
-	.gpdup_mask =   0xffffffff,
-
-
-	.lpcsel		= 0xf82,
-};
-
-#endif
-*/
-
-
-/****************** lcd *********************/
-/* LCD driver info_320x240 */
-#if 0
-static struct s3c2410fb_display gec2410_lcd_cfg __initdata = {
-	.lcdcon5 = S3C2410_LCDCON5_FRM565 |
- 				S3C2410_LCDCON5_INVVLINE |
- 				S3C2410_LCDCON5_INVVFRAME |
- 				S3C2410_LCDCON5_PWREN |
- 				S3C2410_LCDCON5_HWSWP,
-
-	.type = S3C2410_LCDCON1_TFT,
-	.width = 320,
-	.height = 240,
-	.pixclock = 170000, /* HCLK 60 MHz, divisor 10 */
-	.xres = 320,
-	.yres = 240,
-	.bpp = 16,
-	.left_margin = 21,
-	.right_margin = 39,
-	.hsync_len = 31,
-	.upper_margin = 16,
-	.lower_margin = 13,
-	.vsync_len = 4,
-
-};
-#endif
-
-/*LCD driver info_800x480*/
-#if 1
-//static struct s3c2410fb_display gec2410_lcd_cfg __initdata = {
-static struct s3c2410fb_display gec2410_lcd_cfg  = {
-	.lcdcon5 = S3C2410_LCDCON5_FRM565 |
- 				S3C2410_LCDCON5_INVVLINE |
- 				S3C2410_LCDCON5_INVVFRAME |
- 				S3C2410_LCDCON5_PWREN |
- 				S3C2410_LCDCON5_HWSWP,
-
-	.type = S3C2410_LCDCON1_TFT,
-	.width = 800,
-	.height = 480,
-	.pixclock = 170000, /* HCLK 60 MHz, divisor 10 */
-	.xres = 800,
-	.yres = 480,
-	.bpp = 16,
-	.left_margin = 40,
-	.right_margin = 40,
-	.hsync_len = 48,
-	.upper_margin = 29,
-	.lower_margin = 13,
-	.vsync_len = 3,
-};
-#endif
-
-#if 0
-static struct s3c2410fb_display gec2410_lcd_cfg __initdata = {
-	.lcdcon5 = S3C2410_LCDCON5_FRM565 |
- 				S3C2410_LCDCON5_INVVLINE |
- 				S3C2410_LCDCON5_INVVFRAME |
- 				S3C2410_LCDCON5_PWREN |
- 				S3C2410_LCDCON5_HWSWP,
-
-	.type = S3C2410_LCDCON1_TFT,
-	.width = 480,
-	.height = 272,
-	.pixclock = 170000, /* HCLK 60 MHz, divisor 10 */
-	.xres = 480,
-	.yres = 272,
-	.bpp = 16,
-	.left_margin = 40,
-	.right_margin = 40,
-	.hsync_len = 48,
-	.upper_margin = 29,
-	.lower_margin = 13,
-	.vsync_len = 3,
-};
-#endif
-
-/* 640*480 VGA driver info */
-#if 0
-static struct s3c2410fb_display gec2410_lcd_cfg __initdata = {
-	
-	.lcdcon5 = S3C2410_LCDCON5_FRM565 |
- 				S3C2410_LCDCON5_INVVLINE |
- 				S3C2410_LCDCON5_INVVFRAME |
- 				S3C2410_LCDCON5_PWREN |
- 				S3C2410_LCDCON5_HWSWP,
-
-	.type = S3C2410_LCDCON1_TFT,
-	.width = 640,
-	.height = 480,
-	.pixclock = 5000, /* HCLK 60 MHz, divisor 10 */
-	.xres = 640,
-	.yres = 480,
-	.bpp = 16,
-
-
-	.left_margin = 23,
-	.right_margin = 1,
-	.hsync_len = 135,
-	.upper_margin = 28,
-	.lower_margin = 2,
-	.vsync_len = 5,
-};
-#endif
-
-static struct s3c2410fb_mach_info gec2410_fb_info __initdata = {
-	.displays = &gec2410_lcd_cfg,
-	.num_displays = 1,
-	.default_display = 0,
-/*
-*/
-};
-
 
 
 static struct s3c24xx_uda134x_platform_data s3c24xx_uda134x_data = {
@@ -418,44 +163,28 @@ static struct s3c2410_platform_nand gec2410_nand_info = {
 	.ignore_unset_ecc = 1,
 };
 
-/* DM9000AEP 10/100 ethernet controller */
-#define MACH_GEC2410_DM9K_BASE 0x10000000
+/* CS89000A 10M ethernet controller */
+#define GEC2410_CS89000A_BASE 0x40000000
 
-static struct resource gec2410_dm9k_resource[] = {
-        [0] = {
-                .start = MACH_GEC2410_DM9K_BASE,
-                .end   = (MACH_GEC2410_DM9K_BASE + 0x3),
-                .flags = IORESOURCE_MEM
-        },
-        [1] = {
-                .start = (MACH_GEC2410_DM9K_BASE + 0x1000000),
-                .end   = (MACH_GEC2410_DM9K_BASE + 0x1000003),
-                .flags = IORESOURCE_MEM
-        },
-        [2] = {
-                .start = IRQ_EINT0,
-                .end   = IRQ_EINT0,
-                .flags = IORESOURCE_IRQ | IORESOURCE_IRQ_HIGHEDGE,
-        }
+static struct resource gec2410_cs89x0_resources[] = {
+	[0] = {
+		.start	= GEC2410_CS89000A_BASE,
+		.end	= GEC2410_CS89000A_BASE + 16,
+		.flags	= IORESOURCE_MEM,
+	},
+	[1] = {
+		.start	= IRQ_EINT9,
+		.end	= IRQ_EINT9,
+		.flags	= IORESOURCE_IRQ,
+	},
 };
 
-/*
- *  * The DM9000 has no eeprom, and it's MAC address is set by
- *   * the bootloader before starting the kernel.
- *    */
-static struct dm9000_plat_data gec2410_dm9k_pdata = {
-        .flags          = (DM9000_PLATF_16BITONLY | DM9000_PLATF_NO_EEPROM),
+static struct platform_device gec2410_cs89x0 = {
+	.name		= "cirrus-cs89x0",
+	.num_resources	= ARRAY_SIZE(gec2410_cs89x0_resources),
+	.resource	= gec2410_cs89x0_resources,
 };
 
-static struct platform_device gec2410_device_eth = {
-        .name           = "dm9000",
-        .id             = -1,
-        .num_resources  = ARRAY_SIZE(gec2410_dm9k_resource),
-        .resource       = gec2410_dm9k_resource,
-        .dev            = {
-                .platform_data  = &gec2410_dm9k_pdata,
-        },
-};
 
 /*
 usb set unknow
@@ -490,22 +219,22 @@ static struct s3c24xx_mci_pdata gec2410_mmc_cfg = {
 static struct gpio_led gec2410_led_pins[] = {
 	{
 		.name		= "LED1",
-		.gpio		= S3C2410_GPB(5),
+		.gpio		= S3C2410_GPF(4),
 		.active_low	= true,
 	},
 	{
 		.name		= "LED2",
-		.gpio		= S3C2410_GPB(6) ,
+		.gpio		= S3C2410_GPF(5) ,
 		.active_low	= true,
 	},
 	{
 		.name		= "LED3",
-		.gpio		= S3C2410_GPB(7),
+		.gpio		= S3C2410_GPF(6),
 		.active_low	= true,
 	},
 	{
 		.name		= "LED4",
-		.gpio		= S3C2410_GPB(8),
+		.gpio		= S3C2410_GPF(7),
 		.active_low	= true,
 	},
 };
@@ -536,7 +265,6 @@ static struct platform_device *gec2410_devices[] __initdata = {
 	&s3c_device_wdt,
 	&s3c_device_i2c0,
 	&s3c_device_iis,
-	&gec2410_device_eth,
 	&s3c24xx_uda134x,
 	&s3c_device_nand,
 	&s3c_device_sdi,
@@ -553,10 +281,12 @@ static void __init gec2410_map_io(void)
 	usb_gec2410_init();
 }
 
+extern  struct s3c2410fb_mach_info s3c24xx_fb_info __initdata;
+
 static void __init gec2410_machine_init(void)
 {
 
-	s3c24xx_fb_set_platdata(&gec2410_fb_info);
+	s3c24xx_fb_set_platdata(&s3c24xx_fb_info);
 
 	s3c_i2c0_set_platdata(NULL);
 
@@ -569,7 +299,7 @@ static void __init gec2410_machine_init(void)
 	s3c_pm_init();
 }
 
-MACHINE_START(GEC2410, "GEC2410 development board")
+MACHINE_START(GEC2410, "GEC2410/2440v1.1 development board")
 	.phys_io	= S3C2410_PA_UART,
 	.io_pg_offst	= (((u32)S3C24XX_VA_UART) >> 18) & 0xfffc,
 	.boot_params	= S3C2410_SDRAM_PA + 0x100,

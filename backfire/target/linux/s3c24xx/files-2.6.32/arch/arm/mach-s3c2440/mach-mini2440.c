@@ -69,7 +69,7 @@
 #include <plat/nand.h>
 #include <plat/pm.h>
 #include <plat/mci.h>
-
+#include <plat/lcd-config.h>
 
 #define FLASH_SIZE_64M	0x000004000000   
 #define FLASH_SIZE_128M	0x000008000000
@@ -115,6 +115,7 @@ static struct s3c2410_uartcfg mini2440_uartcfgs[] __initdata = {
 
 /* LCD driver info */
 
+#if 0
 #if defined(CONFIG_FB_S3C2410_N240320)
 
 #define LCD_WIDTH 240
@@ -249,6 +250,7 @@ static struct s3c2410fb_mach_info mini2440_fb_info __initdata = {
 };
 
 #endif
+#endif
 
 static struct s3c24xx_uda134x_platform_data s3c24xx_uda134x_data = {
 	.l3_clk = S3C2410_GPB(4),
@@ -265,33 +267,6 @@ static struct platform_device s3c24xx_uda134x = {
 };
 
 static struct mtd_partition friendly_arm_default_nand_part[] = {
-#if 0
-	[0] = {
-		.name	= "u-boot",
-		.size	= 0x00060000,
-		.offset	= 0,
-	},
-	[1] = {
-		.name	= "u-boot-env",
-		.offset = 0x00060000,
-		.size	= 0x00020000,
-	},
-	[2] = {
-		.name	= "kernel",
-		.offset = 0x00080000,
-		.size	= 0x00500000,
-	},
-	[3] = {
-		.name	= "root",
-		.offset = 0x00580000,
-		.size	= MTDPART_SIZ_FULL,
-	},
-	//[4] = {
-	//	.name	= "nand",
-	//	.offset = 0x00000000,
-	//	.size	= 1024 * 1024 * 1024, //
-	//}
-#endif
 	[0] = {
 		.name	= "u-boot",
 		.size	= SZ_256K+SZ_128K,
@@ -458,9 +433,8 @@ static void __init mini2440_map_io(void)
 
 static void __init mini2440_machine_init(void)
 {
-#if defined (LCD_WIDTH)
-	s3c24xx_fb_set_platdata(&mini2440_fb_info);
-#endif
+	s3c24xx_fb_set_platdata(&s3c24xx_fb_info);
+	
 	s3c_i2c0_set_platdata(NULL);
 
 	s3c2410_gpio_cfgpin(S3C2410_GPC(0), S3C2410_GPC0_LEND);

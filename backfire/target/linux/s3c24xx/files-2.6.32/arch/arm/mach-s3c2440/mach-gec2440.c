@@ -68,6 +68,7 @@
 #include <plat/nand.h>
 #include <plat/pm.h>
 #include <plat/mci.h>
+#include <plat/lcd-config.h>
 
 #include <plat/usb-control.h> //gec2440 usb ctl
 #include <linux/delay.h>
@@ -108,149 +109,6 @@ static struct s3c2410_uartcfg gec2440_uartcfgs[] __initdata = {
 	}
 };
 
-/* LCD driver info */
-
-#if defined(CONFIG_FB_S3C2410_N240320)
-
-#define LCD_WIDTH 240
-#define LCD_HEIGHT 320
-#define LCD_PIXCLOCK 100000
-
-#define LCD_RIGHT_MARGIN 36
-#define LCD_LEFT_MARGIN 19
-#define LCD_HSYNC_LEN 5
-
-#define LCD_UPPER_MARGIN 1
-#define LCD_LOWER_MARGIN 5
-#define LCD_VSYNC_LEN 1
-
-#elif defined(CONFIG_FB_S3C2410_N480272)
-
-#define LCD_WIDTH 480
-#define LCD_HEIGHT 272
-#define LCD_PIXCLOCK 100000
-
-#define LCD_RIGHT_MARGIN 36
-#define LCD_LEFT_MARGIN 19
-#define LCD_HSYNC_LEN 5
-
-#define LCD_UPPER_MARGIN 1
-#define LCD_LOWER_MARGIN 5
-#define LCD_VSYNC_LEN 1
-
-#elif defined(CONFIG_FB_S3C2410_TFT640480)
-#define LCD_WIDTH 640
-#define LCD_HEIGHT 480
-#define LCD_PIXCLOCK 40000
-
-#define LCD_RIGHT_MARGIN 67 
-#define LCD_LEFT_MARGIN 40
-#define LCD_HSYNC_LEN 31
-
-#define LCD_UPPER_MARGIN 5
-#define LCD_LOWER_MARGIN 25
-#define LCD_VSYNC_LEN 1
-
-#elif defined(CONFIG_FB_S3C2410_T240320)
-#define LCD_WIDTH 240
-#define LCD_HEIGHT 320
-#define LCD_PIXCLOCK 170000
-#define LCD_RIGHT_MARGIN 25
-#define LCD_LEFT_MARGIN 0
-#define LCD_HSYNC_LEN 4
-#define LCD_UPPER_MARGIN 1
-#define LCD_LOWER_MARGIN 4
-#define LCD_VSYNC_LEN 1
-#define LCD_CON5 (S3C2410_LCDCON5_FRM565 | S3C2410_LCDCON5_INVVDEN | S3C2410_LCDCON5_INVVFRAME | S3C2410_LCDCON5_INVVLINE | S3C2410_LCDCON5_INVVCLK | S3C2410_LCDCON5_HWSWP ) 
-
-#elif defined(CONFIG_FB_S3C2410_TFT800480)
-#define LCD_WIDTH 800
-#define LCD_HEIGHT 480
-#define LCD_PIXCLOCK 40000
-
-#define LCD_RIGHT_MARGIN 67
-#define LCD_LEFT_MARGIN 40
-#define LCD_HSYNC_LEN 31
-
-#define LCD_UPPER_MARGIN 25
-#define LCD_LOWER_MARGIN 5
-#define LCD_VSYNC_LEN 1
-
-#elif defined(CONFIG_FB_S3C2410_VGA1024768)
-#define LCD_WIDTH 1024
-#define LCD_HEIGHT 768
-#define LCD_PIXCLOCK 80000
-
-#define LCD_RIGHT_MARGIN 15
-#define LCD_LEFT_MARGIN 199
-#define LCD_HSYNC_LEN 15
-
-#define LCD_UPPER_MARGIN 1
-#define LCD_LOWER_MARGIN 1
-#define LCD_VSYNC_LEN 1
-#define LCD_CON5 (S3C2410_LCDCON5_FRM565 | S3C2410_LCDCON5_HWSWP)
-
-#endif
-
-
-
-
-/*
-#if defined (LCD_WIDTH)
-
-static struct s3c2410fb_display gec2440_lcd_cfg __initdata = {
-
-#if !defined (LCD_CON5)
-	.lcdcon5	= S3C2410_LCDCON5_FRM565 |
-			  S3C2410_LCDCON5_INVVLINE |
-			  S3C2410_LCDCON5_INVVFRAME |
-			  S3C2410_LCDCON5_PWREN |
-			  S3C2410_LCDCON5_HWSWP,
-#else
-	.lcdcon5	= LCD_CON5,
-#endif
-
-	.type		= S3C2410_LCDCON1_TFT,
-
-	.width		= LCD_WIDTH,
-	.height		= LCD_HEIGHT,
-
-	.pixclock	= LCD_PIXCLOCK,
-	.xres		= LCD_WIDTH,
-	.yres		= LCD_HEIGHT,
-	.bpp		= 16,
-	.left_margin	= LCD_LEFT_MARGIN + 1,
-	.right_margin	= LCD_RIGHT_MARGIN + 1,
-	.hsync_len	= LCD_HSYNC_LEN + 1,
-	.upper_margin	= LCD_UPPER_MARGIN + 1,
-	.lower_margin	= LCD_LOWER_MARGIN + 1,
-	.vsync_len	= LCD_VSYNC_LEN + 1,
-};
-
-
-static struct s3c2410fb_mach_info gec2440_fb_info __initdata = {
-	.displays	= &gec2440_lcd_cfg,
-	.num_displays	= 1,
-	.default_display = 0,
-
-	.gpccon =       0xaa955699,
-	.gpccon_mask =  0xffc003cc,
-	.gpcup =        0x0000ffff,
-	.gpcup_mask =   0xffffffff,
-
-	.gpdcon =       0xaa95aaa1,
-	.gpdcon_mask =  0xffc0fff0,
-	.gpdup =        0x0000faff,
-	.gpdup_mask =   0xffffffff,
-
-
-	.lpcsel		= 0xf82,
-};
-
-#endif
-*/
-
-
 /****************** lcd *********************/
 /* LCD driver info_320x240 */
 #if 0
@@ -279,7 +137,7 @@ static struct s3c2410fb_display gec2440_lcd_cfg __initdata = {
 #endif
 
 /*LCD driver info_800x480*/
-#if 1
+#if 0
 //static struct s3c2410fb_display gec2440_lcd_cfg __initdata = {
 static struct s3c2410fb_display gec2440_lcd_cfg  = {
 	.lcdcon5 = S3C2410_LCDCON5_FRM565 |
@@ -354,7 +212,7 @@ static struct s3c2410fb_display gec2440_lcd_cfg __initdata = {
 	.lower_margin = 2,
 	.vsync_len = 5,
 };
-#endif
+
 
 static struct s3c2410fb_mach_info gec2440_fb_info __initdata = {
 	.displays = &gec2440_lcd_cfg,
@@ -363,7 +221,7 @@ static struct s3c2410fb_mach_info gec2440_fb_info __initdata = {
 /*
 */
 };
-
+#endif
 
 
 static struct s3c24xx_uda134x_platform_data s3c24xx_uda134x_data = {
@@ -596,7 +454,7 @@ static void __init gec2440_map_io(void)
 static void __init gec2440_machine_init(void)
 {
 
-	s3c24xx_fb_set_platdata(&gec2440_fb_info);
+	s3c24xx_fb_set_platdata(&s3c24xx_fb_info);
 
 	s3c_i2c0_set_platdata(NULL);
 
