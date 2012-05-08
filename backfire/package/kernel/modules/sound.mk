@@ -174,9 +174,11 @@ $(call KernelPackage/sound/Depends)
 	CONFIG_SND_S3C24XX_SOC_SIMTEC_TLV320AIC23=n \
 	CONFIG_SND_S3C24XX_SOC_SIMTEC_HERMES=n 
   FILES:= \
+	$(LINUX_DIR)/sound/soc/codecs/snd-soc-l3.ko \
 	$(LINUX_DIR)/sound/soc/codecs/snd-soc-uda134x.ko \
 	$(LINUX_DIR)/sound/soc/s3c24xx/snd-soc-s3c24xx-uda134x.ko
   AUTOLOAD:= \
+	$(call AutoLoad,55,snd-soc-l3) \
 	$(call AutoLoad,55,snd-soc-uda134x) \
 	$(call AutoLoad,55,snd-soc-s3c24xx-uda134x) 
 endef
