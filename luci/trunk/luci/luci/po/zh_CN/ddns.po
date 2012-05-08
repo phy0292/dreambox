@@ -81,11 +81,11 @@ msgstr "时间单位"
 #~ msgid "interval minute"
 #~ msgstr "间隔时间，单位分钟，0关闭"
 
-#~ msgid "ddns update time"
-#~ msgstr "ddns更新时间"
+msgid "ddns update time"
+msgstr "ddns更新时间"
 
-#~ msgid "ip address"
-#~ msgstr "当前ip地址"
+msgid "ip address"
+msgstr "当前ip地址"
 
 #~ msgid "Intranet"
 #~ msgstr "内网"

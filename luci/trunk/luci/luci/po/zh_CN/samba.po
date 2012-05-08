@@ -78,5 +78,10 @@ msgstr ""
 msgid "Workgroup"
 msgstr "工作组"
 
+msgid "Optimization settings"
+msgstr "优化配置"
+
+msgid "Samba Optimization and Speed Tuning"
+msgstr "samba调节以及速度优化"
 #~ msgid "Physical Path"
 #~ msgstr "物理路径"

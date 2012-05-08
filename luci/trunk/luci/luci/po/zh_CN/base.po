@@ -1915,7 +1915,7 @@ msgid "No chains in this table"
 msgstr "本表中没有数据"
 
 msgid "No devices detected"
-msgstr ""
+msgstr "没有检测到设备"
 
 msgid "No files found"
 msgstr "没有文件被找到"
@@ -1930,10 +1930,10 @@ msgid "No network configured on this device"
 msgstr "这个设备上没有网络被设置"
 
 msgid "No network name specified"
-msgstr ""
+msgstr "没有指定网络名称"
 
 msgid "No package lists available"
-msgstr ""
+msgstr "没有可用的软件包列表"
 
 msgid "No password set!"
 msgstr "未设置密码"
@@ -1942,7 +1942,7 @@ msgid "No rules in this chain"
 msgstr "无规则"
 
 msgid "No zone assigned"
-msgstr ""
+msgstr "未分配区域"
 
 msgid "Noise"
 msgstr "噪声"
@@ -4128,8 +4128,8 @@ msgstr "返回"
 #~ "这里可以粘贴公用<abbr title=\"Secure Shell\">SSH</abbr>密钥以用于<abbr "
 #~ "title=\"Secure Shell\">SSH</abbr>公共密钥认证(每行一个密钥)。"
 
-#~ msgid "Menu"
-#~ msgstr "开始"
+msgid "Menu"
+msgstr "菜单"
 
 #~ msgid "Guide Prev Step"
 #~ msgstr "上一步"

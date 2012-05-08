@@ -28,10 +28,10 @@ msgid "Port"
 msgstr ""
 
 msgid "Settings"
-msgstr ""
+msgstr "设置"
 
 msgid "TCP listener port."
-msgstr ""
+msgstr "监听端口"
 
 msgid "enable"
 msgstr "启用"
