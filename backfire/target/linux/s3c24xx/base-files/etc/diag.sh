@@ -43,7 +43,6 @@ set_state() {
 		;;
 		done)
 		status_led_on
-		led_set_attr LED2 "brightness" 255
 		;;
 	esac
 }
