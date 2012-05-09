@@ -73,36 +73,6 @@ endef
 
 $(eval $(call KernelPackage,spi-gpio))
 
-define KernelPackage/spi-s3c24xx
-  SUBMENU:=$(SPI_MENU)
-  TITLE:=S3C24xx SPI Master
-  DEPENDS:=@TARGET_s3c24xx @GPIO_SUPPORT +kmod-spi-bitbang
-  KCONFIG:=CONFIG_SPI_S3C24XX=m
-  FILES:=$(LINUX_DIR)/drivers/spi/spi_s3c24xx.$(LINUX_KMOD_SUFFIX)
-  AUTOLOAD:=$(call AutoLoad,92,spi_s3c24xx)
-endef
-
-define KernelPackage/spi-s3c24xx/description
- This package contains the S3C24xx SPI Master
-endef
-
-$(eval $(call KernelPackage,spi-s3c24xx))
-
-define KernelPackage/spi-s3c24xx-gpio
-  SUBMENU:=$(SPI_MENU)
-  TITLE:=GPIO-based S3C24xx SPI Master
-  DEPENDS:=@TARGET_s3c24xx +kmod-spi-s3c24xx
-  KCONFIG:=CONFIG_SPI_S3C24XX_GPIO=m
-  FILES:=$(LINUX_DIR)/drivers/spi/spi_s3c24xx_gpio.$(LINUX_KMOD_SUFFIX)
-  AUTOLOAD:=$(call AutoLoad,92,spi_s3c24xx_gpio)
-endef
-
-define KernelPackage/spi-s3c24xx-gpio/description
- This package contains the GPIO-based bitbanging SPI Master
-endef
-
-$(eval $(call KernelPackage,spi-s3c24xx-gpio))
-
 define KernelPackage/spi-dev
   SUBMENU:=$(SPI_MENU)
   TITLE:=User mode SPI device driver

@@ -372,30 +372,6 @@ endef
 
 $(eval $(call KernelPackage,mmc))
 
-
-define KernelPackage/mmc-s3c24xx
-  SUBMENU:=$(OTHER_MENU)
-  TITLE:=MMC/SD Card Support on S3C24xx
-  DEPENDS:=@TARGET_s3c24xx +kmod-mmc
-  KCONFIG:= \
-	    CONFIG_MMC_S3C \
-	    CONFIG_MMC_S3C_PIO=n \
-	    CONFIG_MMC_S3C_HW_SDIO_IRQ=y \
-	    CONFIG_MMC_S3C_DMA=n \
-	    CONFIG_MMC_S3C_PIODMA=y
-  FILES:= \
-	$(LINUX_DIR)/drivers/mmc/host/s3cmci.$(LINUX_KMOD_SUFFIX)
-  AUTOLOAD:= \
-	$(call AutoLoad,90,s3cmci,1)
-endef
-
-define KernelPackage/mmc-s3c24xx/description
- Kernel support for MMC/SD cards on the s3c24xx target
-endef
-
-$(eval $(call KernelPackage,mmc-s3c24xx))
-
-
 define KernelPackage/mmc-at91
   SUBMENU:=$(OTHER_MENU)
   TITLE:=MMC/SD Card Support on AT91
