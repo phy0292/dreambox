@@ -38,6 +38,11 @@ define Image/Build/squashfs
 		dd if=$(KDIR)/uImage bs=1024k conv=sync; \
 		dd if=$(KDIR)/root.$(1) bs=64k conv=sync; \
 	) > $(BIN_DIR)/openwrt-$(BOARD)-$(1).img
+	$(STAGING_DIR_HOST)/bin/mkyaffs2image-page2k $(STAGING_DIR_ROOT)/ $(BIN_DIR)/openwrt-$(BOARD)-yaffs2-128k.img
 endef
+
+#define Image/Build/yaffs2-128k
+#	$(STAGING_DIR_HOST)/bin/mkyaffs2image-page2k $(STAGING_DIR_ROOT)/ $(BIN_DIR)/openwrt-$(BOARD)-$(1).yaffs2
+#endef
 
 $(eval $(call BuildImage))
