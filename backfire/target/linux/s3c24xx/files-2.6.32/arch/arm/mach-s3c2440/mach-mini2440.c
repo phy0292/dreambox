@@ -44,6 +44,9 @@
 #include <linux/mtd/partitions.h>
 #include <linux/dm9000.h>
 #include <linux/mmc/host.h>
+#include <linux/gpio_keys.h>
+#include <linux/gpio_buttons.h>
+#include <linux/input.h>
 
 #include <asm/mach/arch.h>
 #include <asm/mach/map.h>
@@ -400,6 +403,58 @@ static struct platform_device mini2440_leds = {
 	.dev.platform_data	= &mini2440_led_data,
 };
 
+static struct gpio_keys_button mini2440_buttons[] = {
+	{
+		.desc		= "BTN0",
+		.type		= EV_KEY,
+		.code		= BTN_0,
+		.gpio		= S3C2410_GPG(11),
+		.active_low	= 1,
+	}, {
+		.desc		= "BTN1",
+		.type		= EV_KEY,
+		.code		= BTN_1,
+		.gpio		= S3C2410_GPG(7),
+		.active_low	= 1,
+	}, {
+		.desc		= "BTN2",
+		.type		= EV_KEY,
+		.code		= BTN_2,
+		.gpio		= S3C2410_GPG(6),
+		.active_low	= 1,
+	}, {
+		.desc		= "BTN3",
+		.type		= EV_KEY,
+		.code		= BTN_3,
+		.gpio		= S3C2410_GPG(5),
+		.active_low	= 1,
+	},{
+		.desc		= "BTN4",
+		.type		= EV_KEY,
+		.code		= BTN_4,
+		.gpio		= S3C2410_GPG(3),
+		.active_low	= 1,
+	}, {
+		.desc		= "BTN5",
+		.type		= EV_KEY,
+		.code		= BTN_5,
+		.gpio		= S3C2410_GPG(0),
+		.active_low	= 1,
+	},
+};
+
+static struct gpio_keys_platform_data mini2440_button_data = {
+	.buttons	= mini2440_buttons,
+	.nbuttons	= ARRAY_SIZE(mini2440_buttons),
+};
+
+static struct platform_device mini2440_button_device = {
+	.name		= "gpio-keys",
+	.id		= -1,
+	.dev		= {
+		.platform_data	= &mini2440_button_data,
+	}
+};
 
 static struct resource gpiodev_resource = {
 	.start			= 0xFFFFFFFF,
@@ -421,6 +476,7 @@ static struct platform_device *mini2440_devices[] __initdata = {
 	&s3c_device_sdi,
 	&s3c_device_usbgadget,
 	&mini2440_leds,
+	&mini2440_button_device
 };
 
 

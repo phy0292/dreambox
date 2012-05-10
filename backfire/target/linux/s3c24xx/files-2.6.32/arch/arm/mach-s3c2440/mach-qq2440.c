@@ -37,6 +37,9 @@
 #include <linux/platform_device.h>
 #include <linux/io.h>
 #include <linux/gpio.h>
+#include <linux/gpio_keys.h>
+#include <linux/gpio_buttons.h>
+#include <linux/input.h>
 #include <linux/sysdev.h>
 #include <linux/mtd/mtd.h>
 #include <linux/mtd/nand.h>
@@ -274,6 +277,47 @@ static struct platform_device qq2440_leds = {
 	.dev.platform_data	= &qq2440_led_data,
 };
 
+static struct gpio_keys_button qq2440_buttons[] = {
+	{
+		.desc		= "BTN0",
+		.type		= EV_KEY,
+		.code		= BTN_0,
+		.gpio		= S3C2410_GPF(0),
+		.active_low	= 1,
+	}, {
+		.desc		= "BTN1",
+		.type		= EV_KEY,
+		.code		= BTN_1,
+		.gpio		= S3C2410_GPF(2),
+		.active_low	= 1,
+	}, {
+		.desc		= "BTN2",
+		.type		= EV_KEY,
+		.code		= BTN_2,
+		.gpio		= S3C2410_GPG(3),
+		.active_low	= 1,
+	}, {
+		.desc		= "BTN3",
+		.type		= EV_KEY,
+		.code		= BTN_3,
+		.gpio		= S3C2410_GPG(11),
+		.active_low	= 1,
+	},
+};
+
+static struct gpio_keys_platform_data qq2440_button_data = {
+	.buttons	= qq2440_buttons,
+	.nbuttons	= ARRAY_SIZE(qq2440_buttons),
+};
+
+static struct platform_device qq2440_button_device = {
+	.name		= "gpio-keys",
+	.id		= -1,
+	.dev		= {
+		.platform_data	= &qq2440_button_data,
+	}
+};
+
 
 static struct resource gpiodev_resource = {
 	.start			= 0xFFFFFFFF,
@@ -294,6 +338,7 @@ static struct platform_device *qq2440_devices[] __initdata = {
 	&s3c_device_sdi,
 	&s3c_device_usbgadget,
 	&qq2440_leds,
+	&qq2440_button_device,
 };
 
 

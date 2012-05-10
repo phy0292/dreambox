@@ -7,9 +7,9 @@
 */
 
 /*
- * Based on same file of Michel Pollet
- *        by FriendlyARM 2009-12-31
- *  	  visit http://www.arm9.net for more information             
+ * GEC2440 has two of hareware version.
+ *        V1.1 has a CS89000A base 10M ethernet controller V2 has DM90000AEP 10/100 ethernet controller.
+ *  	  Some configure  are different,like SD/MMC,LEDs.      
  */
 
 /*
@@ -42,6 +42,8 @@
 #include <linux/mtd/partitions.h>
 #include <linux/dm9000.h>
 #include <linux/mmc/host.h>
+#include <linux/gpio_keys.h>
+#include <linux/input.h>
 
 #include <asm/mach/arch.h>
 #include <asm/mach/map.h>
@@ -77,6 +79,8 @@
 
 #define NAND_FLASH_SIZE 0x000004000000
 #include <sound/s3c24xx_uda134x.h>
+
+#define HARDWARE_VERSION_A
 
 static struct map_desc gec2440_iodesc[] __initdata = {
 };
@@ -316,6 +320,29 @@ static struct s3c2410_platform_nand gec2440_nand_info = {
 	.ignore_unset_ecc = 1,
 };
 
+#if defined(HARDWARE_VERSION_A)
+/* CS89000A 10M ethernet controller */
+#define GEC2410_CS89000A_BASE 0x40000000
+
+static struct resource gec2440_cs89x0_resources[] = {
+	[0] = {
+		.start	= GEC2410_CS89000A_BASE,
+		.end	= GEC2410_CS89000A_BASE + 16,
+		.flags	= IORESOURCE_MEM,
+	},
+	[1] = {
+		.start	= IRQ_EINT9,
+		.end	= IRQ_EINT9,
+		.flags	= IORESOURCE_IRQ,
+	},
+};
+
+static struct platform_device gec2440_cs89x0 = {
+	.name		= "cirrus-cs89x0",
+	.num_resources	= ARRAY_SIZE(gec2440_cs89x0_resources),
+	.resource	= gec2440_cs89x0_resources,
+};
+#else
 /* DM9000AEP 10/100 ethernet controller */
 #define MACH_GEC2440_DM9K_BASE 0x10000000
 
@@ -354,11 +381,12 @@ static struct platform_device gec2440_device_eth = {
                 .platform_data  = &gec2440_dm9k_pdata,
         },
 };
+#endif
 
 /*
 usb set unknow
 */
-static struct s3c2410_hcd_info usb_gec2410_info = {
+static struct s3c2410_hcd_info usb_gec2440_info = {
  	.port[0] = {
 	.flags = S3C_HCDFLG_USED ,
 	}
@@ -367,7 +395,7 @@ int usb_gec2440_init(void)
 {
 	unsigned long upllvalue = (0x78<<12)|(0x02<<4)|(0x03);
 	printk("USB Control, (c) 2009 gec2440\n");
-	s3c_device_usb.dev.platform_data = &usb_gec2410_info;
+	s3c_device_usb.dev.platform_data = &usb_gec2440_info;
 	while(upllvalue!=__raw_readl(S3C2410_UPLLCON))
 	{
  		__raw_writel(upllvalue,S3C2410_UPLLCON);
@@ -384,7 +412,32 @@ static struct s3c24xx_mci_pdata gec2440_mmc_cfg = {
    .ocr_avail     = MMC_VDD_32_33|MMC_VDD_33_34,
 };
 
+
 //LED
+#if defined(HARDWARE_VERSION_A)
+static struct gpio_led gec2440_led_pins[] = {
+	{
+		.name		= "LED1",
+		.gpio		= S3C2410_GPF(5),
+		.active_low	= true,
+	},
+	{
+		.name		= "LED2",
+		.gpio		= S3C2410_GPF(4) ,
+		.active_low	= true,
+	},
+	{
+		.name		= "LED3",
+		.gpio		= S3C2410_GPF(6),
+		.active_low	= true,
+	},
+	{
+		.name		= "LED4",
+		.gpio		= S3C2410_GPF(7),
+		.active_low	= true,
+	},
+};
+#else
 static struct gpio_led gec2440_led_pins[] = {
 	{
 		.name		= "LED1",
@@ -407,7 +460,7 @@ static struct gpio_led gec2440_led_pins[] = {
 		.active_low	= true,
 	},
 };
-
+#endif
 static struct gpio_led_platform_data gec2440_led_data = {
 	.num_leds		= ARRAY_SIZE(gec2440_led_pins),
 	.leds			= gec2440_led_pins,
@@ -417,6 +470,43 @@ static struct platform_device gec2440_leds = {
 	.name			= "leds-gpio",
 	.id			= -1,
 	.dev.platform_data	= &gec2440_led_data,
+};
+
+static struct gpio_keys_button gec2440_buttons[] = {
+	{
+		.gpio		= S3C2410_GPF(0),
+		.code		= BTN_0,
+		.desc		= "BTN0",
+		.active_low	= 0,
+	},{
+		.gpio		= S3C2410_GPF(2),
+		.code		= BTN_1,
+		.desc		= "BTN1",
+		.active_low	= 0,
+	},{
+		.gpio		= S3C2410_GPG(3),
+		.code		= BTN_2,
+		.desc		= "BTN2",
+		.active_low	= 0,
+	},{
+		.gpio		= S3C2410_GPF(11),
+		.code		= BTN_3,
+		.desc		= "BTN3",
+		.active_low	= 0,
+	},
+};
+static struct gpio_keys_platform_data gec2440_button_data = {
+	.buttons	= gec2440_buttons,
+	.nbuttons	= ARRAY_SIZE(gec2440_buttons),
+};
+
+static struct platform_device gec2440_button_device = {
+	.name		= "gpio-keys",
+	.id		= -1,
+	.num_resources	= 0,
+	.dev		= {
+		.platform_data	= &gec2440_button_data,
+	}
 };
 
 
@@ -434,12 +524,16 @@ static struct platform_device *gec2440_devices[] __initdata = {
 	&s3c_device_wdt,
 	&s3c_device_i2c0,
 	&s3c_device_iis,
+#if defined(HARDWARE_VERSION_A)
+#else
 	&gec2440_device_eth,
+#endif
 	&s3c24xx_uda134x,
 	&s3c_device_nand,
 	&s3c_device_sdi,
 	&s3c_device_usbgadget,
 	&gec2440_leds,
+	&gec2440_button_device,
 };
 
 
@@ -459,7 +553,7 @@ static void __init gec2440_machine_init(void)
 	s3c_i2c0_set_platdata(NULL);
 
 	s3c2410_gpio_cfgpin(S3C2410_GPC(0), S3C2410_GPC0_LEND);
-	s3c_device_usb.dev.platform_data = &usb_gec2410_info;
+	s3c_device_usb.dev.platform_data = &usb_gec2440_info;
 	s3c_device_nand.dev.platform_data = &gec2440_nand_info;
 	s3c_device_sdi.dev.platform_data = &gec2440_mmc_cfg;
 	platform_add_devices(gec2440_devices, ARRAY_SIZE(gec2440_devices));

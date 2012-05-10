@@ -30,6 +30,9 @@
 #include <linux/dm9000.h>
 #include <linux/mmc/host.h>
 
+#include <linux/gpio_keys.h>
+#include <linux/input.h>
+
 #include <asm/mach/arch.h>
 #include <asm/mach/map.h>
 #include <asm/mach/irq.h>
@@ -207,10 +210,9 @@ int usb_gec2410_init(void)
  	return 0;
 }
 /* MMC/SD  */
-
 static struct s3c24xx_mci_pdata gec2410_mmc_cfg = {
-   .gpio_detect   = S3C2410_GPG(8),
-   .gpio_wprotect = S3C2410_GPH(8),
+   .gpio_detect   = S3C2410_GPG(10),
+   .gpio_wprotect = S3C2410_GPH(0),
    .set_power     = NULL,
    .ocr_avail     = MMC_VDD_32_33|MMC_VDD_33_34,
 };
@@ -219,22 +221,22 @@ static struct s3c24xx_mci_pdata gec2410_mmc_cfg = {
 static struct gpio_led gec2410_led_pins[] = {
 	{
 		.name		= "LED1",
-		.gpio		= S3C2410_GPF(4),
+		.gpio		= S3C2410_GPE(11),
 		.active_low	= true,
 	},
 	{
 		.name		= "LED2",
-		.gpio		= S3C2410_GPF(5) ,
+		.gpio		= S3C2410_GPE(12) ,
 		.active_low	= true,
 	},
 	{
 		.name		= "LED3",
-		.gpio		= S3C2410_GPF(6),
+		.gpio		= S3C2410_GPH(4),
 		.active_low	= true,
 	},
 	{
 		.name		= "LED4",
-		.gpio		= S3C2410_GPF(7),
+		.gpio		= S3C2410_GPH(6),
 		.active_low	= true,
 	},
 };
@@ -249,7 +251,27 @@ static struct platform_device gec2410_leds = {
 	.id			= -1,
 	.dev.platform_data	= &gec2410_led_data,
 };
+static struct gpio_keys_button gec2410_buttons[] = {
+	{
+		.gpio		= S3C2410_GPG(3),
+		.code		= BTN_0,
+		.desc		= "BTN0",
+		.active_low	= 0,
+	},
+};
+static struct gpio_keys_platform_data gec2410_button_data = {
+	.buttons	= gec2410_buttons,
+	.nbuttons	= ARRAY_SIZE(gec2410_buttons),
+};
 
+static struct platform_device gec2410_button_device = {
+	.name		= "gpio-keys",
+	.id		= -1,
+	.num_resources	= 0,
+	.dev		= {
+		.platform_data	= &gec2410_button_data,
+	}
+};
 
 static struct resource gpiodev_resource = {
 	.start			= 0xFFFFFFFF,
@@ -270,6 +292,7 @@ static struct platform_device *gec2410_devices[] __initdata = {
 	&s3c_device_sdi,
 	&s3c_device_usbgadget,
 	&gec2410_leds,
+	&gec2410_button_device,
 };
 
 
@@ -299,7 +322,7 @@ static void __init gec2410_machine_init(void)
 	s3c_pm_init();
 }
 
-MACHINE_START(GEC2410, "GEC2410/2440v1.1 development board")
+MACHINE_START(GEC2410, "GEC2410Bv1.1 development board")
 	.phys_io	= S3C2410_PA_UART,
 	.io_pg_offst	= (((u32)S3C24XX_VA_UART) >> 18) & 0xfffc,
 	.boot_params	= S3C2410_SDRAM_PA + 0x100,
