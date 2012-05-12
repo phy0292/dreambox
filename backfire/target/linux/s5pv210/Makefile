@@ -10,7 +10,7 @@ ARCH:=arm
 BOARD:=s5pv210
 BOARDNAME:=Samsung S5PV210
 FEATURES:=jffs2 squashfs
-CFLAGS:=-O2 -pipe -march=armv7-a -mtune=cortex-a8 -funit-at-a-time -mfpu=vfpv3-d16 -mfloat-abi=softfp
+CFLAGS:=-O2 -pipe -march=armv7-a -mtune=cortex-a8 -funit-at-a-time -mfpu=vfp -mfloat-abi=softfp
 SUBTARGETS:=tiny210 mini210
 
 LINUX_VERSION:=2.6.35.7
