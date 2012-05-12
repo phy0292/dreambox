@@ -8,11 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=OpenCV
-PKG_VERSION:=2.3.1a
+PKG_VERSION:=2.4.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
-PKG_SOURCE_URL:=@SF/opencvlibrary
+#PKG_SOURCE_URL:=@SF/opencvlibrary/files/opencv-unix/2.4.0/
+PKG_SOURCE_URL:=http://nchc.dl.sourceforge.net/project/opencvlibrary/files/opencv-unix/2.4.0/
 #PKG_MD5SUM:=0d2a089bfbfa550e0c65618a171fb3c4
 
 PKG_FIXUP = libtool
