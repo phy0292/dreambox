@@ -12,6 +12,36 @@
 
 INTERFACE=${INTERFACE}
 
+encodeurl()
+{
+    encoded_str=`echo "$*" | awk 'BEGIN {
+        split ("1 2 3 4 5 6 7 8 9 A B C D E F", hextab, " ")
+        hextab [0] = 0
+        for (i=1; i<=255; ++i) { 
+            ord [ sprintf ("%c", i) "" ] = i + 0
+        }
+    }
+    {
+        encoded = ""
+        for (i=1; i<=length($0); ++i) {
+            c = substr ($0, i, 1)
+            if ( c ~ /[a-zA-Z0-9.-]/ ) {
+                encoded = encoded c             # safe character
+            } else if ( c == " " ) {
+                encoded = encoded "+"   # special handling
+            } else {
+                # unsafe character, encode it as a two-digit hex-number
+                lo = ord [c] % 16
+                hi = int (ord [c] / 16);
+                encoded = encoded "%" hextab [hi] hextab [lo]
+            }
+        }
+        print encoded
+    }' 2>/dev/null`
+
+echo ${encoded_str}
+}
+
 update_ipaddress(){
 
   [ -n "$service_name" ]&&update_url=$(cat /usr/lib/ddns/services |grep $service_name|awk -F " " '{print $2}')
@@ -34,9 +64,12 @@ update_ipaddress(){
 [ $(echo $service_name |grep -v dyndns ) ]|| ipaddr=$(echo `wget -q -O- http://checkip.dyndns.org/`|grep -o "$ip_regex")
   }
 
+# encode  username password
+username=$(encodeurl $username)
+password=$(encodeurl $password)
 
  #change username
- 
+
  update_url=$(echo $update_url | sed s/"\[USERNAME\]"/"$username"/g)
   #change password
  update_url=$(echo $update_url | sed s/"\[PASSWORD\]"/"$password"/g)
@@ -49,7 +82,7 @@ update_ipaddress(){
   #update  ipaddr 
   echo "wget -q -O- $update_url" 
     
-  wget -t 2 -T 10 -q -O- $update_url 
+  wget -t 2 -T 10 -q -O- "$update_url" 
   nowtime=`date +%c`
 #echo `wget -q -O- http://checkip.dyndns.org/`|grep -o "$ip_regex"
 
@@ -91,8 +124,8 @@ ddns_service_get(){
  config_get update_url $1 update_url
  config_get uptime $1 uptime
  section=$1
+
 	ip_regex="[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}" 
-echo line 97
  [ "$enabled" == "1" ]&&{
 	ipaddr=$(uci -P /var/state get network.${ip_network}.ipaddr)
 	old_ipaddr=$(ping -c 1 $domain|head -1 | grep -o "$ip_regex")
@@ -114,7 +147,6 @@ update_ipaddress
 }
 
  config_load ddns
- config_foreach oscam_conf conf
 
 case "$1" in
 	start )
