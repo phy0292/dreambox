@@ -7,7 +7,7 @@ uci -q batch <<-EOF >/dev/null
           delete ucitrack.@oscam[-1]
           add ucitrack oscam
           set ucitrack.@oscam[-1].init=oscam
-          set ucitrack.@oscam[-1].affects=cron    
+          add_list ucitrack.@oscam[-1].affects=cron    
           commit ucitrack
 EOF
 rm -f /tmp/luci-indexcache
