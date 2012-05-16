@@ -292,7 +292,7 @@ rt305x_esw_hw_init(struct rt305x_esw *esw)
 		break;
 
 	case RT305X_ESW_VLAN_CONFIG_HG256:
-#if 1
+#if 0
 #define RTL8211_PHY_ADDR 0x1F
 //#define CONFIG_P5_MAC_TO_PHY_MODE 1
 printk("Setting up RTL8211CL PHY...");
