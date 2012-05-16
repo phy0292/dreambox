@@ -86,6 +86,10 @@ define Image/Build/Template/GENERIC_16M
 	$(call BuildFirmware/Generic,$(1),$(2),board=$(3),mtdlayout_16M,1048576,14680064)
 endef
 
+define Image/Build/Template/HG256
+	$(call BuildFirmware/Generic,$(1),$(2),board=$(3),mtdlayout_16M,1048576,7340032)
+endef
+
 define Image/Build/Profile/DIR300B1
 	$(call Image/Build/Template/GENERIC_4M,$(1),dir-300-b1,DIR-300-revB)
 endef
@@ -96,6 +100,10 @@ endef
 
 define Image/Build/Profile/HG255D
 	$(call Image/Build/Template/GENERIC_16M,$(1),hg255d,HG255D)
+endef
+
+define Image/Build/Profile/HG256
+	$(call Image/Build/Template/HG256,$(1),hg256,HG256)
 endef
 
 define Image/Build/Profile/RT-N13
@@ -117,6 +125,7 @@ define Image/Build/Profile/Default
 	$(call Image/Build/Profile/V22RW2X2,$(1))
 	$(call Image/Build/Profile/WHRG300N,$(1))
 	$(call Image/Build/Profile/HG255D,$(1))
+	$(call Image/Build/Profile/HG256,$(1))
 	$(call Image/Build/Profile/RT-N13,$(1))
 endef
 endif

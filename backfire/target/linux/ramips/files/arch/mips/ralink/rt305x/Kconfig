@@ -42,6 +42,12 @@ config RT305X_MACH_HG255D
 	select RALINK_DEV_GPIO_BUTTONS
 	select RALINK_DEV_GPIO_LEDS
 
+config RT305X_MACH_HG256
+	bool "HuaWei HG256 board support"
+	default y
+	select RALINK_DEV_GPIO_BUTTONS
+	select RALINK_DEV_GPIO_LEDS
+
 config RT305X_MACH_RT_N13U
 	bool "ASUS RT-N13U board support"
 	default y

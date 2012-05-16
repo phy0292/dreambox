@@ -18,18 +18,6 @@ ralink_set_mac() {
 
 	mac=$(maccalc or "$mac" "02:00:00:00:00:00")
 	ifconfig eth0 hw ether $mac 2>/dev/null
-#LAN MAC
-	mac=$(dd bs=1 skip=39 count=6 if=$part 2>/dev/null | maccalc bin2mac)
-	[ -z $mac ] && return
-
-	mac=$(maccalc or "$mac" "02:00:00:00:00:00")
-	ifconfig eth0.1 hw ether $mac 2>/dev/null
-#WAN MAC
-	mac=$(dd bs=1 skip=45 count=6 if=$part 2>/dev/null | maccalc bin2mac)
-	[ -z $mac ] && return
-
-	mac=$(maccalc or "$mac" "02:00:00:00:00:00")
-	ifconfig eth0.2 hw ether $mac 2>/dev/null
 }
 
 preinit_set_mac_address() {
@@ -40,6 +28,9 @@ preinit_set_mac_address() {
 		ralink_set_mac
 		;;
 	rt-n13)
+		ralink_set_mac
+		;;
+	hg256)
 		ralink_set_mac
 		;;
 	hg255d)

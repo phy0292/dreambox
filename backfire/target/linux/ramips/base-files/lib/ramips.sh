@@ -37,6 +37,9 @@ ramips_board_name() {
 	*"HuaWei HG255D")
 		name="hg255d"
 		;;
+	*"HuaWei HG256")
+		name="hg256"
+		;;
 	*"MoFi Network MOFI3500-3GN")
 		name="mofi3500-3gn"
 		;;

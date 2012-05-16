@@ -291,6 +291,58 @@ rt305x_esw_hw_init(struct rt305x_esw *esw)
 				BIT(RT305X_ESW_PORT0) | BIT(RT305X_ESW_PORT6));
 		break;
 
+	case RT305X_ESW_VLAN_CONFIG_HG256:
+#if 1
+#define RTL8211_PHY_ADDR 0x1F
+//#define CONFIG_P5_MAC_TO_PHY_MODE 1
+printk("Setting up RTL8211CL PHY...");
+#if defined (CONFIG_P5_RGMII_TO_MAC_MODE)
+	*(unsigned long *)(0xb0000060) &= ~(1 << 9); //set RGMII to Normal mode
+        *(unsigned long *)(0xb01100C8) &= ~(1<<29); //disable port 5 auto-polling
+        *(unsigned long *)(0xb01100C8) |= 0x3fff; //force 1000M full duplex
+        *(unsigned long *)(0xb01100C8) &= ~(0xf<<20); //rxclk_skew, txclk_skew = 0
+#elif defined (CONFIG_P5_MII_TO_MAC_MODE)
+	*(unsigned long *)(0xb0000060) &= ~(1 << 9); //set RGMII to Normal mode
+        *(unsigned long *)(0xb01100C8) &= ~(1<<29); //disable port 5 auto-polling
+        *(unsigned long *)(0xb01100C8) &= ~(0x3fff); 
+        *(unsigned long *)(0xb01100C8) |= 0x3ffd; //force 100M full duplex
+#elif defined (CONFIG_P5_MAC_TO_PHY_MODE)
+	*(unsigned long *)(0xb0000060) &= ~(1 << 9); //set RGMII to Normal mode
+	*(unsigned long *)(0xb0000060) &= ~(1 << 7); //set MDIO to Normal mode
+#endif	
+		rt305x_mii_write(esw,RTL8211_PHY_ADDR, 0x0, 0xA9A0); /*Reset PHY*/
+		rt305x_mii_write(esw,RTL8211_PHY_ADDR, 0x0, 0x03E1); /*SoftReset PHY*/
+		rt305x_mii_write(esw,RTL8211_PHY_ADDR, 0x0, 0x29A0); /*Auto negotiation*/
+		rt305x_mii_write(esw,RTL8211_PHY_ADDR, 0x4, 0x03E1);
+		rt305x_mii_write(esw,RTL8211_PHY_ADDR, 0x12, 0x6400);
+		rt305x_mii_write(esw,RTL8211_PHY_ADDR, 0x1F, 0x0);
+//		rt305x_mii_write(esw,RTL8211_PHY_ADDR, 0x0, 0x052f); /*Transition from power up and power down*/
+//		rt305x_mii_write(esw,RTL8211_PHY_ADDR, 0x0, 0x052f); /*Enter link fail state*/
+printk("done.\n");		
+		rt305x_esw_set_vlan_id(esw, 0, 1);
+		rt305x_esw_set_vlan_id(esw, 1, 2);
+		rt305x_esw_set_pvid(esw, RT305X_ESW_PORT5, 2);
+
+		rt305x_esw_set_vmsc(esw, 0,
+				BIT(RT305X_ESW_PORT1) | BIT(RT305X_ESW_PORT2) |
+				BIT(RT305X_ESW_PORT3) | BIT(RT305X_ESW_PORT4) |
+				BIT(RT305X_ESW_PORT6));
+		rt305x_esw_set_vmsc(esw, 1,
+				BIT(RT305X_ESW_PORT5) | BIT(RT305X_ESW_PORT6));   /*RTL8211 GE PHY Connected Port5*/
+#else
+	/*Set Port1(LAN4) as WAN*/
+		rt305x_esw_set_vlan_id(esw, 0, 1);
+		rt305x_esw_set_vlan_id(esw, 1, 2);
+		rt305x_esw_set_pvid(esw, RT305X_ESW_PORT1, 2);
+
+		rt305x_esw_set_vmsc(esw, 0,
+//				BIT(RT305X_ESW_PORT1) | BIT(RT305X_ESW_PORT2) |
+				BIT(RT305X_ESW_PORT3) | BIT(RT305X_ESW_PORT4) | BIT(RT305X_ESW_PORT2) |
+				BIT(RT305X_ESW_PORT6));
+		rt305x_esw_set_vmsc(esw, 1,
+				BIT(RT305X_ESW_PORT1) | BIT(RT305X_ESW_PORT6));
+#endif
+		break;
 	default:
 		BUG();
 	}
