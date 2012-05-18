@@ -7,12 +7,7 @@
 
 define Profile/tiny210-qtopia
   NAME:=TINY210 (qtopia)
-  PACKAGES:=ucitrigger udev wireless-tools  block-hotplug uhttpd wpad wpa-supplicant \
-          kmod-usb-core kmod-usb-ohci  kmod-usb-storage kmod-usb-storage-extras kmod-usb2 \
-          kmod-fs-ext4 kmod-fs-ext3 kmod-fs-ext2  kmod-fs-vfat \
-          kmod-nls-utf8 kmod-nls-cp437  kmod-nls-iso8859-1 \
-          openssh-client openssh-client-utils openssh-server \
-          TSLIB Qtopia filebrowser
+  PACKAGES:=Tslib Qtopia Filebrowser MurphyPinyin Konqueror libsqlite3 Zbedic
 endef
 
 define Profile/tiny210-qtopia/Description
