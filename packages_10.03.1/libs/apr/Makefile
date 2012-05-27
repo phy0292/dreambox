@@ -43,7 +43,7 @@ CONFIGURE_VARS += \
 	apr_cv_process_shared_works=no \
 	apr_cv_mutex_robust_shared=no \
 	apr_cv_tcp_nodelay_with_cork=yes \
-	ac_cv_struct_rlimit=yes \
+	apr_cv_use_lfs64=yes \
 	LDFLAGS="$$$$LDFLAGS -lpthread" \
 
 define Build/InstallDev
