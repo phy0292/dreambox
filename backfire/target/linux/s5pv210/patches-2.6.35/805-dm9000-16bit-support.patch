@@ -11,7 +11,7 @@
  obj-$(CONFIG_SLHC) += slhc.o
 --- linux-2.6.35.7/drivers/net/Kconfig	2010-09-29 09:09:08.000000000 +0800
 +++ tiny210/drivers/net/Kconfig	2011-08-08 12:52:26.000000000 +0800
-@@ -1081,6 +1081,13 @@
+@@ -958,6 +958,13 @@
  	  To compile this driver as a module, choose M here.  The module
  	  will be called dm9000.
  
@@ -25,7 +25,7 @@
  config DM9000_DEBUGLEVEL
  	int "DM9000 maximum debug level"
  	depends on DM9000
-@@ -3307,6 +3314,23 @@
+@@ -3184,6 +3191,23 @@
  	  used by ISPs and enterprises to tunnel PPP traffic over UDP
  	  tunnels. L2TP is replacing PPTP for VPN uses.
  
