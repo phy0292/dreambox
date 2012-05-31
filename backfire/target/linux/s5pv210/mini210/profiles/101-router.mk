@@ -5,8 +5,8 @@
 # See /LICENSE for more information.
 #
 
-define Profile/tiny210-router
-  NAME:=TINY210 (router)
+define Profile/router
+  NAME:=(router)$(BOARDNAME)
   PACKAGES:=ucitrigger udev wireless-tools  block-hotplug uhttpd wpad wpa-supplicant \
           kmod-usb-core kmod-usb-ohci  kmod-usb-storage kmod-usb-storage-extras kmod-usb2 \
           kmod-fs-ext4 kmod-fs-ext3 kmod-fs-ext2  kmod-fs-vfat \
@@ -17,8 +17,8 @@ define Profile/tiny210-router
           luci-app-upnp luci-app-ushare luci-app-wol
 endef
 
-define Profile/tiny210-router/Description
-	Package set compatible with the TINY210 hardware as a Router.
+define Profile/router/Description
+	Package set compatible with the $(BOARDNAME) hardware as a Router.
 endef
-$(eval $(call Profile,tiny210-router))
+$(eval $(call Profile,router))
 
