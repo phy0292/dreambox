@@ -31,6 +31,7 @@
 #include <linux/device.h>
 #include <linux/platform_device.h>
 #include <linux/gpio_dev.h>
+#include <linux/version.h>
 
 #define DRVNAME		"gpiodev"
 #define DEVNAME		"gpio"
@@ -123,7 +124,11 @@ gpio_close(struct inode * inode, struct file * file)
 }
 
 struct file_operations gpio_fops = {
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,34)
+	unlocked_ioctl:		gpio_ioctl,
+#else
 	ioctl:		gpio_ioctl,
+#endif
 	open:		gpio_open,
 	release:	gpio_close
 };
