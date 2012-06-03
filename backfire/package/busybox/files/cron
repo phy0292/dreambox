@@ -71,9 +71,9 @@ fi
 local task_hour=`echo $task_time |cut  -d "_" -f2`
 
 if [ $task_Everyday == "1" ] ; then
-echo "* */$task_hour * * * $task_task 2>/dev/null #${task_name} " >> /etc/crontabs/root
+echo "0 */$task_hour * * * $task_task 2>/dev/null #${task_name} " >> /etc/crontabs/root
 else
-echo "* */$task_hour * * $task_week $task_task 2>/dev/null #${task_name} " >> /etc/crontabs/root
+echo "0 */$task_hour * * $task_week $task_task 2>/dev/null #${task_name} " >> /etc/crontabs/root
 fi
 
 ;;
