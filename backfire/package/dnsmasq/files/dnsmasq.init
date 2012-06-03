@@ -98,6 +98,16 @@ dnsmasq() {
 
 	config_get DOMAIN "$cfg" domain
 
+	config_get orzhosts "$cfg" orzhosts 0
+ [ "$orzhosts" = "1" ] && append_addnhosts "/tmp/orzhosts"
+
+	config_get autouporzhosts "$cfg" autouporzhosts 0
+	if [ "$autouporzhosts" = "1" ] ; then
+wget -qO /tmp/orzhosts http://downloads.openwrt.org.cn/software/HostsX.orzhosts;
+else
+[ -f /etc/orzhosts ]&& cp /etc/orzhosts /tmp/orzhosts
+fi
+
 	config_get_bool readethers "$cfg" readethers
 	[ "$readethers" = "1" ] && [ -e "/etc/ethers" ] || touch /etc/ethers
 
