@@ -2,7 +2,7 @@ src-svn packages svn://svn.openwrt.org.cn/dreambox/packages_10.03.1 svn://svn.op
 src-svn xwrt http://x-wrt.googlecode.com/svn/branches/backfire_10.03/package
 src-svn luci svn://svn.openwrt.org.cn/dreambox/luci/trunk
 src-svn dreambox_packages svn://svn.openwrt.org.cn/dreambox/dreambox_packages
-src-svn qtopia_openwrt http://openwrt-for-embedded.googlecode.com/svn/tags/qtopia_openwrt
+src-svn qtopia http://openwrt-for-embedded.googlecode.com/svn/feeds/qtopia
 #src-svn phone svn://svn.openwrt.org/openwrt/feeds/phone
 #src-svn efl svn://svn.openwrt.org/openwrt/feeds/efl
 #src-svn desktop svn://svn.openwrt.org/openwrt/feeds/desktop
