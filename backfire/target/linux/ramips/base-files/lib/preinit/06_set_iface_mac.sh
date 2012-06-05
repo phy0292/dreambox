@@ -5,6 +5,7 @@
 ralink_set_mac() {
 	local part
 	local mac
+	local skip="${1:-4}"
 
 	[ -z $(which maccalc) ] && return
 
@@ -13,7 +14,7 @@ ralink_set_mac() {
 	part=$(find_mtd_part "factory")
 	[ -z $part ] && return
 #Switch and WLAN
-	mac=$(dd bs=1 skip=4 count=6 if=$part 2>/dev/null | maccalc bin2mac)
+	mac=$(dd bs=1 skip=${skip} count=6 if=$part 2>/dev/null | maccalc bin2mac)
 	[ -z $mac ] && return
 
 	mac=$(maccalc or "$mac" "02:00:00:00:00:00")
@@ -31,7 +32,7 @@ preinit_set_mac_address() {
 		ralink_set_mac
 		;;
 	hg256)
-		ralink_set_mac
+		ralink_set_mac 73732
 		;;
 	hg255d)
 		ralink_set_mac

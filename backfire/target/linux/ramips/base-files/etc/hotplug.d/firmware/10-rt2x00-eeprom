@@ -49,7 +49,6 @@ case "$FIRMWARE" in
 	fonera20n | \
 	rt-n13 | \
 	hg255d | \
-	hg256 | \
 	hw550-3g | \
 	mofi3500-3gn | \
 	pwh2004 | \
@@ -62,7 +61,9 @@ case "$FIRMWARE" in
 	wr512-3gn)
 		rt2x00_eeprom_extract "factory" 0 272
 		;;
-
+	hg256)
+		rt2x00_eeprom_extract "factory" 73728 272
+		;;
 	*)
 		cp /lib/firmware/RT305X.eeprom.default /lib/firmware/RT305X.eeprom
 		rt2x00_eeprom_die "board $board is not supported yet"
