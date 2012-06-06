@@ -29,5 +29,5 @@ config interface lan
         option nat      1
 
 config interface wan
-	option ifname	eth0
+	option ifname	eth1.1
 	option proto	dhcp
