@@ -76,7 +76,7 @@
  
  	/* GPIO LEDs */
 -	struct gpio_led leds[5];
-+	struct gpio_led leds[8];
++	struct gpio_led leds[12];
  
  	/* Reset button */
  	struct gpio_button reset_buttons[1];
