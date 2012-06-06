@@ -14,7 +14,7 @@ brcm63xx_detect() {
 	board_name=$(awk 'BEGIN{FS="[ \t]+:[ \t]"} /system type/ {print $2}' /proc/cpuinfo)
 
 	case "$board_name" in
-	"bcm63xx/96348GW "*)
+	"bcm63xx/96358VW2 "*)
 		status_led="power"
 		brcm63xx_has_reset_button="true"
 		ifname=eth1
@@ -30,7 +30,7 @@ brcm63xx_detect() {
 		ifname=eth1
 		;;
 	"bcm63xx/HW553 "*)
-		status_led="power:read"
+		status_led="power:red"
 		status_led2="power:blue"
 		brcm63xx_has_reset_button="true"
 		ifname=eth1
