@@ -4,7 +4,7 @@
 # See /LICENSE for more information.
 #
 
-mainmenu "OpenWrt Configuration"
+mainmenu "DreamBox Configuration"
 
 config HAVE_DOT_CONFIG
 	bool
