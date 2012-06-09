@@ -6,7 +6,7 @@
 # See /LICENSE for more information.
 #
 
-RELEASE:=DreamBox
+RELEASE:=Trunk
 SHELL:=/usr/bin/env bash
 PREP_MK= OPENWRT_BUILD= QUIET=0
 
