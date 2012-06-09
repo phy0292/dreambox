@@ -39,7 +39,7 @@ endef
 
 define Build/InstallDev
 	mkdir -p $(BIN_DIR)
-	dd if=$(PKG_BUILD_DIR)/u-boot.bin of=$(BIN_DIR)/u-boot-$(UBOOT_CONFIG).bin bs=128k conv=sync
+	dd if=$(PKG_BUILD_DIR)/u-boot.bin of=$(BIN_DIR)/u-boot-s3c24xx.bin bs=128k conv=sync
 endef
 
 
