@@ -1084,7 +1084,7 @@ int main(int ac, char **av)
 
 	sym = sym_lookup("OPENWRTVERSION", 0);
 	sym_calc_value(sym);
-	sprintf(menu_backtitle, _("OpenWrt %s Configuration"),
+	sprintf(menu_backtitle, _("DreamBox %s Configuration"),
 		sym_get_string_value(sym));
 
 	mode = getenv("MENUCONFIG_MODE");
