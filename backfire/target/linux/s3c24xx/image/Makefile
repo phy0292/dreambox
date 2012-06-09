@@ -101,7 +101,7 @@ define Image/Build/squashfs
 	( \
 		dd if=$(KDIR)/uImage bs=1024k conv=sync; \
 		dd if=$(KDIR)/root.$(1) bs=64k conv=sync; \
-	) > $(BIN_DIR)/openwrt-$(BOARD)-$(1).img
+	) > $(BIN_DIR)/$(IMG_PREFIX)-$(BOARD)-$(1).img
 endef
 
 $(eval $(call BuildImage))
