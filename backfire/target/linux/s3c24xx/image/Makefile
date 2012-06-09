@@ -9,17 +9,8 @@
 include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/image.mk
 
-ifneq ($(CONFIG_S3C24XX_UBOOT),)
-  define Build/Clean
-	$(MAKE) -C u-boot clean
-  endef
 
-  define Build/Compile
-	$(MAKE) -C u-boot compile
-  endef
-endif
-
-define Image/Build/MINI2440
+define Image/Build/S3C24XX
   BIN_DIR=$(BIN_DIR) $(TOPDIR)/scripts/combined-image.sh \
   	 $(UIMAGE) \
   	 $(BIN_DIR)/$(IMG_PREFIX)-$(1).img \
@@ -63,13 +54,13 @@ UIMAGE:=$(BIN_DIR)/$(IMG_PREFIX)-uImage
 
 # sudo /home/opt/build/openwrt/staging_dir/host/bin/mkfs.jffs2 
 # --pad --little-endian --squash -s 0x200 -e 0x4000 -n 
-# -o /home/opt/build/openwrt/build_dir/linux-mini2440/root.jffs2-16k 
-# -d /home/opt/build/openwrt/build_dir/target-arm_glibc-2.6.1/root-mini2440
+# -o /home/opt/build/openwrt/build_dir/linux-s3c24xx/root.jffs2-16k 
+# -d /home/opt/build/openwrt/build_dir/target-arm_glibc-2.6.1/root-s3c24xx
 #
  
 define MkuImage
 	mkimage -A arm -O linux -T kernel -a 0x30008000 -C none \
-		-e 0x30008040 -n 'MINI2440 OpenWrt Linux-$(LINUX_VERSION)' \
+		-e 0x30008040 -n 'S3C24xx OpenWrt Linux-$(LINUX_VERSION)' \
 		-d $(1) $(2)
 endef
  
@@ -89,12 +80,12 @@ endef
 
 define Image/Build/jffs2-64k
 	dd if=$(KDIR)/root.$(1) of=$(BIN_DIR)/$(IMG_PREFIX)-$(1).img bs=65536 conv=sync
-	$(call Image/Build/MINI2440,$(1),mini2440,$(1))
+	$(call Image/Build/S3C24XX,$(1),s3c24xx,$(1))
 endef
 
 define Image/Build/jffs2-128k
 	dd if=$(KDIR)/root.$(1) of=$(BIN_DIR)/$(IMG_PREFIX)-$(1).img bs=131072 conv=sync
-	$(call Image/Build/MINI2440,$(1),mini2440,$(1))
+	$(call Image/Build/S3C24XX,$(1),s3c24xx,$(1))
 #	$(call Image/Build/Freecom,$(1),fsg3,$(1))
 endef
 
