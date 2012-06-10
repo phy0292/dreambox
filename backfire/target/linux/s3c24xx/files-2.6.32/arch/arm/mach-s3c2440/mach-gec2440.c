@@ -83,6 +83,7 @@
 #define HARDWARE_VERSION_A
 
 static struct map_desc gec2440_iodesc[] __initdata = {
+	{ 0xe0000000, __phys_to_pfn(S3C2410_CS3+0x01000000), SZ_1M, MT_DEVICE }
 };
 
 #define UCON S3C2410_UCON_DEFAULT | S3C2410_UCON_UCLK

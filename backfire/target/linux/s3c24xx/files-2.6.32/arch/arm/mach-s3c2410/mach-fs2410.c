@@ -60,6 +60,7 @@
 #include <sound/s3c24xx_uda134x.h>
 
 static struct map_desc fs2410_iodesc[] __initdata = {
+	{ 0xe0000000, __phys_to_pfn(S3C2410_CS3+0x01000000), SZ_1M, MT_DEVICE }
 };
 
 static struct s3c2410_uartcfg fs2410_uartcfgs[] __initdata = {
