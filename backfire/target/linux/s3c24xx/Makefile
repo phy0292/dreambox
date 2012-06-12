@@ -23,6 +23,14 @@ define Target/Description
 endef
 
 include $(INCLUDE_DIR)/target.mk
-DEFAULT_PACKAGES += wpad-mini  kmod-gpio-dev gpioctl
+DEFAULT_PACKAGES += wpad-mini kmod-gpio-dev gpioctl\
+		kmod-usb-core kmod-usb-storage kmod-usb-ohci \
+		kmod-sound-core kmod-sound-soc-s3c24xx-uda134x \
+		kmod-mmc-s3c24xx  \
+		kmod-i2c-core kmod-i2c-s3c24xx \
+		kmod-spi-s3c24xx kmod-spi-s3c24xx-gpio \
+		kmod-leds-gpio kmod-ledtrig-netdev kmod-ledtrig-usbdev \
+		kmod-button-hotplug kmod-input-gpio-keys \
+		kmod-fs-ext2 kmod-fs-ext3 kmod-fs-ext2 kmod-nls-utf8 kmod-nls-cp936 kmod-nls-iso8859-1 kmod-nls-cp437 kmod-fs-vfat
 
 $(eval $(call BuildTarget))

@@ -60,7 +60,7 @@ UIMAGE:=$(BIN_DIR)/$(IMG_PREFIX)-uImage
  
 define MkuImage
 	mkimage -A arm -O linux -T kernel -a 0x30008000 -C none \
-		-e 0x30008040 -n 'S3C24xx OpenWrt Linux-$(LINUX_VERSION)' \
+		-e 0x30008040 -n 'DreamBox S3C24xx Linux-$(LINUX_VERSION)' \
 		-d $(1) $(2)
 endef
  

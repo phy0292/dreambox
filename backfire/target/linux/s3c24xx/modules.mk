@@ -5,12 +5,12 @@
 # See /LICENSE for more information.
 #
 
-S324XX_MENU:=S324XX modules
+
 
 #MMC/SD Support
 
 define KernelPackage/mmc-s3c24xx
-  SUBMENU:=$(S324XX_MENU)
+  SUBMENU:=Other modules
   TITLE:=MMC/SD Card Support on S3C24xx
   DEPENDS:=@TARGET_s3c24xx +kmod-mmc
   KCONFIG:= \
@@ -37,7 +37,7 @@ I2C_S3C24XX_MODULES:=\
 
 define KernelPackage/i2c-s3c24xx
   $(call i2c_defaults,$(I2C_S3C24XX_MODULES),59)
-  SUBMENU:=$(S324XX_MENU)
+  SUBMENU:=I2C support
   TITLE:=S3C24xx I2C Driver
   DEPENDS:=@TARGET_s3c24xx +kmod-i2c-core
   KCONFIG+= \
@@ -54,7 +54,7 @@ $(eval $(call KernelPackage,i2c-s3c24xx))
 
 #SPI Support
 define KernelPackage/spi-s3c24xx
-  SUBMENU:=$(S324XX_MENU)
+  SUBMENU:= SPI Support
   TITLE:=S3C24xx SPI Master
   DEPENDS:=@TARGET_s3c24xx @GPIO_SUPPORT +kmod-spi-bitbang
   KCONFIG:=CONFIG_SPI_S3C24XX=m
@@ -69,7 +69,7 @@ endef
 $(eval $(call KernelPackage,spi-s3c24xx))
 
 define KernelPackage/spi-s3c24xx-gpio
-  SUBMENU:=$(S324XX_MENU)
+  SUBMENU:=SPI Support
   TITLE:=GPIO-based S3C24xx SPI Master
   DEPENDS:=@TARGET_s3c24xx +kmod-spi-s3c24xx
   KCONFIG:=CONFIG_SPI_S3C24XX_GPIO=m
@@ -87,9 +87,9 @@ $(eval $(call KernelPackage,spi-s3c24xx-gpio))
 #Sound Support for s3c24xx
 define KernelPackage/sound-soc-s3c24xx-i2s
 $(call KernelPackage/sound/Depends)
-  SUBMENU:=$(S324XX_MENU)
+  SUBMENU:=Sound Support
   TITLE:=S3c24xx SoC sound support
-  DEPENDS:=@AUDIO_SUPPORT @TARGET_s3c24xx +kmod-sound-soc-core
+  DEPENDS:=@TARGET_s3c24xx +kmod-sound-core +kmod-sound-soc-core
   KCONFIG:= \
 	CONFIG_SND_S3C24XX_SOC \
 	CONFIG_SND_S3C24XX_SOC_I2S
@@ -105,9 +105,9 @@ $(eval $(call KernelPackage,sound-soc-s3c24xx-i2s))
 
 define KernelPackage/sound-soc-s3c24xx-uda134x
 $(call KernelPackage/sound/Depends)
-  SUBMENU:=$(S324XX_MENU)
+  SUBMENU:=Sound Support
   TITLE:=UDA134x SoC sound Chip support
-  DEPENDS:=@AUDIO_SUPPORT @TARGET_s3c24xx +kmod-sound-soc-s3c24xx-i2s
+  DEPENDS:=@TARGET_s3c24xx +kmod-sound-soc-s3c24xx-i2s
   KCONFIG:= \
 	CONFIG_SND_S3C24XX_SOC_S3C24XX_UDA134X \
 	CONFIG_SND_SOC_UDA134X \
