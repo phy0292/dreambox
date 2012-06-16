@@ -40,6 +40,7 @@ TARGET_CFLAGS += \
 define Build/Compile
 	$(MAKE) -C $(PKG_BUILD_DIR) \
 		CROSS_COMPILE="$(TARGET_CROSS)" \
+		CC="$(TARGET_CC)" \
 		CFLAGS="$(TARGET_CFLAGS)" \
 		all
 endef
