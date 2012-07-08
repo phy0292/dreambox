@@ -25,7 +25,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/libgd
   SECTION:=libs
   CATEGORY:=Libraries
-  DEPENDS:=+libjpeg +libpng
+  DEPENDS:=+libjpeg +libpng +LIBGD-FREETYPE:libfreetype
   TITLE:=The GD graphics library
   URL:=http://www.libgd.org/
 endef
@@ -33,6 +33,12 @@ endef
 define Package/libgd/description
   GD is an open source code library for the dynamic creation of images by
   programmers. GD creates PNG, JPEG and GIF images, among other formats.
+endef
+define Package/libgd/config
+	config LIBGD-FREETYPE
+		bool "Freetype support"
+		default n
+		depends on PACKAGE_libgd
 endef
 
 TARGET_CFLAGS += $(FPIC)
@@ -42,12 +48,15 @@ CONFIGURE_ARGS += \
 	--enable-static \
 	--disable-rpath \
 	--without-x \
-	--without-freetype \
 	--with-jpeg=$(STAGING_DIR)/usr \
 	--with-png=$(STAGING_DIR)/usr \
 	--without-xpm \
 	--without-iconv
-
+ifneq ($(LIBGD_FREETYPE),y)
+  CONFIGURE_ARGS += --with-freetype=$(STAGING_DIR)/usr
+else
+  CONFIGURE_ARGS += --without-freetype
+endif
 CONFIGURE_VARS += \
 	LIBPNG12_CONFIG="$(STAGING_DIR)/host/bin/libpng12-config" \
 	ac_cv_header_iconv_h=no

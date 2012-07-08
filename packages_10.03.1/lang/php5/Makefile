@@ -35,7 +35,7 @@ PHP5_MODULES = \
 	pcntl pdo pdo-mysql pdo-pgsql pdo-sqlite pgsql \
 	session simplexml soap sockets sqlite sqlite3 sysvmsg sysvsem sysvshm \
 	tokenizer \
-	xml xmlreader xmlwriter \
+	xml xmlreader xmlwriter zip\
 
 PKG_CONFIG_DEPENDS:= \
 	CONFIG_PACKAGE_php5-cgi CONFIG_PACKAGE_php5-cli \
@@ -68,6 +68,16 @@ define Package/php5/config
 	config PHP5_LIBXML
 		bool "PHP5 LIBXML support"
 		depends on PACKAGE_php5-cli || PACKAGE_php5-cgi
+	config PHP5_GD-FREETYPE
+		bool "Freetype support"
+		depends on PACKAGE_php5-mod-gd
+		select LIBGD-FREETYPE
+		default n
+	config PHP5_MOD-MHASH
+		bool "Mhash support"
+		depends on PACKAGE_php5
+		select mhash
+		default n
 endef
 
 define Package/php5
@@ -222,6 +232,11 @@ ifneq ($(CONFIG_PACKAGE_php5-mod-gd),)
 	--without-t1lib \
 	--enable-gd-native-ttf \
 	--disable-gd-jis-conv
+ifneq ($(CONFIG_PHP5_GD-FREETYPE),)
+  CONFIGURE_ARGS+= --with-freetype-dir="$(STAGING_DIR)/usr"
+else
+  CONFIGURE_ARGS+= --without-freetype-dir
+endif
 else
   CONFIGURE_ARGS+= --without-gd
 endif
@@ -262,6 +277,11 @@ ifneq ($(CONFIG_PACKAGE_php5-mod-mbstring),)
   CONFIGURE_ARGS+= --enable-mbstring=shared --enable-mbregex
 else
   CONFIGURE_ARGS+= --disable-mbstring
+endif
+ifneq ($(CONFIG_PHP5_MOD-MHASH),)
+  CONFIGURE_ARGS+=  --with-mhash=shared,"$(STAGING_DIR)/usr"
+else
+  CONFIGURE_ARGS+= --without-mhash
 endif
 
 ifneq ($(CONFIG_PACKAGE_php5-mod-mcrypt),)
@@ -403,6 +423,13 @@ else
   CONFIGURE_ARGS+= --disable-xmlwriter
 endif
 
+ifneq ($(CONFIG_PACKAGE_php5-mod-zip),)
+  CONFIGURE_ARGS+= --enable-zip=shared
+else
+  CONFIGURE_ARGS+= --disable-zip
+endif
+
+
 ifneq ($(CONFIG_PHP5_FILTER),)
   CONFIGURE_ARGS+= --enable-filter
 else
@@ -514,3 +541,4 @@ $(eval $(call BuildModule,tokenizer,Tokenizer))
 $(eval $(call BuildModule,xml,XML,+PHP5_LIBXML:libxml2 +!PHP5_LIBXML:libexpat))
 $(eval $(call BuildModule,xmlreader,XMLReader,@PHP5_LIBXML +libxml2 +libiconv))
 $(eval $(call BuildModule,xmlwriter,XMLWriter,@PHP5_LIBXML +libxml2 +libiconv))
+$(eval $(call BuildModule,zip,ZIP,+PACKAGE_php5-mod-zip:zlib))

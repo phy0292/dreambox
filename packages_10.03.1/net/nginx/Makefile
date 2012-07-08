@@ -32,7 +32,7 @@ define Package/nginx
   SUBMENU:=Web Servers/Proxies
   TITLE:=Nginx web server
   URL:=http://nginx.net/
-  DEPENDS:=+libpcre +NGINX_SSL:libopenssl +zlib
+  DEPENDS:=+libpcre +NGINX_SSL:libopenssl +zlib +spawn-fcgi
   MENU:=1
 endef
 
@@ -107,9 +107,12 @@ define Package/nginx/install
 	$(INSTALL_DIR) $(1)/etc/nginx
 	$(INSTALL_DATA) $(addprefix $(PKG_INSTALL_DIR)/etc/nginx/,$(config_files)) $(1)/etc/nginx
 	# make nginx bind on both IPv4 and IPv6 by default, when available
-  ifeq ($(CONFIG_IPV6),y)
+ifeq ($(CONFIG_IPV6),y)
 	$(SED) 's/listen\( \+\)80;/listen\1[::]:80;/' $(1)/etc/nginx/nginx.conf
-  endif
+endif
+	$(INSTALL_DATA) ./files/nginx.conf  $(1)/etc/nginx/nginx.conf
+	$(CP) ./files/sites-enabled $(1)/etc/nginx/
+	
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/nginx.init $(1)/etc/init.d/nginx
 endef
