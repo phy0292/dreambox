@@ -1,54 +1,68 @@
-#
-# Copyright (C) 2011 OpenWrt.org
+# 
+# Copyright (C) 2010 OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
 #
-
 include $(TOPDIR)/rules.mk
 
+PKG_BRANCH:=trunk
+PKG_SOURCE_URL:=http://streamboard.gmc.to/svn/oscam/trunk
+#PKG_REV:=$(shell LC_ALL=C svn info ${PKG_SOURCE_URL} | sed -ne's/^Last Changed Rev: //p')
+PKG_REV:=5339
+
 PKG_NAME:=oscam
-PKG_REV:=37d2029796252ed0a4f2808636fd7607bbcfbe63
-PKG_VERSION:=7068
+PKG_VERSION:=svn$(PKG_REV)
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=git://github.com/nx111/oscam-nx111.git
+PKG_SOURCE:=$(PKG_SOURCE_SUBDIR).tar.gz
+PKG_SOURCE_PROTO:=svn
 PKG_SOURCE_VERSION:=$(PKG_REV)
 
+PKG_BUILD_DEPENDS:=
+
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+PKG_INSTALL_DIR:=$(PKG_BUILD_DIR)
+
+
+
 include $(INCLUDE_DIR)/package.mk
-include $(INCLUDE_DIR)/cmake.mk
 
 define Package/oscam
   SECTION:=custom
   CATEGORY:=Custom packages
-  DEPENDS:=+libopenssl +libpthread 
-  TITLE:=OSCam is an Open Source Conditional Access Module software
-  URL:=http://streamboard.gmc.to:8001/
+  DEPENDS:=+openssl +libopenssl 
+  TITLE:=Open Source Conditional Access Module software
+  URL:=http://streamboard.gmc.to/oscam/
+  SUBMENU:=
 endef
 
 define Package/oscam/description
-  OSCam is an Open Source Conditional Access Module software nx111 mod
+	An Open Source Conditional Access Module software,
+based on the very good MpCS version 0.9d created by dukat.
 endef
 
-CMAKE_OPTIONS += \
-		-DCS_CONFDIR=/etc/oscam
+CONFIGURE_ARGS += --with-ssl=openssl
 
 define Build/Prepare
 	$(call Build/Prepare/Default)
-	sed -i 's:(svnversion.*:echo "$(PKG_REV)":g'  $(PKG_BUILD_DIR)/config.sh
+	sed -i "s/mips-linux-gcc/mips-openwrt-linux-gcc/g" $(PKG_BUILD_DIR)/toolchains/toolchain-mips-dir825.cmake
+	mkdir -p $(PKG_BUILD_DIR)/build
+	cd $(PKG_BUILD_DIR)/build;
+endef
 
+define Package/oscam/conffiles
+endef
+
+define Build/Compile
+	cd $(PKG_BUILD_DIR)/build;cmake -DCMAKE_TOOLCHAIN_FILE=$(PKG_BUILD_DIR)/toolchains/toolchain-mips-dir825.cmake ..;make
 endef
 
 
 define Package/oscam/install
-
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/oscam $(1)/usr/bin/
-
-
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/build/oscam $(1)/usr/bin/
 endef
 
-$(eval $(call BuildPackage,oscam))
+$(eval $(call BuildPackage,oscam)) 
