@@ -28,7 +28,7 @@ define Package/oh3c
 	SUBMENU:=CERNET
   TITLE:=OH3C 802.1X client
   URL:=http://github.com/nanpuyue/oh3c
-  DEPENDS:=+python
+  DEPENDS:=+python-mini
 endef
 
 define Package/oh3c/description
