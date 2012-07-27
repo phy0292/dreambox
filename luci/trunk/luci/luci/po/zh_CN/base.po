@@ -459,7 +459,7 @@ msgid "Actions"
 msgstr "指令"
 
 msgid "Activate this network"
-msgstr ""
+msgstr "激活这个网络"
 
 msgid "Active <abbr title=\"Internet Protocol Version 4\">IPv4</abbr>-Routes"
 msgstr "动作 <abbr title=\"Internet Protocol Version 4\">IPv4</abbr>-路由"
@@ -2265,7 +2265,7 @@ msgstr ""
 "导』，必须正确选择路由的型号"
 
 msgid "RADIUS configuration"
-msgstr ""
+msgstr "配置认证系统"
 
 msgid "RRDTool"
 msgstr ""
@@ -2277,22 +2277,22 @@ msgid "RX"
 msgstr "接收"
 
 msgid "Radius-Accounting-Port"
-msgstr ""
+msgstr "认证计数服务端口"
 
 msgid "Radius-Accounting-Secret"
-msgstr ""
+msgstr "认证计数服务密钥"
 
 msgid "Radius-Accounting-Server"
-msgstr ""
+msgstr "认证计数服务器"
 
 msgid "Radius-Authentication-Port"
-msgstr ""
+msgstr "认证服务端口"
 
 msgid "Radius-Authentication-Secret"
-msgstr ""
+msgstr "认证服务密钥"
 
 msgid "Radius-Authentication-Server"
-msgstr ""
+msgstr "认证服务器"
 
 msgid "Radvd"
 msgstr ""
@@ -2397,7 +2397,7 @@ msgid "Remove"
 msgstr "移除"
 
 msgid "Repeat Count"
-msgstr ""
+msgstr "重复次数"
 
 msgid "Repeat Scans (this can take a few minutes)"
 msgstr ""
@@ -2667,7 +2667,7 @@ msgid "Static WDS"
 msgstr "静态WDS"
 
 msgid "Static address"
-msgstr ""
+msgstr "静态地址"
 
 msgid ""
 "Static leases are used to assign fixed IP addresses and symbolic hostnames "
@@ -2676,7 +2676,7 @@ msgid ""
 msgstr "位于静态分配列表中的客户端每次将获得相同的IP地址。"
 
 msgid "Statistics"
-msgstr ""
+msgstr "统计信息"
 
 msgid "Status"
 msgstr "状态"
@@ -2691,7 +2691,7 @@ msgid "Submit"
 msgstr "提交"
 
 msgid "Subnet"
-msgstr ""
+msgstr "子网"
 
 msgid "Sunday"
 msgstr "星期日"
@@ -2715,13 +2715,13 @@ msgid "Sync with browser"
 msgstr "同步系统时间"
 
 msgid "Synchronizing..."
-msgstr ""
+msgstr "正在同步..."
 
 msgid "System"
 msgstr "系统"
 
 msgid "System Load"
-msgstr ""
+msgstr "系统负载"
 
 msgid "System Log"
 msgstr "系统日志"
@@ -2733,10 +2733,10 @@ msgid "System log buffer size"
 msgstr "系统日志大小"
 
 msgid "System plugins"
-msgstr ""
+msgstr "系统插件"
 
 msgid "TCP Connections"
-msgstr ""
+msgstr "TCP连接"
 
 msgid "TCP:"
 msgstr "TCP:"
@@ -2933,13 +2933,13 @@ msgid "Time Synchronisation"
 msgstr "时间同步"
 
 msgid "Time Synchronization"
-msgstr ""
+msgstr "时间同步"
 
 msgid "Time to wait for responses in seconds (default 10)"
 msgstr ""
 
 msgid "Timeout"
-msgstr ""
+msgstr "超时"
 
 msgid "Timezone"
 msgstr "时区"
@@ -3025,10 +3025,10 @@ msgid "UnixSock"
 msgstr ""
 
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 msgid "Unknown Error, password not changed!"
-msgstr ""
+msgstr "未知错误,密码未更改"
 
 msgid "Unmanaged"
 msgstr ""
@@ -3037,7 +3037,7 @@ msgid "Unsaved Changes"
 msgstr "未保存的设置"
 
 msgid "Unsupported protocol type."
-msgstr ""
+msgstr "不支持的协议类型"
 
 msgid "Update lists"
 msgstr "升级软件包列表"
@@ -3057,7 +3057,7 @@ msgid "Uploaded File"
 msgstr "上传的文件"
 
 msgid "Uptime"
-msgstr "已上线"
+msgstr "运行时间"
 
 msgid "Use <code>/etc/ethers</code>"
 msgstr "使用 <code>/etc/ethers</code>"
@@ -3364,7 +3364,7 @@ msgstr ""
 "abbr>-leases will be stored"
 
 msgid "filebrowser"
-msgstr ""
+msgstr "文件浏览器"
 
 msgid "free"
 msgstr "空闲"
@@ -3487,7 +3487,7 @@ msgid "receive address"
 msgstr "接收邮件地址"
 
 msgid "route model"
-msgstr "路由型号"
+msgstr "路由器型号"
 
 msgid "routed"
 msgstr "已路由"
@@ -3562,7 +3562,7 @@ msgid "user path help"
 msgstr ""
 
 msgid "username"
-msgstr ""
+msgstr "用户名"
 
 msgid "username Username"
 msgstr "用户名"
@@ -3574,10 +3574,10 @@ msgid "vsftpd"
 msgstr "FTP服务器"
 
 msgid "webcam"
-msgstr ""
+msgstr "网络摄像头"
 
 msgid "xunlei"
-msgstr ""
+msgstr "迅雷"
 
 msgid "yes"
 msgstr "是"
