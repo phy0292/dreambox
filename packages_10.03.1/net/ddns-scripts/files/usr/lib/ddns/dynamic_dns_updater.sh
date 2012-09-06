@@ -44,7 +44,7 @@ echo ${encoded_str}
 
 update_ipaddress(){
 
-  [ -n "$service_name" ]&&update_url=$(cat /usr/lib/ddns/services |grep $service_name|awk -F " " '{print $2}')
+  [ -n "$service_name" ]&&update_url=$(cat /usr/lib/ddns/services |grep "\"$service_name\""|awk -F " " '{print $2}')
 # neiwang
     [ "$neiwang" == "1" ]&& {
         if [ -n "$ip_network" ]; then
