@@ -31,9 +31,6 @@ define Package/njit8021xclient/description
  Support H3C/iNode's private authentication protocol V2.40-V3.60
 endef
 
-define Build/Configure
-/etc/config/njit
-endef
 
 define Package/njit8021xclient/install
 	$(INSTALL_DIR) $(1)/usr/sbin
