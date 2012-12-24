@@ -1,0 +1,13 @@
+src-svn packages http://openwrt-for-embedded.googlecode.com/svn/feeds/packages svn://svn.openwrt.org/openwrt/branches/packages_10.03.1 svn://svn.openwrti.org/openwrt/packages
+src-svn qpe http://openwrt-for-embedded.googlecode.com/svn/feeds/qpe
+src-svn luci http://svn.luci.subsignal.org/luci/tags/0.10.0/contrib/package
+#src-svn xwrt http://x-wrt.googlecode.com/svn/branches/backfire_10.03/package
+#src-svn phone svn://svn.openwrt.org/openwrt/feeds/phone
+#src-svn efl svn://svn.openwrt.org/openwrt/feeds/efl
+#src-svn desktop svn://svn.openwrt.org/openwrt/feeds/desktop
+#src-svn xfce svn://svn.openwrt.org/openwrt/feeds/xfce
+#src-link custom /usr/src/openwrt/custom-feed
+
+## Android for Goldfish (Android Emulator)
+#src-git android git://nbd.name/borg.git
+#src-svn android16 http://openwrt-for-embedded.googlecode.com/svn/feeds/android16
