@@ -1,5 +1,6 @@
-src-svn packages http://openwrt-for-embedded.googlecode.com/svn/feeds/packages svn://svn.openwrt.org/openwrt/branches/packages_10.03.1 svn://svn.openwrti.org/openwrt/packages
-src-svn qpe http://openwrt-for-embedded.googlecode.com/svn/feeds/qpe
+src-svn packages svn://svn.openwrt.org.cn/dreambox/feeds/packages_10.03.2
+src-svn qpe svn://svn.openwrt.org.cn/dreambox/feeds/qpe
+src-svn device svn://svn.openwrt.org.cn/dreambox/feeds/device
 src-svn luci http://svn.luci.subsignal.org/luci/tags/0.10.0/contrib/package
 #src-svn xwrt http://x-wrt.googlecode.com/svn/branches/backfire_10.03/package
 #src-svn phone svn://svn.openwrt.org/openwrt/feeds/phone
