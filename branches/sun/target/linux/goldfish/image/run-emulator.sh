@@ -3,13 +3,14 @@
 BASE=$(dirname $0)
 PREFIX=openwrt-goldfish-
 QEMU_NAME=qemu-goldfish
+SKIN_NAME=HVGA2
 
 echo "Starting in $BASE/ DIR"
 
 touch $BASE/${PREFIX}data.bin
 
 $BASE/$QEMU_NAME/emulator \
-	-skindir $BASE/$QEMU_NAME/skins -skin HVGA \
+	-skindir $BASE/$QEMU_NAME/skins -skin $SKIN_NAME \
 	-sysdir $BASE \
 	-ramdisk $BASE/${PREFIX}ramdisk.bin \
 	-kernel $BASE/${PREFIX}kernel.bin \
