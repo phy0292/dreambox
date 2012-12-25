@@ -22,4 +22,6 @@ endef
 
 include $(INCLUDE_DIR)/target.mk
 
+DEFAULT_PACKAGES +=qemu-goldfish
+
 $(eval $(call BuildTarget))
