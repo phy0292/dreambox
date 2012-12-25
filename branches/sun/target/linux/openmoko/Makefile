@@ -8,8 +8,8 @@ include $(TOPDIR)/rules.mk
 
 ARCH:=arm
 BOARD:=openmoko
-BOARDNAME:=Openmoko Smartphone
-FEATURES:=jffs2 broken
+BOARDNAME:=Openmoko SmartPhone
+FEATURES:=jffs2
 CFLAGS:=-O2 -pipe -march=armv4t -mtune=arm920t -fno-caller-saves
 SUBTARGETS:=openmoko-gta02
 

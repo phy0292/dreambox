@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 ARCH:=arm
 BOARD:=goldfish
 BOARDNAME:=Goldfish (Android Emulator)
-FEATURES:=broken jffs2
+FEATURES:=jffs2
 CFLAGS:=-O2 -pipe -march=armv5te -mtune=xscale -fno-caller-saves
 
 LINUX_VERSION:=2.6.30.10
