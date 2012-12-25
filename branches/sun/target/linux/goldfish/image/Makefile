@@ -17,7 +17,6 @@ define Image/BuildKernel
 		$(CP) $(LINUX_DIR)/usr/initramfs_data.cpio.gz, \
 		gzip -c < $(LINUX_DIR)/usr/initramfs_data.cpio > \
 	) $(BIN_DIR)/$(IMG_PREFIX)-ramdisk.bin
-	$(CP) ./run-emulator.sh $(BIN_DIR)/
 endef
 
 define Image/Build/jffs2-124k
