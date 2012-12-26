@@ -14,10 +14,10 @@ JFFS2OPTS += --little-endian --pagesize=0x800 --no-cleanmarkers --pad
 
 
 define Image/BuildKernel
-	$(TARGET_CROSS)objcopy -O binary -R .note -R .comment -S $(LINUX_DIR)/arch/arm/boot/compressed/vmlinux linux.bin
-	mkimage -A arm -O linux -T kernel -C none -a 30008000 -e 30008000 -n "Openmoko Kernel Image Freerunner (Neo1973(GTA02))" -d linux.bin uImage
+	$(TARGET_CROSS)objcopy -O binary -R .note -R .comment -S $(LINUX_DIR)/arch/arm/boot/compressed/vmlinux $(KDIR)/linux.bin
+	mkimage -A arm -O linux -T kernel -C none -a 30008000 -e 30008000 -n "Openmoko Kernel Image Freerunner (Neo1973(GTA02))" -d $(KDIR)/linux.bin $(KDIR)/uImage
 
-	cp uImage $(BIN_DIR)/$(IMG_PREFIX)-$(KERNEL)-uImage
+	cp $(KDIR)/uImage $(BIN_DIR)/$(IMG_PREFIX)-$(KERNEL)-uImage
 endef
 
 define Image/Build/squashfs
