@@ -11,15 +11,11 @@ BOARD:=s3c24xx
 BOARDNAME:=Samsung S3C24xx
 FEATURES:=jffs2 squashfs
 CFLAGS:=-O2 -pipe -march=armv4t -mtune=arm920t -funit-at-a-time
-SUBTARGETS:=dev-s3c24xx dev-fs2410 dev-mini2440 dev-gec2410 dev-gec2440 dev-qq2440
+SUBTARGETS:=dev-s3c2440 dev-s3c2410 dev-fs2410 dev-mini2440 dev-gec2410 dev-gec2440 dev-qq2440
 
 LINUX_VERSION:=2.6.32.27
 #LINUX_VERSION:=2.6.32.59
 
-ifeq ($(CONFIG_TARGET_s3c24xx_openmoko_gta02),y)
-  LINUX_VERSION:=2.6.30.10
-  DEVICE_TYPE=phone
-endif
 
 define Target/Description
 	S3C24xx arm

@@ -1,7 +1,7 @@
-BOARDNAME:=S3C24XX Development Board
+BOARDNAME:=Other S3C2440 SOC Development Board
 
 
 define Target/Description
-	S3C24XX Development Board
+	Other S3C2440 SOC Development Board
 endef
 
