@@ -11,7 +11,7 @@ BOARD:=openmoko
 BOARDNAME:=Openmoko SmartPhone
 FEATURES:=jffs2
 CFLAGS:=-O2 -pipe -march=armv4t -mtune=arm920t -fno-caller-saves
-SUBTARGETS:=openmoko-gta02
+SUBTARGETS:=openmoko-gta01 openmoko-gta02
 
 LINUX_VERSION:=2.6.30.10
 
