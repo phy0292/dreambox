@@ -1,17 +1,9 @@
 --- a/arch/arm/plat-s3c24xx/Kconfig
 +++ b/arch/arm/plat-s3c24xx/Kconfig
-@@ -112,4 +112,20 @@ config MACH_SMDK
+@@ -112,4 +112,12 @@ config MACH_SMDK
  	help
  	  Common machine code for SMDK2410 and SMDK2440
  
-+config MACH_NEO1973
-+	bool
-+	select RFKILL
-+	select SERIAL_SAMSUNG
-+	select SERIAL_SAMSUNG_CONSOLE
-+	help
-+	  Common machine code for Neo1973 hardware
-+
 +config MACH_NEO1973
 +	bool
 +	select RFKILL
@@ -27,7 +19,7 @@
  
  # Machine support
  
-+obj-$(CONFIG_MACH_NEO1973)	+= \
++obj-$(CONFIG_MACH_NEO1973_GTA02)	+= \
 +                                   gta02-pm-gsm.o \
 +                                   gta02-pm-gps.o \
 +                                   gta02-pm-bt.o  \
@@ -38,6 +30,6 @@
  obj-$(CONFIG_ISL29003)		+= isl29003.o
  obj-$(CONFIG_C2PORT)		+= c2port/
  obj-y				+= eeprom/
-+obj-$(CONFIG_MACH_NEO1973)      += gta02_pm_host.o \
++obj-$(CONFIG_MACH_NEO1973_GTA02)      += gta02_pm_host.o \
 +                                   gta02_pm_resume_reason.o
 +
