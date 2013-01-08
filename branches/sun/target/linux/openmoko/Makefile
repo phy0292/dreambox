@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 ARCH:=arm
 BOARD:=openmoko
 BOARDNAME:=Openmoko SmartPhone
-FEATURES:=jffs2
+FEATURES:=jffs2 squashfs
 CFLAGS:=-O2 -pipe -march=armv4t -mtune=arm920t -fno-caller-saves
 SUBTARGETS:=openmoko-gta01 openmoko-gta02
 
