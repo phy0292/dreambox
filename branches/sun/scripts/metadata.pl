@@ -264,7 +264,7 @@ sub gen_target_config() {
 	print <<EOF;
 choice
 	prompt "Target System"
-	default TARGET_s5pv210
+	default TARGET_s3c24xx
 	reset if !DEVEL
 	
 EOF
