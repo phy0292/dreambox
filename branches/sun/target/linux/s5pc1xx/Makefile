@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 ARCH:=arm
 BOARD:=s5pc1xx
-BOARDNAME:=Samsung S5PC1XX
+BOARDNAME:=Samsung S5PC1xx
 FEATURES:=jffs2 squashfs
 CFLAGS:=-O2 -pipe -march=armv7-a -mtune=cortex-a8 -funit-at-a-time -mfpu=vfpv3-d16 -mfloat-abi=softfp
 SUBTARGETS:=tiny210 mini210
