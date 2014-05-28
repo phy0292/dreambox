@@ -3,35 +3,33 @@
 
 START=98
 
-SERVICE_DAEMONIZE=1
-SERVICE_WRITE_PID=1
-SERVICE_PID_FILE=/var/run/sysntpd.pid
+BIN=/usr/sbin/ntpd
+PID=/var/run/sysntpd.pid
 
 start() {
+	[ -x $BIN ] || exit 0
+
 	local peers
-	local args="-n"
-	local enable_server
+
+	getpeers() {
+		config_get peers "$1" server
+	}
 
 	config_load system
-	config_get peers ntp server
-	config_get_bool enable_server ntp enable_server 0
-
-	if [ $enable_server -ne 0 ]; then
-		append args "-l"
-	fi
+	config_foreach getpeers timeserver
 
 	if [ -n "$peers" ]; then
 		local peer
+		local args="-n"
 		for peer in $peers; do
 			append args "-p $peer"
 		done
-	fi
 
-	if [ "$args" != "-n" ]; then
-		service_start /usr/sbin/ntpd $args
+		start-stop-daemon -x $BIN -m -p $PID -b -S -- $args
 	fi
 }
 
 stop() {
-	service_stop /usr/sbin/ntpd
+	service_kill ${BIN##*/} $PID
+	rm -f $PID
 }

@@ -1,1 +1,0 @@
-./u-boot-arm11.lds

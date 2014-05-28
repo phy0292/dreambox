@@ -1,11 +1,6 @@
-configure: Allow overriding uname results
 
-In a cross compile setting it makes no sense to rely on the "uname" values
-reported by the build host system. This patch allows overriding the
-"uname -r", "uname -s" and "uname -m" results with the "UNAME_R", "UNAME_S"
-and "UNAME_M" environment variables.
-
-Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
+	Use values exported from $(TOPDIR)/rules.mk for determining
+	the target system instead of the host configuration
 
 --- a/configure
 +++ b/configure

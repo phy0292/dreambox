@@ -1,6 +1,7 @@
---- a/Embedded/src/CAN/can_main.c
-+++ b/Embedded/src/CAN/can_main.c
-@@ -214,8 +214,8 @@ int can_pci_probe(struct pci_dev *dev, c
+diff -Nur a/Embedded/src/CAN/can_main.c b/Embedded/src/CAN/can_main.c
+--- a/Embedded/src/CAN/can_main.c	2009-11-30 10:44:39.044269751 +0100
++++ b/Embedded/src/CAN/can_main.c	2009-11-30 10:54:41.434355642 +0100
+@@ -213,8 +213,8 @@
      spin_lock_init(&(g_can_os[can_num].int_spinlock));
      spin_lock_init(&(g_can_os[can_num].open_spinlock));
  
@@ -11,7 +12,7 @@
      {
          printk("Couldn't create CAN device %d. Exiting.\n",
              dev->device);
-@@ -237,7 +237,7 @@ int can_pci_probe(struct pci_dev *dev, c
+@@ -236,7 +236,7 @@
   *****************************************************************************/
  void can_pci_remove(struct pci_dev *dev)
  {
@@ -20,7 +21,7 @@
  
      iounmap(can_os->pci_remap);
      icp_can_destroy(can_os->can);
-@@ -251,7 +251,7 @@ int can_pci_suspend(struct pci_dev *dev,
+@@ -250,7 +250,7 @@
  {
      unsigned int i;
      unsigned int int_status;
@@ -29,7 +30,7 @@
      int err;
  
  	/* Indicate that we are suspending */
-@@ -322,7 +322,7 @@ int can_pci_suspend(struct pci_dev *dev,
+@@ -321,7 +321,7 @@
  int can_pci_resume(struct pci_dev *dev)
  {
      unsigned int i;

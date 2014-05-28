@@ -1,25 +1,27 @@
 #!/bin/sh /etc/rc.common
+# Copyright (C) 2008-2010 OpenWrt.org
 
-START=19
+START=45
 
-boot() {
-	# Be silent on boot, firewall might be started by hotplug already,
-	# so don't complain in syslog.
-	fw3 -q start
+FW_LIBDIR=/lib/firewall
+
+fw() {
+	. $FW_LIBDIR/core.sh
+	fw_$1
 }
 
 start() {
-	fw3 start
+	fw start
 }
 
 stop() {
-	fw3 flush
+	fw stop
 }
 
 restart() {
-	fw3 restart
+	fw restart
 }
 
 reload() {
-	fw3 reload
+	fw reload
 }

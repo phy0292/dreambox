@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2007-2012 OpenWrt.org
+# Copyright (C) 2007-2010 OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -9,15 +9,12 @@ include $(TOPDIR)/rules.mk
 ARCH:=powerpc
 BOARD:=ppc44x
 BOARDNAME:=AMCC/IBM PPC44x
-FEATURES:=squashfs broken
-CFLAGS:=-Os -pipe -fno-caller-saves -mcpu=440
-MAINTAINER:=Imre Kaloz <kaloz@openwrt.org>
+FEATURES:=squashfs
+CFLAGS:=-Os -pipe -funit-at-a-time -mcpu=440
 
-LINUX_VERSION:=3.3.8
+LINUX_VERSION:=2.6.32.27
 
 include $(INCLUDE_DIR)/target.mk
-
-DEFAULT_PACKAGES := $(filter-out ppp%,$(DEFAULT_PACKAGES))
 
 define Target/Description
 	Build firmware images for AMCC/IBM PPC44x based boards.

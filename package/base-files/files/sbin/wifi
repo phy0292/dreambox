@@ -1,15 +1,7 @@
 #!/bin/sh
 # Copyright (C) 2006 OpenWrt.org
 
-. /lib/functions.sh
-
-usage() {
-	cat <<EOF
-Usage: $0 [down|detect]
-enables (default), disables or detects a wifi configuration.
-EOF
-	exit 1
-}
+. /etc/functions.sh
 
 find_net_config() {(
 	local vif="$1"
@@ -38,12 +30,8 @@ bridge_interface() {(
 	include /lib/network
 	scan_interfaces
 
-	for cfg in $cfg; do
-		config_get iftype "$cfg" type
-		[ "$iftype" = bridge ] && config_get "$cfg" ifname
-		prepare_interface_bridge "$cfg"
-		return $?
-	done
+	config_get iftype "$cfg" type
+	[ "$iftype" = bridge ] && config_get "$cfg" ifname
 )}
 
 prepare_key_wep() {
@@ -135,9 +123,7 @@ start_net() {(
 	[ -z "$config" ] || {
 		include /lib/network
 		scan_interfaces
-		for config in $config; do
-			setup_interface "$iface" "$config" "" "$vifmac"
-		done
+		setup_interface "$iface" "$config" "" "$vifmac"
 	}
 )}
 
@@ -165,21 +151,12 @@ scan_wifi() {
 	local cfgfile="$1"
 	DEVICES=
 	config_cb() {
-		local type="$1"
-		local section="$2"
-
-		# section start
-		case "$type" in
-			wifi-device)
-				append DEVICES "$section"
-				config_set "$section" vifs ""
-				config_set "$section" ht_capab ""
-			;;
-		esac
-
-		# section end
 		config_get TYPE "$CONFIG_SECTION" TYPE
 		case "$TYPE" in
+			wifi-device)
+				append DEVICES "$CONFIG_SECTION"
+				config_set "$CONFIG_SECTION" vifs ""
+			;;
 			wifi-iface)
 				config_get device "$CONFIG_SECTION" device
 				config_get vifs "$device" vifs 
@@ -199,6 +176,5 @@ scan_wifi
 case "$1" in
 	down) wifi_updown "disable" "$2";;
 	detect) wifi_detect "$2";;
-	--help|help) usage;;
 	*) wifi_updown "enable" "$2";;
 esac

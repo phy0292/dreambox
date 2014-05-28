@@ -1,15 +1,6 @@
-pppd: Support arbitrary interface names
-
-This patch implements a new string option "ifname" which allows to specify
-fully custom PPP interface names on Linux. It does so by renaming the
-allocated pppX device immediately after it has been created to the requested
-interface name.
-
-Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
-
 --- a/pppd/main.c
 +++ b/pppd/main.c
-@@ -745,8 +745,11 @@ void
+@@ -742,8 +742,11 @@ void
  set_ifunit(iskey)
      int iskey;
  {
@@ -33,7 +24,7 @@ Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
  bool	tune_kernel;		/* may alter kernel settings */
  int	connect_delay = 1000;	/* wait this many ms after connect script */
  int	req_unit = -1;		/* requested interface unit */
-@@ -266,6 +267,9 @@ option_t general_options[] = {
+@@ -264,6 +265,9 @@ option_t general_options[] = {
      { "linkname", o_string, linkname,
        "Set logical name for link",
        OPT_PRIO | OPT_PRIV | OPT_STATIC, NULL, MAXPATHLEN },
@@ -56,7 +47,7 @@ Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
  /*
   * Limits.
   */
-@@ -309,6 +313,7 @@ extern char	*record_file;	/* File to rec
+@@ -308,6 +312,7 @@ extern char	*record_file;	/* File to rec
  extern bool	sync_serial;	/* Device is synchronous serial device */
  extern int	maxfail;	/* Max # of unsuccessful connection attempts */
  extern char	linkname[MAXPATHLEN]; /* logical name for link */
@@ -124,12 +115,12 @@ Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
      if (argc > 0)
  	interface = argv[0];
  
-+#if 0
++/*
      if (sscanf(interface, PPP_DRV_NAME "%d", &unit) != 1) {
  	fprintf(stderr, "%s: invalid interface '%s' specified\n",
  		progname, interface);
      }
-+#endif
++*/
  
  #ifndef STREAMS
      {

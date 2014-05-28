@@ -12,8 +12,7 @@
 #include <linux/module.h>
 #include <linux/platform_device.h>
 
-#include <asm/mach-ath79/ar71xx_regs.h>
-#include <asm/mach-ath79/ath79.h>
+#include <asm/mach-ar71xx/ar71xx.h>
 
 #define DRIVER_NAME	"wndr3700-led-usb"
 
@@ -21,14 +20,14 @@ static void wndr3700_usb_led_set(struct led_classdev *cdev,
 				 enum led_brightness brightness)
 {
 	if (brightness)
-		ath79_device_reset_clear(AR71XX_RESET_GE1_PHY);
+		ar71xx_device_start(RESET_MODULE_GE1_PHY);
 	else
-		ath79_device_reset_set(AR71XX_RESET_GE1_PHY);
+		ar71xx_device_stop(RESET_MODULE_GE1_PHY);
 }
 
 static enum led_brightness wndr3700_usb_led_get(struct led_classdev *cdev)
 {
-	return ath79_device_reset_get(AR71XX_RESET_GE1_PHY) ? LED_OFF : LED_FULL;
+	return ar71xx_device_stopped(RESET_MODULE_GE1_PHY) ? LED_OFF : LED_FULL;
 }
 
 static struct led_classdev wndr3700_usb_led = {

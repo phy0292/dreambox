@@ -39,13 +39,12 @@ define PatchDir/Quilt
 endef
 
 define PatchDir/Default
-	@if [ -d "$(2)" ] && [ "$$$$(ls $(2) | wc -l)" -gt 0 ]; then \
-		export PATCH="$(PATCH)"; \
+	@if [ -d "$(2)" -a "$$$$(ls $(2) | wc -l)" -gt 0 ]; then \
 		if [ -s "$(2)/series" ]; then \
 			$(call filter_series,$(2)/series) | xargs -n1 \
-				$(KPATCH) "$(1)" "$(2)"; \
+				$(PATCH) "$(1)" "$(2)"; \
 		else \
-			$(KPATCH) "$(1)" "$(2)"; \
+			$(PATCH) "$(1)" "$(2)"; \
 		fi; \
 	fi
 endef
@@ -125,8 +124,7 @@ define Quilt/Refresh/Kernel
 endef
 
 define Quilt/Template
-  $($(2)STAMP_CONFIGURED): $($(2)STAMP_CHECKED)
-  $(if $(NO_RECONFIGURE),$($(2)STAMP_BUILT),$($(2)STAMP_CONFIGURED)): FORCE
+  $($(2)STAMP_CONFIGURED): $($(2)STAMP_CHECKED) FORCE
   $($(2)STAMP_CHECKED): $($(2)STAMP_PREPARED)
 	if [ -s "$(1)/patches/series" ]; then \
 		(cd "$(1)"; \

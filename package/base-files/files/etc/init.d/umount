@@ -4,5 +4,5 @@
 STOP=99
 stop() {
 	sync
-	umount -a -d -r
+	umount -a -r
 }

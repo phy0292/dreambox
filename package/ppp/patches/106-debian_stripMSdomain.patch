@@ -1,19 +1,6 @@
-pppd: Implement option to strip domain part from MS CHAP response
-
-This patch implements a new boolean option "chapms-strip-domain" which
-strips the leading domain part of the username in a received MS Chap
-response.
-
-When the option is set, all leading chars up to and including the last
-backslash in the username are stripped. The option defaults to false.
-
-The patch originated from the Debian project.
-
-Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
-
 --- a/pppd/chap-new.c
 +++ b/pppd/chap-new.c
-@@ -58,6 +58,7 @@ int (*chap_verify_hook)(char *name, char
+@@ -57,6 +57,7 @@ int (*chap_verify_hook)(char *name, char
  int chap_timeout_time = 3;
  int chap_max_transmits = 10;
  int chap_rechallenge_time = 0;
@@ -21,7 +8,7 @@ Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
  
  /*
   * Command-line options.
-@@ -69,6 +70,8 @@ static option_t chap_option_list[] = {
+@@ -68,6 +69,8 @@ static option_t chap_option_list[] = {
  	  "Set max #xmits for challenge", OPT_PRIO },
  	{ "chap-interval", o_int, &chap_rechallenge_time,
  	  "Set interval for rechallenge", OPT_PRIO },
@@ -30,7 +17,7 @@ Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
  	{ NULL }
  };
  
-@@ -336,6 +339,14 @@ chap_handle_response(struct chap_server_
+@@ -335,6 +338,14 @@ chap_handle_response(struct chap_server_
  			/* Null terminate and clean remote name. */
  			slprintf(rname, sizeof(rname), "%.*v", len, name);
  			name = rname;

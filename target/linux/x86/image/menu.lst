@@ -2,7 +2,7 @@
 @TERMINAL_CONFIG@
 
 default 0
-timeout @TIMEOUT@
+timeout 5
 
 title   OpenWrt
 root    (hd0,0)

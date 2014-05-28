@@ -2,7 +2,7 @@
  * ADMTEK Adm6996 switch configuration module
  *
  * Copyright (C) 2005 Felix Fietkau <nbd@nbd.name>
- *
+ * 
  * Partially based on Broadcom Home Networking Division 10/100 Mbit/s
  * Ethernet Device Driver (from Montavista 2.4.20_mvl31 Kernel).
  * Copyright (C) 2004 Broadcom Corporation
@@ -22,7 +22,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
  * 02110-1301, USA.
  */
 
@@ -37,10 +37,6 @@
 #include "switch-core.h"
 #include "gpio.h"
 
-#ifdef CONFIG_BCM47XX
-#include <nvram.h>
-#endif
-
 #define DRIVER_NAME "adm6996"
 #define DRIVER_VERSION "0.01"
 
@@ -52,11 +48,19 @@ static int force = 0;
 
 MODULE_AUTHOR("Felix Fietkau <openwrt@nbd.name>");
 MODULE_LICENSE("GPL");
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,5,52)
 module_param(eecs, int, 0);
 module_param(eesk, int, 0);
 module_param(eedi, int, 0);
 module_param(eerc, int, 0);
 module_param(force, int, 0);
+#else
+MODULE_PARM(eecs, "i");
+MODULE_PARM(eesk, "i");
+MODULE_PARM(eedi, "i");
+MODULE_PARM(eerc, "i");
+MODULE_PARM(force, "i");
+#endif
 
 /* Minimum timing constants */
 #define EECK_EDGE_TIME  3   /* 3us - max(adm 2.5us, 93c 1us) */
@@ -70,7 +74,8 @@ module_param(force, int, 0);
 
 #define atoi(str) simple_strtoul(((str != NULL) ? str : ""), NULL, 0)
 
-#ifdef CONFIG_BCM47XX
+#ifdef BROADCOM
+extern char *nvram_get(char *name);
 
 /* Return gpio pin number assigned to the named pin */
 /*
@@ -83,16 +88,15 @@ module_param(force, int, 0);
 static unsigned int get_gpiopin(char *pin_name, unsigned int def_pin)
 {
 	char name[] = "gpioXXXX";
-	char val[10];
+	char *val;
 	unsigned int pin;
 
 	/* Go thru all possibilities till a match in pin name */
 	for (pin = 0; pin < 16; pin ++) {
 		sprintf(name, "gpio%d", pin);
-		if (nvram_getenv(name, val, sizeof(val)) >= 0) {
-			if (!strcmp(val, pin_name))
-				return pin;
-		}
+		val = nvram_get(name);
+		if (val && !strcmp(val, pin_name))
+			return pin;
 	}
 	return def_pin;
 }
@@ -104,7 +108,7 @@ static void adm_write(int cs, char *buf, unsigned int bits)
 	int i, len = (bits + 7) / 8;
 	__u8 mask;
 
-	bcm47xx_gpio_out(eecs, (cs ? eecs : 0));
+	gpio_out(eecs, (cs ? eecs : 0));
 	udelay(EECK_EDGE_TIME);
 
 	/* Byte assemble from MSB to LSB */
@@ -112,25 +116,25 @@ static void adm_write(int cs, char *buf, unsigned int bits)
 		/* Bit bang from MSB to LSB */
 		for (mask = 0x80; mask && bits > 0; mask >>= 1, bits --) {
 			/* Clock low */
-			bcm47xx_gpio_out(eesk, 0);
+			gpio_out(eesk, 0);
 			udelay(EECK_EDGE_TIME);
 
 			/* Output on rising edge */
-			bcm47xx_gpio_out(eedi, ((mask & buf[i]) ? eedi : 0));
+			gpio_out(eedi, ((mask & buf[i]) ? eedi : 0));
 			udelay(EEDI_SETUP_TIME);
 
 			/* Clock high */
-			bcm47xx_gpio_out(eesk, eesk);
+			gpio_out(eesk, eesk);
 			udelay(EECK_EDGE_TIME);
 		}
 	}
 
 	/* Clock low */
-	bcm47xx_gpio_out(eesk, 0);
+	gpio_out(eesk, 0);
 	udelay(EECK_EDGE_TIME);
 
 	if (cs)
-		bcm47xx_gpio_out(eecs, 0);
+		gpio_out(eecs, 0);
 }
 
 
@@ -139,7 +143,7 @@ static void adm_read(int cs, char *buf, unsigned int bits)
 	int i, len = (bits + 7) / 8;
 	__u8 mask;
 
-	bcm47xx_gpio_out(eecs, (cs ? eecs : 0));
+	gpio_out(eecs, (cs ? eecs : 0));
 	udelay(EECK_EDGE_TIME);
 
 	/* Byte assemble from MSB to LSB */
@@ -151,16 +155,16 @@ static void adm_read(int cs, char *buf, unsigned int bits)
 			__u8 gp;
 
 			/* Clock low */
-			bcm47xx_gpio_out(eesk, 0);
+			gpio_out(eesk, 0);
 			udelay(EECK_EDGE_TIME);
 
 			/* Input on rising edge */
-			gp = bcm47xx_gpio_in(~0);
+			gp = gpio_in();
 			if (gp & eedi)
 				byte |= mask;
 
 			/* Clock high */
-			bcm47xx_gpio_out(eesk, eesk);
+			gpio_out(eesk, eesk);
 			udelay(EECK_EDGE_TIME);
 		}
 
@@ -168,31 +172,31 @@ static void adm_read(int cs, char *buf, unsigned int bits)
 	}
 
 	/* Clock low */
-	bcm47xx_gpio_out(eesk, 0);
+	gpio_out(eesk, 0);
 	udelay(EECK_EDGE_TIME);
 
 	if (cs)
-		bcm47xx_gpio_out(eecs, 0);
+		gpio_out(eecs, 0);
 }
 
 
 /* Enable outputs with specified value to the chip */
 static void adm_enout(__u8 pins, __u8 val)
-{
+{   
 	/* Prepare GPIO output value */
-	bcm47xx_gpio_out(pins, val);
-
+	gpio_out(pins, val);
+	
 	/* Enable GPIO outputs */
-	bcm47xx_gpio_outen(pins, pins);
+	gpio_outen(pins, pins);
 	udelay(EECK_EDGE_TIME);
 }
 
 
 /* Disable outputs to the chip */
 static void adm_disout(__u8 pins)
-{
+{   
 	/* Disable GPIO outputs */
-	bcm47xx_gpio_outen(pins, 0);
+	gpio_outen(pins, 0);
 	udelay(EECK_EDGE_TIME);
 }
 
@@ -203,11 +207,11 @@ static void adm_adclk(int clocks)
 	int i;
 	for (i = 0; i < clocks; i++) {
 		/* Clock high */
-		bcm47xx_gpio_out(eesk, eesk);
+		gpio_out(eesk, eesk);
 		udelay(EECK_EDGE_TIME);
 
 		/* Clock low */
-		bcm47xx_gpio_out(eesk, 0);
+		gpio_out(eesk, 0);
 		udelay(EECK_EDGE_TIME);
 	}
 }
@@ -281,17 +285,17 @@ static int vlan_ports[] = { 1 << 0, 1 << 2, 1 << 4, 1 << 6, 1 << 7, 1 << 8 };
 static int handle_vlan_port_read(void *driver, char *buf, int nr)
 {
 	int ports, i, c, len = 0;
-
+			
 	if ((nr < 0) || (nr > 15))
 		return 0;
 
 	/* Get VLAN port map */
 	ports = adm_rreg(0, 0x13 + nr);
-
+	
 	for (i = 0; i <= 5; i++) {
 		if (ports & vlan_ports[i]) {
 			c = adm_rreg(0, port_conf[i]);
-
+			
 			len += sprintf(buf + len, "%d", i);
 			if (c & (1 << 4)) {
 				buf[len++] = 't';
@@ -323,17 +327,17 @@ static int handle_vlan_port_write(void *driver, char *buf, int nr)
 			ports |= vlan_ports[i];
 
 			cfg = adm_rreg(0, port_conf[i]);
-
+			
 			/* Tagging */
 			if (c->untag & (1 << i))
 				cfg &= ~(1 << 4);
 			else
 				cfg |= (1 << 4);
-
+			
 			if ((c->untag | c->pvid) & (1 << i)) {
 				cfg = (cfg & ~(0xf << 10)) | (nr << 10);
 			}
-
+			
 			adm_wreg(port_conf[i], (__u16) cfg);
 		} else {
 			ports &= ~(vlan_ports[i]);
@@ -341,7 +345,6 @@ static int handle_vlan_port_write(void *driver, char *buf, int nr)
 	}
 	adm_wreg(0x13 + nr, (__u16) ports);
 
-	kfree(c);
 	return 0;
 }
 
@@ -353,7 +356,7 @@ static int handle_port_enable_read(void *driver, char *buf, int nr)
 static int handle_port_enable_write(void *driver, char *buf, int nr)
 {
 	int reg = adm_rreg(0, port_conf[nr]);
-
+	
 	if (buf[0] == '0')
 		reg |= (1 << 5);
 	else if (buf[0] == '1')
@@ -388,7 +391,7 @@ static int handle_port_media_write(void *driver, char *buf, int nr)
 
 	if (media < 0)
 		return -1;
-
+	
 	reg &= ~((1 << 1) | (1 << 2) | (1 << 3));
 	if (media & SWITCH_MEDIA_AUTO)
 		reg |= 1 << 1;
@@ -398,7 +401,7 @@ static int handle_port_media_write(void *driver, char *buf, int nr)
 		reg |= 1 << 3;
 
 	adm_wreg(port_conf[nr], reg);
-
+	
 	return 0;
 }
 
@@ -410,7 +413,7 @@ static int handle_vlan_enable_read(void *driver, char *buf, int nr)
 static int handle_vlan_enable_write(void *driver, char *buf, int nr)
 {
 	int reg = adm_rreg(0, 0x11);
-
+	
 	if (buf[0] == '1')
 		reg |= (1 << 5);
 	else if (buf[0] == '0')
@@ -450,7 +453,7 @@ static int handle_reset(void *driver, char *buf, int nr)
 			udelay(1000);
 		/* Leave RC high and disable GPIO outputs */
 		adm_disout((__u8)(eecs | eesk | eedi));
-
+	
 	}
 
 	/* set up initial configuration for cpu port */
@@ -459,7 +462,7 @@ static int handle_reset(void *driver, char *buf, int nr)
 		  (1 << 4) | /* Tagging */
 		  0xf); /* full duplex, 100Mbps, auto neg, flow ctrl */
 	adm_wreg(port_conf[5], cfg);
-
+	
 	/* vlan mode select register (0x11): vlan on, mac clone */
 	adm_wreg(0x11, 0xff30);
 
@@ -469,7 +472,7 @@ static int handle_reset(void *driver, char *buf, int nr)
 static int handle_registers(void *driver, char *buf, int nr)
 {
 	int i, len = 0;
-
+	
 	for (i = 0; i <= 0x33; i++) {
 		len += sprintf(buf + len, "0x%02x: 0x%04x\n", i, adm_rreg(0, i));
 	}
@@ -492,16 +495,9 @@ static int detect_adm(void)
 {
 	int ret = 0;
 
-#ifdef CONFIG_BCM47XX
-	char buf[20];
-	int boardflags = 0;
-	int boardnum = 0;
-		
-	if (nvram_getenv("boardflags", buf, sizeof(buf)) >= 0)
-		boardflags = simple_strtoul(buf, NULL, 0);
-
-	if (nvram_getenv("boardnum", buf, sizeof(buf)) >= 0)
-		boardnum = simple_strtoul(buf, NULL, 0);
+#ifdef BROADCOM
+	int boardflags = atoi(nvram_get("boardflags"));
+        int boardnum = atoi(nvram_get("boardnum"));
 
 	if ((boardnum == 44) && (boardflags == 0x0388)) {  /* Trendware TEW-411BRP+ */
 		ret = 1;
@@ -519,19 +515,14 @@ static int detect_adm(void)
 		eedi = get_gpiopin("adm_eedi", 4);
 		eerc = get_gpiopin("adm_rc", 0);
 
-	} else if (nvram_getenv("boardtype", buf, sizeof(buf)) >= 0) {
-		if (strcmp(buf, "bcm94710dev") == 0) {
-			if (nvram_getenv("boardnum", buf, sizeof(buf)) >= 0) {
-				if (strncmp(buf, "42", 2) == 0) {
-					/* WRT54G v1.1 hack */
-					eecs = 2;
-					eesk = 3;
-					eedi = 5;
+	} else if ((strcmp(nvram_get("boardtype") ?: "", "bcm94710dev") == 0) &&
+			(strncmp(nvram_get("boardnum") ?: "", "42", 2) == 0)) {
+		/* WRT54G v1.1 hack */
+		eecs = 2;
+		eesk = 3;
+		eedi = 5;
 
-					ret = 1;
-				}
-			}
-		}
+		ret = 1;
 	}
 
 	if (eecs)

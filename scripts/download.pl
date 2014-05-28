@@ -9,7 +9,6 @@
 use strict;
 use warnings;
 use File::Basename;
-use File::Copy;
 
 @ARGV > 2 or die "Syntax: $0 <target dir> <filename> <md5sum> [<mirror> ...]\n";
 
@@ -25,7 +24,7 @@ sub localmirrors {
 	open LM, "$scriptdir/localmirrors" and do {
 	    while (<LM>) {
 			chomp $_;
-			push @mlist, $_ if $_;
+			push @mlist, $_;
 		}
 		close LM;
 	};
@@ -52,59 +51,34 @@ sub which($) {
 	return $res;
 }
 
-my $md5cmd = which("md5sum") || which("md5") || die 'no md5 checksum program found, please install md5 or md5sum';
+my $md5cmd = which("md5sum");
+$md5cmd or $md5cmd = which("md5");
+$md5cmd or die 'no md5 checksum program found, please install md5 or md5sum';
 chomp $md5cmd;
 
 sub download
 {
 	my $mirror = shift;
-	my $options = $ENV{WGET_OPTIONS} || "";
+	my $options = $ENV{WGET_OPTIONS};
+	$options or $options = "";
 
-	$mirror =~ s!/$!!;
-
-	if ($mirror =~ s!^file://!!) {
-		if (! -d "$mirror") {
-			print STDERR "Wrong local cache directory -$mirror-.\n";
+	$mirror =~ s/\/$//;
+	if( $mirror =~ /^file:\/\// ) {
+		my $cache = $mirror;
+		$cache =~ s/file:\/\///g;
+		if(system("test -d $cache")) {
+			print STDERR "Wrong local cache directory -$cache-.\n";
 			cleanup();
 			return;
 		}
-
-		if (! -d "$target") {
-			system("mkdir", "-p", "$target/");
+		if(! -d $target) {
+			system("mkdir -p $target/");
 		}
-
-		if (! open TMPDLS, "find $mirror -follow -name $filename 2>/dev/null |") {
-			print("Failed to search for $filename in $mirror\n");
-			return;
-		}
-
-		my $link;
-
-		while (defined(my $line = readline TMPDLS)) {
-			chomp ($link = $line);
-			if ($. > 1) {
-				print("$. or more instances of $filename in $mirror found . Only one instance allowed.\n");
-				return;
-			}
-		}
-
-		close TMPDLS;
-
-		if (! $link) {
-			print("No instances of $filename found in $mirror.\n");
-			return;
-		}
-
-		print("Copying $filename from $link\n");
-		copy($link, "$target/$filename.dl");
-
-		if (system("$md5cmd '$target/$filename.dl' > '$target/$filename.md5sum'")) {
-			print("Failed to generate md5 sum for $filename\n");
-			return;
-		}
+		system("cp -vf $cache/$filename $target/$filename.dl") == 0 or return;
+		system("$md5cmd $target/$filename.dl > \"$target/$filename.md5sum\" ") == 0 or return;
 	} else {
-		open WGET, "wget -t5 --timeout=20 --no-check-certificate $options -O- '$mirror/$filename' |" or die "Cannot launch wget.\n";
-		open MD5SUM, "| $md5cmd > '$target/$filename.md5sum'" or die "Cannot launch md5sum.\n";
+		open WGET, "wget -t5 --timeout=20 --no-check-certificate $options -O- \"$mirror/$filename\" |" or die "Cannot launch wget.\n";
+		open MD5SUM, "| $md5cmd > \"$target/$filename.md5sum\"" or die "Cannot launch md5sum.\n";
 		open OUTPUT, "> $target/$filename.dl" or die "Cannot create file $target/$filename.dl: $!\n";
 		my $buffer;
 		while (read WGET, $buffer, 1048576) {
@@ -115,7 +89,7 @@ sub download
 		close WGET;
 		close OUTPUT;
 
-		if ($? >> 8) {
+		if (($? >> 8) != 0 ) {
 			print STDERR "Download failed.\n";
 			cleanup();
 			return;
@@ -133,7 +107,7 @@ sub download
 	}
 
 	unlink "$target/$filename";
-	system("mv", "$target/$filename.dl", "$target/$filename");
+	system("mv \"$target/$filename.dl\" \"$target/$filename\"");
 	cleanup();
 }
 
@@ -162,12 +136,14 @@ foreach my $mirror (@ARGV) {
 		push @mirrors, "ftp://ftp.digex.net/pub/gnu/$1";
 	} elsif ($mirror =~ /^\@KERNEL\/(.+)$/) {
 		my @extra = ( $1 );
-		if ($filename =~ /linux-\d+\.\d+(?:\.\d+)?-rc/) {
+		if ($filename =~ /linux-\d+\.\d+\.\d+-rc/) {
 			push @extra, "$extra[0]/testing";
-		} elsif ($filename =~ /linux-(\d+\.\d+(?:\.\d+)?)/) {
+		} elsif ($filename =~ /linux-(\d+\.\d+\.\d+)/) {
 			push @extra, "$extra[0]/longterm/v$1";
 		}		
 		foreach my $dir (@extra) {
+			push @mirrors, "ftp://ftp.geo.kernel.org/pub/$dir";
+			push @mirrors, "http://ftp.geo.kernel.org/pub/$dir";
 			push @mirrors, "ftp://ftp.all.kernel.org/pub/$dir";
 			push @mirrors, "http://ftp.all.kernel.org/pub/$dir";
 			push @mirrors, "ftp://ftp.de.kernel.org/pub/$dir";

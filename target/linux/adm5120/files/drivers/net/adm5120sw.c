@@ -38,7 +38,6 @@
 #include <asm/mach-adm5120/adm5120_switch.h>
 
 #include "adm5120sw.h"
-#include <linux/dma-mapping.h>
 
 #define DRV_NAME	"adm5120-switch"
 #define DRV_DESC	"ADM5120 built-in ethernet switch driver"
@@ -50,7 +49,7 @@
 /* ------------------------------------------------------------------------ */
 
 #ifdef CONFIG_ADM5120_SWITCH_DEBUG
-#define SW_DBG(f, a...)		printk(KERN_DEBUG "%s: " f, DRV_NAME , ## a)
+#define SW_DBG(f, a...)		printk(KERN_DBG "%s: " f, DRV_NAME , ## a)
 #else
 #define SW_DBG(f, a...)		do {} while (0)
 #endif
@@ -65,7 +64,7 @@
 
 #define TX_RING_SIZE	32
 #define TX_QUEUE_LEN	28	/* Limit ring entries actually used. */
-#define TX_TIMEOUT	(HZ * 400)
+#define TX_TIMEOUT	HZ*400
 
 #define RX_DESCS_SIZE	(RX_RING_SIZE * sizeof(struct dma_desc *))
 #define RX_SKBS_SIZE	(RX_RING_SIZE * sizeof(struct sk_buff *))
@@ -154,7 +153,7 @@ static unsigned int cur_txl, dirty_txl;
 
 static unsigned int sw_used;
 
-static DEFINE_SPINLOCK(tx_lock);
+static spinlock_t tx_lock = SPIN_LOCK_UNLOCKED;
 
 /* ------------------------------------------------------------------------ */
 
@@ -217,7 +216,6 @@ static inline int desc_ipcsum_fail(struct dma_desc *desc)
 
 /* ------------------------------------------------------------------------ */
 
-#ifdef CONFIG_ADM5120_SWITCH_DEBUG
 static void sw_dump_desc(char *label, struct dma_desc *desc, int tx)
 {
 	u32 t;
@@ -234,7 +232,7 @@ static void sw_dump_desc(char *label, struct dma_desc *desc, int tx)
 	t = desc->buf2;
 	SW_DBG("    buf2 %08X addr=%08X%s\n", desc->buf2,
 		t & DESC_ADDR_MASK,
-		(t & DESC_BUF2_EN) ? " EN" : "");
+		(t & DESC_BUF2_EN) ? " EN" : "" );
 
 	t = desc->misc;
 	if (tx)
@@ -338,11 +336,6 @@ static void sw_dump_regs(void)
 	t = sw_read_reg(SWITCH_REG_RLDA);
 	SW_DBG("rlda: %08X\n", t);
 }
-#else
-static inline void sw_dump_desc(char *label, struct dma_desc *desc, int tx) {}
-static void sw_dump_intr_mask(char *label, u32 mask) {}
-static inline void sw_dump_regs(void) {}
-#endif /* CONFIG_ADM5120_SWITCH_DEBUG */
 
 /* ------------------------------------------------------------------------ */
 
@@ -509,7 +502,7 @@ static int adm5120_if_poll(struct napi_struct *napi, int limit)
 {
 	struct adm5120_if_priv *priv = container_of(napi,
 				struct adm5120_if_priv, napi);
-	struct net_device *dev  __maybe_unused = priv->dev;
+	struct net_device *dev = priv->dev;
 	int done;
 	u32 status;
 
@@ -560,11 +553,13 @@ static irqreturn_t adm5120_switch_irq(int irq, void *dev_id)
 #else
 	sw_int_ack(status);
 
-	if (status & (SWITCH_INT_RLD | SWITCH_INT_LDF))
+	if (status & (SWITCH_INT_RLD | SWITCH_INT_LDF)) {
 		adm5120_switch_rx(RX_RING_SIZE);
+	}
 
-	if (status & SWITCH_INT_SLD)
+	if (status & SWITCH_INT_SLD) {
 		adm5120_switch_tx();
+	}
 #endif
 
 	return IRQ_HANDLED;
@@ -594,7 +589,7 @@ static void adm5120_switch_tx_ring_reset(struct dma_desc *desc,
 {
 	memset(desc, 0, num * sizeof(*desc));
 	desc[num-1].buf1 |= DESC_EOR;
-	memset(skbl, 0, sizeof(struct skb *) * num);
+	memset(skbl, 0, sizeof(struct skb*)*num);
 
 	cur_txl = 0;
 	dirty_txl = 0;
@@ -613,7 +608,7 @@ static void adm5120_switch_rx_ring_reset(struct dma_desc *desc,
 			break;
 		}
 		skb_reserve(skbl[i], SKB_RESERVE_LEN);
-		adm5120_rx_dma_update(&desc[i], skbl[i], (num - 1 == i));
+		adm5120_rx_dma_update(&desc[i], skbl[i], (num-1==i));
 	}
 
 	cur_rxl = 0;
@@ -726,8 +721,7 @@ static void adm5120_write_mac(struct net_device *dev)
 
 	sw_write_reg(SWITCH_REG_MAC_WT0, t);
 
-	while (!(sw_read_reg(SWITCH_REG_MAC_WT0) & MAC_WT0_MWD))
-		;
+	while (!(sw_read_reg(SWITCH_REG_MAC_WT0) & MAC_WT0_MWD));
 }
 
 static void adm5120_set_vlan(char *matrix)
@@ -741,10 +735,9 @@ static void adm5120_set_vlan(char *matrix)
 	sw_write_reg(SWITCH_REG_VLAN_G2, val);
 
 	/* Now set/update the port vs. device lookup table */
-	for (port = 0; port < SWITCH_NUM_PORTS; port++) {
-		for (vlan_port = 0; vlan_port < SWITCH_NUM_PORTS && !(matrix[vlan_port] & (0x00000001 << port)); vlan_port++)
-			;
-		if (vlan_port < SWITCH_NUM_PORTS)
+	for (port=0; port<SWITCH_NUM_PORTS; port++) {
+		for (vlan_port=0; vlan_port<SWITCH_NUM_PORTS && !(matrix[vlan_port] & (0x00000001 << port)); vlan_port++);
+		if (vlan_port <SWITCH_NUM_PORTS)
 			adm5120_port[port] = adm5120_devs[vlan_port];
 		else
 			adm5120_port[port] = NULL;
@@ -898,7 +891,7 @@ static int adm5120_if_hard_start_xmit(struct sk_buff *skb,
 	data |= DESC_ADDR(skb->data);
 
 	desc->misc =
-	    ((skb->len < ETH_ZLEN ? ETH_ZLEN : skb->len) << DESC_PKTLEN_SHIFT) |
+	    ((skb->len<ETH_ZLEN?ETH_ZLEN:skb->len) << DESC_PKTLEN_SHIFT) |
 	    (0x1 << priv->vlan_no);
 
 	desc->buflen = skb->len < ETH_ZLEN ? ETH_ZLEN : skb->len;
@@ -924,10 +917,10 @@ static int adm5120_if_hard_start_xmit(struct sk_buff *skb,
 
 static void adm5120_if_tx_timeout(struct net_device *dev)
 {
-	SW_INFO("TX timeout on %s\n", dev->name);
+	SW_INFO("TX timeout on %s\n",dev->name);
 }
 
-static void adm5120_if_set_rx_mode(struct net_device *dev)
+static void adm5120_if_set_multicast_list(struct net_device *dev)
 {
 	struct adm5120_if_priv *priv = netdev_priv(dev);
 	u32 ports;
@@ -944,7 +937,7 @@ static void adm5120_if_set_rx_mode(struct net_device *dev)
 		t |= (ports << CPUP_CONF_DUNP_SHIFT);
 
 	if (dev->flags & IFF_PROMISC || dev->flags & IFF_ALLMULTI ||
-					netdev_mc_count(dev))
+					dev->mc_count)
 		/* enable multicast packets */
 		t &= ~(ports << CPUP_CONF_DMCP_SHIFT);
 	else
@@ -997,7 +990,7 @@ static int adm5120_if_do_ioctl(struct net_device *dev, struct ifreq *rq,
 	struct adm5120_sw_info info;
 	struct adm5120_if_priv *priv = netdev_priv(dev);
 
-	switch (cmd) {
+	switch(cmd) {
 	case SIOCGADMINFO:
 		info.magic = 0x5120;
 		info.ports = adm5120_nrdevs;
@@ -1028,15 +1021,15 @@ static int adm5120_if_do_ioctl(struct net_device *dev, struct ifreq *rq,
 }
 
 static const struct net_device_ops adm5120sw_netdev_ops = {
-	.ndo_open		= adm5120_if_open,
-	.ndo_stop		= adm5120_if_stop,
-	.ndo_start_xmit		= adm5120_if_hard_start_xmit,
-	.ndo_set_rx_mode	= adm5120_if_set_rx_mode,
-	.ndo_do_ioctl		= adm5120_if_do_ioctl,
-	.ndo_tx_timeout		= adm5120_if_tx_timeout,
-	.ndo_validate_addr	= eth_validate_addr,
-	.ndo_change_mtu		= eth_change_mtu,
-	.ndo_set_mac_address	= adm5120_if_set_mac_address,
+        .ndo_open               = adm5120_if_open,
+        .ndo_stop               = adm5120_if_stop,
+        .ndo_start_xmit         = adm5120_if_hard_start_xmit,
+        .ndo_set_multicast_list = adm5120_if_set_multicast_list,
+        .ndo_do_ioctl           = adm5120_if_do_ioctl,
+        .ndo_tx_timeout         = adm5120_if_tx_timeout,
+        .ndo_validate_addr      = eth_validate_addr,
+        .ndo_change_mtu         = eth_change_mtu,
+	.ndo_set_mac_address    = adm5120_if_set_mac_address,
 };
 
 static struct net_device *adm5120_if_alloc(void)
@@ -1053,7 +1046,7 @@ static struct net_device *adm5120_if_alloc(void)
 
 	dev->irq		= ADM5120_IRQ_SWITCH;
 	dev->netdev_ops		= &adm5120sw_netdev_ops;
-	dev->watchdog_timeo	= TX_TIMEOUT;
+	dev->watchdog_timeo 	= TX_TIMEOUT;
 
 #ifdef CONFIG_ADM5120_SWITCH_NAPI
 	netif_napi_add(dev, &priv->napi, adm5120_if_poll, 64);
@@ -1083,7 +1076,7 @@ static void adm5120_switch_cleanup(void)
 	adm5120_switch_rx_ring_free();
 }
 
-static int __devinit adm5120_switch_probe(struct platform_device *pdev)
+static int __init adm5120_switch_probe(struct platform_device *pdev)
 {
 	u32 t;
 	int i, err;
@@ -1179,7 +1172,7 @@ err:
 	return err;
 }
 
-static int adm5120_switch_remove(struct platform_device *pdev)
+static int adm5120_switch_remove(struct platform_device *dev)
 {
 	adm5120_switch_cleanup();
 	return 0;

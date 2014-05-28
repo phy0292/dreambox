@@ -19,7 +19,7 @@
  * ADM5120 Root Hub ... the nonsharable stuff
  */
 
-#define dbg_port(hc, label, num, value) \
+#define dbg_port(hc,label,num,value) \
 	admhc_dbg(hc, \
 		"%s port%d " \
 		"= 0x%08x%s%s%s%s%s%s%s%s%s%s%s%s\n", \
@@ -40,7 +40,7 @@
 		(value & ADMHC_PS_CCS) ? " CCS" : "" \
 		);
 
-#define dbg_port_write(hc, label, num, value) \
+#define dbg_port_write(hc,label,num,value) \
 	admhc_dbg(hc, \
 		"%s port%d " \
 		"= 0x%08x%s%s%s%s%s%s%s%s%s%s%s%s\n", \
@@ -75,17 +75,17 @@ admhc_hub_status_data(struct usb_hcd *hcd, char *buf)
 	u32		status;
 
 	spin_lock_irqsave(&ahcd->lock, flags);
-	if (!HCD_HW_ACCESSIBLE(hcd))
+	if (!test_bit(HCD_FLAG_HW_ACCESSIBLE, &hcd->flags))
 		goto done;
 
 	/* init status */
 	status = admhc_read_rhdesc(ahcd);
 	if (status & (ADMHC_RH_LPSC | ADMHC_RH_OCIC))
-		buf[0] = changed = 1;
+		buf [0] = changed = 1;
 	else
-		buf[0] = 0;
+		buf [0] = 0;
 	if (ahcd->num_ports > 7) {
-		buf[1] = 0;
+		buf [1] = 0;
 		length++;
 	}
 
@@ -100,17 +100,14 @@ admhc_hub_status_data(struct usb_hcd *hcd, char *buf)
 				| ADMHC_PS_OCIC | ADMHC_PS_PRSC)) {
 			changed = 1;
 			if (i < 7)
-				buf[0] |= 1 << (i + 1);
+			    buf [0] |= 1 << (i + 1);
 			else
-				buf[1] |= 1 << (i - 7);
+			    buf [1] |= 1 << (i - 7);
 		}
 	}
 
-	if (admhc_root_hub_state_changes(ahcd, changed,
-			any_connected))
-		set_bit(HCD_FLAG_POLL_RH, &hcd->flags);
-	else
-		clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
+	hcd->poll_rh = admhc_root_hub_state_changes(ahcd, changed,
+			any_connected);
 
 done:
 	spin_unlock_irqrestore(&ahcd->lock, flags);
@@ -146,9 +143,9 @@ static int admhc_get_hub_descriptor(struct admhcd *ahcd, char *buf)
 	    temp |= 0x0008;
 	desc->wHubCharacteristics = (__force __u16)cpu_to_hc16(ahcd, temp);
 
-	/* ports removable, and usb 1.0 legacy PortPwrCtrlMask */
-	desc->u.hs.DeviceRemovable[0] = 0;
-	desc->u.hs.DeviceRemovable[0] = ~0;
+	/* two bitmaps:  ports removable, and usb 1.0 legacy PortPwrCtrlMask */
+	desc->bitmap[0] = 0;
+	desc->bitmap[0] = ~0;
 
 	return 0;
 }
@@ -250,7 +247,7 @@ static void start_hnp(struct admhcd *ahcd);
 #define	PORT_RESET_HW_MSEC	10
 
 /* wrap-aware logic morphed from <linux/jiffies.h> */
-#define tick_before(t1, t2) ((s16)(((s16)(t1)) - ((s16)(t2))) < 0)
+#define tick_before(t1,t2) ((s16)(((s16)(t1))-((s16)(t2))) < 0)
 
 /* called from some task, normally khubd */
 static inline int admhc_port_reset(struct admhcd *ahcd, unsigned port)
@@ -313,10 +310,10 @@ static int admhc_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
 		u16 wIndex, char *buf, u16 wLength)
 {
 	struct admhcd	*ahcd = hcd_to_admhcd(hcd);
-	int		ports = ahcd->num_ports;
+	int		ports = hcd_to_bus(hcd)->root_hub->maxchild;
 	int		ret = 0;
 
-	if (unlikely(!HCD_HW_ACCESSIBLE(hcd)))
+	if (unlikely(!test_bit(HCD_FLAG_HW_ACCESSIBLE, &hcd->flags)))
 		return -ESHUTDOWN;
 
 	switch (typeReq) {

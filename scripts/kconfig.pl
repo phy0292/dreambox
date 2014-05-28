@@ -73,10 +73,7 @@ sub config_add($$$) {
 		my %cfg = %$_;
 		
 		foreach my $config (keys %cfg) {
-			if ($mod_plus and $config{$config}) {
-				next if $config{$config} eq "y";
-				next if $cfg{$config} eq '#undef';
-			}
+			next if $mod_plus and $config{$config} and $config{$config} eq "y";
 			$config{$config} = $cfg{$config};
 		}
 	}

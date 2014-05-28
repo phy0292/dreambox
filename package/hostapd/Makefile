@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2006-2012 OpenWrt.org
+# Copyright (C) 2006-2011 OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -8,23 +8,20 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hostapd
-PKG_VERSION:=20130405
-PKG_RELEASE:=1
-PKG_REV:=f2f66ad7e805218468aa041985dccaf8719c296e
+PKG_VERSION:=20111103
+PKG_RELEASE:=2
+PKG_REV:=6caaae1e48da247b21b54ea6001646597e35d9b1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=git://w1.fi/srv/git/hostap.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=$(PKG_REV)
 PKG_SOURCE_PROTO:=git
-PKG_MIRROR_MD5SUM:=5dff9bc3b8fbd9ef8a66273d5adee5a3
-
-PKG_MAINTAINER:=Felix Fietkau <nbd@openwrt.org>
-
-PKG_BUILD_PARALLEL:=1
+PKG_MIRROR_MD5SUM:=2650d83c1d4649a5df9fe265f8a5775f
 
 PKG_BUILD_DEPENDS:= \
 	PACKAGE_kmod-madwifi:madwifi \
+	PACKAGE_kmod-mac80211:mac80211 \
 
 PKG_CONFIG_DEPENDS:= \
 	CONFIG_WPA_SUPPLICANT_NO_TIMESTAMP_CHECK \
@@ -57,8 +54,6 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSI
 
 include $(INCLUDE_DIR)/package.mk
 
-STAMP_CONFIGURED:=$(STAMP_CONFIGURED)_$(CONFIG_WPA_MSG_MIN_PRIORITY)
-
 ifneq ($(CONFIG_DRIVER_11N_SUPPORT),)
   HOSTAPD_IEEE80211N:=y
 endif
@@ -86,14 +81,15 @@ ifneq ($(LOCAL_TYPE),hostapd)
 	CONFIG_DRIVER_ROBOSWITCH=$(CONFIG_PACKAGE_kmod-switch)
 endif
 
-DRV_DEPENDS:=+PACKAGE_kmod-mac80211:libnl-tiny @(!TARGET_avr32||BROKEN)
+DRV_DEPENDS:=+PACKAGE_kmod-mac80211:libnl-tiny @(!(TARGET_avr32)||BROKEN)
 
 define Package/hostapd/Default
   SECTION:=net
   CATEGORY:=Network
   TITLE:=IEEE 802.1x Authenticator
   URL:=http://hostap.epitest.fi/
-  DEPENDS:=$(DRV_DEPENDS) +libubus
+  DEPENDS:=$(DRV_DEPENDS)
+  MAINTAINER:=Felix Fietkau <nbd@openwrt.org>
 endef
 
 define Package/hostapd
@@ -133,12 +129,13 @@ define Package/wpad/Default
   CATEGORY:=Network
   TITLE:=IEEE 802.1x Authenticator/Supplicant
   URL:=http://hostap.epitest.fi/
+  MAINTAINER:=Felix Fietkau <nbd@openwrt.org>
 endef
 
 define Package/wpad
 $(call Package/wpad/Default)
   TITLE+= (full)
-  DEPENDS:=$(DRV_DEPENDS) +WPA_SUPPLICANT_OPENSSL:libopenssl +libubus
+  DEPENDS:=$(DRV_DEPENDS) +WPA_SUPPLICANT_OPENSSL:libopenssl
   VARIANT:=wpad-full
 endef
 
@@ -150,7 +147,7 @@ endef
 define Package/wpad-mini
 $(call Package/wpad/Default)
   TITLE+= (WPA-PSK only)
-  DEPENDS:=$(DRV_DEPENDS) +libubus
+  DEPENDS:=$(DRV_DEPENDS)
   VARIANT:=wpad-mini
 endef
 
@@ -165,6 +162,7 @@ define Package/wpa-supplicant
   URL:=http://hostap.epitest.fi/wpa_supplicant/
   DEPENDS:=$(DRV_DEPENDS) +WPA_SUPPLICANT_OPENSSL:libopenssl
   VARIANT:=supplicant-full
+  MAINTAINER:=Felix Fietkau <nbd@openwrt.org>
 endef
 
 define Package/wpa-supplicant/Description
@@ -191,6 +189,7 @@ define Package/wpa-cli
   CATEGORY:=Network
   DEPENDS:=@PACKAGE_wpa-supplicant||PACKAGE_wpad-mini||PACKAGE_wpad
   TITLE:=WPA Supplicant command line interface
+  MAINTAINER:=Felix Fietkau <nbd@openwrt.org>
 endef
 
 define Package/wpa-cli/Description
@@ -218,16 +217,13 @@ TARGET_CPPFLAGS := \
 	-I$(STAGING_DIR)/usr/include/libnl-tiny \
 	-I$(PKG_BUILD_DIR)/src/crypto \
 	$(TARGET_CPPFLAGS) \
-	-I$(CURDIR)/madwifi \
+	-I$(STAGING_DIR)/usr/include/madwifi \
+	-I$(STAGING_DIR)/usr/include/mac80211 \
 	-DCONFIG_LIBNL20 \
-	-D_GNU_SOURCE \
-	$(if $(CONFIG_WPA_MSG_MIN_PRIORITY),-DCONFIG_MSG_MIN_PRIORITY=$(CONFIG_WPA_MSG_MIN_PRIORITY))
+	-D_GNU_SOURCE
 
 TARGET_CFLAGS += -ffunction-sections -fdata-sections
 TARGET_LDFLAGS += -Wl,--gc-sections
-ifeq ($(findstring supplicant,$(BUILD_VARIANT)),)
-  TARGET_LDFLAGS += -lubox -lubus
-endif
 
 ifdef CONFIG_PACKAGE_kmod-mac80211
   TARGET_LDFLAGS += -lm -lnl-tiny
@@ -235,11 +231,10 @@ endif
 
 define Build/RunMake
 	CFLAGS="$(TARGET_CPPFLAGS) $(TARGET_CFLAGS)" \
-	$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR)/$(1) \
+	$(MAKE) -C $(PKG_BUILD_DIR)/$(1) \
 		$(TARGET_CONFIGURE_OPTS) \
 		$(DRIVER_MAKEOPTS) \
 		LIBS="$(TARGET_LDFLAGS)" \
-		BCHECK= \
 		$(2)
 endef
 
@@ -249,12 +244,12 @@ define Build/Compile/wpad
 		$(call Build/RunMake,wpa_supplicant,-s MULTICALL=1 dump_cflags) | \
 		sed -e 's,-n ,,g' -e 's,$(TARGET_CFLAGS),,' \
 	` > $(PKG_BUILD_DIR)/.cflags
-	+$(call Build/RunMake,hostapd, \
+	$(call Build/RunMake,hostapd, \
 		CFLAGS="$$$$(cat $(PKG_BUILD_DIR)/.cflags)" \
 		MULTICALL=1 \
 		hostapd_cli hostapd_multi.a \
 	)
-	+$(call Build/RunMake,wpa_supplicant, \
+	$(call Build/RunMake,wpa_supplicant, \
 		CFLAGS="$$$$(cat $(PKG_BUILD_DIR)/.cflags)" \
 		MULTICALL=1 \
 		wpa_cli wpa_supplicant_multi.a \
@@ -306,11 +301,6 @@ ifneq ($(LOCAL_TYPE),supplicant)
 	$(INSTALL_DIR) $(1)/usr/sbin $(1)/etc/hotplug.d/button
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/hostapd/hostapd_cli $(1)/usr/sbin/
 	$(INSTALL_DATA) ./files/wps-hotplug.sh $(1)/etc/hotplug.d/button/50-wps
-	$(if $(CONFIG_PROCD_INIT),
-		$(INSTALL_DIR) $(1)/etc/rc.button/
-		$(INSTALL_BIN) ./files/wps-hotplug.sh $(1)/etc/rc.button/wps,
-		$(INSTALL_DATA) ./files/wps-hotplug.sh $(1)/etc/hotplug.d/button/50-wps
-	)
   endef
 endif
 

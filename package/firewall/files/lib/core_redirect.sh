@@ -34,17 +34,7 @@ fw_load_redirect() {
 			return 0
 		}
 
-		fwdopt=""
-		fwdchain=""
-
-		# Check whether only ports are given or whether the given dest ip is local,
-		# in this case match only DNATed traffic and allow it on input, not forward
-		if [ -z "$redirect_dest_ip" ] || /sbin/ifconfig | grep -qE "addr:${redirect_dest_ip//./\\.}\b"; then
-			fwdopt="-m conntrack --ctstate DNAT"
-			fwdchain="zone_${redirect_src}"
-		else
-			fwdchain="zone_${redirect_src}_forward"
-		fi
+		fwdchain="zone_${redirect_src}${redirect_dest_ip:+_forward}"
 
 		natopt="--to-destination"
 		natchain="zone_${redirect_src}_prerouting"
@@ -116,11 +106,10 @@ fw_load_redirect() {
 
 			fw add $mode f ${fwdchain:-forward} ACCEPT + \
 				{ $redirect_src_ip $redirect_dest_ip } { \
-				$srcaddr $destaddr \
+				$srcaddr ${destaddr:--m conntrack --ctstate DNAT} \
 				$pr \
 				$srcports $destports \
 				${sm:+-m mac $sm} \
-				$fwdopt \
 				$redirect_extra \
 			}
 		done

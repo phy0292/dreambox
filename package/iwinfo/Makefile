@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2010-2013 Jo-Philipp Wich <xm@subsignal.org>
+# Copyright (C) 2010-2011 Jo-Philipp Wich <xm@subsignal.org>
 #
 # This is free software, licensed under the GPL 2 license.
 #
@@ -7,15 +7,9 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=libiwinfo
-PKG_RELEASE:=44
+PKG_RELEASE:=18
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
-PKG_CONFIG_DEPENDS := \
-	CONFIG_PACKAGE_kmod-brcm-wl \
-	CONFIG_PACKAGE_kmod-brcm-wl-mini \
-	CONFIG_PACKAGE_kmod-brcm-wl-mimo \
-	CONFIG_PACKAGE_kmod-madwifi \
-	CONFIG_PACKAGE_kmod-mac80211
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -39,7 +33,7 @@ define Package/libiwinfo-lua
   SECTION:=lang
   CATEGORY:=Languages
   TITLE:=libiwinfo Lua binding
-  DEPENDS:=+libiwinfo +liblua
+  DEPENDS:=+libiwinfo +liblua +lua
   MAINTAINER:=Jo-Philipp Wich <xm@subsignal.org>
 endef
 
@@ -101,8 +95,6 @@ endef
 define Package/libiwinfo/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/libiwinfo.so $(1)/usr/lib/libiwinfo.so
-	$(INSTALL_DIR) $(1)/usr/share/libiwinfo
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/hardware.txt $(1)/usr/share/libiwinfo/hardware.txt
 endef
 
 define Package/libiwinfo-lua/install

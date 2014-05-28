@@ -18,7 +18,5 @@
 *.orig
 *.rej
 *~
-.#*
-*#
-.emacs.desktop*
-TAGS*~
+.gitignore
+.svn

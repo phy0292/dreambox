@@ -1,16 +1,3 @@
-pppd: Watch out for time warps
-
-On many embedded systems there is no battery backed RTC and a proper system
-time only becomes available through NTP after establishing a connection.
-
-When the clock suddenly jumps forward, the internal accounting (connect time)
-is confused resulting in unreliable data.
-
-This patch implements periodic clock checking to look for time warps, if one
-is detected, the internal counters are adjusted accordingly.
-
-Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
-
 --- a/pppd/main.c
 +++ b/pppd/main.c
 @@ -90,6 +90,7 @@
@@ -21,7 +8,7 @@ Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
  
  #include "pppd.h"
  #include "magic.h"
-@@ -228,6 +229,7 @@ static struct subprocess *children;
+@@ -227,6 +228,7 @@ static struct subprocess *children;
  
  /* Prototypes for procedures local to this file. */
  
@@ -29,7 +16,7 @@ Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
  static void setup_signals __P((void));
  static void create_pidfile __P((int pid));
  static void create_linkpidfile __P((int pid));
-@@ -535,6 +537,7 @@ main(argc, argv)
+@@ -532,6 +534,7 @@ main(argc, argv)
  	    info("Starting link");
  	}
  
@@ -37,7 +24,7 @@ Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
  	gettimeofday(&start_time, NULL);
  	script_unsetenv("CONNECT_TIME");
  	script_unsetenv("BYTES_SENT");
-@@ -1267,6 +1270,36 @@ struct	callout {
+@@ -1264,6 +1267,36 @@ struct	callout {
  
  static struct callout *callout = NULL;	/* Callout list */
  static struct timeval timenow;		/* Current time */
@@ -74,7 +61,7 @@ Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
  
  /*
   * timeout - Schedule a timeout.
-@@ -1337,6 +1370,8 @@ calltimeout()
+@@ -1334,6 +1367,8 @@ calltimeout()
  {
      struct callout *p;
  
@@ -83,7 +70,7 @@ Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
      while (callout != NULL) {
  	p = callout;
  
-@@ -1364,6 +1399,8 @@ timeleft(tvp)
+@@ -1361,6 +1396,8 @@ timeleft(tvp)
  {
      if (callout == NULL)
  	return NULL;

@@ -1,5 +1,3 @@
-#!/bin/sh
-
 if [ "$ACTION" = "pressed" -a "$BUTTON" = "wps" ]; then
 	for dir in /var/run/hostapd-*; do
 		[ -d "$dir" ] || continue

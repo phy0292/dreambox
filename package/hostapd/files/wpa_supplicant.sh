@@ -3,14 +3,17 @@ wpa_supplicant_setup_vif() {
 	local driver="$2"
 	local key="$key"
 	local options="$3"
-	local freq=""
-	local ht="$5"
-	local ap_scan=""
-	local scan_ssid="1"
-	[ -n "$4" ] && freq="frequency=$4"
 
-	config_get enc "$vif" encryption
-	config_get key "$vif" key
+	# wpa_supplicant should use wext for mac80211 cards
+	[ "$driver" = "mac80211" ] && driver='wext'
+
+	# make sure we have the encryption type and the psk
+	[ -n "$enc" ] || {
+		config_get enc "$vif" encryption
+	}
+	[ -n "$key" ] || {
+		config_get key "$vif" key
+	}
 
 	local net_cfg bridge
 	config_get bridge "$vif" bridge
@@ -20,7 +23,7 @@ wpa_supplicant_setup_vif() {
 		config_set "$vif" bridge "$bridge"
 	}
 
-	local mode ifname wds modestr=""
+	local mode ifname wds
 	config_get mode "$vif" mode
 	config_get ifname "$vif" ifname
 	config_get_bool wds "$vif" wds 0
@@ -28,16 +31,13 @@ wpa_supplicant_setup_vif() {
 		echo "wpa_supplicant_setup_vif($ifname): Refusing to bridge $mode mode interface"
 		return 1
 	}
-	[ "$mode" = "adhoc" ] && {
-		modestr="mode=1"
-		scan_ssid="0"
-		ap_scan="ap_scan=2"
-	}
 
-	key_mgmt='NONE'
 	case "$enc" in
-		*none*) ;;
+		*none*)
+			key_mgmt='NONE'
+		;;
 		*wep*)
+			key_mgmt='NONE'
 			config_get key "$vif" key
 			key="${key:-1}"
 			case "$key" in
@@ -59,16 +59,11 @@ wpa_supplicant_setup_vif() {
 		;;
 		*psk*)
 			key_mgmt='WPA-PSK'
-			# if you want to use PSK with a non-nl80211 driver you
-			# have to use WPA-NONE and wext driver for wpa_s
-			[ "$mode" = "adhoc" -a "$driver" != "nl80211" ] && {
-				key_mgmt='WPA-NONE'
-				driver='wext'
-			}
-			if [ ${#key} -eq 64 ]; then
-				passphrase="psk=${key}"
-			else
+			config_get_bool usepassphrase "$vif" passphrase 1
+			if [ "$usepassphrase" = "1" ]; then
 				passphrase="psk=\"${key}\""
+			else
+				passphrase="psk=${key}"
 			fi
 			case "$enc" in
 				*psk2*)
@@ -92,11 +87,9 @@ wpa_supplicant_setup_vif() {
 					pairwise='pairwise=CCMP'
 					group='group=CCMP'
 					config_get identity "$vif" identity
-					config_get client_cert "$vif" client_cert
 					config_get priv_key "$vif" priv_key
 					config_get priv_key_pwd "$vif" priv_key_pwd
 					identity="identity=\"$identity\""
-					client_cert="client_cert=\"$client_cert\""
 					priv_key="private_key=\"$priv_key\""
 					priv_key_pwd="private_key_passwd=\"$priv_key_pwd\""
 				;;
@@ -106,7 +99,7 @@ wpa_supplicant_setup_vif() {
 					config_get password "$vif" password
 					phase2="phase2=\"auth=${auth:-MSCHAPV2}\""
 					identity="identity=\"$identity\""
-					password="${password:+password=\"$password\"}"
+					password="password=\"$password\""
 				;;
 			esac
 			eap_type="eap=$(echo $eap_type | tr 'a-z' 'A-Z')"
@@ -119,61 +112,26 @@ wpa_supplicant_setup_vif() {
 		;;
 	esac
 
-	local fixed_freq bssid1 beacon_interval brates mrate
 	config_get ifname "$vif" ifname
 	config_get bridge "$vif" bridge
 	config_get ssid "$vif" ssid
 	config_get bssid "$vif" bssid
-	bssid1=${bssid:+"bssid=$bssid"}
-	beacon_interval=${beacon_int:+"beacon_interval=$beacon_int"}
-
-	local br brval brsub brstr
-	[ -n "$basic_rate_list" ] && {
-		for br in $basic_rate_list; do
-			brval="$(($br / 1000))"
-			brsub="$((($br / 100) % 10))"
-			[ "$brsub" -gt 0 ] && brval="$brval.$brsub"
-			[ -n "$brstr" ] && brstr="$brstr,"
-			brstr="$brstr$brval"
-		done
-		brates=${basic_rate_list:+"rates=$brstr"}
-	}
-
-	local mcval=""
-	[ -n "$mcast_rate" ] && {
-		mcval="$(($mcast_rate / 1000))"
-		mcsub="$(( ($mcast_rate / 100) % 10 ))"
-		[ "$mcsub" -gt 0 ] && mcval="$mcval.$mcsub"
-		mrate=${mcast_rate:+"mcast_rate=$mcval"}
-	}
-
-	local ht_str
-	[ -n "$ht" ] && ht_str="htmode=$ht"
-
+	bssid=${bssid:+"bssid=$bssid"}
 	rm -rf /var/run/wpa_supplicant-$ifname
 	cat > /var/run/wpa_supplicant-$ifname.conf <<EOF
 ctrl_interface=/var/run/wpa_supplicant-$ifname
-$ap_scan
 network={
-	$modestr
-	scan_ssid=$scan_ssid
+	scan_ssid=1
 	ssid="$ssid"
-	$bssid1
+	$bssid
 	key_mgmt=$key_mgmt
 	$proto
-	$freq
-	${fixed:+"fixed_freq=1"}
-	$beacon_interval
-	$brates
-	$mrate
-	$ht_str
 	$ieee80211w
 	$passphrase
 	$pairwise
 	$group
 	$eap_type
 	$ca_cert
-	$client_cert
 	$priv_key
 	$priv_key_pwd
 	$phase2
@@ -186,9 +144,6 @@ network={
 	$wep_tx_keyidx
 }
 EOF
-	if [ -n "$proto" -o "$key_mgmt" == "NONE" ]; then
+	[ -z "$proto" -a "$key_mgmt" != "NONE" ] || \
 		wpa_supplicant ${bridge:+ -b $bridge} -B -P "/var/run/wifi-${ifname}.pid" -D ${driver:-wext} -i "$ifname" -c /var/run/wpa_supplicant-$ifname.conf $options
-	else
-		return 0
-	fi
 }

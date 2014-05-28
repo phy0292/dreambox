@@ -6,12 +6,13 @@
 #
 include $(TOPDIR)/rules.mk
 
+ARCH:=mips
 BOARD:=lantiq
-BOARDNAME:=Lantiq GPON/XWAY/SVIP
+BOARDNAME:=Lantiq GPON/XWAY
 FEATURES:=squashfs jffs2
-DEFAULT_SUBTARGET:=danube
+SUBTARGETS:=falcon danube ar9 ase
 
-LINUX_VERSION:=3.3.8
+LINUX_VERSION:=2.6.32.33
 
 CFLAGS=-Os -pipe -mips32r2 -mtune=mips32r2 -fno-caller-saves
 

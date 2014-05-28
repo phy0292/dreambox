@@ -37,30 +37,17 @@ static int wl_ioctl(const char *name, int cmd, void *buf, int len)
 	return iwinfo_ioctl(SIOCDEVPRIVATE, &ifr);
 }
 
-static int wl_iovar(const char *name, const char *cmd, const char *arg,
-					int arglen, void *buf, int buflen)
-{
-	int cmdlen = strlen(cmd) + 1;
-
-	memcpy(buf, cmd, cmdlen);
-
-	if (arg && arglen > 0)
-		memcpy(buf + cmdlen, arg, arglen);
-
-	return wl_ioctl(name, WLC_GET_VAR, buf, buflen);
-}
-
 static struct wl_maclist * wl_read_assoclist(const char *ifname)
 {
 	struct wl_maclist *macs;
 	int maclen = 4 + WL_MAX_STA_COUNT * 6;
 
-	if ((macs = (struct wl_maclist *) malloc(maclen)) != NULL)
+	if( (macs = (struct wl_maclist *) malloc(maclen)) != NULL )
 	{
 		memset(macs, 0, maclen);
 		macs->count = WL_MAX_STA_COUNT;
 
-		if (!wl_ioctl(ifname, WLC_GET_ASSOCLIST, macs, maclen))
+		if( !wl_ioctl(ifname, WLC_GET_ASSOCLIST, macs, maclen) )
 			return macs;
 
 		free(macs);
@@ -73,8 +60,11 @@ static struct wl_maclist * wl_read_assoclist(const char *ifname)
 int wl_probe(const char *ifname)
 {
 	int magic;
-	return (!wl_ioctl(ifname, WLC_GET_MAGIC, &magic, sizeof(magic)) &&
-			(magic == WLC_IOCTL_MAGIC));
+
+	if( !wl_ioctl(ifname, WLC_GET_MAGIC, &magic, sizeof(magic)) && (magic == WLC_IOCTL_MAGIC))
+		return 1;
+
+	return 0;
 }
 
 void wl_close(void)
@@ -82,28 +72,28 @@ void wl_close(void)
 	/* Nop */
 }
 
-int wl_get_mode(const char *ifname, int *buf)
+int wl_get_mode(const char *ifname, char *buf)
 {
 	int ret = -1;
 	int ap, infra, passive;
 
-	if ((ret = wl_ioctl(ifname, WLC_GET_AP, &ap, sizeof(ap))))
+	if( (ret = wl_ioctl(ifname, WLC_GET_AP, &ap, sizeof(ap))) )
 		return ret;
 
-	if ((ret = wl_ioctl(ifname, WLC_GET_INFRA, &infra, sizeof(infra))))
+	if( (ret = wl_ioctl(ifname, WLC_GET_INFRA, &infra, sizeof(infra))) )
 		return ret;
 
-	if ((ret = wl_ioctl(ifname, WLC_GET_PASSIVE, &passive, sizeof(passive))))
+	if( (ret = wl_ioctl(ifname, WLC_GET_PASSIVE, &passive, sizeof(passive))) )
 		return ret;
 
-	if (passive)
-		*buf = IWINFO_OPMODE_MONITOR;
-	else if (!infra)
-		*buf = IWINFO_OPMODE_ADHOC;
-	else if (ap)
-		*buf = IWINFO_OPMODE_MASTER;
+	if( passive )
+		sprintf(buf, "Monitor");
+	else if( !infra )
+		sprintf(buf, "Ad-Hoc");
+	else if( ap )
+		sprintf(buf, "Master");
 	else
-		*buf = IWINFO_OPMODE_CLIENT;
+		sprintf(buf, "Client");
 
 	return 0;
 }
@@ -113,7 +103,7 @@ int wl_get_ssid(const char *ifname, char *buf)
 	int ret = -1;
 	wlc_ssid_t ssid;
 
-	if (!(ret = wl_ioctl(ifname, WLC_GET_SSID, &ssid, sizeof(ssid))))
+	if( !(ret = wl_ioctl(ifname, WLC_GET_SSID, &ssid, sizeof(ssid))) )
 		memcpy(buf, ssid.ssid, ssid.ssid_len);
 
 	return ret;
@@ -124,7 +114,7 @@ int wl_get_bssid(const char *ifname, char *buf)
 	int ret = -1;
 	char bssid[6];
 
-	if (!(ret = wl_ioctl(ifname, WLC_GET_BSSID, bssid, 6)))
+	if( !(ret = wl_ioctl(ifname, WLC_GET_BSSID, bssid, 6)) )
 		sprintf(buf, "%02X:%02X:%02X:%02X:%02X:%02X",
 			(uint8_t)bssid[0], (uint8_t)bssid[1], (uint8_t)bssid[2],
 			(uint8_t)bssid[3], (uint8_t)bssid[4], (uint8_t)bssid[5]
@@ -145,7 +135,6 @@ int wl_get_frequency(const char *ifname, int *buf)
 
 int wl_get_txpower(const char *ifname, int *buf)
 {
-	/* WLC_GET_VAR "qtxpower" */
 	return wext_get_txpower(ifname, buf);
 }
 
@@ -173,7 +162,7 @@ int wl_get_signal(const char *ifname, int *buf)
 
 	wl_ioctl(ifname, WLC_GET_BSS_INFO, tmp, WLC_IOCTL_MAXLEN);
 
-	if (!wl_ioctl(ifname, WLC_GET_AP, &ap, sizeof(ap)) && !ap)
+	if( !wl_ioctl(ifname, WLC_GET_AP, &ap, sizeof(ap)) && !ap )
 	{
 		*buf = tmp[WL_BSS_RSSI_OFFSET];
 	}
@@ -182,13 +171,13 @@ int wl_get_signal(const char *ifname, int *buf)
 		rssi = rssi_count = 0;
 
 		/* Calculate average rssi from conntected stations */
-		if ((macs = wl_read_assoclist(ifname)) != NULL)
+		if( (macs = wl_read_assoclist(ifname)) != NULL )
 		{
-			for (i = 0; i < macs->count; i++)
+			for( i = 0; i < macs->count; i++ )
 			{
 				memcpy(starssi.mac, &macs->ea[i], 6);
 
-				if (!wl_ioctl(ifname, WLC_GET_RSSI, &starssi, 12))
+				if( !wl_ioctl(ifname, WLC_GET_RSSI, &starssi, 12) )
 				{
 					rssi -= starssi.rssi;
 					rssi_count++;
@@ -269,10 +258,10 @@ int wl_get_encryption(const char *ifname, char *buf)
 	switch(wpa)
 	{
 		case 0:
-			if (wsec && !wauth)
+			if( wsec && !wauth )
 				c->auth_algs |= IWINFO_AUTH_OPEN;
 
-			else if (wsec && wauth)
+			else if( wsec && wauth )
 				c->auth_algs |= IWINFO_AUTH_SHARED;
 
 			/* ToDo: evaluate WEP key lengths */
@@ -386,26 +375,6 @@ int wl_get_enctype(const char *ifname, char *buf)
 	return 0;
 }
 
-static void wl_get_assoclist_cb(const char *ifname,
-							    struct iwinfo_assoclist_entry *e)
-{
-	wl_sta_info_t sta = { 0 };
-
-	if (!wl_iovar(ifname, "sta_info", e->mac, 6, &sta, sizeof(sta)) &&
-		(sta.ver >= 2))
-	{
-		e->inactive     = sta.idle * 1000;
-		e->rx_packets   = sta.rx_ucast_pkts;
-		e->tx_packets   = sta.tx_pkts;
-		e->rx_rate.rate = sta.rx_rate;
-		e->tx_rate.rate = sta.tx_rate;
-
-		/* ToDo: 11n */
-		e->rx_rate.mcs = -1;
-		e->tx_rate.mcs = -1;
-	}
-}
-
 int wl_get_assoclist(const char *ifname, char *buf, int *len)
 {
 	int i, j, noise;
@@ -424,25 +393,22 @@ int wl_get_assoclist(const char *ifname, char *buf, int *len)
 	wl_ioctl(ifname, WLC_GET_INFRA, &infra, sizeof(infra));
 	wl_ioctl(ifname, WLC_GET_PASSIVE, &passive, sizeof(passive));
 
-	if (wl_get_noise(ifname, &noise))
+	if( wl_get_noise(ifname, &noise) )
 		noise = 0;
 
-	if ((ap || infra || passive) && ((macs = wl_read_assoclist(ifname)) != NULL))
+	if( (ap || infra || passive) && ((macs = wl_read_assoclist(ifname)) != NULL) )
 	{
-		for (i = 0, j = 0; i < macs->count; i++, j += sizeof(struct iwinfo_assoclist_entry))
+		for( i = 0, j = 0; i < macs->count; i++, j += sizeof(struct iwinfo_assoclist_entry) )
 		{
-			memset(&entry, 0, sizeof(entry));
 			memcpy(rssi.mac, &macs->ea[i], 6);
 
-			if (!wl_ioctl(ifname, WLC_GET_RSSI, &rssi, sizeof(struct wl_sta_rssi)))
+			if( !wl_ioctl(ifname, WLC_GET_RSSI, &rssi, sizeof(struct wl_sta_rssi)) )
 				entry.signal = (rssi.rssi - 0x100);
 			else
 				entry.signal = 0;
 
 			entry.noise = noise;
 			memcpy(entry.mac, &macs->ea[i], 6);
-			wl_get_assoclist_cb(ifname, &entry);
-
 			memcpy(&buf[j], &entry, sizeof(entry));
 		}
 
@@ -450,13 +416,13 @@ int wl_get_assoclist(const char *ifname, char *buf, int *len)
 		free(macs);
 		return 0;
 	}
-	else if ((arp = fopen("/proc/net/arp", "r")) != NULL)
+	else if( (arp = fopen("/proc/net/arp", "r")) != NULL )
 	{
 		j = 0;
 
-		while (fgets(line, sizeof(line), arp) != NULL)
+		while( fgets(line, sizeof(line), arp) != NULL )
 		{
-			if (sscanf(line, "%*s 0x%*d 0x%*d %17s %*s %s", macstr, devstr) && !strcmp(devstr, ifname))
+			if( sscanf(line, "%*s 0x%*d 0x%*d %17s %*s %s", macstr, devstr) && !strcmp(devstr, ifname) )
 			{
 				rssi.mac[0] = strtol(&macstr[0],  NULL, 16);
 				rssi.mac[1] = strtol(&macstr[3],  NULL, 16);
@@ -465,7 +431,7 @@ int wl_get_assoclist(const char *ifname, char *buf, int *len)
 				rssi.mac[4] = strtol(&macstr[12], NULL, 16);
 				rssi.mac[5] = strtol(&macstr[15], NULL, 16);
 
-				if (!wl_ioctl(ifname, WLC_GET_RSSI, &rssi, sizeof(struct wl_sta_rssi)))
+				if( !wl_ioctl(ifname, WLC_GET_RSSI, &rssi, sizeof(struct wl_sta_rssi)) )
 					entry.signal = (rssi.rssi - 0x100);
 				else
 					entry.signal = 0;
@@ -489,18 +455,18 @@ int wl_get_assoclist(const char *ifname, char *buf, int *len)
 int wl_get_txpwrlist(const char *ifname, char *buf, int *len)
 {
 	struct iwinfo_txpwrlist_entry entry;
-	uint8_t dbm[11] = { 0, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24 };
-	uint8_t mw[11]  = { 1, 3, 6, 10, 15, 25, 39, 63, 100, 158, 251 };
+	uint8_t dbm[8] = { 0, 6, 8, 10, 12, 14, 16, 18 };
+	uint8_t mw[8]  = { 1, 3, 6, 10, 15, 25, 39, 63 };
 	int i;
 
-	for (i = 0; i < 11; i++)
+	for( i = 0; i < 8; i++ )
 	{
 		entry.dbm = dbm[i];
 		entry.mw  = mw[i];
 		memcpy(&buf[i*sizeof(entry)], &entry, sizeof(entry));
 	}
 
-	*len = 11 * sizeof(entry);
+	*len = 8 * sizeof(entry);
 	return 0;
 }
 
@@ -518,14 +484,14 @@ int wl_get_country(const char *ifname, char *buf)
 {
 	char ccode[WLC_CNTRY_BUF_SZ];
 
-	if (!wl_ioctl(ifname, WLC_GET_COUNTRY, ccode, WLC_CNTRY_BUF_SZ))
+	if( !wl_ioctl(ifname, WLC_GET_COUNTRY, ccode, WLC_CNTRY_BUF_SZ) )
 	{
 		/* IL0 -> World */
-		if (!strcmp(ccode, "IL0"))
+		if( !strcmp(ccode, "IL0") )
 			sprintf(buf, "00");
 
 		/* YU -> RS */
-		else if (!strcmp(ccode, "YU"))
+		else if( !strcmp(ccode, "YU") )
 			sprintf(buf, "RS");
 
 		else
@@ -546,19 +512,19 @@ int wl_get_countrylist(const char *ifname, char *buf, int *len)
 
 	cl->buflen = sizeof(cdata);
 
-	if (!wl_ioctl(ifname, WLC_GET_COUNTRY_LIST, cl, cl->buflen))
+	if( !wl_ioctl(ifname, WLC_GET_COUNTRY_LIST, cl, cl->buflen) )
 	{
-		for (i = 0, count = 0; i < cl->count; i++, c++)
+		for( i = 0, count = 0; i < cl->count; i++, c++ )
 		{
 			sprintf(c->ccode, &cl->country_abbrev[i * WLC_CNTRY_BUF_SZ]);
 			c->iso3166 = c->ccode[0] * 256 + c->ccode[1];
 
 			/* IL0 -> World */
-			if (!strcmp(c->ccode, "IL0"))
+			if( !strcmp(c->ccode, "IL0") )
 				c->iso3166 = 0x3030;
 
 			/* YU -> RS */
-			else if (!strcmp(c->ccode, "YU"))
+			else if( !strcmp(c->ccode, "YU") )
 				c->iso3166 = 0x5253;
 		}
 
@@ -579,67 +545,14 @@ int wl_get_mbssid_support(const char *ifname, int *buf)
 	wlc_rev_info_t revinfo;
 
 	/* Multi bssid support only works on corerev >= 9 */
-	if (!wl_ioctl(ifname, WLC_GET_REVINFO, &revinfo, sizeof(revinfo)))
+	if( !wl_ioctl(ifname, WLC_GET_REVINFO, &revinfo, sizeof(revinfo)) )
 	{
-		if (revinfo.corerev >= 9)
+		if( revinfo.corerev >= 9 )
 		{
 			*buf = 1;
 			return 0;
 		}
 	}
 
-	return -1;
-}
-
-int wl_get_hardware_id(const char *ifname, char *buf)
-{
-	wlc_rev_info_t revinfo;
-	struct iwinfo_hardware_id *ids = (struct iwinfo_hardware_id *)buf;
-
-	if (wl_ioctl(ifname, WLC_GET_REVINFO, &revinfo, sizeof(revinfo)))
-		return -1;
-
-	ids->vendor_id = revinfo.vendorid;
-	ids->device_id = revinfo.deviceid;
-	ids->subsystem_vendor_id = revinfo.boardvendor;
-	ids->subsystem_device_id = revinfo.boardid;
-
-	return 0;
-}
-
-int wl_get_hardware_name(const char *ifname, char *buf)
-{
-	struct iwinfo_hardware_id ids;
-
-	if (wl_get_hardware_id(ifname, (char *)&ids))
-		return -1;
-
-	sprintf(buf, "Broadcom BCM%04X", ids.device_id);
-
-	return 0;
-}
-
-int wl_get_txpower_offset(const char *ifname, int *buf)
-{
-	FILE *p;
-	char off[8];
-
-	*buf = 0;
-
-	if ((p = popen("/usr/sbin/nvram get opo", "r")) != NULL)
-	{
-		if (fread(off, 1, sizeof(off), p))
-			*buf = strtoul(off, NULL, 16);
-
-		pclose(p);
-	}
-
-	return 0;
-}
-
-int wl_get_frequency_offset(const char *ifname, int *buf)
-{
-	/* Stub */
-	*buf = 0;
 	return -1;
 }

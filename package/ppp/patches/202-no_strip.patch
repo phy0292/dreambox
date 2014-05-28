@@ -1,11 +1,3 @@
-build: Do not strip binaries on install
-
-Strippign executables should be handled by the distro packaging, not by ppp
-itself. This patch removes the "-s" (strip) switch from all "install" commands
-in order to install unstripped binaries into the destination prefix.
-
-Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
-
 --- a/chat/Makefile.linux
 +++ b/chat/Makefile.linux
 @@ -25,7 +25,7 @@ chat.o:	chat.c
@@ -54,7 +46,7 @@ Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
  
 --- a/pppd/plugins/rp-pppoe/Makefile.linux
 +++ b/pppd/plugins/rp-pppoe/Makefile.linux
-@@ -43,9 +43,9 @@ rp-pppoe.so: plugin.o discovery.o if.o c
+@@ -39,9 +39,9 @@ rp-pppoe.so: libplugin.a plugin.o
  
  install: all
  	$(INSTALL) -d -m 755 $(LIBDIR)
@@ -65,7 +57,7 @@ Signed-off-by: Jo-Philipp Wich <jow@openwrt.org>
 +	$(INSTALL) -c -m 555 pppoe-discovery $(BINDIR)
  
  clean:
- 	rm -f *.o *.so pppoe-discovery
+ 	rm -f *.o *.so
 --- a/pppdump/Makefile.linux
 +++ b/pppdump/Makefile.linux
 @@ -17,5 +17,5 @@ clean:

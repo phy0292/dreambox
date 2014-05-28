@@ -1,7 +1,7 @@
 /*
  * iwinfo - Wireless Information Library - Lua Bindings
  *
- *   Copyright (C) 2009-2013 Jo-Philipp Wich <xm@subsignal.org>
+ *   Copyright (C) 2009 Jo-Philipp Wich <xm@subsignal.org>
  *
  * The iwinfo library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 2
@@ -42,19 +42,6 @@ const char *IWINFO_KMGMT_NAMES[] = {
 const char *IWINFO_AUTH_NAMES[] = {
 	"OPEN",
 	"SHARED",
-};
-
-const char *IWINFO_OPMODE_NAMES[] = {
-	"Unknown",
-	"Master",
-	"Ad-Hoc",
-	"Client",
-	"Monitor",
-	"Master (VLAN)",
-	"WDS",
-	"Mesh Point",
-	"P2P Client",
-	"P2P Go",
 };
 
 

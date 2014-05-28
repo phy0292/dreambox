@@ -23,9 +23,7 @@ setup_broadcom_wds() {
 			include /lib/network
 			scan_interfaces
 
-			for network in $network; do
-				setup_interface "$iface" "$network"
-			done
+			setup_interface "$iface" "$network"
 			
 			config_get encryption "$cfg" encryption
 			config_get key "$cfg" key

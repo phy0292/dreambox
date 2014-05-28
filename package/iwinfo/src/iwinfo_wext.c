@@ -70,7 +70,7 @@ void wext_close(void)
 	/* Nop */
 }
 
-int wext_get_mode(const char *ifname, int *buf)
+int wext_get_mode(const char *ifname, char *buf)
 {
 	struct iwreq wrq;
 
@@ -78,25 +78,36 @@ int wext_get_mode(const char *ifname, int *buf)
 	{
 		switch(wrq.u.mode)
 		{
+			case 0:
+				sprintf(buf, "Auto");
+				break;
+
 			case 1:
-				*buf = IWINFO_OPMODE_ADHOC;
+				sprintf(buf, "Ad-Hoc");
 				break;
 
 			case 2:
-				*buf = IWINFO_OPMODE_CLIENT;
+				sprintf(buf, "Client");
 				break;
 
 			case 3:
-				*buf = IWINFO_OPMODE_MASTER;
+				sprintf(buf, "Master");
+				break;
+
+			case 4:
+				sprintf(buf, "Repeater");
+				break;
+
+			case 5:
+				sprintf(buf, "Secondary");
 				break;
 
 			case 6:
-				*buf = IWINFO_OPMODE_MONITOR;
+				sprintf(buf, "Monitor");
 				break;
 
 			default:
-				*buf = IWINFO_OPMODE_UNKNOWN;
-				break;
+				sprintf(buf, "Unknown");
 		}
 
 		return 0;
@@ -449,72 +460,5 @@ int wext_get_encryption(const char *ifname, char *buf)
 int wext_get_mbssid_support(const char *ifname, int *buf)
 {
 	/* No multi bssid support atm */
-	return -1;
-}
-
-static char * wext_sysfs_ifname_file(const char *ifname, const char *path)
-{
-	FILE *f;
-	static char buf[128];
-	char *rv = NULL;
-
-	snprintf(buf, sizeof(buf), "/sys/class/net/%s/%s", ifname, path);
-
-	if ((f = fopen(buf, "r")) != NULL)
-	{
-		memset(buf, 0, sizeof(buf));
-
-		if (fread(buf, 1, sizeof(buf), f))
-			rv = buf;
-
-		fclose(f);
-	}
-
-	return rv;
-}
-
-int wext_get_hardware_id(const char *ifname, char *buf)
-{
-	char *data;
-	struct iwinfo_hardware_id *id = (struct iwinfo_hardware_id *)buf;
-
-	memset(id, 0, sizeof(struct iwinfo_hardware_id));
-
-	data = wext_sysfs_ifname_file(ifname, "device/vendor");
-	if (data)
-		id->vendor_id = strtoul(data, NULL, 16);
-
-	data = wext_sysfs_ifname_file(ifname, "device/device");
-	if (data)
-		id->device_id = strtoul(data, NULL, 16);
-
-	data = wext_sysfs_ifname_file(ifname, "device/subsystem_device");
-	if (data)
-		id->subsystem_device_id = strtoul(data, NULL, 16);
-
-	data = wext_sysfs_ifname_file(ifname, "device/subsystem_vendor");
-	if (data)
-		id->subsystem_vendor_id = strtoul(data, NULL, 16);
-
-	return (id->vendor_id > 0 && id->device_id > 0) ? 0 : -1;
-}
-
-int wext_get_hardware_name(const char *ifname, char *buf)
-{
-	sprintf(buf, "Generic WEXT");
-	return 0;
-}
-
-int wext_get_txpower_offset(const char *ifname, int *buf)
-{
-	/* Stub */
-	*buf = 0;
-	return -1;
-}
-
-int wext_get_frequency_offset(const char *ifname, int *buf)
-{
-	/* Stub */
-	*buf = 0;
 	return -1;
 }

@@ -22,7 +22,6 @@
  */
 
 #include <linux/kernel.h>
-#include <linux/module.h>
 #include <linux/slab.h>
 #include <linux/vmalloc.h>
 
@@ -77,44 +76,34 @@ struct wrt160nl_header {
 	struct uimage_header	uimage;
 } __attribute__ ((packed));
 
+static struct mtd_partition trx_parts[TRX_PARTS];
+
 #define WRT160NL_UBOOT_LEN	0x40000
 #define WRT160NL_ART_LEN	0x10000
 #define WRT160NL_NVRAM_LEN	0x10000
 
 static int wrt160nl_parse_partitions(struct mtd_info *master,
 				     struct mtd_partition **pparts,
-				     struct mtd_part_parser_data *data)
+				     unsigned long origin)
 {
 	struct wrt160nl_header *header;
 	struct trx_header *theader;
 	struct uimage_header *uheader;
-	struct mtd_partition *trx_parts;
 	size_t retlen;
 	unsigned int kernel_len;
-	unsigned int uboot_len;
-	unsigned int nvram_len;
-	unsigned int art_len;
+	unsigned int uboot_len = max(master->erasesize, WRT160NL_UBOOT_LEN);
+	unsigned int nvram_len = max(master->erasesize, WRT160NL_NVRAM_LEN);
+	unsigned int art_len = max(master->erasesize, WRT160NL_ART_LEN);
 	int ret;
-
-	uboot_len = max_t(unsigned int, master->erasesize, WRT160NL_UBOOT_LEN);
-	nvram_len = max_t(unsigned int, master->erasesize, WRT160NL_NVRAM_LEN);
-	art_len = max_t(unsigned int, master->erasesize, WRT160NL_ART_LEN);
-
-	trx_parts = kzalloc(TRX_PARTS * sizeof(struct mtd_partition),
-			    GFP_KERNEL);
-	if (!trx_parts) {
-		ret = -ENOMEM;
-		goto out;
-	}
 
 	header = vmalloc(sizeof(*header));
 	if (!header) {
 		return -ENOMEM;
-		goto free_parts;
+		goto out;
 	}
 
-	ret = mtd_read(master, uboot_len, sizeof(*header),
-		       &retlen, (void *) header);
+	ret = master->read(master, uboot_len, sizeof(*header),
+			   &retlen, (void *) header);
 	if (ret)
 		goto free_hdr;
 
@@ -141,8 +130,7 @@ static int wrt160nl_parse_partitions(struct mtd_info *master,
 		goto free_hdr;
 	}
 
-	kernel_len = le32_to_cpu(theader->offsets[1]) +
-		sizeof(struct cybertan_header);
+	kernel_len = le32_to_cpu(theader->offsets[1]) + sizeof(struct cybertan_header);
 
 	trx_parts[0].name = "u-boot";
 	trx_parts[0].offset = 0;
@@ -156,8 +144,7 @@ static int wrt160nl_parse_partitions(struct mtd_info *master,
 
 	trx_parts[2].name = "rootfs";
 	trx_parts[2].offset = trx_parts[1].offset + trx_parts[1].size;
-	trx_parts[2].size = master->size - uboot_len - nvram_len - art_len -
-		trx_parts[1].size;
+	trx_parts[2].size = master->size - uboot_len - nvram_len - art_len - trx_parts[1].size;
 	trx_parts[2].mask_flags = 0;
 
 	trx_parts[3].name = "nvram";
@@ -175,16 +162,12 @@ static int wrt160nl_parse_partitions(struct mtd_info *master,
 	trx_parts[5].size = master->size - uboot_len - nvram_len - art_len;
 	trx_parts[5].mask_flags = 0;
 
-	vfree(header);
-
 	*pparts = trx_parts;
-	return TRX_PARTS;
+	ret = TRX_PARTS;
 
-free_hdr:
+ free_hdr:
 	vfree(header);
-free_parts:
-	kfree(trx_parts);
-out:
+ out:
 	return ret;
 }
 

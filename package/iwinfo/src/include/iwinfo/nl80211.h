@@ -39,22 +39,11 @@ struct nl80211_state {
 	struct nl_sock *nl_sock;
 	struct nl_cache *nl_cache;
 	struct genl_family *nl80211;
-	struct genl_family *nlctrl;
 };
 
 struct nl80211_msg_conveyor {
 	struct nl_msg *msg;
 	struct nl_cb *cb;
-};
-
-struct nl80211_event_conveyor {
-	int wait;
-	int recv;
-};
-
-struct nl80211_group_conveyor {
-	const char *name;
-	int id;
 };
 
 struct nl80211_rssi_rate {
@@ -68,15 +57,13 @@ struct nl80211_array_buf {
 };
 
 int nl80211_probe(const char *ifname);
-int nl80211_get_mode(const char *ifname, int *buf);
+int nl80211_get_mode(const char *ifname, char *buf);
 int nl80211_get_ssid(const char *ifname, char *buf);
 int nl80211_get_bssid(const char *ifname, char *buf);
 int nl80211_get_country(const char *ifname, char *buf);
 int nl80211_get_channel(const char *ifname, int *buf);
 int nl80211_get_frequency(const char *ifname, int *buf);
-int nl80211_get_frequency_offset(const char *ifname, int *buf);
 int nl80211_get_txpower(const char *ifname, int *buf);
-int nl80211_get_txpower_offset(const char *ifname, int *buf);
 int nl80211_get_bitrate(const char *ifname, int *buf);
 int nl80211_get_signal(const char *ifname, int *buf);
 int nl80211_get_noise(const char *ifname, int *buf);
@@ -90,36 +77,30 @@ int nl80211_get_freqlist(const char *ifname, char *buf, int *len);
 int nl80211_get_countrylist(const char *ifname, char *buf, int *len);
 int nl80211_get_hwmodelist(const char *ifname, int *buf);
 int nl80211_get_mbssid_support(const char *ifname, int *buf);
-int nl80211_get_hardware_id(const char *ifname, char *buf);
-int nl80211_get_hardware_name(const char *ifname, char *buf);
 void nl80211_close(void);
 
 static const struct iwinfo_ops nl80211_ops = {
-	.channel          = nl80211_get_channel,
-	.frequency        = nl80211_get_frequency,
-	.frequency_offset = nl80211_get_frequency_offset,
-	.txpower          = nl80211_get_txpower,
-	.txpower_offset   = nl80211_get_txpower_offset,
-	.bitrate          = nl80211_get_bitrate,
-	.signal           = nl80211_get_signal,
-	.noise            = nl80211_get_noise,
-	.quality          = nl80211_get_quality,
-	.quality_max      = nl80211_get_quality_max,
-	.mbssid_support   = nl80211_get_mbssid_support,
-	.hwmodelist       = nl80211_get_hwmodelist,
-	.mode             = nl80211_get_mode,
-	.ssid             = nl80211_get_ssid,
-	.bssid            = nl80211_get_bssid,
-	.country          = nl80211_get_country,
-	.hardware_id      = nl80211_get_hardware_id,
-	.hardware_name    = nl80211_get_hardware_name,
-	.encryption       = nl80211_get_encryption,
-	.assoclist        = nl80211_get_assoclist,
-	.txpwrlist        = nl80211_get_txpwrlist,
-	.scanlist         = nl80211_get_scanlist,
-	.freqlist         = nl80211_get_freqlist,
-	.countrylist      = nl80211_get_countrylist,
-	.close            = nl80211_close
+	.channel        = nl80211_get_channel,
+	.frequency      = nl80211_get_frequency,
+	.txpower        = nl80211_get_txpower,
+	.bitrate        = nl80211_get_bitrate,
+	.signal         = nl80211_get_signal,
+	.noise          = nl80211_get_noise,
+	.quality        = nl80211_get_quality,
+	.quality_max    = nl80211_get_quality_max,
+	.mbssid_support = nl80211_get_mbssid_support,
+	.hwmodelist     = nl80211_get_hwmodelist,
+	.mode           = nl80211_get_mode,
+	.ssid           = nl80211_get_ssid,
+	.bssid          = nl80211_get_bssid,
+	.country        = nl80211_get_country,
+	.encryption     = nl80211_get_encryption,
+	.assoclist      = nl80211_get_assoclist,
+	.txpwrlist      = nl80211_get_txpwrlist,
+	.scanlist       = nl80211_get_scanlist,
+	.freqlist       = nl80211_get_freqlist,
+	.countrylist    = nl80211_get_countrylist,
+	.close          = nl80211_close
 };
 
 #endif

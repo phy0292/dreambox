@@ -33,7 +33,7 @@ static struct clk uart_clk = {
 
 struct clk *clk_get(struct device *dev, const char *id)
 {
-	const char *name = dev_name(dev);
+	char *name = dev_name(dev);
 
 	if (!strcmp(name, "apb:uart0") || !strcmp(name, "apb:uart1"))
 		return &uart_clk;

@@ -7,7 +7,7 @@
 
 define Profile/Atheros
   NAME:=Atheros WiFi (default)
-  PACKAGES:=kmod-ath5k
+  PACKAGES:=kmod-madwifi
 endef
 $(eval $(call Profile,Atheros))
 

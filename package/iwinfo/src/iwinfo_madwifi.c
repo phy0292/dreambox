@@ -196,18 +196,6 @@ static struct ISO3166_to_CCode
 };
 
 
-static const char * madwifi_phyname(const char *ifname)
-{
-	static char phyname[IFNAMSIZ];
-
-	if (strlen(ifname) > 5 && !strncmp(ifname, "radio", 5))
-		snprintf(phyname, sizeof(phyname), "wifi%s", ifname + 5);
-	else
-		snprintf(phyname, sizeof(phyname), "%s", ifname);
-
-	return (const char *)phyname;
-}
-
 static int madwifi_wrq(struct iwreq *wrq, const char *ifname, int cmd, void *data, size_t len)
 {
 	strncpy(wrq->ifr_name, ifname, IFNAMSIZ);
@@ -275,14 +263,12 @@ static int madwifi_iswifi(const char *ifname)
 	int ret;
 	char path[32];
 	struct stat s;
-	const char *phy;
 
 	ret = 0;
-	phy = madwifi_phyname(ifname);
 
-	if( strlen(phy) <= 7 )
+	if( strlen(ifname) <= 7 )
 	{
-		sprintf(path, "/proc/sys/dev/%s/diversity", phy);
+		sprintf(path, "/proc/sys/dev/%s/diversity", ifname);
 
 		if( ! stat(path, &s) )
 			ret = (s.st_mode & S_IFREG);
@@ -293,13 +279,13 @@ static int madwifi_iswifi(const char *ifname)
 
 static char * madwifi_ifadd(const char *ifname)
 {
-	const char *wifidev = NULL;
+	char *wifidev = NULL;
 	struct ifreq ifr = { 0 };
 	struct ieee80211_clone_params cp = { 0 };
 	static char nif[IFNAMSIZ] = { 0 };
 
 	if( !(wifidev = madwifi_isvap(ifname, NULL)) && madwifi_iswifi(ifname) )
-		wifidev = madwifi_phyname(ifname);
+		wifidev = (char *)ifname;
 
 	if( wifidev )
 	{
@@ -347,7 +333,7 @@ void madwifi_close(void)
 	/* Nop */
 }
 
-int madwifi_get_mode(const char *ifname, int *buf)
+int madwifi_get_mode(const char *ifname, char *buf)
 {
 	return wext_get_mode(ifname, buf);
 }
@@ -740,29 +726,9 @@ int madwifi_get_assoclist(const char *ifname, char *buf, int *len)
 		do {
 			si = (struct ieee80211req_sta_info *) cp;
 
-			memset(&entry, 0, sizeof(entry));
-
 			entry.signal = (si->isi_rssi - 95);
 			entry.noise  = noise;
 			memcpy(entry.mac, &si->isi_macaddr, 6);
-
-			entry.inactive = si->isi_inact * 1000;
-
-			entry.tx_packets = (si->isi_txseqs[0] & IEEE80211_SEQ_SEQ_MASK)
-				>> IEEE80211_SEQ_SEQ_SHIFT;
-
-			entry.rx_packets = (si->isi_rxseqs[0] & IEEE80211_SEQ_SEQ_MASK)
-				>> IEEE80211_SEQ_SEQ_SHIFT;
-
-			entry.tx_rate.rate =
-				(si->isi_rates[si->isi_txrate] & IEEE80211_RATE_VAL) * 500;
-
-			/* XXX: this is just a guess */
-			entry.rx_rate.rate = entry.tx_rate.rate;
-
-			entry.rx_rate.mcs = -1;
-			entry.tx_rate.mcs = -1;
-
 			memcpy(&buf[bl], &entry, sizeof(struct iwinfo_assoclist_entry));
 
 			bl += sizeof(struct iwinfo_assoclist_entry);
@@ -1020,63 +986,4 @@ int madwifi_get_mbssid_support(const char *ifname, int *buf)
 	}
 
 	return -1;
-}
-
-int madwifi_get_hardware_id(const char *ifname, char *buf)
-{
-	char vendor[64];
-	char device[64];
-	struct iwinfo_hardware_id *ids;
-	struct iwinfo_hardware_entry *e;
-	const char *phy = madwifi_phyname(ifname);
-
-	if (wext_get_hardware_id(phy, buf))
-		return iwinfo_hardware_id_from_mtd((struct iwinfo_hardware_id *)buf);
-
-	return 0;
-}
-
-static const struct iwinfo_hardware_entry *
-madwifi_get_hardware_entry(const char *ifname)
-{
-	struct iwinfo_hardware_id id;
-
-	if (madwifi_get_hardware_id(ifname, (char *)&id))
-		return NULL;
-
-	return iwinfo_hardware(&id);
-}
-
-int madwifi_get_hardware_name(const char *ifname, char *buf)
-{
-	const struct iwinfo_hardware_entry *hw;
-
-	if (!(hw = madwifi_get_hardware_entry(ifname)))
-		sprintf(buf, "Generic Atheros");
-	else
-		sprintf(buf, "%s %s", hw->vendor_name, hw->device_name);
-
-	return 0;
-}
-
-int madwifi_get_txpower_offset(const char *ifname, int *buf)
-{
-	const struct iwinfo_hardware_entry *hw;
-
-	if (!(hw = madwifi_get_hardware_entry(ifname)))
-		return -1;
-
-	*buf = hw->txpower_offset;
-	return 0;
-}
-
-int madwifi_get_frequency_offset(const char *ifname, int *buf)
-{
-	const struct iwinfo_hardware_entry *hw;
-
-	if (!(hw = madwifi_get_hardware_entry(ifname)))
-		return -1;
-
-	*buf = hw->frequency_offset;
-	return 0;
 }

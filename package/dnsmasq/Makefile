@@ -1,5 +1,5 @@
-#
-# Copyright (C) 2006-2013 OpenWrt.org
+# 
+# Copyright (C) 2006-2011 OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -8,50 +8,24 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dnsmasq
-PKG_VERSION:=2.66
-PKG_RELEASE:=2
+PKG_VERSION:=2.55
+PKG_RELEASE:=6.1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://thekelleys.org.uk/dnsmasq
-PKG_MD5SUM:=c5eb8fb88847a5e9bf18db67c74efd47
-
-PKG_LICENSE:=GPLv2
-PKG_LICENSE_FILES:=COPYING
-
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSION)
-
-PKG_INSTALL:=1
-PKG_BUILD_PARALLEL:=1
+PKG_MD5SUM:=b093d7c6bc7f97ae6fd35d048529232a
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/dnsmasq/Default
+define Package/dnsmasq
   SECTION:=net
   CATEGORY:=Base system
   TITLE:=A lightweight DNS and DHCP server
   URL:=http://www.thekelleys.org.uk/dnsmasq/
 endef
 
-define Package/dnsmasq
-$(call Package/dnsmasq/Default)
-  VARIANT:=nodhcpv6
-endef
-
-define Package/dnsmasq-dhcpv6
-$(call Package/dnsmasq/Default)
-  TITLE += (with DHCPv6 support)
-  DEPENDS:=@IPV6 +kmod-ipv6
-  VARIANT:=dhcpv6
-endef
-
 define Package/dnsmasq/description
-  It is intended to provide coupled DNS and DHCP service to a LAN.
-endef
-
-define Package/dnsmasq-dhcpv6/description
-$(call Package/dnsmasq/description)
-
-This is a variant with DHCPv6 support
+ It is intended to provide coupled DNS and DHCP service to a LAN.
 endef
 
 define Package/dnsmasq/conffiles
@@ -59,25 +33,18 @@ define Package/dnsmasq/conffiles
 /etc/dnsmasq.conf
 endef
 
-Package/dnsmasq-dhcpv6/conffiles = $(Package/dnsmasq/conffiles)
-
-TARGET_CFLAGS += \
-	-ffunction-sections -fdata-sections \
-	$(if $(CONFIG_IPV6),,-DNO_IPV6) -DNO_IPSET -DNO_AUTH
-
-ifeq ($(BUILD_VARIANT),nodhcpv6)
-  TARGET_CFLAGS += -DNO_DHCP6
-endif
-
-MAKE_FLAGS := \
-	$(TARGET_CONFIGURE_OPTS) \
-	CFLAGS="$(TARGET_CFLAGS)" \
-	LDFLAGS="-Wl,--gc-sections" \
-	PREFIX="/usr"
+define Build/Compile
+	$(MAKE) -C $(PKG_BUILD_DIR) \
+		$(TARGET_CONFIGURE_OPTS) \
+		CFLAGS="$(TARGET_CFLAGS)" \
+		BINDIR="/usr/sbin" MANDIR="/usr/man" \
+		AWK="awk" \
+		all
+endef
 
 define Package/dnsmasq/install
 	$(INSTALL_DIR) $(1)/usr/sbin
-	$(CP) $(PKG_INSTALL_DIR)/usr/sbin/dnsmasq $(1)/usr/sbin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/dnsmasq $(1)/usr/sbin/
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_DATA) ./files/dhcp.conf $(1)/etc/config/dhcp
 	$(INSTALL_DATA) ./files/dnsmasq.conf $(1)/etc/dnsmasq.conf
@@ -85,7 +52,4 @@ define Package/dnsmasq/install
 	$(INSTALL_BIN) ./files/dnsmasq.init $(1)/etc/init.d/dnsmasq
 endef
 
-Package/dnsmasq-dhcpv6/install = $(Package/dnsmasq/install)
-
 $(eval $(call BuildPackage,dnsmasq))
-$(eval $(call BuildPackage,dnsmasq-dhcpv6))

@@ -143,8 +143,6 @@ fis_remap(struct fis_part *old, int n_old, struct fis_part *new, int n_new)
 	struct fis_image_desc *redboot = NULL;
 	struct fis_image_desc *first = NULL;
 	struct fis_image_desc *last = NULL;
-	struct fis_image_desc *first_fb = NULL;
-	struct fis_image_desc *last_fb = NULL;
 	struct fis_image_desc *desc;
 	struct fis_part *part;
 	uint32_t offset = 0, size = 0;
@@ -186,21 +184,13 @@ fis_remap(struct fis_part *old, int n_old, struct fis_part *new, int n_new)
 	}
 	desc--;
 
-	first_fb = first;
-	last_fb = last;
-
-	if (first_fb->hdr.flash_base > last_fb->hdr.flash_base) {
-		first_fb = last;
-		last_fb = first;
-	}
-
 	/* determine size of available space */
 	desc = (struct fis_image_desc *) start;
 	while ((char *) desc < end) {
 		if (!desc->hdr.name[0] || (desc->hdr.name[0] == 0xff))
 			break;
 
-		if (desc->hdr.flash_base > last_fb->hdr.flash_base &&
+		if (desc->hdr.flash_base > last->hdr.flash_base &&
 		    desc->hdr.flash_base < offset)
 			offset = desc->hdr.flash_base;
 
@@ -208,7 +198,7 @@ fis_remap(struct fis_part *old, int n_old, struct fis_part *new, int n_new)
 	}
 	desc--;
 
-	size = offset - first_fb->hdr.flash_base;
+	size = offset - first->hdr.flash_base;
 
 #ifdef notyet
 	desc = first - 1;
@@ -224,7 +214,7 @@ fis_remap(struct fis_part *old, int n_old, struct fis_part *new, int n_new)
 
 	last++;
 	desc = first + n_new;
-	offset = first_fb->hdr.flash_base;
+	offset = first->hdr.flash_base;
 
 	if (desc != last) {
 		if (desc > last)
